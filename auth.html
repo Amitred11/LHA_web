@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LHA - Join The Collective</title>
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="font-['Poppins',_sans-serif] bg-dark-gradient flex items-center justify-center min-h-screen p-4 text-gray-200">
+
+    <a href="index.html" class="absolute top-6 left-6 z-[101] flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-teal-400">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+    </a>
+
+    <div class="bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[520px] border border-teal-500/20" id="container">
+        
+        <!-- Sign Up Form Container -->
+        <div class="form-container sign-up-container">
+            <form action="#" class="flex flex-col items-center justify-center h-full px-12 text-center">
+                <h1 class="text-4xl font-bold text-white mb-6">Join The Crew</h1>
+                <div class="form-field">
+                    <input type="text" id="name" placeholder=" " required class="form-input peer" />
+                    <label for="name" class="form-label">Name</label>
+                </div>
+                <div class="form-field">
+                    <input type="email" id="email-signup" placeholder=" " required class="form-input peer" />
+                    <label for="email-signup" class="form-label">Email</label>
+                </div>
+                <div class="form-field">
+                    <input type="password" id="password-signup" placeholder=" " required class="form-input peer" />
+                    <label for="password-signup" class="form-label">Password</label>
+                </div>
+                <button class="auth-button mt-4">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- Sign In Form Container -->
+        <div class="form-container sign-in-container">
+            <form action="#" class="flex flex-col items-center justify-center h-full px-12 text-center">
+                <h1 class="text-4xl font-bold text-white mb-6">Welcome Back</h1>
+                <div class="form-field">
+                    <input type="email" id="email-signin" placeholder=" " required class="form-input peer" />
+                    <label for="email-signin" class="form-label">Email</label>
+                </div>
+                <div class="form-field">
+                    <input type="password" id="password-signin" placeholder=" " required class="form-input peer" />
+                    <label for="password-signin" class="form-label">Password</label>
+                </div>
+                <a href="#" class="text-gray-400 text-sm no-underline mb-4 transition-colors duration-300 hover:text-teal-500">Forgot your password?</a>
+                <button class="auth-button">Sign In</button>
+            </form>
+        </div>
+
+        <!-- Sliding Overlay -->
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1 class="text-4xl font-bold m-0">Glad You're Back!</h1>
+                    <p class="text-base font-light leading-relaxed my-5">Already part of the crew? Sign in to jump back into the action.</p>
+                    <button class="overlay-button" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1 class="text-4xl font-bold m-0">New to the Crew?</h1>
+                    <p class="text-base font-light leading-relaxed my-5">Join our collective of creators and innovators. Your next big project awaits.</p>
+                    <button class="overlay-button" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

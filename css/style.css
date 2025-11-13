@@ -1,0 +1,99 @@
+/*
+  Table of Contents:
+  1. CSS Variables & Base Styles
+  2. Animations
+  3. Navbar Styles
+  4. Hero Section & Gradients
+  5. Hub Section Styles
+  6. Footer Styles (REDESIGNED)
+*/
+
+/* 1. CSS Variables & Base Styles
+----------------------------------- */
+:root {
+    --color-primary: #3b82f6;      
+    --color-secondary: #8b5cf6;     
+    --color-accent: #2dd4bf;       /* Teal */
+    --color-dark-bg: #111827;
+    --color-dark-bg-secondary: #0d121c;
+    --color-border: #374151;
+    --font-sans: 'Poppins', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); line-height: 1.7; }
+
+section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 6rem 1rem; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+/* 2. Animations (No changes) */
+@keyframes gradientAnimation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes textGradientAnimation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-200 { transition-delay: 0.2s; }
+.reveal-delay-400 { transition-delay: 0.4s; }
+
+/* 3. Navbar Styles (No changes) */
+.nav-link { @apply text-gray-300 hover:text-white transition-colors duration-300 relative py-1 text-lg; }
+.nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background-color: var(--color-accent); transition: width 0.3s ease-in-out; }
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+#navbar { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(12px); transition: all 0.4s ease; }
+#navbar.scrolled { background: rgba(17, 24, 39, 0.85); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35); }
+
+/* 4. Hero Section & Gradients (No changes) */
+.animated-gradient-background { background-image: linear-gradient(to right, rgba(20, 83, 45, 0.7), rgba(21, 94, 117, 0.7), rgba(15, 76, 129, 0.7), rgba(30, 27, 75, 0.7)), url('../assets/hero-background.jpg'); background-size: 200% 200%; animation: gradientAnimation 20s ease infinite; }
+.animated-gradient-text { background: linear-gradient(90deg, #2dd4bf, #38bdf8, #818cf8, #f472b6); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: textGradientAnimation 10s ease infinite; }
+.bg-dark-gradient { background: linear-gradient(180deg, var(--color-dark-bg) 0%, var(--color-dark-bg-secondary) 100%); }
+
+/* 5. Hub Section Styles (No changes) */
+.hub-icon { @apply text-teal-400 mb-6 text-4xl bg-gray-900 w-20 h-20 rounded-full flex items-center justify-center mx-auto shadow-lg; transition: transform 0.3s ease; }
+.reveal:hover .hub-icon { transform: scale(1.1) rotate(-10deg); }
+
+/* 6. Footer Styles (REDESIGNED)
+----------------------------------- */
+footer {
+    /* The top border now serves as a stylish accent */
+    border-top: 3px solid var(--color-accent);
+    background: linear-gradient(180deg, #0d121c, #000); /* Darker, more premium gradient */
+}
+
+.footer-link {
+    @apply text-gray-400 hover:text-teal-400 transition-colors duration-300;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+/* Underline effect for footer links */
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-accent);
+    transition: width 0.3s ease-in-out;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}
+
+.social-icon {
+    color: #9ca3af; /* Gray-400 */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--color-accent);
+    transform: translateY(-5px) scale(1.1);
+}
