@@ -47,8 +47,14 @@ section {
 .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background-color: var(--color-accent); transition: width 0.3s ease-in-out; }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 #navbar { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(12px); transition: all 0.4s ease; }
-#navbar.scrolled { background: rgba(17, 24, 39, 0.85); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35); }
+#navbar.scrolled {
+    @apply bg-gray-900/80 backdrop-blur-sm shadow-lg;
+}
 
+/* Style for the currently active navigation link */
+.nav-link.active {
+    @apply text-teal-400;
+}
 /* 4. Hero Section & Gradients (No changes) */
 .animated-gradient-background { background-image: linear-gradient(to right, rgba(20, 83, 45, 0.7), rgba(21, 94, 117, 0.7), rgba(15, 76, 129, 0.7), rgba(30, 27, 75, 0.7)), url('../assets/hero-background.jpg'); background-size: 200% 200%; animation: gradientAnimation 20s ease infinite; }
 .animated-gradient-text { background: linear-gradient(90deg, #2dd4bf, #38bdf8, #818cf8, #f472b6); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: textGradientAnimation 10s ease infinite; }

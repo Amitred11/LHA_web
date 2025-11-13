@@ -4,19 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LHA | The Lolicons</title>
-
-    <!-- Google Fonts: Poppins -->
+    <!-- Your head content (CSS, fonts, etc.) remains the same -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome (for icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-gray-900 text-gray-300 font-poppins">
@@ -27,32 +20,67 @@
         <!-- Navbar -->
         <nav id="navbar" class="fixed top-0 w-full z-30 transition-all duration-300">
             <div class="container mx-auto px-6 py-4">
-                <div class="flex justify-between items-center">
+                <div class="relative flex justify-between items-center">
+                    <!-- Logo -->
                     <a href="#home" class="text-2xl font-bold text-white flex items-center gap-3">
                         <img src="assets/logo.png" class="w-10 h-10 object-contain" alt="LHA Logo">
                         <span>LHA</span>
                     </a>
 
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#what-we-do" class="nav-link">What We Do</a>
-                        <a href="#about" class="nav-link">Our Vibe</a>
-                        <a href="auth.html" class="nav-link">Join Us</a>
+                    <!-- Right side of Navbar (Desktop) -->
+                    <div class="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <!-- Logged Out Links (Visible by default) -->
+                        <div id="nav-logged-out" class="flex items-center space-x-8">
+                            <a href="#what-we-do" class="nav-link">What We Do</a>
+                            <a href="#about" class="nav-link">Our Vibe</a>
+                            <a href="auth.html" class="nav-link">Join Us</a>
+                            <a href="auth.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-white text-center text-base transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/60">
+                              Start a Project
+                            </a>
+                        </div>
+                        
+                        <!-- Logged In Links (Hidden by default) -->
+                        <div id="nav-logged-in" class="hidden items-center space-x-8">
+                            <a href="#what-we-do" class="nav-link">What We Do</a>
+                            <a href="about.html" class="nav-link">The Crew</a>
+                            <a href="#" class="nav-link">Dashboard</a>
+                            <a href="#" class="nav-link text-red-400 hover:text-red-500 logout-button">Logout</a>
+                        </div>                        
                     </div>
 
-                    <div class="hidden md:flex items-center space-x-4 pr-6">
-                        <a href="auth.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-white text-center text-base transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/60">
-                           Start a Project
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="text-white text-2xl focus:outline-none">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Panel -->
+                <div id="mobile-menu" class="hidden md:hidden mt-4 bg-gray-800/80 backdrop-blur-sm rounded-lg p-4">
+                    <!-- Mobile: Logged Out (Visible by default within panel) -->
+                    <div id="mobile-nav-logged-out" class="flex flex-col space-y-4">
+                         <a href="#what-we-do" class="nav-link">What We Do</a>
+                         <a href="#about" class="nav-link">Our Vibe</a>
+                         <a href="auth.html" class="nav-link">Join Us</a>
+                         <a href="auth.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-white text-center text-base transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/60">
+                            Start a Project
                         </a>
                     </div>
-
-                    <!-- Mobile Menu -->
+                    <!-- Mobile: Logged In (Hidden by default within panel) -->
+                    <div id="mobile-nav-logged-in" class="hidden flex-col space-y-4">
+                        <a href="#what-we-do" class="nav-link">What We Do</a>
+                        <a href="about.html" class="nav-link">The Crew</a>
+                        <a href="#" class="nav-link">Dashboard</a>
+                        <a href="#" class="nav-link text-red-400 logout-button">Logout</a>
+                    </div>
                 </div>
+
             </div>
         </nav>
 
         <!-- Hero Content -->
         <div class="container mx-auto text-center z-10 px-6">
-            <!-- === NEW DESCRIPTIONS === -->
             <h1 class="text-5xl md:text-7xl font-bold mb-4 reveal animated-gradient-text">Your Creative Tech Niggas.</h1>
             <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto reveal reveal-delay-200">We're a close-knit group of developers, designers, and innovators. We build awesome things and foster a community of creators.</p>
             <div class="reveal reveal-delay-400">
@@ -103,7 +131,7 @@
                 <h2 class="text-4xl font-bold text-white mb-4 reveal animated-gradient-text">Connect, Create, Conquer</h2>
                 <p class="text-lg text-gray-400 mb-8 max-w-3xl mx-auto reveal">LHA is the intersection where talent meets opportunity. We're a dynamic ecosystem built for programmers, gamers, and innovators to thrive. Join us to unlock your full potential.</p>
                 <div class="reveal">
-                    <a href="auth.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-gray-300 text-center text-base transition-all duration-300 border-2 border-gray-700 bg-transparent hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500/10 hover:text-white hover:shadow-lg hover:shadow-teal-500/30">
+                    <a href="about.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-gray-300 text-center text-base transition-all duration-300 border-2 border-gray-700 bg-transparent hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500/10 hover:text-white hover:shadow-lg hover:shadow-teal-500/30">
                        Meet The Crew
                     </a>
                 </div>
@@ -111,7 +139,7 @@
         </section>
     </main>
 
-    <!-- === FOOTER REDESIGNED FOR "FRIEND GROUP" VIBE === -->
+    <!-- Footer -->
     <footer class="bg-black text-white pt-16 pb-12">
         <div class="container mx-auto px-6 text-center">
             
@@ -129,7 +157,7 @@
                 <div>
                     <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Explore</h3>
                     <ul class="space-y-3">
-                        <li><a href="#about" class="footer-link">Our Vibe</a></li>
+                        <li><a href="about.html" class="footer-link">Our Vibe</a></li>
                         <li><a href="#" class="footer-link">Projects</a></li>
                         <li><a href="#" class="footer-link">Blog</a></li>
                     </ul>

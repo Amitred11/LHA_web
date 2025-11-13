@@ -13,71 +13,103 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/auth.css">
-</head>
-<body class="font-['Poppins',_sans-serif] bg-dark-gradient flex items-center justify-center min-h-screen p-4 text-gray-200">
 
-    <a href="index.html" class="absolute top-6 left-6 z-[101] flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-teal-400">
+</head>
+<body class="font-['Poppins',_sans-serif] flex items-center justify-center min-h-screen p-4 text-gray-200">
+
+    <a href="index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-teal-400">
         <i class="fas fa-arrow-left"></i>
         <span>Back to Home</span>
     </a>
 
-    <div class="bg-gray-900/60 backdrop-blur-lg rounded-2xl shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[520px] border border-teal-500/20" id="container">
+    <div class="w-full max-w-4xl mx-auto">
         
-        <!-- Sign Up Form Container -->
-        <div class="form-container sign-up-container">
-            <form action="#" class="flex flex-col items-center justify-center h-full px-12 text-center">
-                <h1 class="text-4xl font-bold text-white mb-6">Join The Crew</h1>
-                <div class="form-field">
-                    <input type="text" id="name" placeholder=" " required class="form-input peer" />
-                    <label for="name" class="form-label">Name</label>
+        <!-- === Sign In Panel === -->
+        <div id="sign-in-panel" class="auth-panel">
+            <div class="grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden border border-teal-500/20">
+                <div class="p-12 flex flex-col items-center justify-center bg-gray-900/60 backdrop-blur-lg">
+                    <h1 class="text-4xl font-bold text-white mb-6">Welcome Back</h1>
+                    <form action="#" class="w-full">
+                        <div class="relative mb-6 w-full">
+                            <input type="email" id="email-signin" placeholder=" " required 
+                                   class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
+                            <label for="email-signin" 
+                                   class="absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] 
+                                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                          peer-focus:scale-75 peer-focus:-translate-y-6
+                                          peer-focus:text-teal-500 pointer-events-none">Email</label>
+                        </div>
+                        <div class="relative mb-6 w-full">
+                            <input type="password" id="password-signin" placeholder=" " required 
+                                   class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
+                            <label for="password-signin" 
+                                   class="absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] 
+                                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                          peer-focus:scale-75 peer-focus:-translate-y-6
+                                          peer-focus:text-teal-500 pointer-events-none">Password</label>
+                        </div>
+                        <a href="#" class="block text-gray-400 text-sm no-underline mb-4 transition-colors duration-300 hover:text-teal-500">Forgot your password?</a>
+                        <button type="submit" 
+                                class="w-full mt-4 rounded-full px-8 py-3 font-semibold tracking-wider uppercase text-white transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 transform shadow-[0_4px_15px_0_rgba(45,212,191,0.35)] hover:-translate-y-1 hover:shadow-[0_7px_20px_0_rgba(45,212,191,0.5)]">Sign In</button>
+                    </form>
                 </div>
-                <div class="form-field">
-                    <input type="email" id="email-signup" placeholder=" " required class="form-input peer" />
-                    <label for="email-signup" class="form-label">Email</label>
-                </div>
-                <div class="form-field">
-                    <input type="password" id="password-signup" placeholder=" " required class="form-input peer" />
-                    <label for="password-signup" class="form-label">Password</label>
-                </div>
-                <button class="auth-button mt-4">Sign Up</button>
-            </form>
-        </div>
-
-        <!-- Sign In Form Container -->
-        <div class="form-container sign-in-container">
-            <form action="#" class="flex flex-col items-center justify-center h-full px-12 text-center">
-                <h1 class="text-4xl font-bold text-white mb-6">Welcome Back</h1>
-                <div class="form-field">
-                    <input type="email" id="email-signin" placeholder=" " required class="form-input peer" />
-                    <label for="email-signin" class="form-label">Email</label>
-                </div>
-                <div class="form-field">
-                    <input type="password" id="password-signin" placeholder=" " required class="form-input peer" />
-                    <label for="password-signin" class="form-label">Password</label>
-                </div>
-                <a href="#" class="text-gray-400 text-sm no-underline mb-4 transition-colors duration-300 hover:text-teal-500">Forgot your password?</a>
-                <button class="auth-button">Sign In</button>
-            </form>
-        </div>
-
-        <!-- Sliding Overlay -->
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1 class="text-4xl font-bold m-0">Glad You're Back!</h1>
-                    <p class="text-base font-light leading-relaxed my-5">Already part of the crew? Sign in to jump back into the action.</p>
-                    <button class="overlay-button" id="signIn">Sign In</button>
-                </div>
-                <div class="overlay-panel overlay-right">
+                <div class="hidden md:flex flex-col items-center justify-center text-center p-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
                     <h1 class="text-4xl font-bold m-0">New to the Crew?</h1>
                     <p class="text-base font-light leading-relaxed my-5">Join our collective of creators and innovators. Your next big project awaits.</p>
-                    <button class="overlay-button" id="signUp">Sign Up</button>
+                    <button type="button" id="show-signup-button" 
+                            class="rounded-full px-8 py-3 font-semibold tracking-wider uppercase transition-all duration-300 bg-transparent border-2 border-white text-white hover:bg-white/10 hover:scale-105">Sign Up</button>
                 </div>
             </div>
         </div>
+
+        <!-- === Sign Up Panel === -->
+        <div id="sign-up-panel" class="auth-panel hidden">
+            <div class="grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden border border-teal-500/20">
+                <div class="hidden md:flex flex-col items-center justify-center text-center p-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+                     <h1 class="text-4xl font-bold m-0">Glad You're Back!</h1>
+                    <p class="text-base font-light leading-relaxed my-5">Already part of the crew? Sign in to jump back into the action.</p>
+                    <button type="button" id="show-signin-button" 
+                            class="rounded-full px-8 py-3 font-semibold tracking-wider uppercase transition-all duration-300 bg-transparent border-2 border-white text-white hover:bg-white/10 hover:scale-105">Sign In</button>
+                </div>
+                <!-- Right Side: Form -->
+                <div class="p-12 flex flex-col items-center justify-center bg-gray-900/60 backdrop-blur-lg">
+                    <h1 class="text-4xl font-bold text-white mb-6">Join The Crew</h1>
+                    <form action="#" class="w-full">
+                        <div class="relative mb-6 w-full">
+                            <input type="text" id="name" placeholder=" " required 
+                                   class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
+                            <label for="name" 
+                                   class="absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] 
+                                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                          peer-focus:scale-75 peer-focus:-translate-y-6
+                                          peer-focus:text-teal-500 pointer-events-none">Name</label>
+                        </div>
+                        <div class="relative mb-6 w-full">
+                            <input type="email" id="email-signup" placeholder=" " required 
+                                   class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
+                            <label for="email-signup" 
+                                   class="absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] 
+                                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                          peer-focus:scale-75 peer-focus:-translate-y-6
+                                          peer-focus:text-teal-500 pointer-events-none">Email</label>
+                        </div>
+                        <div class="relative mb-6 w-full">
+                            <input type="password" id="password-signup" placeholder=" " required 
+                                   class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
+                            <label for="password-signup" 
+                                   class="absolute text-base text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] 
+                                          peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                          peer-focus:scale-75 peer-focus:-translate-y-6
+                                          peer-focus:text-teal-500 pointer-events-none">Password</label>
+                        </div>
+                        <button type="submit" 
+                                class="w-full mt-4 rounded-full px-8 py-3 font-semibold tracking-wider uppercase text-white transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 transform shadow-[0_4px_15px_0_rgba(45,212,191,0.35)] hover:-translate-y-1 hover:shadow-[0_7px_20px_0_rgba(45,212,191,0.5)]">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="js/auth.js"></script>
