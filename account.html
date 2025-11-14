@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | LHA Creative Collective</title>
+    <!-- Head content remains the same -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-900 text-gray-300 font-poppins">
+
+    <!-- Auth Guard Script: Redirects if not logged in -->
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'auth.html';
+        }
+    </script>
+
+    <!-- Simplified Header -->
+    <header class="absolute top-0 w-full z-30">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-start items-center h-24">
+                <a href="index.html" class="text-2xl font-bold text-white flex items-center gap-3 z-50">
+                    <img src="assets/logo.png" class="w-10 h-10 object-contain" alt="LHA Logo">
+                    <span>LHA</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-[70vh] flex flex-col items-center justify-center text-white overflow-hidden">
+        <div class="animated-gradient-background absolute inset-0"></div>
+        <div class="container mx-auto text-center z-10 px-6">
+            <h1 id="account-hero-title" class="text-5xl md:text-7xl font-bold mb-4 reveal animated-gradient-text">
+                My Profile
+            </h1>
+            <p id="account-hero-subtitle" class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto reveal reveal-delay-200">
+               Your central hub in the LHA Collective. View your information and manage your account.
+            </p>
+        </div>
+    </section>
+
+    <main>
+        <!-- SVG Separator -->
+        <div class="section-separator text-dark-bg">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,100 1440,0 1440,100"/>
+            </svg>
+        </div>
+
+        <!-- Account Section with Tabs -->
+        <section id="account-section" class="bg-dark-gradient">
+            <div class="container mx-auto px-6 max-w-4xl">
+                
+                <!-- Tab Navigation -->
+                <div class="mb-12 border-b border-gray-700 flex justify-center">
+                    <nav class="flex space-x-8" aria-label="Tabs">
+                        <a href="#profile" data-tab="profile" class="tab-link active">
+                            <i class="fas fa-user mr-2"></i> Profile
+                        </a>
+                        <a href="#settings" data-tab="settings" class="tab-link">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Tab Content Panes -->
+                <div id="tab-content">
+                    
+                    <!-- Profile View Pane -->
+                    <div id="profile-pane" class="tab-pane">
+                        <div class="reveal bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md p-8 md:p-12">
+                            <div class="flex flex-col md:flex-row items-center gap-8">
+                                <div class="flex-shrink-0 text-center">
+                                    <img src="https://i.pravatar.cc/150" alt="User Avatar" class="w-40 h-40 rounded-full mx-auto border-4 border-teal-500 shadow-lg">
+                                </div>
+                                <div class="flex-grow text-center md:text-left">
+                                    <h2 class="text-4xl font-bold text-white">Alex Doe</h2>
+                                    <p class="text-teal-400 font-semibold text-lg mt-1">alex.doe@example.com</p>
+                                    <p class="text-gray-400 mt-4 max-w-xl">A full-stack wizard with a passion for clean code. Active member of the LHA Collective, contributing to open-source projects.</p>
+                                    <div class="mt-8">
+                                        <button id="edit-profile-button" class="form-button-secondary">
+                                           <i class="fas fa-pencil-alt mr-2"></i> Edit Profile
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Form Pane -->
+                    <div id="settings-pane" class="tab-pane hidden">
+                        <div class="reveal bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md p-8 md:p-12">
+                            <form action="#" method="POST" class="space-y-10">
+                                <!-- Personal Info Section -->
+                                <fieldset class="space-y-8">
+                                    <legend class="text-2xl font-bold text-white border-b border-gray-700 pb-3 mb-6">Personal Information</legend>
+                                    <div class="relative">
+                                        <input type="text" id="name" name="name"
+                                               class="peer block w-full rounded-lg border-2 border-gray-700 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none focus:border-teal-500 focus:outline-none focus:ring-0"
+                                               placeholder=" " value="Alex Doe" />
+                                        <label for="name"
+                                               class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:top-5 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-teal-400 peer-focus:bg-gray-800">
+                                            Full Name
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <textarea id="bio" name="bio" rows="3"
+                                                  class="peer block w-full rounded-lg border-2 border-gray-700 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none focus:border-teal-500 focus:outline-none focus:ring-0"
+                                                  placeholder=" ">A full-stack wizard...</textarea>
+                                        <label for="bio"
+                                               class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:top-5 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-teal-400 peer-focus:bg-gray-800">
+                                            Your Bio
+                                        </label>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Account Security Section -->
+                                <fieldset class="space-y-8">
+                                    <legend class="text-2xl font-bold text-white border-b border-gray-700 pb-3 mb-6">Account Security</legend>
+                                    <div class="relative">
+                                        <input type="email" id="email" name="email"
+                                               class="peer block w-full rounded-lg border-2 border-gray-700 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none disabled:cursor-not-allowed disabled:bg-gray-800/50"
+                                               placeholder=" " value="alex.doe@example.com" disabled />
+                                        <label for="email"
+                                               class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100">
+                                            Email (cannot be changed)
+                                        </label>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="password" id="new_password" name="new_password"
+                                               class="peer block w-full rounded-lg border-2 border-gray-700 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none focus:border-teal-500 focus:outline-none focus:ring-0"
+                                               placeholder=" " />
+                                        <label for="new_password"
+                                               class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:top-5 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-teal-400 peer-focus:bg-gray-800">
+                                            New Password
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                
+                                <!-- Form Actions -->
+                                <div class="flex justify-end pt-6">
+                                    <button type="submit" class="form-button">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black text-white pt-16 pb-12">
+        <div class="container mx-auto px-6 text-center">
+            
+            <div class="mb-10">
+                <a href="#home" class="text-3xl font-bold text-white flex items-center justify-center gap-3 w-fit mx-auto">
+                    <img src="assets/logo.png" class="w-12 h-12 object-contain" alt="LHA Logo">
+                    <span>LHA</span>
+                </a>
+                <p class="text-gray-400 mt-4 max-w-md mx-auto">A creative collective dedicated to building the future and empowering our friends along the way.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 max-w-4xl mx-auto">
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Explore</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="footer-link">Our Vibe</a></li>
+                        <li><a href="about.html#the-crew" class="footer-link requires-auth">The Crew</a></li>
+                        <li><a href="projects.html" class="footer-link requires-auth">Projects</a></li> <!-- FIXED -->
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Get Involved</h3>
+                    <ul class="space-y-3">
+                        <li><a href="auth.html" class="footer-link" data-auth="logged-out">Join The Community</a></li>
+                        <li><a href="projects.html" class="footer-link requires-auth">Start a Project</a></li> <!-- FIXED -->
+                        <li><a href="#contact" class="footer-link">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" id="privacy-policy-link" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" id="terms-of-service-link" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Connect</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link">GitHub</a></li>
+                        <li><a href="#" class="footer-link">LinkedIn</a></li>
+                        <li><a href="#" class="footer-link">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-10">
+                 <div class="flex justify-center space-x-6 text-3xl mb-8">
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <p class="text-gray-500">&copy; 2025 LHA Collective. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="universal-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-70 flex items-center justify-center p-4">
+        <div class="modal-dialog bg-gray-800 border border-gray-700 w-full max-w-3xl rounded-2xl shadow-xl transform transition-transform duration-300 scale-95">
+            <div class="p-8 relative">
+                <button id="close-modal-button" class="absolute top-5 right-5 text-gray-400 hover:text-white text-3xl transition-colors">
+                    &times;
+                </button>
+                <div id="modal-content-container" class="prose prose-invert max-w-none prose-p:text-gray-400 prose-h3:text-white">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/account.js"></script>
+</body>
+</html>
