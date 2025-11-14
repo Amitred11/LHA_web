@@ -6,6 +6,9 @@
   4. Hero Section & Gradients
   5. Hub Section Styles
   6. Footer Styles
+  7. About Page / Crew Styles
+  8. Contact Section & Form Styles (UPDATED)
+  9. SVG Separator Styles
 */
 
 /* 1. CSS Variables & Base Styles
@@ -25,8 +28,13 @@ body { font-family: var(--font-sans); line-height: 1.7; }
 
 section {
     width: 100%;
-    min-height: 100vh;
+    /* min-height removed to allow separators to work correctly */
     padding: 6rem 1rem; 
+    position: relative;
+}
+
+.section-container {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,7 +108,13 @@ section {
 }
 
 /* 4. Hero Section & Gradients */
-.animated-gradient-background { background-image: linear-gradient(to right, rgba(20, 83, 45, 0.7), rgba(21, 94, 117, 0.7), rgba(15, 76, 129, 0.7), rgba(30, 27, 75, 0.7)), url('../assets/hero-background.jpg'); background-size: 200% 200%; animation: gradientAnimation 20s ease infinite; }
+.animated-gradient-background { 
+    background-image: linear-gradient(to right, rgba(20, 83, 45, 0.7), rgba(21, 94, 117, 0.7), rgba(15, 76, 129, 0.7), rgba(30, 27, 75, 0.7)), url('../assets/hero-background.jpg'); 
+    background-size: 200% 200%; 
+    animation: gradientAnimation 20s ease infinite; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .animated-gradient-text { background: linear-gradient(90deg, #2dd4bf, #38bdf8, #818cf8, #f472b6); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: textGradientAnimation 10s ease infinite; }
 .bg-dark-gradient { background: linear-gradient(180deg, var(--color-dark-bg) 0%, var(--color-dark-bg-secondary) 100%); }
 
@@ -140,3 +154,75 @@ footer {
     transform: translateY(-5px) scale(1.1);
 }
 
+/* 7. About Page / Crew Styles */
+.profile-card {
+    @apply text-center p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20;
+}
+.profile-avatar {
+    @apply w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-700 transition-all duration-300 shadow-md;
+}
+.profile-card:hover .profile-avatar {
+    border-color: var(--color-accent);
+    transform: scale(1.05);
+}
+.profile-socials {
+    @apply flex justify-center space-x-5 text-2xl mt-4;
+}
+
+/* 8. Contact Section & Form Styles (UPDATED)
+----------------------------------- */
+/*
+  The form input and label styles have been moved directly into the HTML
+  file using Tailwind utility classes to fix the design.
+  Only the button style remains here for reusability.
+*/
+.form-button {
+    @apply w-full inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-white text-center text-base transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/60;
+}
+
+/* 9. SVG Separator Styles
+----------------------------------- */
+.section-separator {
+    width: 100%;
+    line-height: 0;
+    background-color: transparent;
+    position: relative;
+    z-index: 10;
+}
+.section-separator svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+/* This pulls the next section up to overlap the separator's whitespace */
+section {
+    margin-top: -1px;
+}
+/* Specific text colors to match the target section's background */
+.text-dark-bg {
+    color: var(--color-dark-bg);
+}
+.text-gray-900 {
+    @apply text-gray-900;
+}
+
+/* 11. Universal Modal Styles
+----------------------------------- */
+#universal-modal.hidden {
+    display: none;
+}
+
+/* Animation for modal dialog appearing */
+#universal-modal:not(.hidden) .modal-dialog {
+    transform: scale(1);
+}
+
+/* Custom prose styles for better modal readability */
+.prose-p\:text-gray-400 p {
+    color: #9ca3af; /* Tailwind's gray-400 */
+}
+
+.prose-h3\:text-white h3 {
+    color: #ffffff;
+}

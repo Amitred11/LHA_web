@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu: document.getElementById('mobile-menu'),
         navbar: document.getElementById('navbar'),
         sections: document.querySelectorAll('main section[id]'),
-        navLinks: document.querySelectorAll('#navbar a.nav-link'),
+        navLinks: document.querySelectorAll('#navbar a.nav-link[href^="#"], #navbar a.nav-link[href^="index.html#"]'), // Updated for better targeting
         mobileNavLinks: document.querySelectorAll('#mobile-menu a'),
         body: document.body,
-        heroCtaButton: document.getElementById('hero-cta-button') // New selector
+        heroCtaButton: document.getElementById('hero-cta-button')
     };
 
     // --- Function: Toggle UI based on Login State ---
@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleLogout = (event) => {
         event.preventDefault();
         localStorage.removeItem('isLoggedIn');
-        window.location.href = 'index.html';
+        // Redirect to index and force reload to reset state
+        window.location.assign('index.html');
     };
 
     // --- Function: Handle Auth-Required Links ---
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close profile dropdown when clicking outside
     document.addEventListener('click', (event) => {
         if (elements.profileMenuButton && !elements.profileMenuButton.contains(event.target) && !elements.profileMenuDropdown.contains(event.target)) {
-            elements.profileMenuDropdown.classList.add('hidden');
+            elements.profileMenuDropdown?.classList.add('hidden');
         }
     });
 
@@ -103,14 +104,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Active nav link highlighting
         let currentSectionId = '';
         elements.sections.forEach(section => {
-            if (window.scrollY >= section.offsetTop - 100) {
+            const sectionTop = section.offsetTop;
+            // Adjust offset to account for SVG separators and navbar height
+            if (window.scrollY >= sectionTop - elements.navbar.clientHeight - 50) { 
                 currentSectionId = section.getAttribute('id');
             }
         });
 
         elements.navLinks.forEach(link => {
             link.classList.remove('active');
-            if(link.getAttribute('href').includes(currentSectionId)) {
+            // Check if the link's href contains the current section's ID
+            if (link.getAttribute('href').includes(currentSectionId) && currentSectionId) {
                 link.classList.add('active');
             }
         });

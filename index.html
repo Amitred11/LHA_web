@@ -15,7 +15,8 @@
 <body class="bg-gray-900 text-gray-300 font-poppins">
 
     <!-- Header & Hero Section -->
-    <header id="home" class="relative min-h-screen flex flex-col items-center justify-center text-white overflow-hidden animated-gradient-background">
+    <header id="home" class="relative min-h-screen flex flex-col items-center justify-center text-white overflow-hidden">
+        <div class="animated-gradient-background absolute inset-0"></div>
         
         <!-- Navbar -->
         <nav id="navbar" class="fixed top-0 w-full z-30 transition-all duration-300">
@@ -33,15 +34,15 @@
                         <div class="hidden md:flex items-center h-full">
                             <a href="#what-we-do" class="nav-link mr-8">What We Do</a>
                             <a href="#about" class="nav-link mr-8">Our Vibe</a>
-                            <a href="about.html" class="nav-link requires-auth mr-8" data-auth="logged-in" style="display: none;">The Crew</a>                            
+                            <a href="#contact" class="nav-link mr-8">Contact</a>
                             
                             <!-- Auth Buttons -->
                             <div id="nav-auth-links" class="flex items-center gap-6 mr-4">
                                <a href="auth.html" class="nav-button" data-auth="logged-out">
                                   Join Us
                                 </a>
-                                <a href="#" class="nav-button requires-auth" data-auth="logged-in" style="display: none;">
-                                  Start a Project
+                                <a href="projects.html" class="nav-button requires-auth" data-auth="logged-in" style="display: none;">
+                                  Our Projects
                                 </a>
                             </div>
 
@@ -73,34 +74,32 @@
         <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8">
              <a href="#what-we-do" class="nav-link-mobile">What We Do</a>
              <a href="#about" class="nav-link-mobile">Our Vibe</a>
-             <a href="about.html" class="nav-link-mobile requires-auth" data-auth="logged-in" style="display: none;">The Crew</a>
-             
+             <a href="projects.html" class="nav-link-mobile requires-auth" data-auth="logged-in" style="display: none;">Projects</a>
+             <a href="#contact" class="nav-link-mobile">Contact</a>
+
              <a href="auth.html" class="nav-button-mobile" data-auth="logged-out">
                 Join Us
-            </a>
-            <a href="#" class="nav-button-mobile requires-auth" data-auth="logged-in" style="display: none;">
-                Start a Project
             </a>
             <a href="#" class="nav-link-mobile text-red-400 logout-button pt-4" data-auth="logged-in" style="display: none;">Logout</a>
         </div>
 
 
-        <!-- Hero Content - UPDATED -->
+        <!-- Hero Content -->
         <div class="container mx-auto text-center z-10 px-6">
             <h1 class="text-5xl md:text-7xl font-bold mb-4 reveal animated-gradient-text">
-                Your Creative Tech Partner.
+                The Community NLA
             </h1>
             <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto reveal reveal-delay-200">
-                We're a close-knit group of developers, designers, and innovators. 
+                We're a group of developers, designers, and innovators. 
                 We build awesome things and foster a community of creators.
             </p>
             <div class="reveal reveal-delay-400">
                 <a href="#" 
                    id="hero-cta-button"
-                   data-logged-out-text="Join The Collective"
+                   data-logged-out-text="Join Us ****"
                    data-logged-out-href="auth.html"
-                   data-logged-in-text="Start a Project"
-                   data-logged-in-href="#"
+                   data-logged-in-text="View Our Projects"
+                   data-logged-in-href="projects.html"
                    class="inline-block text-lg px-8 py-4 rounded-full font-semibold uppercase tracking-wide text-white text-center transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/60">
                    <!-- This text content will be dynamically set by main.js -->
                 </a>
@@ -109,44 +108,140 @@
     </header>
 
     <main>
+        <!-- SVG Separator -->
+        <div class="section-separator text-dark-bg">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,100 1440,0 1440,100"/>
+            </svg>
+        </div>
+
         <!-- "What We Do" Section -->
-        <section id="what-we-do" class="min-h-screen flex items-center justify-center bg-dark-gradient">
+        <section id="what-we-do" class="items-center justify-center bg-dark-gradient">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-4xl font-bold text-white mb-4 reveal animated-gradient-text">How We Roll</h2>
                 <p class="text-lg text-gray-400 mb-16 max-w-2xl mx-auto reveal">We operate on two simple principles: build incredible things for clients and grow a community where talent can thrive.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                
+                <!-- UPDATED Grid Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     
+                    <!-- Card 1 -->
                     <div class="reveal text-center p-10 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
                         <div class="hub-icon"><i class="fas fa-users-cog"></i></div>
-                        <h3 class="text-2xl font-bold mb-4 text-white">Join Our Collective</h3>
-                        <p class="text-gray-400">Become part of our curated community of tech professionals and hobbyists. Share ideas, collaborate, and get exclusive access to our network.</p>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Join Our Community</h3>
+                        <p class="text-gray-400">Become part of our curated community of professionals and hobbyists. Share ideas, collaborate on projects, and access our network.</p>
                     </div>
 
+                    <!-- Card 2 -->
                     <div class="reveal reveal-delay-200 text-center p-10 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
                         <div class="hub-icon"><i class="fas fa-paper-plane"></i></div>
                         <h3 class="text-2xl font-bold mb-4 text-white">Launch Your Project</h3>
-                        <p class="text-gray-400">Have an idea that needs expert execution? Hire our core team. We take on select projects, delivering top-tier results with a personal touch.</p>
+                        <p class="text-gray-400">Have an idea that needs expert execution? Hire our core team to build, design, and deploy with a personal and professional touch.</p>
                     </div>
 
+                    <!-- Card 3 -->
                     <div class="reveal reveal-delay-400 text-center p-10 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
                         <div class="hub-icon"><i class="fas fa-broadcast-tower"></i></div>
                         <h3 class="text-2xl font-bold mb-4 text-white">Access Our Network</h3>
-                        <p class="text-gray-400">As a member, we connect you with opportunities. We partner with third-party job fairs and share exclusive leads within our trusted community.</p>
+                        <p class="text-gray-400">We connect members with real opportunities, from third-party job fairs to exclusive project leads shared within our trusted community.</p>
                     </div>
 
+                    <!-- NEW Card 4 -->
+                    <div class="reveal reveal-delay-600 text-center p-10 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
+                        <div class="hub-icon"><i class="fas fa-rocket"></i></div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Skill Up & Grow</h3>
+                        <p class="text-gray-400">Participate in member-led workshops, get mentorship from senior talent, and contribute to open-source projects to level up your skills.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- SVG Separator -->
+        <div class="section-separator text-gray-900">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,100 1440,0 1440,100"/>
+            </svg>
+        </div>
+
         <!-- About Us Preview Section -->
-        <section id="about" class="min-h-screen flex items-center justify-center bg-gray-900">
+        <section id="about" class="items-center justify-center bg-gray-900">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-4xl font-bold text-white mb-4 reveal animated-gradient-text">Connect, Create, Conquer</h2>
-                <p class="text-lg text-gray-400 mb-8 max-w-3xl mx-auto reveal">LHA is the intersection where talent meets opportunity. We're a dynamic ecosystem built for programmers, gamers, and innovators to thrive. Join us to unlock your full potential.</p>
+                <p class="text-lg text-gray-400 mb-8 max-w-3xl mx-auto reveal">LHA is more than a community; it's the intersection where talent meets opportunity. We're a dynamic ecosystem built for programmers, gamers, and innovators to thrive. We believe in learning by doing, supporting each other, and pushing the boundaries of what's possible. Join us to unlock your full potential.</p>
                 <div class="reveal">
                     <a href="about.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-gray-300 text-center text-base transition-all duration-300 border-2 border-gray-700 bg-transparent hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500/10 hover:text-white hover:shadow-lg hover:shadow-teal-500/30 requires-auth">
                        Meet The Crew
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SVG Separator -->
+        <div class="section-separator text-dark-bg">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,100 1440,0 1440,100"/>
+            </svg>
+        </div>
+
+        <!-- Contact Us Section -->
+        <section id="contact" class="bg-dark-gradient">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-white mb-4 reveal animated-gradient-text">Get In Touch</h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto reveal">Have a project in mind or want to join the collective? We'd love to hear from you.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 items-start">
+                    
+                    <div class="reveal">
+                        <!-- NEW Form Container with Border -->
+                        <div class="bg-gray-800/40 border border-gray-700 rounded-2xl shadow-xl p-8 backdrop-blur-sm">
+                            <form action="#" method="POST" class="space-y-8">
+                                <!-- Name Field -->
+                                <div class="relative">
+                                    <input type="text" id="name" name="name"
+                                           class="block w-full rounded-lg border-2 border-gray-600 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none focus:border-teal-500 focus:outline-none focus:ring-0 peer"
+                                           placeholder=" " />
+                                    <label for="name"
+                                           class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:top-5 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-teal-400 peer-focus:bg-gray-800">
+                                        Full Name
+                                    </label>
+                                </div>
+                        
+                                <!-- Email Field -->
+                                <div class="relative">
+                                    <input type="email" id="email" name="email"
+                                           class="block w-full rounded-lg border-2 border-gray-600 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none focus:border-teal-500 focus:outline-none focus:ring-0 peer"
+                                           placeholder=" " />
+                                    <label for="email"
+                                           class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:top-5 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-teal-400 peer-focus:bg-gray-800">
+                                        Email Address
+                                    </label>
+                                </div>
+                        
+                                <!-- Message Field -->
+                                <div class="relative">
+                                    <textarea id="message" name="message" rows="5"
+                                              class="block w-full rounded-lg border-2 border-gray-600 bg-transparent px-4 pb-2 pt-6 text-base text-white transition-colors duration-300 appearance-none focus:border-teal-500 focus:outline-none focus:ring-0 peer"
+                                              placeholder=" "></textarea>
+                                    <label for="message"
+                                           class="absolute top-5 left-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-base text-gray-400 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:top-5 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-teal-400 peer-focus:bg-gray-800">
+                                        Your Message
+                                    </label>
+                                </div>
+                        
+                                <div>
+                                    <!-- UPDATED Button with new hover effect -->
+                                    <button type="submit" class="form-button w-full transform transition-transform duration-300 hover:scale-105">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Google Maps Embed -->
+                    <div class="reveal reveal-delay-200 h-96 md:h-full w-full">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.257790399126!2d-122.42172832483759!3d37.78314587198114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858097b8ebb957%3A0x5216a62be28935c1!2sTwitter%20HQ!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-2xl shadow-lg border border-gray-700"></iframe>
+                    </div>
                 </div>
             </div>
         </section>
@@ -168,24 +263,24 @@
                 <div>
                     <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Explore</h3>
                     <ul class="space-y-3">
-                        <li><a href="about.html" class="footer-link requires-auth">Our Vibe</a></li>
-                        <li><a href="#" class="footer-link requires-auth">Projects</a></li>
-                        <li><a href="#" class="footer-link requires-auth">Blog</a></li>
+                        <li><a href="#about" class="footer-link">Our Vibe</a></li>
+                        <li><a href="about.html#the-crew" class="footer-link requires-auth">The Crew</a></li>
+                        <li><a href="projects.html" class="footer-link requires-auth">Projects</a></li> <!-- FIXED -->
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Get Involved</h3>
                     <ul class="space-y-3">
-                        <li><a href="auth.html" class="footer-link">Join The Community</a></li>
-                        <li><a href="#" class="footer-link requires-auth">Start a Project</a></li>
-                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="auth.html" class="footer-link" data-auth="logged-out">Join The Community</a></li>
+                        <li><a href="projects.html" class="footer-link requires-auth">Start a Project</a></li> <!-- FIXED -->
+                        <li><a href="#contact" class="footer-link">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Legal</h3>
                     <ul class="space-y-3">
-                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                        <li><a href="#" id="privacy-policy-link" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" id="terms-of-service-link" class="footer-link">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div>
@@ -209,6 +304,20 @@
         </div>
     </footer>
 
+    <div id="universal-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-70 flex items-center justify-center p-4">
+        <div class="modal-dialog bg-gray-800 border border-gray-700 w-full max-w-3xl rounded-2xl shadow-xl transform transition-transform duration-300 scale-95">
+            <div class="p-8 relative">
+                <button id="close-modal-button" class="absolute top-5 right-5 text-gray-400 hover:text-white text-3xl transition-colors">
+                    &times;
+                </button>
+                <div id="modal-content-container" class="prose prose-invert max-w-none prose-p:text-gray-400 prose-h3:text-white">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
+    <script src="js/modal.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LHA | The Crew</title>
+    <title>Our Story | LHA Creative Collective</title>
     <!-- Head content remains the same -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,122 +11,133 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/about.css">
 </head>
 <body class="bg-gray-900 text-gray-300 font-poppins">
 
-    <!-- Navbar - LOGGED-IN VIEW ONLY -->
-    <nav id="navbar" class="fixed top-0 w-full z-30 transition-all duration-300">
+    <!-- Simplified Header -->
+    <header class="absolute top-0 w-full z-30">
         <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center h-24">
-                <!-- Logo -->
+            <div class="flex justify-start items-center h-24">
                 <a href="index.html" class="text-2xl font-bold text-white flex items-center gap-3 z-50">
                     <img src="assets/logo.png" class="w-10 h-10 object-contain" alt="LHA Logo">
                     <span>LHA</span>
                 </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-[70vh] flex flex-col items-center justify-center text-white overflow-hidden">
+        <div class="animated-gradient-background absolute inset-0"></div>
+        <div class="container mx-auto text-center z-10 px-6">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 reveal animated-gradient-text">
+                Where Creativity Meets Code.
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto reveal reveal-delay-200">
+               LHA was born from a shared passion for building amazing things and a desire to create a community where innovators could thrive together. This is our story.
+            </p>
+            <!-- NEW Back to Home Button -->
+            <div class="reveal reveal-delay-400">
+                <a href="index.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-gray-300 text-center text-base transition-all duration-300 border-2 border-gray-700 bg-transparent hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500/10 hover:text-white hover:shadow-lg hover:shadow-teal-500/30">
+                   <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
 
-                <!-- Right Side Navigation -->
-                <div class="flex items-center h-full">
-                    <!-- Desktop Menu -->
-                    <div class="hidden md:flex items-center h-full">
-                        <a href="index.html#what-we-do" class="nav-link mr-8">What We Do</a>
-                        <a href="index.html#about" class="nav-link mr-8">Our Vibe</a>
-                        <a href="about.html" class="nav-link active mr-8">The Crew</a>
-                        
-                        <!-- Actions -->
-                        <div class="flex items-center gap-6 mr-4">
-                            <a href="#" class="nav-button">
-                              Start a Project
-                            </a>
-                            <!-- Profile Dropdown -->
-                            <div id="profile-dropdown" class="relative">
-                                <button id="profile-menu-button" class="flex items-center focus:outline-none">
-                                    <img src="https://i.pravatar.cc/40" alt="User Avatar" class="w-11 h-11 rounded-full border-2 border-teal-400 hover:opacity-80 transition-opacity">
-                                </button>
-                                <div id="profile-menu-dropdown" class="hidden absolute right-0 mt-3 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Profile</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Settings</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 logout-button">Logout</a>
-                                </div>
-                            </div>    
-                        </div>                    
+    <main>
+        <!-- SVG Separator -->
+        <div class="section-separator text-dark-bg">
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,100 1440,0 1440,100"/>
+            </svg>
+        </div>
+
+        <!-- Our Origin Section -->
+        <section id="origin" class="bg-dark-gradient">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80" alt="Team collaborating" class="rounded-2xl shadow-xl w-full h-auto object-cover">
                     </div>
-
-                    <!-- Mobile Menu Button -->
-                    <div class="md:hidden ml-6">
-                        <button id="mobile-menu-button" class="text-white text-2xl focus:outline-none z-50">
-                            <i class="fas fa-bars"></i>
-                        </button>
+                    <div class="reveal reveal-delay-200">
+                        <h2 class="text-4xl font-bold text-white mb-6 animated-gradient-text">Our Origin</h2>
+                        <p class="text-lg text-gray-400 mb-4">
+                            LHA began as a simple group chat created by BSIT students who dreamed of building apps for their community. What started as a small idea grew into a shared vision.
+                        </p>
+                        <p class="text-lg text-gray-400">
+                            We grew tired of the transactional feel of freelance work and the isolation of working alone, so we decided to create our own space—somewhere we could build projects together and form meaningful connections. That’s how the LHA Collective was created.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
-        
-    <!-- Mobile Menu Panel (Fullscreen Overlay) - LOGGED-IN VIEW ONLY -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-center space-y-8">
-         <a href="index.html#what-we-do" class="nav-link-mobile">What We Do</a>
-         <a href="index.html#about" class="nav-link-mobile">Our Vibe</a>
-         <a href="about.html" class="nav-link-mobile">The Crew</a>
-         <a href="#" class="nav-link-mobile">Dashboard</a>
-         <a href="#" class="nav-button-mobile">
-            Start a Project
-        </a>
-        <a href="#" class="nav-link-mobile text-red-400 logout-button pt-4">Logout</a>
-    </div>
+        </section>
 
-    <!-- Main Content: Meet the Crew -->
-    <main class="pt-32">
-        <section id="crew" class="min-h-screen bg-dark-gradient">
+        <!-- Mission & Vision Section -->
+        <section id="principles" class="bg-dark-gradient">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl font-bold text-white mb-4 animated-gradient-text">Meet The Core Team</h2>
-                <p class="text-lg text-gray-400 mb-16 max-w-2xl mx-auto">We're the minds behind the magic—a collective of passionate creators, strategists, and thinkers dedicated to bringing your vision to life.</p>
+                <h2 class="text-4xl font-bold text-white mb-4 reveal animated-gradient-text">Our Guiding Principles</h2>
+                <p class="text-lg text-gray-400 mb-16 max-w-2xl mx-auto reveal">These are the ideas that drive every decision we make and every line of code we write.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Mission Card -->
+                    <div class="reveal text-center p-10 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md">
+                        <div class="hub-icon"><i class="fas fa-flag-checkered"></i></div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Our Mission</h3>
+                        <p class="text-gray-400">To build exceptional digital experiences for our clients while fostering a supportive and collaborative community where creative and technical professionals can grow their skills and careers.</p>
+                    </div>
+                    <!-- Vision Card -->
+                    <div class="reveal reveal-delay-200 text-center p-10 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md">
+                        <div class="hub-icon"><i class="fas fa-eye"></i></div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Our Vision</h3>
+                        <p class="text-gray-400">To be the leading creative-tech collective, known for our innovative solutions, our commitment to quality, and for creating a dynamic ecosystem that empowers talent to achieve their full potential.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <!-- NEW Grid Layout inspired by the example image -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- "The Crew" Section -->
+        <section id="the-crew" class="bg-dark-gradient">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold text-white mb-4 reveal animated-gradient-text">Our Core Team</h2>
+                <p class="text-lg text-gray-400 mb-16 max-w-2xl mx-auto reveal">We combine our individual expertise to deliver exceptional results on every project.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                     
-                    <!-- Team Member Card 1: Leoncio -->
-                    <div class="team-card">
-                        <img src="assets/us/amadore.jpg" alt="Leoncio D. Amadore III" class="team-avatar">
-                        <h4 class="team-tagline">Architecting Digital Solutions</h4>
-                        <p class="team-bio">
-                            As the lead developer, my focus is on building a robust and scalable architecture that brings our creative visions to life with clean, efficient code.
-                        </p>
-                        <a href="#" class="team-read-more">Read more</a>
-                        <h3 class="team-name">Leoncio D. Amadore III</h3>
-                        <p class="team-role">Lead Developer</p>
-                        <div class="team-socials">
-                            <a href="#" title="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- Profile Card 1 -->
+                    <div class="reveal text-center p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
+                        <img src="assets/us/amadore.jpg" alt="Alex Doe" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-700 transition-all duration-300 shadow-md group-hover:border-teal-400 group-hover:scale-105">
+                        <h3 class="text-2xl font-bold text-white mb-1">Leoncio Amadore III</h3>
+                        <p class="text-teal-400 font-semibold mb-3">Lead Developer</p>
+                        <p class="text-gray-400 mb-6">A full-stack wizard with a passion for clean code and scalable architecture. Alex leads our technical projects from concept to deployment.</p>
+                        <div class="flex justify-center space-x-5 text-2xl mt-4">
+                            <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
                         </div>
                     </div>
 
-                    <!-- Team Member Card 2: Jane -->
-                    <div class="team-card">
-                        <img src="https://i.pravatar.cc/150?u=jane" alt="Jane Doe" class="team-avatar">
-                        <h4 class="team-tagline">Designing Intuitive Experiences</h4>
-                        <p class="team-bio">
-                           My passion is to craft beautiful, user-centric designs that solve complex problems and make technology feel effortless and enjoyable for everyone.
-                        </p>
-                        <a href="#" class="team-read-more">Read more</a>
-                        <h3 class="team-name">Jane Doe</h3>
-                        <p class="team-role">UI/UX Designer</p>
-                        <div class="team-socials">
-                             <a href="#" title="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- Profile Card 2 -->
+                    <div class="reveal reveal-delay-200 text-center p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
+                        <img src="https://i.pravatar.cc/150?u=jane" alt="Jane Smith" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-700 transition-all duration-300 shadow-md group-hover:border-teal-400 group-hover:scale-105">
+                        <h3 class="text-2xl font-bold text-white mb-1">Jane Smith</h3>
+                        <p class="text-teal-400 font-semibold mb-3">UI/UX Designer</p>
+                        <p class="text-gray-400 mb-6">Jane is the creative force behind our user-centric designs. She turns complex problems into beautiful, intuitive interfaces.</p>
+                        <div class="flex justify-center space-x-5 text-2xl mt-4">
+                            <a href="#" class="social-icon"><i class="fab fa-dribbble"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
 
-                    <!-- Team Member Card 3: Alex -->
-                    <div class="team-card">
-                        <img src="https://i.pravatar.cc/150?u=alex" alt="Alex Ray" class="team-avatar">
-                        <h4 class="team-tagline">Guiding Visions to Reality</h4>
-                        <p class="team-bio">
-                            I orchestrate the moving parts of each project, ensuring the team is aligned and empowered to deliver exceptional results on schedule.
-                        </p>
-                        <a href="#" class="team-read-more">Read more</a>
-                        <h3 class="team-name">Alex Ray</h3>
-                        <p class="team-role">Project Manager</p>
-                        <div class="team-socials">
-                             <a href="#" title="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- Profile Card 3 -->
+                    <div class="reveal reveal-delay-400 text-center p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20">
+                        <img src="https://i.pravatar.cc/150?u=samuel" alt="Samuel Green" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-700 transition-all duration-300 shadow-md group-hover:border-teal-400 group-hover:scale-105">
+                        <h3 class="text-2xl font-bold text-white mb-1">Samuel Green</h3>
+                        <p class="text-teal-400 font-semibold mb-3">Project Manager</p>
+                        <p class="text-gray-400 mb-6">The glue that holds our projects together. Samuel ensures everything runs smoothly, on time, and within budget, fostering clear communication.</p>
+                        <div class="flex justify-center space-x-5 text-2xl mt-4">
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
 
@@ -134,8 +145,8 @@
             </div>
         </section>
     </main>
-    
-    <!-- Footer (Same as before) -->
+
+    <!-- Footer -->
     <footer class="bg-black text-white pt-16 pb-12">
         <div class="container mx-auto px-6 text-center">
             
@@ -151,17 +162,17 @@
                 <div>
                     <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Explore</h3>
                     <ul class="space-y-3">
-                        <li><a href="about.html" class="footer-link">Our Vibe</a></li>
-                        <li><a href="#" class="footer-link">Projects</a></li>
-                        <li><a href="#" class="footer-link">Blog</a></li>
+                        <li><a href="index.html#about" class="footer-link">Our Vibe</a></li>
+                        <li><a href="about.html#the-crew" class="footer-link requires-auth">The Crew</a></li>
+                        <li><a href="#" class="footer-link requires-auth">Projects</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold text-lg mb-4 text-white uppercase tracking-wider">Get Involved</h3>
                     <ul class="space-y-3">
-                        <li><a href="auth.html" class="footer-link">Join The Community</a></li>
-                        <li><a href="#" class="footer-link">Start a Project</a></li>
-                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="auth.html" class="footer-link" data-auth="logged-out">Join The Community</a></li>
+                        <li><a href="index.html#contact" class="footer-link">Start a Project</a></li>
+                        <li><a href="index.html#contact" class="footer-link">Contact Us</a></li>
                     </ul>
                 </div>
                 <div>
@@ -192,12 +203,6 @@
         </div>
     </footer>
 
-    <!-- Scripts (Same as before) -->
     <script src="js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('navbar').classList.add('scrolled');
-        });
-    </script>
 </body>
 </html>
