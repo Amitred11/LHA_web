@@ -1,97 +1,124 @@
-// js/main.js
-
 document.addEventListener('DOMContentLoaded', () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    // --- Navbar Login State Logic ---
-    // Desktop Navs
-    const navLoggedIn = document.getElementById('nav-logged-in');
-    const navLoggedOut = document.getElementById('nav-logged-out');
-    // Mobile Navs
-    const mobileNavLoggedIn = document.getElementById('mobile-nav-logged-in');
-    const mobileNavLoggedOut = document.getElementById('mobile-nav-logged-out');
-    
-    // All Logout Buttons
-    const logoutButtons = document.querySelectorAll('.logout-button');
+    // --- Element Selectors ---
+    const elements = {
+        logoutButtons: document.querySelectorAll('.logout-button'),
+        authRequiredLinks: document.querySelectorAll('.requires-auth'),
+        authVisibilityElements: document.querySelectorAll('[data-auth]'),
+        profileMenuButton: document.getElementById('profile-menu-button'),
+        profileMenuDropdown: document.getElementById('profile-menu-dropdown'),
+        mobileMenuButton: document.getElementById('mobile-menu-button'),
+        mobileMenu: document.getElementById('mobile-menu'),
+        navbar: document.getElementById('navbar'),
+        sections: document.querySelectorAll('main section[id]'),
+        navLinks: document.querySelectorAll('#navbar a.nav-link'),
+        mobileNavLinks: document.querySelectorAll('#mobile-menu a'),
+        body: document.body,
+        heroCtaButton: document.getElementById('hero-cta-button') // New selector
+    };
 
-    // Check if the user is logged in and toggle visibility for BOTH desktop and mobile
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-        // --- Show LOGGED IN menus ---
-        if (navLoggedIn) navLoggedIn.classList.remove('hidden');
-        if (navLoggedOut) navLoggedOut.classList.add('hidden');
-        
-        if (mobileNavLoggedIn) mobileNavLoggedIn.classList.remove('hidden');
-        if (mobileNavLoggedOut) mobileNavLoggedOut.classList.add('hidden');
+    // --- Function: Toggle UI based on Login State ---
+    const updateUIForLoginState = () => {
+        // This handles showing/hiding elements in the nav/mobile menu
+        elements.authVisibilityElements.forEach(el => {
+            const authState = el.getAttribute('data-auth');
+            if (isLoggedIn) {
+                el.style.display = authState === 'logged-in' ? '' : 'none';
+            } else {
+                el.style.display = authState === 'logged-out' ? '' : 'none';
+            }
+        });
 
-    } else {
-        // --- Show LOGGED OUT menus ---
-        if (navLoggedIn) navLoggedIn.classList.add('hidden');
-        if (navLoggedOut) navLoggedOut.classList.remove('hidden');
+        // This new logic updates the hero button's text and link
+        if (elements.heroCtaButton) {
+            if (isLoggedIn) {
+                elements.heroCtaButton.textContent = elements.heroCtaButton.getAttribute('data-logged-in-text');
+                elements.heroCtaButton.href = elements.heroCtaButton.getAttribute('data-logged-in-href');
+            } else {
+                elements.heroCtaButton.textContent = elements.heroCtaButton.getAttribute('data-logged-out-text');
+                elements.heroCtaButton.href = elements.heroCtaButton.getAttribute('data-logged-out-href');
+            }
+        }
+    };
 
-        if (mobileNavLoggedIn) mobileNavLoggedIn.classList.add('hidden');
-        if (mobileNavLoggedOut) mobileNavLoggedOut.classList.remove('hidden');
-    }
+    // --- Function: Handle Logout ---
+    const handleLogout = (event) => {
+        event.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = 'index.html';
+    };
 
-    // Add event listener for ALL logout buttons
-    logoutButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
+    // --- Function: Handle Auth-Required Links ---
+    const handleAuthRedirect = (event) => {
+        if (!isLoggedIn) {
             event.preventDefault();
-            // Remove the login flag from localStorage
-            localStorage.removeItem('isLoggedIn');
-            // Redirect to home page to reflect the change
-            window.location.href = 'index.html';
+            window.location.href = 'auth.html';
+        }
+    };
+    
+    // --- Function: Toggle Profile Dropdown ---
+    const toggleProfileDropdown = () => {
+        elements.profileMenuDropdown?.classList.toggle('hidden');
+    };
+
+    // --- Function: Toggle Mobile Menu ---
+    const toggleMobileMenu = () => {
+        const isMenuOpen = !elements.mobileMenu.classList.contains('hidden');
+        elements.mobileMenu.classList.toggle('hidden');
+        elements.body.classList.toggle('overflow-hidden', !isMenuOpen);
+        const icon = elements.mobileMenuButton.querySelector('i');
+        icon.classList.toggle('fa-bars', isMenuOpen);
+        icon.classList.toggle('fa-times', !isMenuOpen);
+    };
+
+    // --- Event Listeners ---
+    elements.logoutButtons.forEach(btn => btn.addEventListener('click', handleLogout));
+    elements.authRequiredLinks.forEach(link => link.addEventListener('click', handleAuthRedirect));
+    elements.profileMenuButton?.addEventListener('click', toggleProfileDropdown);
+    elements.mobileMenuButton?.addEventListener('click', toggleMobileMenu);
+
+    // Close mobile menu when a link is clicked
+    elements.mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (!elements.mobileMenu.classList.contains('hidden')) {
+                toggleMobileMenu();
+            }
         });
     });
 
-    // --- Mobile Menu Toggle ---
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuButton.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-    }
-
-    // --- Consolidated Scroll Event Logic ---
-    const navbar = document.getElementById('navbar');
-    const sections = document.querySelectorAll('main section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    const handleScroll = () => {
-        // Navbar background effect on scroll
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+    // Close profile dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        if (elements.profileMenuButton && !elements.profileMenuButton.contains(event.target) && !elements.profileMenuDropdown.contains(event.target)) {
+            elements.profileMenuDropdown.classList.add('hidden');
         }
+    });
 
-        // Active navigation link highlighting
+    // --- Scroll and Animation Logic ---
+    const handleScroll = () => {
+        if (!elements.navbar) return;
+        // Navbar background effect
+        elements.navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+        // Active nav link highlighting
         let currentSectionId = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.pageYOffset >= sectionTop - 100) { // Adjusted offset for better accuracy
+        elements.sections.forEach(section => {
+            if (window.scrollY >= section.offsetTop - 100) {
                 currentSectionId = section.getAttribute('id');
             }
         });
 
-        navLinks.forEach(link => {
+        elements.navLinks.forEach(link => {
             link.classList.remove('active');
-            // Check if the link's href contains the current section's ID
-            if (link.getAttribute('href').includes(currentSectionId)) {
+            if(link.getAttribute('href').includes(currentSectionId)) {
                 link.classList.add('active');
             }
         });
     };
 
-    // Attach the single scroll listener
     window.addEventListener('scroll', handleScroll);
-
-
-    // --- Scroll-triggered Animations (Intersection Observer) ---
-    const revealElements = document.querySelectorAll('.reveal');
     
+    const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -99,12 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.1 
-    });
+    }, { threshold: 0.1 });
 
-    revealElements.forEach(element => {
-        observer.observe(element);
-    });
+    revealElements.forEach(element => observer.observe(element));
 
+    // --- Initial Setup ---
+    updateUIForLoginState();
+    handleScroll(); 
 });

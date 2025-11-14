@@ -1,0 +1,52 @@
+/* 7. Team Member Card Styles (Refined to match example)
+----------------------------------- */
+.team-card {
+    @apply bg-gray-800 p-8 text-center rounded-xl border border-gray-700 transition-colors duration-300 ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card:hover {
+    border-color: var(--color-accent);
+}
+
+.team-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Ensures a perfect circle */
+    @apply object-cover mx-auto mb-6 border-2 border-gray-600 flex-shrink-0;
+}
+
+.team-tagline {
+    @apply font-bold text-base text-white mb-3;
+}
+
+.team-bio {
+    @apply text-gray-400 text-sm leading-relaxed;
+}
+
+.team-read-more {
+    @apply block text-sm font-semibold mt-4 mb-6 transition-opacity duration-300;
+    color: var(--color-accent);
+}
+
+.team-read-more:hover {
+    opacity: 0.8;
+}
+
+.team-name {
+    @apply text-xl font-bold text-white;
+}
+
+.team-role {
+    @apply text-gray-500 text-sm font-medium mb-6;
+}
+
+.team-socials a {
+    @apply text-xl text-gray-500 transition-colors duration-300;
+}
+
+.team-socials a:hover {
+    color: var(--color-accent);
+}
