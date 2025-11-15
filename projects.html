@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Projects | LHA Creative Collective</title>
-    <!-- Head content remains the same -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,110 +13,150 @@
 </head>
 <body class="bg-gray-900 text-gray-300 font-poppins">
 
-    <!-- Simplified Header -->
+    <!-- Header (remains the same) -->
     <header class="absolute top-0 w-full z-30">
         <div class="container mx-auto px-6">
-            <div class="flex justify-start items-center h-24">
+            <div class="flex justify-between items-center h-24">
                 <a href="index.html" class="text-2xl font-bold text-white flex items-center gap-3 z-50">
                     <img src="assets/logo.png" class="w-10 h-10 object-contain" alt="LHA Logo">
                     <span>LHA</span>
+                </a>
+                <a href="index.html" class="text-sm text-gray-300 hover:text-white transition-colors duration-300 flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
                 </a>
             </div>
         </div>
     </header>
     
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-[70vh] flex flex-col items-center justify-center text-white overflow-hidden">
+    <!-- Hero Section (remains the same) -->
+    <section id="home" class="relative min-h-[60vh] flex flex-col items-center justify-center text-white overflow-hidden">
         <div class="animated-gradient-background absolute inset-0"></div>
         <div class="container mx-auto text-center z-10 px-6">
             <h1 class="text-5xl md:text-7xl font-bold mb-4 reveal animated-gradient-text">
                 Ideas Brought to Life.
             </h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto reveal reveal-delay-200">
-               Explore a selection of our recent work. Each project is a testament to our commitment to quality, innovation, and collaborative success.
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto reveal reveal-delay-200">
+               Explore featured work from our core team. Each project showcases our individual strengths and our collective passion for excellence.
             </p>
-            <div class="reveal reveal-delay-400">
-                <a href="index.html" class="inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-gray-300 text-center text-base transition-all duration-300 border-2 border-gray-700 bg-transparent hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500/10 hover:text-white hover:shadow-lg hover:shadow-teal-500/30">
-                   <i class="fas fa-arrow-left mr-2"></i> Back to Home
-                </a>
-            </div>
         </div>
     </section>
 
-    <main>
-        <!-- SVG Separator -->
-        <div class="section-separator text-dark-bg">
-            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="0,100 1440,0 1440,100"/>
-            </svg>
-        </div>
+    <!-- Main Content with Overlap -->
+    <main class="relative -mt-24 z-20">
 
-        <!-- Projects Grid Section -->
-        <section id="projects-grid" class="bg-dark-gradient">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    
-                    <!-- Project Card 1 -->
-                    <div class="reveal bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
-                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Project 1" class="w-full h-64 object-cover">
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold text-white mb-3">SynthoWave - AI Music Platform</h3>
-                            <p class="text-gray-400 mb-6">A web application that leverages generative AI to create unique, royalty-free music tracks for content creators. Built with a focus on intuitive UI and real-time audio processing.</p>
-                            <div class="flex flex-wrap gap-3 mb-6">
-                                <span class="tech-pill">React</span>
-                                <span class="tech-pill">Node.js</span>
-                                <span class="tech-pill">Firebase</span>
-                                <span class="tech-pill">Web Audio API</span>
-                            </div>
-                            <div class="flex items-center gap-6">
-                                <a href="#" class="project-link"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</a>
-                                <a href="#" class="project-link"><i class="fab fa-github mr-2"></i>View Code</a>
+        <!-- Crew Projects Section -->
+        <section id="crew-projects">
+            <div class="container mx-auto px-6 space-y-24">
+                
+                <!-- Leoncio Amadore's Showcase -->
+                <div class="crew-project-showcase grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Text Content -->
+                    <div class="reveal text-center lg:text-left">
+                        <h2 class="text-4xl font-bold text-white mb-2">Leoncio Amadore III</h2>
+                        <p class="text-teal-400 font-semibold text-xl mb-4">Lead Developer</p>
+                        <p class="text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0">
+                            With a focus on robust back-end systems and scalable architecture, my work is about building powerful, reliable digital engines. Here's a look at one of my key projects.
+                        </p>
+                        <a href="portfolio-leoncio.html" class="form-button">
+                           See All 5 of My Projects <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <!-- Featured Project Card -->
+                    <div class="reveal reveal-delay-200">
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
+                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="SynthoWave Project" class="w-full h-64 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-white mb-3">SynthoWave - AI Music Platform</h3>
+                                <div class="flex flex-wrap gap-3 mb-6">
+                                    <span class="tech-pill">React</span>
+                                    <span class="tech-pill">Node.js</span>
+                                    <span class="tech-pill">Firebase</span>
+                                    <span class="tech-pill">Web Audio API</span>
+                                </div>
+                                <div class="flex items-center gap-6">
+                                    <a href="#" class="project-link"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</a>
+                                    <a href="#" class="project-link"><i class="fab fa-github mr-2"></i>View Code</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Project Card 2 -->
-                    <div class="reveal reveal-delay-200 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
-                        <img src="https://images.unsplash.com/photo-1600880292203-942bb68b2432?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80" alt="Project 2" class="w-full h-64 object-cover">
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold text-white mb-3">ConnectSphere - Social CRM</h3>
-                            <p class="text-gray-400 mb-6">A custom CRM solution for small businesses to manage client interactions and track communication across multiple social media platforms from a single dashboard.</p>
-                            <div class="flex flex-wrap gap-3 mb-6">
-                                <span class="tech-pill">Vue.js</span>
-                                <span class="tech-pill">Django</span>
-                                <span class="tech-pill">PostgreSQL</span>
-                                <span class="tech-pill">Tailwind CSS</span>
-                            </div>
-                            <div class="flex items-center gap-6">
-                                <a href="#" class="project-link"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</a>
-                                <a href="#" class="project-link"><i class="fab fa-github mr-2"></i>View Code</a>
+                <!-- Jane Smith's Showcase -->
+                <div class="crew-project-showcase grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Featured Project Card (appears first on large screens) -->
+                    <div class="reveal reveal-delay-200 lg:order-last">
+                         <div class="bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
+                            <img src="https://images.unsplash.com/photo-1559028006-44a36f115a2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80" alt="Nova UI Kit Project" class="w-full h-64 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-white mb-3">Nova UI Kit & Design System</h3>
+                                <div class="flex flex-wrap gap-3 mb-6">
+                                    <span class="tech-pill">Figma</span>
+                                    <span class="tech-pill">Storybook</span>
+                                    <span class="tech-pill">React</span>
+                                    <span class="tech-pill">Tailwind CSS</span>
+                                </div>
+                                <div class="flex items-center gap-6">
+                                    <a href="#" class="project-link"><i class="fas fa-palette mr-2"></i>View on Figma</a>
+                                    <a href="#" class="project-link"><i class="fab fa-github mr-2"></i>View Code</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Add more project cards here by duplicating the structure above -->
-
+                    <!-- Text Content -->
+                    <div class="reveal text-center lg:text-left">
+                        <h2 class="text-4xl font-bold text-white mb-2">Jane Smith</h2>
+                        <p class="text-teal-400 font-semibold text-xl mb-4">UI/UX Designer</p>
+                        <p class="text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0">
+                            I focus on creating beautiful, intuitive, and user-centric interfaces. My goal is to bridge the gap between complex functionality and a seamless user experience.
+                        </p>
+                        <a href="portfolio-jane.html" class="form-button">
+                           See My Design Portfolio <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- CTA Section -->
-        <section class="bg-dark-gradient text-center">
-            <div class="container mx-auto px-6">
-                <div class="reveal bg-gray-800/40 border border-gray-700 rounded-2xl shadow-xl p-12 backdrop-blur-sm">
-                    <h2 class="text-4xl font-bold text-white mb-4 animated-gradient-text">Have an Idea?</h2>
-                    <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">Let's turn your vision into a reality. We're always excited to collaborate on new and challenging projects. Reach out and let's build something amazing together.</p>
-                    <a href="index.html#contact" class="inline-block text-lg px-8 py-4 rounded-full font-semibold uppercase tracking-wide text-white text-center transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/60">
-                        Start Your Project
-                    </a>
+                <!-- Samuel Green's Showcase -->
+                <div class="crew-project-showcase grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Text Content -->
+                    <div class="reveal text-center lg:text-left">
+                        <h2 class="text-4xl font-bold text-white mb-2">Samuel Green</h2>
+                        <p class="text-teal-400 font-semibold text-xl mb-4">Project Manager</p>
+                        <p class="text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0">
+                            My expertise lies in ensuring projects are delivered on time and on budget. I orchestrate the process, facilitate communication, and bring all the moving parts together.
+                        </p>
+                        <a href="portfolio-samuel.html" class="form-button">
+                           View Project Case Studies <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <!-- Featured Project Card -->
+                    <div class="reveal reveal-delay-200">
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-teal-500/20">
+                            <img src="https://images.unsplash.com/photo-1600880292203-942bb68b2432?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80" alt="ConnectSphere Project" class="w-full h-64 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-white mb-3">ConnectSphere - Social CRM</h3>
+                                <div class="flex flex-wrap gap-3 mb-6">
+                                    <span class="tech-pill">Jira API</span>
+                                    <span class="tech-pill">Trello</span>
+                                    <span class="tech-pill">Slack Integration</span>
+                                </div>
+                                <div class="flex items-center gap-6">
+                                    <a href="#" class="project-link"><i class="fas fa-file-alt mr-2"></i>Read Case Study</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-black text-white pt-16 pb-12">
+    <!-- Footer (adjusted padding) -->
+    <footer class="bg-black text-white pt-24 pb-12">
+       <!-- Footer content remains the same -->
         <div class="container mx-auto px-6 text-center">
             
             <div class="mb-10">
