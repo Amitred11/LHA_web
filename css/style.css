@@ -171,13 +171,31 @@ footer {
 
 /* 8. Contact Section & Form Styles (UPDATED)
 ----------------------------------- */
-/*
-  The form input and label styles have been moved directly into the HTML
-  file using Tailwind utility classes to fix the design.
-  Only the button style remains here for reusability.
-*/
-.form-button {
-    @apply w-full inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-white text-center text-base transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/60;
+.form-box-with-circles {
+    position: relative;
+    overflow: hidden;
+}
+.form-box-with-circles::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: -150px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+.form-box-with-circles::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    right: -150px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
 }
 
 /* 9. SVG Separator Styles

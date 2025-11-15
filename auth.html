@@ -13,24 +13,33 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to the new auth stylesheet -->
     <link rel="stylesheet" href="css/auth.css">
 
 </head>
-<body class="font-['Poppins',_sans-serif] flex items-center justify-center min-h-screen p-4 text-gray-200">
+<body class="font-['Poppins',_sans-serif] relative flex items-center justify-center min-h-screen p-4 text-gray-200">
 
+    <!-- The animated background, sits behind everything -->
+    <div class="animated-gradient-background"></div>
+
+    <!-- "Back to Home" Link -->
     <a href="index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-teal-400">
         <i class="fas fa-arrow-left"></i>
         <span>Back to Home</span>
     </a>
 
-    <div class="w-full max-w-4xl mx-auto">
+    <!-- Main container lifted above the background -->
+    <div class="relative z-10 w-full max-w-4xl mx-auto">
         
         <!-- === Sign In Panel === -->
         <div id="sign-in-panel" class="auth-panel">
-            <div class="grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden border border-teal-500/20">
-                <div class="p-12 flex flex-col items-center justify-center bg-gray-900/60 backdrop-blur-lg">
+            <!-- UPDATED: Added glassmorphism classes to the main grid container -->
+            <div class="grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 bg-gray-900/50 backdrop-blur-lg">
+                <!-- Left Side: Form -->
+                <div class="p-12 flex flex-col items-center justify-center">
                     <h1 class="text-4xl font-bold text-white mb-6">Welcome Back</h1>
                     <form action="#" class="w-full">
+                        <!-- Email Input -->
                         <div class="relative mb-6 w-full">
                             <input type="email" id="email-signin" placeholder=" " required 
                                    class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
@@ -40,6 +49,7 @@
                                           peer-focus:scale-75 peer-focus:-translate-y-6
                                           peer-focus:text-teal-500 pointer-events-none">Email</label>
                         </div>
+                        <!-- Password Input -->
                         <div class="relative mb-6 w-full">
                             <input type="password" id="password-signin" placeholder=" " required 
                                    class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
@@ -54,6 +64,7 @@
                                 class="w-full mt-4 rounded-full px-8 py-3 font-semibold tracking-wider uppercase text-white transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 transform shadow-[0_4px_15px_0_rgba(45,212,191,0.35)] hover:-translate-y-1 hover:shadow-[0_7px_20px_0_rgba(45,212,191,0.5)]">Sign In</button>
                     </form>
                 </div>
+                <!-- Right Side: Overlay -->
                 <div class="hidden md:flex flex-col items-center justify-center text-center p-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
                     <h1 class="text-4xl font-bold m-0">New to the Crew?</h1>
                     <p class="text-base font-light leading-relaxed my-5">Join our collective of creators and innovators. Your next big project awaits.</p>
@@ -65,7 +76,9 @@
 
         <!-- === Sign Up Panel === -->
         <div id="sign-up-panel" class="auth-panel hidden">
-            <div class="grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden border border-teal-500/20">
+            <!-- UPDATED: Added glassmorphism classes to the main grid container -->
+            <div class="grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 bg-gray-900/50 backdrop-blur-lg">
+                <!-- Left Side: Overlay -->
                 <div class="hidden md:flex flex-col items-center justify-center text-center p-12 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
                      <h1 class="text-4xl font-bold m-0">Glad You're Back!</h1>
                     <p class="text-base font-light leading-relaxed my-5">Already part of the crew? Sign in to jump back into the action.</p>
@@ -73,9 +86,10 @@
                             class="rounded-full px-8 py-3 font-semibold tracking-wider uppercase transition-all duration-300 bg-transparent border-2 border-white text-white hover:bg-white/10 hover:scale-105">Sign In</button>
                 </div>
                 <!-- Right Side: Form -->
-                <div class="p-12 flex flex-col items-center justify-center bg-gray-900/60 backdrop-blur-lg">
+                <div class="p-12 flex flex-col items-center justify-center">
                     <h1 class="text-4xl font-bold text-white mb-6">Join The Crew</h1>
                     <form action="#" class="w-full">
+                         <!-- Name Input -->
                         <div class="relative mb-6 w-full">
                             <input type="text" id="name" placeholder=" " required 
                                    class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
@@ -85,6 +99,7 @@
                                           peer-focus:scale-75 peer-focus:-translate-y-6
                                           peer-focus:text-teal-500 pointer-events-none">Name</label>
                         </div>
+                        <!-- Email Input -->
                         <div class="relative mb-6 w-full">
                             <input type="email" id="email-signup" placeholder=" " required 
                                    class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
@@ -94,6 +109,7 @@
                                           peer-focus:scale-75 peer-focus:-translate-y-6
                                           peer-focus:text-teal-500 pointer-events-none">Email</label>
                         </div>
+                        <!-- Password Input -->
                         <div class="relative mb-6 w-full">
                             <input type="password" id="password-signup" placeholder=" " required 
                                    class="block w-full px-1 py-2 text-base text-white bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-teal-500 peer" />
