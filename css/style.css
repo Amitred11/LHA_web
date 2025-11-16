@@ -90,10 +90,31 @@ section {
     @apply text-white;
 }
 
+/* Enhanced Navigation Button Style */
 .nav-button {
-    @apply inline-block px-6 py-2.5 rounded-full font-semibold uppercase tracking-wide text-white text-center text-sm transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/50;
+    /* Flexbox for icon and text alignment */
+    @apply flex items-center justify-center gap-3; 
+    
+    /* Core styling */
+    @apply inline-block px-6 py-2 rounded-full font-semibold uppercase tracking-wide text-white text-sm transition-all duration-300;
+    
+    /* Highlighted Gradient Background & Shadow */
+    @apply bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/30;
+    
+    /* Relative positioning for potential pseudo-elements */
+    @apply relative overflow-hidden;
 }
 
+/* Enhanced Hover & Focus States for a "lift" effect */
+.nav-button:hover, .nav-button:focus {
+    transform: translateY(-3px);
+    @apply shadow-2xl shadow-cyan-500/50;
+}
+
+/* Animate icon on hover */
+.nav-button:hover i {
+    transform: rotate(-15deg);
+}
 /* Mobile Menu Styles */
 .nav-link-mobile {
     @apply text-3xl font-bold text-gray-300 hover:text-teal-400 transition-colors duration-300;
@@ -156,7 +177,7 @@ footer {
 
 /* 7. About Page / Crew Styles */
 .profile-card {
-    @apply text-center p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20;
+    @apply text-center p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-lg backdrop-blur-md transform transition-all duration-300 hover:-translate-y-2 hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/20 ml-4;
 }
 .profile-avatar {
     @apply w-32 h-32 rounded-full mx-auto mb-6 border-4 border-gray-700 transition-all duration-300 shadow-md;
@@ -273,4 +294,25 @@ section {
 /* Secondary Button Style */
 .form-button-secondary {
      @apply inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-gray-300 text-center text-base transition-all duration-300 border-2 border-gray-700 bg-transparent hover:-translate-y-1 hover:border-teal-500 hover:bg-teal-500/10 hover:text-white hover:shadow-lg hover:shadow-teal-500/30;
+}
+
+/* 13. Alert Modal & Form Button Styles */
+#alert-modal.hidden {
+    display: none;
+}
+
+#alert-dialog {
+    transform: scale(0.95) translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+#alert-modal:not(.hidden) #alert-dialog {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+        
+/* Primary Form Button Style (for consistency) */
+.form-button {
+    @apply inline-block px-8 py-3 rounded-full font-semibold uppercase tracking-wide text-white text-center text-base transition-all duration-300 bg-gradient-to-r from-teal-500 to-cyan-500 shadow-lg shadow-teal-500/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/60;
 }

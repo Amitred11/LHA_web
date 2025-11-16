@@ -1,0 +1,50 @@
+<!-- components/alert.html -->
+<div id="alert-modal" 
+     class="hidden fixed inset-0 z-[100] bg-black/70 backdrop-blur-md 
+            flex items-center justify-center p-4 transition-opacity duration-300">
+
+    <div id="alert-dialog"
+         class="bg-gray-800/60 border border-gray-700/60 backdrop-blur-xl 
+                w-full max-w-md rounded-3xl shadow-2xl text-center p-8
+                opacity-0 scale-95 transform transition-all duration-300">
+
+        <!-- Icon -->
+        <div id="alert-icon-container"
+             class="w-20 h-20 rounded-2xl mx-auto flex items-center justify-center 
+                    bg-gray-900/70 mb-6 ring-2 ring-gray-700/50 shadow-lg shadow-black/40
+                    transition-all duration-300">
+            <!-- Icon inserted by JS -->
+        </div>
+
+        <!-- Title -->
+        <h3 id="alert-title" 
+            class="text-3xl font-extrabold text-white mb-2 tracking-wide">
+            Modal Title
+        </h3>
+
+        <!-- Message -->
+        <p id="alert-message" 
+           class="text-gray-300 text-base leading-relaxed mb-8">
+            This is the alert message.
+        </p>
+
+        <!-- Buttons -->
+        <div class="grid grid-cols-2 gap-4">
+            <button id="alert-cancel-button" 
+                    class="w-full py-3 rounded-xl font-semibold bg-gray-700/60 
+                           text-gray-300 hover:bg-gray-600/60 hover:text-white 
+                           transition-all duration-300 backdrop-blur-sm">
+                Cancel
+            </button>
+
+            <button id="alert-confirm-button" 
+                    class="w-full py-3 rounded-xl font-semibold 
+                           bg-gradient-to-r from-teal-500 to-cyan-500 text-white 
+                           shadow-md shadow-teal-500/50 hover:shadow-lg hover:-translate-y-0.5 
+                           transition-all duration-300">
+                Confirm
+            </button>
+        </div>
+
+    </div>
+</div>

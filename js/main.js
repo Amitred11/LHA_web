@@ -1,7 +1,9 @@
+// js/main.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    // --- Element Selectors ---
+    // --- Main Page Element Selectors ---
     const elements = {
         logoutButtons: document.querySelectorAll('.logout-button'),
         authRequiredLinks: document.querySelectorAll('.requires-auth'),
@@ -12,25 +14,98 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu: document.getElementById('mobile-menu'),
         navbar: document.getElementById('navbar'),
         sections: document.querySelectorAll('main section[id]'),
-        navLinks: document.querySelectorAll('#navbar a.nav-link[href^="#"], #navbar a.nav-link[href^="index.html#"]'), // Updated for better targeting
+        navLinks: document.querySelectorAll('#navbar a.nav-link[href^="#"], #navbar a.nav-link[href^="index.html#"]'),
         mobileNavLinks: document.querySelectorAll('#mobile-menu a'),
         body: document.body,
         heroCtaButton: document.getElementById('hero-cta-button')
     };
 
-    // --- Function: Toggle UI based on Login State ---
+    // This object will be populated with the modal's elements after they are loaded.
+    let alertModalElements = {};
+
+    // --- Function: Load and Initialize Alert Modal HTML from external file ---
+    const loadAlertModal = async () => {
+        try {
+            const response = await fetch('components/alert.html');
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const html = await response.text();
+            
+            const placeholder = document.getElementById('alert-modal-placeholder');
+            if (placeholder) {
+                placeholder.innerHTML = html;
+            } else {
+                document.body.insertAdjacentHTML('beforeend', html);
+            }
+
+            // Now that the modal is in the DOM, select its parts.
+            alertModalElements = {
+                modal: document.getElementById('alert-modal'),
+                dialog: document.getElementById('alert-dialog'),
+                iconContainer: document.getElementById('alert-icon-container'),
+                title: document.getElementById('alert-title'),
+                message: document.getElementById('alert-message'),
+                confirmButton: document.getElementById('alert-confirm-button'),
+                cancelButton: document.getElementById('alert-cancel-button'),
+            };
+
+            // Prepare the modal for animation by adding the initial opacity-0 class
+            if (alertModalElements.modal) {
+                alertModalElements.modal.classList.add('opacity-0');
+            }
+
+        } catch (error) {
+            console.error("Could not load the alert modal component:", error);
+        }
+    };
+
+    // --- Function: Show Custom Alert Modal ---
+    const showAlertModal = ({ title, message, iconHTML, confirmText = 'Confirm', cancelText = 'Cancel', onConfirm }) => {
+        if (!alertModalElements.modal) {
+            console.error('Alert modal is not available. Using fallback.');
+            if (window.confirm(`${title}\n${message}`)) {
+                onConfirm();
+            }
+            return;
+        }
+
+        alertModalElements.title.textContent = title;
+        alertModalElements.message.textContent = message;
+        alertModalElements.iconContainer.innerHTML = iconHTML;
+
+        // Clone/replace buttons to remove old event listeners
+        const newConfirmButton = alertModalElements.confirmButton.cloneNode(true);
+        newConfirmButton.textContent = confirmText;
+        alertModalElements.confirmButton.parentNode.replaceChild(newConfirmButton, alertModalElements.confirmButton);
+        alertModalElements.confirmButton = newConfirmButton;
+
+        const newCancelButton = alertModalElements.cancelButton.cloneNode(true);
+        newCancelButton.textContent = cancelText;
+        alertModalElements.cancelButton.parentNode.replaceChild(newCancelButton, alertModalElements.cancelButton);
+        alertModalElements.cancelButton = newCancelButton;
+        
+        // Use the new open function for animation
+        openAlertModal();
+
+        // Assign actions to the new buttons
+        alertModalElements.confirmButton.onclick = () => {
+            if (typeof onConfirm === 'function') {
+                onConfirm();
+            }
+            closeAlertModal();
+        };
+
+        alertModalElements.cancelButton.onclick = closeAlertModal;
+    };
+
+    // --- All other functions (updateUIForLoginState, handleLogout, etc.) remain the same ---
     const updateUIForLoginState = () => {
-        // This handles showing/hiding elements in the nav/mobile menu
         elements.authVisibilityElements.forEach(el => {
             const authState = el.getAttribute('data-auth');
-            if (isLoggedIn) {
-                el.style.display = authState === 'logged-in' ? '' : 'none';
-            } else {
-                el.style.display = authState === 'logged-out' ? '' : 'none';
-            }
+            el.style.display = isLoggedIn 
+                ? (authState === 'logged-in' ? '' : 'none') 
+                : (authState === 'logged-out' ? '' : 'none');
         });
 
-        // This new logic updates the hero button's text and link
         if (elements.heroCtaButton) {
             if (isLoggedIn) {
                 elements.heroCtaButton.textContent = elements.heroCtaButton.getAttribute('data-logged-in-text');
@@ -42,15 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Function: Handle Logout ---
     const handleLogout = (event) => {
         event.preventDefault();
-        localStorage.removeItem('isLoggedIn');
-        // Redirect to index and force reload to reset state
-        window.location.assign('index.html');
+        showAlertModal({
+            title: 'Confirm Logout',
+            message: 'Are you sure you want to sign out of your account?',
+            iconHTML: '<i class="fas fa-sign-out-alt text-4xl text-red-400"></i>',
+            confirmText: 'Logout',
+            onConfirm: () => {
+                localStorage.removeItem('isLoggedIn');
+                window.location.assign('index.html');
+            }
+        });
     };
 
-    // --- Function: Handle Auth-Required Links ---
     const handleAuthRedirect = (event) => {
         if (!isLoggedIn) {
             event.preventDefault();
@@ -58,12 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // --- Function: Toggle Profile Dropdown ---
     const toggleProfileDropdown = () => {
         elements.profileMenuDropdown?.classList.toggle('hidden');
     };
 
-    // --- Function: Toggle Mobile Menu ---
     const toggleMobileMenu = () => {
         const isMenuOpen = !elements.mobileMenu.classList.contains('hidden');
         elements.mobileMenu.classList.toggle('hidden');
@@ -73,39 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.classList.toggle('fa-times', !isMenuOpen);
     };
 
-    // --- Event Listeners ---
-    elements.logoutButtons.forEach(btn => btn.addEventListener('click', handleLogout));
-    elements.authRequiredLinks.forEach(link => link.addEventListener('click', handleAuthRedirect));
-    elements.profileMenuButton?.addEventListener('click', toggleProfileDropdown);
-    elements.mobileMenuButton?.addEventListener('click', toggleMobileMenu);
-
-    // Close mobile menu when a link is clicked
-    elements.mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (!elements.mobileMenu.classList.contains('hidden')) {
-                toggleMobileMenu();
-            }
-        });
-    });
-
-    // Close profile dropdown when clicking outside
-    document.addEventListener('click', (event) => {
-        if (elements.profileMenuButton && !elements.profileMenuButton.contains(event.target) && !elements.profileMenuDropdown.contains(event.target)) {
-            elements.profileMenuDropdown?.classList.add('hidden');
-        }
-    });
-
-    // --- Scroll and Animation Logic ---
     const handleScroll = () => {
         if (!elements.navbar) return;
-        // Navbar background effect
         elements.navbar.classList.toggle('scrolled', window.scrollY > 50);
 
-        // Active nav link highlighting
         let currentSectionId = '';
         elements.sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            // Adjust offset to account for SVG separators and navbar height
             if (window.scrollY >= sectionTop - elements.navbar.clientHeight - 50) { 
                 currentSectionId = section.getAttribute('id');
             }
@@ -113,28 +165,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
         elements.navLinks.forEach(link => {
             link.classList.remove('active');
-            // Check if the link's href contains the current section's ID
             if (link.getAttribute('href').includes(currentSectionId) && currentSectionId) {
                 link.classList.add('active');
             }
         });
     };
-
-    window.addEventListener('scroll', handleScroll);
     
-    const revealElements = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
+    const setupIntersectionObserver = () => {
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(element => observer.observe(element));
+    };
+
+    // --- Main Initialization Function ---
+    const initializePage = async () => {
+        await loadAlertModal();
+        
+        elements.logoutButtons.forEach(btn => btn.addEventListener('click', handleLogout));
+        elements.authRequiredLinks.forEach(link => link.addEventListener('click', handleAuthRedirect));
+        elements.profileMenuButton?.addEventListener('click', toggleProfileDropdown);
+        elements.mobileMenuButton?.addEventListener('click', toggleMobileMenu);
+
+        elements.mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!elements.mobileMenu.classList.contains('hidden')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            if (elements.profileMenuButton && !elements.profileMenuButton.contains(event.target) && !elements.profileMenuDropdown.contains(event.target)) {
+                elements.profileMenuDropdown?.classList.add('hidden');
             }
         });
-    }, { threshold: 0.1 });
 
-    revealElements.forEach(element => observer.observe(element));
+        window.addEventListener('scroll', handleScroll);
 
-    // --- Initial Setup ---
-    updateUIForLoginState();
-    handleScroll(); 
+        updateUIForLoginState();
+        handleScroll(); 
+        setupIntersectionObserver();
+    };
+
+    // --- Start the initialization process ---
+    initializePage();
 });

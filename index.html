@@ -28,42 +28,57 @@
                         <span>LHA</span>
                     </a>
 
-                    <!-- Right Side Navigation -->
-                    <div class="flex items-center h-full">
-                        <!-- Desktop Menu -->
-                        <div class="hidden md:flex items-center h-full">
-                            <a href="#what-we-do" class="nav-link mr-8">What We Do</a>
-                            <a href="#about" class="nav-link mr-8">Our Vibe</a>
-                            <a href="#contact" class="nav-link mr-8">Contact</a>
-                            
-                            <!-- Auth Buttons -->
-                            <div id="nav-auth-links" class="flex items-center gap-6 mr-4">
-                               <a href="auth.html" class="nav-button" data-auth="logged-out">
-                                  Join Us
-                                </a>
-                                <a href="projects.html" class="nav-button requires-auth" data-auth="logged-in" style="display: none;">
-                                  Our Projects
-                                </a>
-                            </div>
+                    <!-- Centered Desktop Menu with Action Buttons -->
+                    <div class="hidden md:flex flex-grow justify-center items-center gap-8">
+                        <a href="#what-we-do" class="nav-link">What We Do</a>
+                        <a href="#about" class="nav-link">Our Vibe</a>
+                        <a href="#contact" class="nav-link">Contact</a>
+                        
+                        <!-- Auth Buttons are now inside the centered container -->
+                        <div id="nav-auth-links" class="flex items-center gap-4">
+                            <a href="auth.html"
+                               class="px-5 py-2.5 text-sm font-semibold text-white uppercase tracking-wide 
+                                      rounded-full inline-flex items-center gap-2 transition-all duration-300
+                                      bg-gradient-to-r from-teal-500 to-cyan-500 shadow-md shadow-teal-500/40
+                                      hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/60"
+                               data-auth="logged-out">
+                                <i class="fas fa-rocket text-sm"></i>
+                                Join Us
+                            </a>
 
-                            <!-- Profile Dropdown -->
-                            <div id="profile-dropdown" class="relative" data-auth="logged-in" style="display: none;">
-                                <button id="profile-menu-button" class="flex items-center focus:outline-none">
-                                    <img src="https://i.pravatar.cc/40" alt="User Avatar" class="w-11 h-11 rounded-full border-2 border-teal-400 hover:opacity-80 transition-opacity">
-                                </button>
-                                <div id="profile-menu-dropdown" class="hidden absolute right-0 mt-3 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">                             
-                                    <a href="account.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Account</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 logout-button">Logout</a>
-                                </div>
-                            </div>                        
+                            <a href="projects.html"
+                               class="px-5 py-2.5 text-sm font-semibold text-white uppercase tracking-wide 
+                                      rounded-full inline-flex items-center gap-2 transition-all duration-300
+                                      bg-gradient-to-r from-teal-500 to-cyan-500 shadow-md shadow-teal-500/40
+                                      hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/60 requires-auth"
+                               data-auth="logged-in"
+                               style="display: none;">
+                               <i class="fa-solid fa-layer-group text-sm"></i>
+                                Our Projects
+                            </a>
                         </div>
 
-                        <!-- Mobile Menu Button -->
-                        <div class="md:hidden ml-6">
-                            <button id="mobile-menu-button" class="text-white text-2xl focus:outline-none z-50">
-                                <i class="fas fa-bars"></i>
+                    </div>
+
+                    <!-- Right Side Actions: Profile Only -->
+                    <div class="hidden md:flex items-center">
+                        <!-- Profile Dropdown -->
+                        <div id="profile-dropdown" class="relative" data-auth="logged-in" style="display: none;">
+                            <button id="profile-menu-button" class="flex items-center focus:outline-none">
+                                <img src="https://i.pravatar.cc/40" alt="User Avatar" class="w-11 h-11 rounded-full border-2 border-teal-400 hover:opacity-80 transition-opacity">
                             </button>
-                        </div>
+                            <div id="profile-menu-dropdown" class="hidden absolute right-0 mt-3 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">                             
+                                <a href="account.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Account</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 logout-button">Logout</a>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="text-white text-2xl focus:outline-none z-50">
+                            <i class="fas fa-bars"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -95,7 +110,7 @@
             <div class="reveal reveal-delay-400">
                 <a href="#" 
                    id="hero-cta-button"
-                   data-logged-out-text="Join Us ****"
+                   data-logged-out-text="Join Us Now"
                    data-logged-out-href="auth.html"
                    data-logged-in-text="View Our Projects"
                    data-logged-in-href="projects.html"
@@ -282,6 +297,7 @@
         </div>
     </footer>
 
+    <!-- Universal Modal for Content -->
     <div id="universal-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-70 flex items-center justify-center p-4">
         <div class="modal-dialog bg-gray-800 border border-gray-700 w-full max-w-3xl rounded-2xl shadow-xl transform transition-transform duration-300 scale-95">
             <div class="p-8 relative">
@@ -295,7 +311,10 @@
         </div>
     </div>
 
+    <div id="alert-modal-placeholder"></div>
+
     <script src="js/main.js"></script>
     <script src="js/modal.js"></script>
+    <script src="js/alert.js"></script>
 </body>
 </html>
