@@ -1,0 +1,22 @@
+/* Global Dot Pattern (Shared with other pages) */
+body {
+    background-color: #FFFDF5; /* Cream */
+    background-image: radial-gradient(#1A1A1A 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Dark Mode Dot Pattern */
+.dark body {
+    background-color: #1A1A1A; /* Ink */
+    background-image: radial-gradient(#FFFDF5 1px, transparent 1px);
+}
+
+/* Fade In Animation for cards */
+.sign-in-panel, .sign-up-panel {
+    animation: fadeUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

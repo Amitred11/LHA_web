@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | LHA Collective</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        'cream': '#FFFDF5',
+                        'acid-green': '#CCFF00',
+                        'hot-pink': '#FF4D8C',
+                        'electric-purple': '#8A4FFF',
+                        'sky-blue': '#4DAFFF',
+                        'ink': '#1A1A1A'
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #1A1A1A',
+                        'hard-white': '4px 4px 0px 0px #FFFDF5',
+                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
+                    },
+                    borderWidth: {
+                        '3': '3px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="text-ink bg-cream font-body dark:bg-ink dark:text-cream transition-colors duration-300 flex justify-center items-center min-h-screen p-4">
+
+    <!-- Back Link -->
+    <a href="index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-header font-bold hover:underline decoration-wavy">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back Home</span>
+    </a>
+
+    <!-- Auth Card -->
+    <div class="w-full max-w-md relative">
+        <!-- Decorative blobs -->
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-acid-green rounded-full blur-2xl opacity-50 dark:opacity-20 pointer-events-none"></div>
+        <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-hot-pink rounded-full blur-2xl opacity-50 dark:opacity-20 pointer-events-none"></div>
+
+        <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-2xl shadow-hard dark:shadow-hard-white p-8 md:p-12 relative z-10 sign-in-panel">
+            
+            <div class="text-center mb-8">
+                <h1 class="font-header font-bold text-4xl mb-2">Welcome Back</h1>
+                <p class="text-gray-500 dark:text-gray-400">Enter your credentials to access the mainframe.</p>
+            </div>
+
+            <!-- Social Login -->
+            <div class="flex justify-center gap-4 mb-6">
+                <button class="w-12 h-12 rounded-lg border-2 border-ink dark:border-cream flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i class="fab fa-google text-xl"></i></button>
+                <button class="w-12 h-12 rounded-lg border-2 border-ink dark:border-cream flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i class="fab fa-github text-xl"></i></button>
+            </div>
+
+            <div class="relative flex py-2 items-center mb-6">
+                <div class="flex-grow border-t-2 border-gray-200 dark:border-gray-600"></div>
+                <span class="flex-shrink-0 mx-4 text-gray-400 text-xs font-bold uppercase">Or continue with</span>
+                <div class="flex-grow border-t-2 border-gray-200 dark:border-gray-600"></div>
+            </div>
+
+            <form id="signInForm" novalidate class="space-y-4">
+                
+                <div>
+                    <label class="block font-bold mb-1 text-sm uppercase tracking-wider">Username / Email</label>
+                    <input type="text" name="username" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow" placeholder="Enter your ID">
+                    <p id="usernameError" class="error-message text-red-500 text-xs font-bold mt-1 hidden">Field required.</p>
+                </div>
+
+                <div class="relative">
+                    <label class="block font-bold mb-1 text-sm uppercase tracking-wider">Password</label>
+                    <input type="password" id="password" name="password" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 pr-10 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow" placeholder="••••••••">
+                    <i class="fas fa-eye absolute top-[38px] right-3 text-gray-500 cursor-pointer hover:text-ink dark:hover:text-white" id="togglePassword"></i>
+                    <p id="passwordError" class="error-message text-red-500 text-xs font-bold mt-1 hidden">Password required.</p>
+                </div>
+
+                <div class="flex justify-end">
+                    <a href="forgot-password.html" class="text-sm font-bold text-gray-500 hover:text-hot-pink transition-colors">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="w-full bg-ink dark:bg-cream text-white dark:text-ink border-2 border-transparent rounded-lg py-3 font-header font-bold text-lg shadow-hard-sm hover:shadow-hard dark:hover:shadow-hard-white hover:-translate-y-1 transition-all flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                    <span class="btn-text">Sign In</span>
+                    <i class="fas fa-circle-notch fa-spin btn-spinner hidden"></i>
+                </button>
+
+            </form>
+
+            <p class="mt-8 text-center text-sm">
+                New here? <a href="signup.html" class="font-bold text-electric-purple hover:underline">Create an account</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="alert-modal-placeholder"></div>
+    <script src="js/alert.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <!-- Dark Mode Logic -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    </script>
+</body>
+</html>

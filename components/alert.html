@@ -1,0 +1,49 @@
+<div id="alert-modal" 
+     class="hidden fixed inset-0 z-[100] bg-ink/80 backdrop-blur-sm 
+            flex items-center justify-center p-4 transition-opacity duration-300">
+
+    <div id="alert-dialog"
+         class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream 
+                w-full max-w-md rounded-2xl shadow-hard dark:shadow-hard-white 
+                text-center p-8 opacity-0 scale-95 transform transition-all duration-300">
+
+        <!-- Icon -->
+        <div id="alert-icon-container"
+             class="w-16 h-16 rounded-full mx-auto flex items-center justify-center 
+                    bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream mb-6 
+                    shadow-hard-sm">
+            <!-- Icon inserted by JS -->
+        </div>
+
+        <!-- Title -->
+        <h3 id="alert-title" 
+            class="text-3xl font-header font-bold text-ink dark:text-white mb-2 uppercase tracking-wide">
+            Alert
+        </h3>
+
+        <!-- Message -->
+        <p id="alert-message" 
+           class="text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-8">
+            Alert message goes here.
+        </p>
+
+        <!-- Buttons -->
+        <div class="grid grid-cols-2 gap-4">
+            <button id="alert-cancel-button" 
+                    class="w-full py-3 rounded-xl font-bold bg-white dark:bg-gray-700 
+                           text-ink dark:text-white border-2 border-ink dark:border-cream 
+                           hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                Cancel
+            </button>
+
+            <button id="alert-confirm-button" 
+                    class="w-full py-3 rounded-xl font-bold 
+                           bg-hot-pink text-white border-2 border-ink dark:border-cream 
+                           shadow-hard-sm hover:shadow-hard dark:hover:shadow-hard-white 
+                           hover:-translate-y-1 transition-all">
+                Confirm
+            </button>
+        </div>
+
+    </div>
+</div>

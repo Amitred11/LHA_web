@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start a Project | LHA Collective</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        'cream': '#FFFDF5',
+                        'acid-green': '#CCFF00',
+                        'hot-pink': '#FF4D8C',
+                        'electric-purple': '#8A4FFF',
+                        'sky-blue': '#4DAFFF',
+                        'ink': '#1A1A1A'
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #1A1A1A',
+                        'hard-white': '4px 4px 0px 0px #FFFDF5',
+                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
+                        'hard-sm': '2px 2px 0px 0px #1A1A1A',
+                    },
+                    borderWidth: {
+                        '3': '3px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="text-ink bg-cream font-body dark:bg-ink dark:text-cream transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav class="fixed top-4 left-0 right-0 z-50 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream shadow-hard dark:shadow-hard-white rounded-full px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="bg-ink dark:bg-cream text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform">
+                        LHA
+                    </div>
+                </a>
+                <div class="font-header font-bold text-xl uppercase tracking-widest hidden md:block">Start A Project</div>
+                
+                <a href="index.html" class="flex items-center gap-2 font-header font-bold hover:underline decoration-wavy">
+                    <i class="fas fa-arrow-left"></i> Back Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-40 pb-12 text-center relative overflow-hidden">
+        <div class="absolute top-20 right-10 w-32 h-32 bg-acid-green rounded-full blur-3xl opacity-30"></div>
+        <div class="container mx-auto px-6">
+            <h1 class="font-header font-bold text-6xl md:text-8xl mb-6 relative inline-block">
+                Let's Build <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-purple to-hot-pink">Something Great.</span>
+            </h1>
+            <p class="text-xl md:text-2xl max-w-2xl mx-auto text-gray-700 dark:text-gray-300">
+               You have the vision. We have the chaos... err, the team to bring it to life. 
+            </p>
+        </div>
+    </header>
+
+    <main class="pb-24 px-4">
+        <!-- Process Section -->
+        <section id="process" class="container mx-auto px-6 max-w-6xl mb-24">
+            <div class="text-center mb-16">
+                <div class="inline-block bg-ink dark:bg-cream text-white dark:text-ink px-4 py-1 font-bold rounded-full mb-4 rotate-2">
+                    How It Works
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl p-8 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all">
+                    <div class="w-12 h-12 bg-sky-blue border-2 border-ink dark:border-cream rounded-full flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-4">1. The Pitch</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Fill out the form below. No corporate jargon needed, just tell us what you want to build.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="bg-hot-pink text-white border-3 border-ink dark:border-cream rounded-xl p-8 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all md:mt-8">
+                    <div class="w-12 h-12 bg-white text-ink border-2 border-ink rounded-full flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-pencil-ruler"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-4">2. The Grind</h3>
+                    <p>We create mockups, write code, and break things until they work perfectly. You stay in the loop.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl p-8 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all">
+                    <div class="w-12 h-12 bg-acid-green border-2 border-ink dark:border-cream rounded-full flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-4">3. The Launch</h3>
+                    <p class="text-gray-600 dark:text-gray-300">We ship it. We host it. We celebrate. Then we fix any bugs we missed (it happens).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inquiry Form Section -->
+        <section id="inquiry-form" class="container mx-auto max-w-3xl">
+            <!-- Folder Tab visual -->
+            <div class="bg-ink dark:bg-cream text-white dark:text-ink rounded-t-xl border-3 border-ink dark:border-cream border-b-0 px-6 py-3 w-fit mx-4 relative top-1 z-10 font-mono font-bold">
+                PROJECT_SPECS.txt
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl shadow-hard dark:shadow-hard-white p-8 md:p-12 relative z-0">
+                
+                <form id="project-inquiry-form" class="relative">
+                    <!-- Progress Bar -->
+                    <div class="mb-10">
+                        <div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2 text-gray-500 dark:text-gray-400">
+                            <span>Start</span>
+                            <span>Finish</span>
+                        </div>
+                         <div class="w-full h-4 bg-gray-200 dark:bg-gray-700 rounded-full border-2 border-ink dark:border-cream overflow-hidden">
+                            <div id="progress-bar" class="bg-acid-green h-full border-r-2 border-ink dark:border-cream transition-all duration-500" style="width: 25%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Contact Info -->
+                    <div class="form-step active-step animate-fade-in">
+                        <h3 class="text-3xl font-header font-bold mb-6 text-center">Who are you?</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Your Name</label>
+                                <input type="text" name="clientName" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow" placeholder="Jane Doe" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Email Address</label>
+                                <input type="email" name="clientEmail" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow" placeholder="jane@example.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Project Type -->
+                    <div class="form-step hidden animate-fade-in">
+                        <h3 class="text-3xl font-header font-bold mb-6 text-center">What do you need?</h3>
+                        <p class="text-center text-gray-500 mb-6">Pick as many as you like.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Checkbox Item -->
+                            <label class="cursor-pointer group">
+                                <input type="checkbox" name="projectTypes" value="Website" class="hidden peer">
+                                <div class="p-4 border-2 border-ink dark:border-cream rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-700 peer-checked:bg-sky-blue peer-checked:text-ink transition-colors shadow-hard-sm">
+                                    <i class="fas fa-desktop text-xl mb-2 block"></i>
+                                    <span class="font-bold">Website</span>
+                                </div>
+                            </label>
+                            
+                            <label class="cursor-pointer group">
+                                <input type="checkbox" name="projectTypes" value="Mobile App" class="hidden peer">
+                                <div class="p-4 border-2 border-ink dark:border-cream rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-700 peer-checked:bg-hot-pink peer-checked:text-white transition-colors shadow-hard-sm">
+                                    <i class="fas fa-mobile-alt text-xl mb-2 block"></i>
+                                    <span class="font-bold">Mobile App</span>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer group">
+                                <input type="checkbox" name="projectTypes" value="Illustration" class="hidden peer">
+                                <div class="p-4 border-2 border-ink dark:border-cream rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-700 peer-checked:bg-acid-green peer-checked:text-ink transition-colors shadow-hard-sm">
+                                    <i class="fas fa-paint-brush text-xl mb-2 block"></i>
+                                    <span class="font-bold">Art & Design</span>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer group">
+                                <input type="checkbox" name="projectTypes" value="Software" class="hidden peer">
+                                <div class="p-4 border-2 border-ink dark:border-cream rounded-lg text-center hover:bg-gray-100 dark:hover:bg-gray-700 peer-checked:bg-electric-purple peer-checked:text-white transition-colors shadow-hard-sm">
+                                    <i class="fas fa-cogs text-xl mb-2 block"></i>
+                                    <span class="font-bold">Software</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Details -->
+                    <div class="form-step hidden animate-fade-in">
+                        <h3 class="text-3xl font-header font-bold mb-6 text-center">Spill the Tea</h3>
+                        <div>
+                            <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Project Description</label>
+                            <textarea name="projectDescription" rows="6" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow" placeholder="What are we building? Who is it for? Go wild." required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Budget & Timeline -->
+                    <div class="form-step hidden animate-fade-in">
+                        <h3 class="text-3xl font-header font-bold mb-6 text-center">The Logistics</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Budget Range</label>
+                                <select name="budget" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow appearance-none" required>
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="<5k">&lt; $5,000</option>
+                                    <option value="5k-15k">$5,000 - $15,000</option>
+                                    <option value="15k-30k">$15,000 - $30,000</option>
+                                    <option value="30k+">$30,000+</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Timeline</label>
+                                <select name="timeline" class="w-full bg-cream dark:bg-gray-900 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow appearance-none" required>
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="ASAP">Yesterday (ASAP)</option>
+                                    <option value="1 month">1 Month</option>
+                                    <option value="2-3 months">2-3 Months</option>
+                                    <option value="Flexible">Flexible</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-12 pt-6 border-t-2 border-gray-100 dark:border-gray-700">
+                        <button type="button" id="prev-btn" class="hidden px-6 py-3 bg-white dark:bg-gray-700 border-2 border-ink dark:border-cream rounded-lg font-bold text-ink dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        
+                        <button type="button" id="next-btn" class="ml-auto px-8 py-3 bg-ink dark:bg-cream text-white dark:text-ink border-2 border-transparent rounded-lg font-bold shadow-hard-sm hover:shadow-hard dark:hover:shadow-hard-white hover:-translate-y-1 transition-all">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        
+                        <button type="submit" id="submit-btn" class="hidden ml-auto px-8 py-3 bg-hot-pink text-white border-2 border-ink dark:border-cream rounded-lg font-bold shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all">
+                            Launch Project <i class="fas fa-rocket ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-900 border-t-4 border-ink dark:border-cream py-8">
+        <div class="container mx-auto px-6 text-center">
+             <p class="text-gray-500 dark:text-gray-400">&copy; 2025 LHA Collective.</p>
+        </div>
+    </footer>
+
+    <div id="alert-modal-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/alert.js"></script>
+    <script src="js/project-inquiry.js"></script>
+    
+    <!-- Theme Logic -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    </script>
+</body>
+</html>

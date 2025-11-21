@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crew Portfolio | LHA Collective</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        'cream': '#FFFDF5',
+                        'acid-green': '#CCFF00',
+                        'hot-pink': '#FF4D8C',
+                        'electric-purple': '#8A4FFF',
+                        'sky-blue': '#4DAFFF',
+                        'ink': '#1A1A1A'
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #1A1A1A',
+                        'hard-white': '4px 4px 0px 0px #FFFDF5',
+                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
+                    },
+                    borderWidth: {
+                        '3': '3px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="text-ink bg-cream font-body dark:bg-ink dark:text-cream transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav class="fixed top-4 left-0 right-0 z-50 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream shadow-hard dark:shadow-hard-white rounded-full px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="bg-ink dark:bg-cream text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:rotate-12 transition-transform">
+                        LHA
+                    </div>
+                </a>
+                <a href="projects.html" class="flex items-center gap-2 font-header font-bold hover:underline decoration-wavy">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="portfolio-content" class="min-h-screen pt-32 pb-24 px-4">
+        
+        <!-- Loading State -->
+        <div id="loading-spinner" class="flex flex-col items-center justify-center min-h-[50vh]">
+            <div class="w-16 h-16 border-4 border-ink dark:border-cream border-t-hot-pink rounded-full animate-spin mb-4"></div>
+            <p class="text-2xl font-header font-bold">Fetching Data...</p>
+        </div>
+
+        <!-- Content Container (Hidden by default) -->
+        <div id="content-area" class="container mx-auto max-w-6xl hidden animate-fade-in">
+            
+            <!-- 1. Author Profile Card (Folder Style) -->
+            <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl shadow-hard dark:shadow-hard-white mb-16 relative">
+                <!-- Tab -->
+                <div class="absolute -top-10 left-0 bg-ink dark:bg-cream text-white dark:text-ink px-6 py-2 rounded-t-xl border-3 border-ink dark:border-cream border-b-0 font-header font-bold uppercase tracking-wider">
+                    Confidential File
+                </div>
+
+                <div class="p-8 md:p-12 flex flex-col md:flex-row items-center md:items-start gap-8 text-center md:text-left">
+                    <!-- Avatar -->
+                    <div class="relative">
+                        <div class="w-32 h-32 rounded-xl border-3 border-ink dark:border-cream bg-sky-blue flex items-center justify-center text-4xl font-header font-bold text-ink shadow-hard-sm rotate-2" id="author-avatar">
+                            <!-- Initials -->
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 bg-hot-pink border-2 border-ink w-8 h-8 rounded-full"></div>
+                    </div>
+                    
+                    <!-- Text Info -->
+                    <div class="flex-1">
+                        <h1 class="text-5xl md:text-6xl font-header font-bold mb-2" id="author-name">
+                            <!-- Name -->
+                        </h1>
+                        <div class="inline-block bg-acid-green text-ink border-2 border-ink px-3 py-1 font-bold text-sm rounded mb-6" id="author-role">
+                            <!-- Role -->
+                        </div>
+                        <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl" id="author-bio">
+                            <!-- Bio -->
+                        </p>
+                        
+                        <!-- External Portfolio Link -->
+                        <div id="author-external-link" class="mt-8 hidden">
+                            <a href="#" target="_blank" class="inline-flex items-center gap-2 bg-ink dark:bg-cream text-white dark:text-ink border-2 border-transparent hover:border-ink dark:hover:border-cream hover:bg-white hover:text-ink dark:hover:bg-gray-900 dark:hover:text-cream px-6 py-3 rounded-lg font-bold transition-all shadow-hard-sm hover:translate-y-[-2px]">
+                                <i class="fas fa-globe"></i> Personal Site
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Projects Grid -->
+            <div class="flex items-center gap-4 mb-10">
+                <div class="h-1 flex-1 bg-ink dark:bg-cream"></div>
+                <h2 class="text-3xl font-header font-bold uppercase">Case Studies</h2>
+                <div class="h-1 flex-1 bg-ink dark:bg-cream"></div>
+            </div>
+
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Cards injected here via JS -->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-900 border-t-4 border-ink dark:border-cream py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-500 dark:text-gray-400">&copy; 2025 LHA Collective.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/project-detail-loader.js"></script> 
+    <!-- Dark Mode Logic -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    </script>
+</body>
+</html>

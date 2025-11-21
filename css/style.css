@@ -1,0 +1,32 @@
+/* Dot Pattern Background */
+body {
+    background-color: #FFFDF5; /* Cream */
+    background-image: radial-gradient(#1A1A1A 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Dark Mode Dot Pattern */
+.dark body {
+    background-color: #1A1A1A; /* Ink */
+    background-image: radial-gradient(#FFFDF5 1px, transparent 1px); /* Cream Dots */
+}
+
+/* Custom Utilities */
+.rotate-hover:hover { transform: rotate(-2deg) translateY(-4px); }
+.rotate-hover-r:hover { transform: rotate(2deg) translateY(-4px); }
+
+/* Marquee Animation */
+.marquee-container { overflow: hidden; white-space: nowrap; }
+.marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* Reveal Animation for Intersection Observer in JS */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

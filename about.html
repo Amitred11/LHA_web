@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lore | LHA Collective</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind + Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        'cream': '#FFFDF5',
+                        'acid-green': '#CCFF00',
+                        'hot-pink': '#FF4D8C',
+                        'electric-purple': '#8A4FFF',
+                        'sky-blue': '#4DAFFF',
+                        'ink': '#1A1A1A'
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #1A1A1A',
+                        'hard-white': '4px 4px 0px 0px #FFFDF5',
+                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
+                        'hard-sm': '2px 2px 0px 0px #1A1A1A',
+                    },
+                    borderWidth: {
+                        '3': '3px',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Reusing Main Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="text-ink bg-cream font-body selection:bg-acid-green selection:text-ink dark:bg-ink dark:text-cream transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav class="fixed top-4 left-0 right-0 z-50 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream shadow-hard dark:shadow-hard-white rounded-full px-6 py-3 flex justify-between items-center transition-all">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="bg-ink dark:bg-cream text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <span class="font-header font-bold hidden md:block">Back to Home</span>
+                </a>
+                
+                <div class="font-header font-bold text-xl uppercase tracking-widest">The Lore</div>
+                
+                <!-- Dark Mode Toggle (Mini) -->
+                <button id="theme-toggle" class="w-10 h-10 rounded-full border-2 border-ink dark:border-cream flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <i class="fas fa-moon block dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-40 pb-20 text-center relative overflow-hidden">
+        <div class="absolute top-20 right-10 w-32 h-32 bg-acid-green rounded-full blur-3xl opacity-30"></div>
+        <div class="container mx-auto px-6">
+            <h1 class="font-header font-bold text-6xl md:text-8xl mb-6 relative inline-block">
+                Origin Story
+                <div class="absolute -top-6 -right-8 bg-hot-pink text-white text-sm px-3 py-1 rotate-12 border-2 border-ink dark:border-cream shadow-hard-sm font-bold rounded-full">
+                    No Spoilers
+                </div>
+            </h1>
+            <p class="text-xl md:text-2xl max-w-2xl mx-auto text-gray-700 dark:text-gray-300">
+                LHA wasn't built in a boardroom. It was built in School, and the desire to make cool things with cool people.
+            </p>
+        </div>
+    </header>
+
+    <!-- Timeline Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <!-- Vertical Line -->
+            <div class="relative border-l-4 border-ink dark:border-cream ml-4 md:ml-1/2 md:-translate-x-0.5 space-y-12">
+                
+                <!-- Timeline Item 1 -->
+                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-12 items-center group">
+                    <div class="absolute left-[-10px] md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-ink border-4 border-ink dark:border-cream rounded-full z-10 group-hover:bg-hot-pink transition-colors"></div>
+                    <div class="md:col-start-2 md:text-left">
+                        <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream p-6 rounded-xl shadow-hard dark:shadow-hard-white rotate-1 group-hover:rotate-0 transition-transform">
+                            <span class="inline-block bg-ink dark:bg-cream text-white dark:text-ink text-xs font-bold px-2 py-1 rounded mb-2">The Spark</span>
+                            <h3 class="font-header font-bold text-2xl mb-2">It Started in Class</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Just a group chat of BSIT students who realized school projects were boring. We wanted to build apps that people actually used.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-12 items-center group">
+                    <div class="absolute left-[-10px] md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-ink border-4 border-ink dark:border-cream rounded-full z-10 group-hover:bg-electric-purple transition-colors"></div>
+                    <div class="md:col-start-1 md:text-right">
+                        <div class="bg-sky-blue text-ink border-3 border-ink dark:border-cream p-6 rounded-xl shadow-hard dark:shadow-hard-white -rotate-1 group-hover:rotate-0 transition-transform">
+                            <span class="inline-block bg-white border-2 border-ink text-xs font-bold px-2 py-1 rounded mb-2">The Pivot</span>
+                            <h3 class="font-header font-bold text-2xl mb-2">Breaking The Loop</h3>
+                            <p>Freelancing is lonely. We decided to pool our resources, share clients, and critique each other's code. A collective was born.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-12 items-center group">
+                    <div class="absolute left-[-10px] md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-ink border-4 border-ink dark:border-cream rounded-full z-10 group-hover:bg-acid-green transition-colors"></div>
+                    <div class="md:col-start-2 md:text-left">
+                        <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream p-6 rounded-xl shadow-hard dark:shadow-hard-white rotate-1 group-hover:rotate-0 transition-transform">
+                            <span class="inline-block bg-ink dark:bg-cream text-white dark:text-ink text-xs font-bold px-2 py-1 rounded mb-2">Present Day</span>
+                            <h3 class="font-header font-bold text-2xl mb-2">The Ecosystem</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Now, LHA is a hub for developers, designers, and gamers. We build, we play, and we help each other level up.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="py-20 bg-ink dark:bg-cream text-cream dark:text-ink -rotate-1 scale-105 border-y-4 border-ink dark:border-cream">
+        <div class="container mx-auto px-6 max-w-6xl rotate-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-acid-green text-ink border-3 border-white dark:border-ink p-8 rounded-2xl shadow-[8px_8px_0px_0px_#FFF] dark:shadow-[8px_8px_0px_0px_#1A1A1A]">
+                    <i class="fas fa-flag-checkered text-4xl mb-4"></i>
+                    <h2 class="font-header font-bold text-3xl mb-4">The Mission</h2>
+                    <p class="font-medium text-lg">
+                        To build exceptional digital experiences without the corporate fluff, fostering a space where "learning by doing" is the only rule that matters.
+                    </p>
+                </div>
+                <div class="bg-hot-pink text-white border-3 border-white dark:border-ink p-8 rounded-2xl shadow-[8px_8px_0px_0px_#FFF] dark:shadow-[8px_8px_0px_0px_#1A1A1A]">
+                    <i class="fas fa-eye text-4xl mb-4"></i>
+                    <h2 class="font-header font-bold text-3xl mb-4">The Vision</h2>
+                    <p class="font-medium text-lg">
+                        To be the go-to collective for creative tech talent. If you need something built, you call LHA. If you want to learn how to build, you join LHA.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Crew (Redesigned Cards) -->
+    <section id="crew" class="py-24">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-header font-bold text-5xl mb-4">The Usual Suspects</h2>
+                <p class="text-gray-600 dark:text-gray-400">Blame these people when the server goes down.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Profile Card 1 -->
+                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2">
+                    <div class="h-48 bg-gray-200 relative border-b-3 border-ink dark:border-cream">
+                        <img src="assets/us/amadore.jpg" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Leo'" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-sky-blue text-ink text-xs font-bold px-2 py-1 border-2 border-ink rounded shadow-hard-sm">DEV</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-header font-bold text-2xl">Leoncio Amadore III</h3>
+                        <p class="text-electric-purple font-bold text-sm mb-4">Lead Developer</p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Full-stack wizard. Dreams in JavaScript. Probably needs more coffee.</p>
+                        <div class="flex gap-3 text-xl">
+                            <a href="#" class="w-10 h-10 flex items-center justify-center border-2 border-ink dark:border-cream rounded-full hover:bg-ink hover:text-white dark:hover:bg-cream dark:hover:text-ink transition-colors"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Card 2 -->
+                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2 md:mt-8">
+                    <div class="h-48 bg-gray-200 relative border-b-3 border-ink dark:border-cream">
+                        <img src="https://i.pravatar.cc/500?u=jane" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-hot-pink text-white text-xs font-bold px-2 py-1 border-2 border-ink rounded shadow-hard-sm">DESIGN</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-header font-bold text-2xl">Jane Smith</h3>
+                        <p class="text-hot-pink font-bold text-sm mb-4">UI/UX Designer</p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Makes things look pretty. Hates Comic Sans. Turns scribbles into art.</p>
+                        <div class="flex gap-3 text-xl">
+                            <a href="#" class="w-10 h-10 flex items-center justify-center border-2 border-ink dark:border-cream rounded-full hover:bg-pink-500 hover:text-white transition-colors"><i class="fab fa-dribbble"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Card 3 -->
+                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2 md:mt-4">
+                    <div class="h-48 bg-gray-200 relative border-b-3 border-ink dark:border-cream">
+                        <img src="https://i.pravatar.cc/500?u=sam" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-acid-green text-ink text-xs font-bold px-2 py-1 border-2 border-ink rounded shadow-hard-sm">ADMIN</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-header font-bold text-2xl">Samuel Green</h3>
+                        <p class="text-acid-green bg-ink inline-block px-1 font-bold text-sm mb-4">Project Manager</p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Herding cats (developers). Ensures we actually ship projects before the deadline.</p>
+                        <div class="flex gap-3 text-xl">
+                            <a href="#" class="w-10 h-10 flex items-center justify-center border-2 border-ink dark:border-cream rounded-full hover:bg-ink hover:text-white dark:hover:bg-cream dark:hover:text-ink transition-colors"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-900 border-t-4 border-ink dark:border-cream py-8">
+        <div class="container mx-auto px-6 text-center">
+             <p class="text-gray-500">&copy; 2025 LHA Collective. Stay Creative.</p>
+        </div>
+    </footer>
+
+    <!-- Theme Logic -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+    </script>
+</body>
+</html>

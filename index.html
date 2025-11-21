@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth overflow-x-hidden">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LHA | The Collective</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind + Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'header': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        'cream': '#FFFDF5',
+                        'acid-green': '#CCFF00',
+                        'hot-pink': '#FF4D8C',
+                        'electric-purple': '#8A4FFF',
+                        'sky-blue': '#4DAFFF',
+                        'ink': '#1A1A1A'
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0px 0px #1A1A1A',
+                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
+                        'hard-sm': '2px 2px 0px 0px #1A1A1A',
+                        'hard-white': '4px 4px 0px 0px #FFFDF5', 
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-ink bg-cream font-body selection:bg-hot-pink selection:text-white dark:bg-ink dark:text-cream transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-4 left-0 right-0 z-50 px-4 transition-all duration-300">
+        <div class="container mx-auto max-w-6xl">
+            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream shadow-hard dark:shadow-hard-white rounded-full px-6 py-3 flex justify-between items-center transition-all">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-2 group">
+                    <div class="bg-ink dark:bg-cream text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:rotate-12 transition-transform">
+                        LHA
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex gap-8 font-header font-bold text-lg">
+                    <a href="#vibe" class="nav-link hover:text-electric-purple hover:underline decoration-wavy underline-offset-4 decoration-2 transition-all">The Vibe</a>
+                    <a href="#crew" class="nav-link hover:text-hot-pink hover:underline decoration-wavy underline-offset-4 decoration-2 transition-all">The Crew</a>
+                    <a href="#dms" class="nav-link hover:text-sky-blue hover:underline decoration-wavy underline-offset-4 decoration-2 transition-all">Hit Us Up</a>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-moon block dark:hidden text-ink"></i>
+                        <i class="fas fa-sun hidden dark:block text-cream"></i>
+                    </button>
+
+                    <!-- State: Logged Out -->
+                    <a href="signin.html" data-auth="logged-out" class="hidden md:block bg-acid-green border-2 border-ink dark:border-cream px-6 py-2 rounded-full font-bold text-ink shadow-hard dark:shadow-none hover:shadow-hard-hover hover:-translate-y-1 transition-all">
+                        Join the Gang
+                    </a>                    
+                        
+                    <!-- State: Logged In -->
+                   <div class="hidden md:flex items-center gap-4" data-auth="logged-in" style="display: none;">
+                        <a href="projects.html" class="bg-sky-blue text-ink border-2 border-ink dark:border-cream px-5 py-2 rounded-full font-header font-bold text-sm shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group"></i> Our Projects
+                        </a>
+
+                    <div class="relative">
+                        <button id="profile-menu-button" class="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 border-2 border-ink dark:border-cream rounded-full pl-1 pr-4 py-1 hover:bg-white dark:hover:bg-gray-700 transition-colors shadow-hard-sm dark:shadow-none">
+                            <img src="https://i.pravatar.cc/150?u=user" alt="User" class="w-8 h-8 rounded-full border-2 border-ink dark:border-cream bg-white">
+                            <span class="font-header font-bold text-sm text-ink dark:text-cream">Profile</span>
+                            <i class="fas fa-chevron-down text-xs text-ink dark:text-cream"></i>
+                    </button>
+
+                    <div id="profile-menu-dropdown" class="hidden absolute right-0 top-12 w-48 bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream rounded-xl shadow-hard dark:shadow-hard-white overflow-hidden flex-col z-50">
+                        <a href="account.html" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 font-header font-bold text-ink dark:text-cream border-b-2 border-gray-100 dark:border-gray-700 transition-colors">
+                            <i class="fas fa-id-card mr-2 opacity-70"></i> Dashboard
+                        </a>
+                        <button class="logout-button w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 font-header font-bold transition-colors">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+                        </button>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-button" class="md:hidden text-2xl focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-cream dark:bg-ink z-40 hidden flex-col pt-24 px-6 space-y-6 overflow-y-auto">
+        <a href="#vibe" class="block text-4xl font-header font-bold hover:text-electric-purple">The Vibe</a>
+        <a href="#crew" class="block text-4xl font-header font-bold hover:text-hot-pink">The Crew</a>
+        <a href="#dms" class="block text-4xl font-header font-bold hover:text-sky-blue">Hit Us Up</a>
+        
+        <hr class="border-ink dark:border-cream opacity-20">
+        
+        <!-- Mobile Auth Links -->
+        <a href="signin.html" data-auth="logged-out" class="block text-2xl font-bold text-gray-500">Sign In</a>
+        <div data-auth="logged-in" style="display: none;">
+            <a href="account.html" class="block text-2xl font-bold mb-4">My Dashboard</a>
+            <button class="logout-button block text-2xl font-bold text-red-500">Sign Out</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header id="home" class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        
+        <!-- Decorative Background Blobs -->
+        <div class="absolute top-20 left-[-50px] w-40 h-40 bg-hot-pink rounded-full blur-3xl opacity-20"></div>
+        <div class="absolute bottom-20 right-[-50px] w-60 h-60 bg-electric-purple rounded-full blur-3xl opacity-20"></div>
+
+        <div class="container mx-auto px-6 max-w-6xl relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                
+                <!-- Text Content -->
+                <div class="md:w-2/3 text-center md:text-left">
+                    <div class="inline-block bg-ink dark:bg-cream text-white dark:text-ink px-4 py-1 font-bold rounded-full mb-4 -rotate-2">
+                        ✨ Code, Create, Chaos ✨
+                    </div>
+                    <h1 class="font-header font-bold text-6xl md:text-8xl leading-none mb-6">
+                        More Than Just A <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-purple to-hot-pink">Server.</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-xl mx-auto md:mx-0 font-medium">
+                        We are a collective of devs, designers, and gamers building cool stuff because we can. No corporate BS, just pure creativity.
+                    </p>
+                    
+                    <div class="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+                        <!-- Hero CTA with JS Attributes -->
+                        <a href="signin.html" id="hero-cta-button"
+                           data-logged-out-text="Start Creating" 
+                           data-logged-out-href="signin.html"
+                           data-logged-in-text="Let's Create" 
+                           data-logged-in-href="start-project.html"
+                           class="bg-hot-pink text-white border-3 border-ink dark:border-cream px-8 py-4 rounded-xl font-bold text-xl shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all rotate-1 flex items-center justify-center">
+                            Start Creating <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        
+                        <a href="#vibe" class="bg-white dark:bg-gray-800 text-ink dark:text-cream border-3 border-ink dark:border-cream px-8 py-4 rounded-xl font-bold text-xl shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all -rotate-1">
+                            See What's Up
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image / Visual -->
+                <div class="md:w-1/3 mt-12 md:mt-0 relative">
+                    <div class="relative w-full aspect-square">
+                        <div class="absolute top-0 right-0 w-48 h-60 bg-sky-blue border-3 border-ink dark:border-cream rounded-2xl shadow-hard dark:shadow-hard-white rotate-6 z-10 flex flex-col items-center justify-center p-4 text-ink">
+                            <i class="fas fa-code text-4xl mb-2"></i>
+                            <span class="font-header font-bold text-xl">Builders</span>
+                        </div>
+                        <div class="absolute top-10 right-20 w-48 h-60 bg-acid-green border-3 border-ink dark:border-cream rounded-2xl shadow-hard dark:shadow-hard-white -rotate-6 z-20 flex flex-col items-center justify-center p-4 text-ink">
+                            <i class="fas fa-gamepad text-4xl mb-2"></i>
+                            <span class="font-header font-bold text-xl">Gamers</span>
+                        </div>
+                        <div class="absolute bottom-0 right-10 w-48 h-60 bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-2xl shadow-hard dark:shadow-hard-white rotate-12 z-30 flex flex-col items-center justify-center p-4">
+                            <img src="assets/logo.png" alt="Logo" class="w-16 h-16 mb-2 object-contain" onerror="this.style.display='none';this.nextElementSibling.innerText='LHA'">
+                            <span class="font-header font-bold text-xl">Friends</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Divider -->
+    <div class="bg-ink dark:bg-cream text-white dark:text-ink border-y-4 border-ink dark:border-cream py-3 rotate-1 scale-105">
+        <div class="marquee-container">
+            <div class="marquee-content font-header font-bold text-2xl uppercase tracking-wider">
+                Build Together • Play Together • Ship Projects • Touch Grass • Write Code • Drink Coffee • Build Together • Play Together • Ship Projects • Touch Grass • Write Code • Drink Coffee •
+            </div>
+        </div>
+    </div>
+
+    <!-- "Vibe Check" -->
+    <section id="vibe" class="py-24 relative">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-16 relative">
+                <h2 class="font-header font-bold text-5xl md:text-6xl mb-4 relative z-10 inline-block">
+                    The Vibe Check
+                    <svg class="absolute w-full h-4 -bottom-2 left-0 text-acid-green z-[-1]" viewBox="0 0 100 10" preserveAspectRatio="none">
+                        <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="12" fill="none" />
+                    </svg>
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-6">We don't do "synergy." We do cool projects and late-night gaming sessions.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Cards (Added Dark Mode Styles) -->
+                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-2xl p-6 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all rotate-hover">
+                    <div class="w-12 h-12 bg-hot-pink border-2 border-ink dark:border-cream rounded-full flex items-center justify-center mb-4 text-white text-xl">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-2">The Squad</h3>
+                    <p class="text-gray-700 dark:text-gray-300">A curated community of hobbyists and pros. No gatekeeping allowed.</p>
+                </div>
+
+                <div class="bg-sky-blue border-3 border-ink dark:border-cream rounded-2xl p-6 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all lg:mt-8 rotate-hover-r text-ink">
+                    <div class="w-12 h-12 bg-white border-2 border-ink rounded-full flex items-center justify-center mb-4 text-ink text-xl">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-2">We Build Stuff</h3>
+                    <p>Got an idea? We have the dev power to make it real. Let's ship it.</p>
+                </div>
+
+                <div class="bg-acid-green border-3 border-ink dark:border-cream rounded-2xl p-6 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all rotate-hover text-ink">
+                    <div class="w-12 h-12 bg-white border-2 border-ink rounded-full flex items-center justify-center mb-4 text-ink text-xl">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-2">The Network</h3>
+                    <p>Shared project leads, job referrals, and resources you actually need.</p>
+                </div>
+
+                <div class="bg-electric-purple text-white border-3 border-ink dark:border-cream rounded-2xl p-6 shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all lg:mt-8 rotate-hover-r">
+                    <div class="w-12 h-12 bg-white border-2 border-ink rounded-full flex items-center justify-center mb-4 text-ink text-xl">
+                        <i class="fas fa-level-up-alt"></i>
+                    </div>
+                    <h3 class="font-header font-bold text-2xl mb-2">Level Up</h3>
+                    <p>Workshops, mentorship, and peer review without the ego.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crew Section -->
+    <section id="crew" class="py-20 overflow-hidden">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative h-[400px] w-full">
+                    <div class="absolute top-10 left-10 w-64 h-64 bg-ink dark:bg-cream rounded-2xl rotate-3 z-0"></div>
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" alt="Meeting" class="absolute top-0 left-0 w-64 h-64 object-cover border-3 border-ink dark:border-cream rounded-2xl shadow-hard dark:shadow-hard-white -rotate-3 z-10">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Coding" class="absolute bottom-10 right-10 w-60 h-60 object-cover border-3 border-ink dark:border-cream rounded-2xl shadow-hard dark:shadow-hard-white rotate-6 z-20">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-hot-pink text-white font-bold px-4 py-2 rounded-full border-2 border-ink dark:border-cream rotate-12 z-30 shadow-hard-sm">
+                        Est. 2025
+                    </div>
+                </div>
+
+                <div class="md:w-1/2">
+                    <h2 class="font-header font-bold text-5xl mb-6">Not Your Average Discord Server</h2>
+                    <div class="bg-white dark:bg-gray-800 p-6 border-3 border-ink dark:border-cream rounded-tl-2xl rounded-br-2xl shadow-hard dark:shadow-hard-white mb-8">
+                        <p class="text-lg mb-4 text-gray-700 dark:text-gray-300">
+                            LHA is where talent meets chaos. We are a dynamic ecosystem for programmers, gamers, and creators.
+                        </p>
+                        <p class="text-lg font-bold">
+                            We believe in learning by breaking things, supporting the homies, and pushing commits at 3 AM.
+                        </p>
+                    </div>
+                    <a href="about.html" class="inline-block bg-ink dark:bg-cream text-white dark:text-ink border-3 border-ink dark:border-cream px-8 py-3 rounded-full font-bold hover:bg-white hover:text-ink transition-colors">
+                        Meet The Crew
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="dms" class="py-24 bg-sky-blue border-t-4 border-ink dark:border-cream">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream rounded-xl shadow-hard dark:shadow-hard-white overflow-hidden relative">
+                <div class="absolute top-0 left-0 w-full h-8 bg-ink dark:bg-cream flex items-center px-4 gap-2">
+                    <div class="w-3 h-3 rounded-full bg-hot-pink border border-white dark:border-ink"></div>
+                    <div class="w-3 h-3 rounded-full bg-acid-green border border-white dark:border-ink"></div>
+                    <div class="w-3 h-3 rounded-full bg-electric-purple border border-white dark:border-ink"></div>
+                    <span class="ml-auto text-white dark:text-ink font-mono text-sm">compose_message.exe</span>
+                </div>
+
+                <div class="p-8 pt-12 md:p-12">
+                    <div class="text-center mb-8">
+                        <h2 class="font-header font-bold text-4xl mb-2">Slide Into Our DMs</h2>
+                        <p class="text-gray-500">Got a project? Want to join? Just bored?</p>
+                    </div>
+
+                    <form action="contact-form" method="POST" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Who are you?</label>
+                                <input type="text" name="name" placeholder="Your Name" class="w-full bg-gray-50 dark:bg-gray-800 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow">
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Your Email</label>
+                                <input type="email" name="email" placeholder="you@example.com" class="w-full bg-gray-50 dark:bg-gray-800 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold mb-2 uppercase text-sm tracking-wider">Spill the Tea</label>
+                            <textarea name="message" rows="4" placeholder="What's on your mind?" class="w-full bg-gray-50 dark:bg-gray-800 border-2 border-ink dark:border-cream rounded-lg p-3 focus:outline-none focus:shadow-hard dark:focus:shadow-hard-white transition-shadow"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-hot-pink text-white border-3 border-ink dark:border-cream rounded-lg py-4 font-header font-bold text-xl uppercase tracking-widest shadow-hard dark:shadow-hard-white hover:shadow-hard-hover hover:-translate-y-1 transition-all">
+                            Send It <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ink dark:bg-gray-900 text-cream pt-16 pb-8 border-t-4 border-cream dark:border-gray-700">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <a href="#home" class="text-4xl font-header font-bold mb-4 block">LHA.</a>
+                    <p class="max-w-xs text-gray-400">
+                        A collective dedicated to building the future (and fixing bugs) while empowering our friends along the way.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-hot-pink mb-4 uppercase">Navigate</h4>
+                    <ul class="space-y-2 font-medium">
+                        <li><a href="#crew" class="hover:text-acid-green transition-colors">The Crew</a></li>
+                        <li><a href="#" class="hover:text-acid-green transition-colors">Projects</a></li>
+                        <li><a href="signin.html" class="hover:text-acid-green transition-colors">Join Us</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-electric-purple mb-4 uppercase">Stalk Us</h4>
+                    <div class="flex gap-4 text-2xl">
+                        <a href="#" class="hover:text-white hover:-translate-y-1 transition-transform"><i class="fab fa-github"></i></a>
+                        <a href="#" class="hover:text-blue-400 hover:-translate-y-1 transition-transform"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-pink-500 hover:-translate-y-1 transition-transform"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 LHA Collective. All rights reserved.</p>
+                <div class="flex gap-4 text-sm mt-4 md:mt-0">
+                    <a href="components/privacy-policy.html" id="privacy-policy-link" class="text-gray-500 hover:text-white transition-colors">Privacy</a>
+                    <a href="components/terms-of-service.html" id="terms-of-service-link" class="text-gray-500 hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal-placeholder"></div>
+    <div id="alert-modal-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/alert.js"></script>
+    <script src="js/contact-form.js"></script>
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        // Check for saved user preference, if any, on load of the website
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+        // Toggle Logic
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+    </script>
+</body>
+</html>

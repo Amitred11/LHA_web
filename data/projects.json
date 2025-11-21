@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Fibear Network Technologies Corp. - Promotional Website",
+    "description": "A promotional website for FNTC, to showcase their services, plans and to garner attention and subscriber.",
+    "image": "assets/projects/fntc.jpg",
+    "tags": ["HTML", "Node.js", "TAILWINDCSS", "MongoDB", "JavaScript"],
+    "liveDemoUrl": "https://websitecapstone.vercel.app/",
+    "githubUrl": "https://github.com/Amitred11/FNTC-Website"
+  },
+  {
+    "title": "My Portfolio",
+    "description": "A Portfolio to showcase my projects and talents",
+    "image": "assets/projects/portfolio.jpg",
+    "tags": ["HTML", "Node.js", "TAILWINDCSS", "MongoDB", "JavaScript"],
+    "liveDemoUrl": "https://my-portfolio-fbug.vercel.app/index.html",
+    "githubUrl": "https://github.com/Amitred11/My_Portfolio"
+  }
+]

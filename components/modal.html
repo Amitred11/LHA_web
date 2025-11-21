@@ -1,0 +1,33 @@
+<div id="universal-modal"
+     class="fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-300 ease-in-out bg-ink/80 backdrop-blur-sm"
+     data-state="closed">
+
+    <!-- Modal Box: Matches site theme (Border-3, Shadow-hard) -->
+    <div id="modal-dialog"
+         class="relative w-full max-w-3xl bg-white border-3 border-ink rounded-2xl shadow-hard flex flex-col max-h-[85vh]
+                transition-all duration-300 ease-in-out"
+         role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between p-5 border-b-3 border-ink bg-gray-50 rounded-t-xl">
+            <!-- Title injected by JS -->
+            <h3 id="modal-title" class="text-xl font-header font-bold text-ink uppercase tracking-wider">
+                Information
+            </h3>
+            
+            <!-- Close Button -->
+            <button id="close-modal-button" 
+                    class="w-10 h-10 flex items-center justify-center bg-hot-pink text-white border-2 border-ink rounded-full shadow-hard-sm
+                           transition-all hover:-translate-y-1 hover:shadow-hard hover:bg-white hover:text-ink">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="relative p-6 md:p-8 overflow-y-auto custom-scrollbar">
+            <div id="modal-content-container" class="prose max-w-none text-ink">
+                <!-- Dynamic content loads here -->
+            </div>
+        </div>
+    </div>
+</div>
