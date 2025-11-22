@@ -90,7 +90,7 @@
                     <a href="#vibe" class="hover:text-primary transition-colors group">
                         <span class="text-xs text-gray-400 group-hover:text-primary">01.</span> The Guild
                     </a>
-                    <a href="#loot" class="hover:text-pop-pink transition-colors group">
+                    <a href="#roster" class="hover:text-pop-pink transition-colors group">
                         <span class="text-xs text-gray-400 group-hover:text-pop-pink">02.</span> Loot & XP
                     </a>
                     <a href="#dms" class="hover:text-cyber-cyan transition-colors group">
@@ -105,12 +105,12 @@
                         <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
                     </button>
 
-                    <!-- Auth State: Logged Out -->
+                    <!-- Desktop Auth: Logged Out -->
                     <a href="signin.html" data-auth="logged-out" class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold text-sm uppercase shadow-manga-sm dark:shadow-none hover:translate-y-0.5 hover:shadow-none transition-all">
                         <i class="fas fa-gamepad mr-1"></i> Press Start
                     </a>                    
                         
-                    <!-- Auth State: Logged In -->
+                    <!-- Desktop Auth: Logged In -->
                    <div class="hidden md:flex items-center gap-3" data-auth="logged-in" style="display: none;">
                         <a href="projects.html" class="flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
                             <i class="fas fa-rocket"></i> Projects
@@ -126,12 +126,14 @@
                                 <a href="account.html" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-bold border-b border-gray-200 dark:border-gray-800">
                                     <i class="fas fa-id-card mr-2"></i> Character Sheet
                                 </a>
-                                <button class="logout-button w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-pop-pink text-sm font-bold">
+                                <button onclick="logout()" class="logout-button w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-pop-pink text-sm font-bold">
                                     <i class="fas fa-power-off mr-2"></i> Log Out
                                 </button>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Mobile Toggle -->
                     <button id="mobile-menu-button" class="md:hidden text-xl p-2"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
@@ -139,13 +141,31 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-paper dark:bg-ink z-40 hidden flex-col pt-24 px-6 space-y-6">
+    <div id="mobile-menu" class="fixed inset-0 bg-paper dark:bg-ink z-40 hidden flex-col pt-24 px-6 space-y-6 overflow-y-auto">
+        <!-- Public Links -->
         <a href="#vibe" class="text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">The Guild</a>
-        <a href="#loot" class="text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">Loot & XP</a>
+        <a href="#roster" class="text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">Loot & XP</a>
         <a href="#dms" class="text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">Comms</a>
-        <a href="projects.html" class="text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">Projects</a>
+        
         <hr class="border-ink dark:border-paper">
-        <a href="signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
+
+        <!-- Mobile Auth: Logged In -->
+        <div data-auth="logged-in" class="flex flex-col space-y-4" style="display: none;">
+            <a href="projects.html" class="text-2xl font-bold text-neon-lime font-mono">
+                <i class="fas fa-rocket mr-2"></i> Projects
+            </a>
+            <a href="account.html" class="text-2xl font-bold text-primary font-mono">
+                <i class="fas fa-id-card mr-2"></i> Character Sheet
+            </a>
+            <button class="logout-button text-left text-2xl font-bold text-pop-pink font-mono">
+                <i class="fas fa-power-off mr-2"></i> Log Out
+            </button>
+        </div>
+
+        <!-- Mobile Auth: Logged Out -->
+        <div data-auth="logged-out" class="flex flex-col">
+            <a href="signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
+        </div>
     </div>
 
     <!-- Hero Section -->
@@ -171,10 +191,18 @@
                     </p>
                     
                     <div class="flex flex-wrap gap-4">
+                        <!-- Hero Auth: Logged Out -->
+                        <a href="signin.html" data-auth="logged-out" 
+                           class="bg-primary text-white border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2 group">
+                            <i class="fas fa-code"></i> Join the Party
+                        </a>
+
+                        <!-- Hero Auth: Logged In -->
                         <a href="start-project.html" data-auth="logged-in" style="display: none;"
                             class="bg-neon-lime text-ink border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2 group">
                            <i class="fas fa-scroll"></i> Let's Create Together
                         </a>
+
                         <a href="qr.html" class="bg-white dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all">
                             Explore World
                         </a>
@@ -479,6 +507,10 @@
     <script src="js/contact-form.js"></script>
     
     <script>
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'index.html';
+        }
         // Theme Check
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
