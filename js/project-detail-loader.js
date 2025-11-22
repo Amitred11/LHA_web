@@ -1,34 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loadingSpinner = document.getElementById('loading-spinner');
     const contentArea = document.getElementById('content-area');
+    const projectsGrid = document.getElementById('projects-grid');
     
     // API Endpoints
     const apiAuthors = 'http://127.0.0.1:5000/api/authors'; 
     const apiProjects = 'http://127.0.0.1:5000/api/public/projects'; 
 
+    // Helper: Get Initials for Avatar
     const getInitials = (name) => {
-        return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        return name ? name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : '??';
     };
 
+    // Helper: Create Project HTML Card
     const createProjectCard = (project) => {
         const tagsHtml = project.tags && project.tags.length 
-            ? project.tags.map(tag => `<span class="text-xs font-bold bg-acid-green text-ink border-2 border-ink px-2 py-1 rounded">${tag}</span>`).join('')
+            ? project.tags.map(tag => `<span class="text-[10px] font-bold bg-gray-200 dark:bg-gray-700 text-ink dark:text-white px-2 py-1 rounded">${tag}</span>`).join('')
             : '';
 
         return `
-            <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2 flex flex-col h-full">
+            <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-xl overflow-hidden shadow-manga dark:shadow-manga-white hover:translate-y-[-4px] transition-all flex flex-col h-full group">
                 <!-- Image Section -->
-                <div class="h-48 border-b-3 border-ink dark:border-cream relative group overflow-hidden bg-gray-100">
+                <div class="h-48 border-b-2 border-ink dark:border-paper relative overflow-hidden bg-gray-100 dark:bg-gray-800">
                     <img src="${project.image}" 
                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                          alt="${project.title}"
-                         onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gray-200 font-bold text-gray-400\'>NO IMG</div>'">
+                         onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400 font-mono text-xs\'>[NO_IMAGE_DATA]</div>'">
                 </div>
                 
                 <!-- Content Section -->
                 <div class="p-6 flex-1 flex flex-col">
-                    <h3 class="text-2xl font-header font-bold mb-2 leading-tight">${project.title}</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3 flex-1">
+                    <h3 class="text-2xl font-display font-bold mb-2 leading-tight">${project.title}</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 font-mono line-clamp-3 flex-1">
                         ${project.description}
                     </p>
                     
@@ -39,13 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <!-- Buttons -->
                     <div class="flex gap-3 mt-auto">
                         ${project.liveDemoUrl ? `
-                        <a href="${project.liveDemoUrl}" target="_blank" class="flex-1 text-center bg-ink dark:bg-cream text-white dark:text-ink font-bold py-2 rounded border-2 border-transparent hover:bg-hot-pink hover:text-white hover:border-ink transition-colors text-sm">
-                            Live Demo
+                        <a href="${project.liveDemoUrl}" target="_blank" class="flex-1 text-center bg-primary text-white font-bold py-2 rounded border-2 border-transparent hover:bg-primary/90 shadow-sm transition-colors text-xs uppercase">
+                            <i class="fas fa-bolt mr-1"></i> Live Demo
                         </a>` : ''}
                         
                         ${project.githubUrl ? `
-                        <a href="${project.githubUrl}" target="_blank" class="flex-1 text-center bg-white dark:bg-gray-700 text-ink dark:text-white font-bold py-2 rounded border-2 border-ink dark:border-cream hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm">
-                            Code
+                        <a href="${project.githubUrl}" target="_blank" class="flex-1 text-center bg-white dark:bg-black text-ink dark:text-white font-bold py-2 rounded border-2 border-ink dark:border-paper hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs uppercase">
+                            <i class="fab fa-github mr-1"></i> Code
                         </a>` : ''}
                     </div>
                 </div>
@@ -54,27 +57,34 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadPortfolio = async () => {
+        // 1. Get ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const authorId = urlParams.get('id'); 
 
         if (!authorId) {
-            loadingSpinner.innerHTML = '<p class="font-header font-bold text-red-500 text-xl">Error: ID Missing</p>';
+            loadingSpinner.innerHTML = `
+                <div class="text-center">
+                    <p class="font-mono font-bold text-pop-pink text-xl mb-4">ERROR 404: ID MISSING</p>
+                    <a href="index.html" class="underline">Return to Base</a>
+                </div>`;
             return;
         }
 
         try {
-            // 1. Fetch Author
+            // 2. Fetch Author Details (Using list endpoint and filtering client-side)
             const authorRes = await fetch(apiAuthors);
+            if (!authorRes.ok) throw new Error("Could not connect to crew database.");
+            
             const authors = await authorRes.json();
             const currentAuthor = authors.find(a => a._id === authorId);
 
-            if (!currentAuthor) throw new Error("Crew member not found.");
+            if (!currentAuthor) throw new Error("Crew member not found in registry.");
 
-            // 2. Populate Header
-            document.title = `${currentAuthor.name} | Portfolio`;
+            // 3. Populate Profile Header
+            document.title = `${currentAuthor.name} | LHA Portfolio`;
             document.getElementById('author-name').textContent = currentAuthor.name;
-            document.getElementById('author-role').textContent = currentAuthor.title;
-            document.getElementById('author-bio').textContent = currentAuthor.description;
+            document.getElementById('author-role').textContent = currentAuthor.title || 'Member';
+            document.getElementById('author-bio').textContent = currentAuthor.description || 'No bio data available.';
             document.getElementById('author-avatar').textContent = getInitials(currentAuthor.name);
 
             if (currentAuthor.portfolioUrl) {
@@ -83,34 +93,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 linkDiv.classList.remove('hidden');
             }
 
-            // 3. Fetch Projects
+            // 4. Fetch Projects for this Author
             const projectsRes = await fetch(`${apiProjects}?authorId=${authorId}`);
-            if (!projectsRes.ok) throw new Error("Failed to fetch projects");
+            if (!projectsRes.ok) throw new Error("Failed to fetch project inventory.");
             
             const projects = await projectsRes.json();
-            const projectsGrid = document.getElementById('projects-grid');
 
+            // 5. Render Projects
             if (projects.length === 0) {
                 projectsGrid.innerHTML = `
-                    <div class="col-span-full py-16 text-center border-3 border-dashed border-ink dark:border-cream rounded-xl opacity-50">
-                        <i class="fas fa-box-open text-6xl mb-4"></i>
-                        <p class="font-header font-bold text-2xl">Nothing here yet.</p>
+                    <div class="col-span-full py-16 text-center border-2 border-dashed border-ink dark:border-paper rounded-xl opacity-50">
+                        <i class="fas fa-box-open text-6xl mb-4 text-gray-300"></i>
+                        <p class="font-display font-bold text-2xl uppercase">Inventory Empty</p>
+                        <p class="font-mono text-xs">No projects have been assigned to this user yet.</p>
                     </div>
                 `;
             } else {
                 projectsGrid.innerHTML = projects.map(p => createProjectCard(p)).join('');
             }
 
-            // 4. Show Content
+            // 6. Reveal Content
             loadingSpinner.classList.add('hidden');
             contentArea.classList.remove('hidden');
 
         } catch (error) {
             console.error(error);
             loadingSpinner.innerHTML = `
-                <div class="text-center">
-                    <i class="fas fa-bug text-4xl text-red-500 mb-2"></i>
-                    <p class="font-bold text-xl">Error: ${error.message}</p>
+                <div class="text-center border-2 border-pop-pink p-8 rounded bg-pop-pink/10">
+                    <i class="fas fa-exclamation-triangle text-4xl text-pop-pink mb-2"></i>
+                    <p class="font-bold text-xl mb-2">System Error</p>
+                    <p class="font-mono text-sm">${error.message}</p>
                 </div>
             `;
         }

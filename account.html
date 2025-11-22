@@ -49,7 +49,6 @@
             background-color: #fafafa;
             color: #09090b;
         }
-        /* Fade In Animation */
         .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -88,44 +87,39 @@
         <div class="container mx-auto max-w-6xl">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 
-                <!-- Sidebar (ID Card Style) -->
+                <!-- Sidebar (Mini Card) -->
                 <aside class="lg:col-span-1 space-y-6">
-                    <!-- User Card -->
+                    <!-- Mini Status -->
                     <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded p-6 shadow-manga dark:shadow-manga-white text-center">
                         <div class="relative inline-block mb-4">
                             <img src="https://i.pravatar.cc/150?u=alex" alt="Avatar" class="w-24 h-24 rounded border-2 border-ink dark:border-paper object-cover bg-cyber-cyan">
-                            <div class="absolute -bottom-2 -right-2 bg-pop-pink text-white text-[10px] font-bold px-2 py-1 border border-ink">LVL. 1</div>
+                            <div class="absolute -bottom-2 -right-2 bg-pop-pink text-white text-[10px] font-bold px-2 py-1 border border-ink">LVL. 5</div>
                         </div>
                         <h2 class="font-display font-bold text-xl uppercase">Alex Doe</h2>
-                        <p class="text-gray-500 dark:text-gray-400 text-xs font-mono mb-4">class: developer</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-xs font-mono mb-4">Class: Webmancer</p>
                         
                         <!-- XP Bar -->
                         <div class="w-full bg-gray-200 h-2 border border-ink dark:border-paper rounded-full overflow-hidden mb-1">
-                            <div class="bg-primary h-full w-[40%]"></div>
+                            <div class="bg-primary h-full w-[65%]"></div>
                         </div>
                         <div class="flex justify-between text-[10px] font-mono text-gray-400">
                             <span>XP</span>
-                            <span>400/1000</span>
+                            <span>1500/2500</span>
                         </div>
                     </div>
 
                     <!-- Navigation -->
                     <nav class="flex flex-col gap-2">
-                        <button data-tab="profile" class="account-nav-link nav-btn active text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
-                            <i class="fas fa-id-card w-6"></i> Profile
+                        <button data-tab="overview" class="account-nav-link nav-btn active text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all flex items-center gap-3">
+                            <i class="fas fa-id-card w-5"></i> Character Sheet
                         </button>
                         
-                        <!-- Updated: Projects Tab (Keeps user on page) -->
-                        <button data-tab="projects" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
-                            <i class="fas fa-scroll w-6"></i> Active Quests
-                        </button>
-                        
-                        <button data-tab="settings" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
-                            <i class="fas fa-sliders-h w-6"></i> Config
+                        <button data-tab="projects" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all flex items-center gap-3">
+                            <i class="fas fa-scroll w-5"></i> Quest Log
                         </button>
 
-                        <button onclick="logout()" class="text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide text-pop-pink hover:bg-red-50 dark:hover:bg-red-900/20 transition-all mt-4 border-t-2 border-gray-200 dark:border-gray-800">
-                            <i class="fas fa-power-off w-6"></i> Log Out
+                        <button onclick="logout()" class="text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide text-pop-pink hover:bg-red-50 dark:hover:bg-red-900/20 transition-all mt-4 border-t-2 border-gray-200 dark:border-gray-800 flex items-center gap-3">
+                            <i class="fas fa-power-off w-5"></i> Log Out
                         </button>
                     </nav>
                 </aside>
@@ -135,49 +129,142 @@
                     <!-- Tab Header Visual -->
                     <div class="flex items-center gap-2 mb-[-2px] px-4">
                         <div class="bg-ink dark:bg-paper text-white dark:text-ink px-4 py-1 font-mono text-xs font-bold border-2 border-ink dark:border-paper border-b-0 rounded-t">
-                            sys_admin//view
+                            <span id="folder-label">overview.sys</span>
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-b rounded-tr shadow-manga dark:shadow-manga-white p-8 min-h-[500px]">
+                    <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-b rounded-tr shadow-manga dark:shadow-manga-white p-6 md:p-8 min-h-[600px]">
                         
-                        <!-- 1. PROFILE TAB -->
-                        <div id="profile-pane" class="tab-pane block animate-fade-in">
-                            <div class="flex justify-between items-end mb-8 border-b-2 border-gray-100 dark:border-gray-800 pb-4">
-                                <div>
-                                    <h1 class="font-display font-black text-4xl uppercase">Stats</h1>
-                                    <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">Public facing data.</p>
-                                </div>
-                                <button class="bg-cyber-cyan text-ink border-2 border-ink px-4 py-2 rounded font-bold text-xs uppercase shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
-                                    <i class="fas fa-pen mr-1"></i> Edit
+                        <!-- 1. COMBINED OVERVIEW TAB (Profile + Config + Stats) -->
+                        <div id="overview-pane" class="tab-pane block animate-fade-in">
+                            
+                            <div class="flex justify-between items-center mb-6 border-b-2 border-gray-100 dark:border-gray-800 pb-4">
+                                <h1 class="font-display font-black text-3xl md:text-4xl uppercase">Character Stats</h1>
+                                <button class="bg-neon-lime text-ink border-2 border-ink px-6 py-2 rounded font-bold text-xs uppercase shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
+                                    <i class="fas fa-save mr-1"></i> Save Data
                                 </button>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="bg-gray-50 dark:bg-black/40 p-4 border-2 border-gray-200 dark:border-gray-800 rounded">
-                                    <label class="block text-[10px] font-mono font-bold uppercase text-primary mb-1">Full Name</label>
-                                    <p class="font-display font-bold text-xl">Alex Doe</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                
+                                <!-- Left Column: Attributes & Badges -->
+                                <div class="space-y-8">
+                                    <!-- Attributes -->
+                                    <div class="bg-gray-50 dark:bg-black/40 p-4 border-2 border-gray-200 dark:border-gray-700 rounded">
+                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-4 uppercase tracking-wider">Attributes</h3>
+                                        
+                                        <div class="space-y-4">
+                                            <div>
+                                                <div class="flex justify-between text-[10px] font-bold mb-1">
+                                                    <span>INT (Coding)</span>
+                                                    <span class="text-primary">LVL 8</span>
+                                                </div>
+                                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                                    <div class="bg-primary h-full w-[80%]"></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="flex justify-between text-[10px] font-bold mb-1">
+                                                    <span>DEX (Design)</span>
+                                                    <span class="text-pop-pink">LVL 6</span>
+                                                </div>
+                                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                                    <div class="bg-pop-pink h-full w-[60%]"></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="flex justify-between text-[10px] font-bold mb-1">
+                                                    <span>CHA (Comms)</span>
+                                                    <span class="text-cyber-cyan">LVL 9</span>
+                                                </div>
+                                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                                    <div class="bg-cyber-cyan h-full w-[90%]"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Badges / Achievements -->
+                                    <div>
+                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-3 uppercase tracking-wider">Badges</h3>
+                                        <div class="grid grid-cols-4 gap-2">
+                                            <div class="aspect-square bg-gray-100 dark:bg-gray-800 border border-ink dark:border-gray-600 rounded flex items-center justify-center text-lg tooltip" title="Early Adopter">
+                                                🚀
+                                            </div>
+                                            <div class="aspect-square bg-gray-100 dark:bg-gray-800 border border-ink dark:border-gray-600 rounded flex items-center justify-center text-lg" title="Bug Hunter">
+                                                🐛
+                                            </div>
+                                            <div class="aspect-square bg-gray-100 dark:bg-gray-800 border border-ink dark:border-gray-600 rounded flex items-center justify-center text-lg" title="First Quest">
+                                                📜
+                                            </div>
+                                            <div class="aspect-square border-2 border-dashed border-gray-300 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 text-xs">
+                                                ?
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="bg-gray-50 dark:bg-black/40 p-4 border-2 border-gray-200 dark:border-gray-800 rounded">
-                                    <label class="block text-[10px] font-mono font-bold uppercase text-primary mb-1">Role</label>
-                                    <p class="font-display font-bold text-xl">Webmancer (Full Stack)</p>
+
+                                <!-- Right Column: Editable Identity (Span 2) -->
+                                <div class="md:col-span-2 space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block font-bold mb-1 text-xs font-mono uppercase text-primary">Display Name</label>
+                                            <input type="text" value="Alex Doe" class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-primary focus:outline-none shadow-sm transition-all">
+                                        </div>
+                                        <div>
+                                            <label class="block font-bold mb-1 text-xs font-mono uppercase text-pop-pink">Job Class (Role)</label>
+                                            <select class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-pop-pink focus:outline-none shadow-sm transition-all">
+                                                <option>Webmancer (Developer)</option>
+                                                <option>Pixel Artist (Designer)</option>
+                                                <option>Game Master (Manager)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block font-bold mb-1 text-xs font-mono uppercase">Bio / Status</label>
+                                        <textarea rows="3" class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-primary focus:outline-none shadow-sm text-sm transition-all">Building cool stuff with the LHA crew. I love Tailwind, Node.js, and pixel art.</textarea>
+                                    </div>
+
+                                    <!-- Social Links / Equipment -->
+                                    <div class="bg-gray-50 dark:bg-black/20 p-4 rounded border border-gray-200 dark:border-gray-800">
+                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-3 uppercase tracking-wider">Equipment (Links)</h3>
+                                        <div class="grid grid-cols-1 gap-3">
+                                            <div class="flex items-center">
+                                                <span class="w-10 h-10 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center rounded-l border-r-0">
+                                                    <i class="fab fa-github"></i>
+                                                </span>
+                                                <input type="text" placeholder="github.com/username" class="flex-1 bg-white dark:bg-black border-2 border-gray-300 dark:border-gray-600 rounded-r p-2 h-10 text-sm focus:border-ink focus:outline-none">
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span class="w-10 h-10 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center rounded-l border-r-0">
+                                                    <i class="fas fa-globe"></i>
+                                                </span>
+                                                <input type="text" placeholder="yourportfolio.com" class="flex-1 bg-white dark:bg-black border-2 border-gray-300 dark:border-gray-600 rounded-r p-2 h-10 text-sm focus:border-ink focus:outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Danger Zone -->
+                                    <div class="pt-4 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
+                                        <button class="text-xs font-bold text-red-500 hover:text-red-600 hover:underline uppercase">
+                                            <i class="fas fa-trash mr-1"></i> Delete Character Data
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="md:col-span-2 bg-gray-50 dark:bg-black/40 p-4 border-2 border-gray-200 dark:border-gray-800 rounded">
-                                    <label class="block text-[10px] font-mono font-bold uppercase text-primary mb-1">Bio</label>
-                                    <p class="text-sm font-medium">Building cool stuff with the LHA crew. I love Tailwind, Node.js, and pixel art.</p>
-                                </div>
+
                             </div>
                         </div>
 
-                        <!-- 2. PROJECTS TAB (NEW) -->
+                        <!-- 2. PROJECTS TAB (Quest Log) -->
                         <div id="projects-pane" class="tab-pane hidden animate-fade-in">
                             <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b-2 border-gray-100 dark:border-gray-800 pb-4 gap-4">
                                 <div>
-                                    <h1 class="font-display font-black text-4xl uppercase">Active Quests</h1>
+                                    <h1 class="font-display font-black text-3xl md:text-4xl uppercase">Active Quests</h1>
                                     <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">Recent mission activity.</p>
                                 </div>
                                 <a href="myprojects.html" class="bg-ink dark:bg-paper text-white dark:text-ink border-2 border-ink dark:border-paper px-4 py-2 rounded font-bold text-xs uppercase shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
-                                    See Full Log <i class="fas fa-arrow-right ml-1"></i>
+                                    See Full Directory <i class="fas fa-arrow-right ml-1"></i>
                                 </a>
                             </div>
 
@@ -221,39 +308,6 @@
                                     <i class="fas fa-plus text-gray-400 group-hover:text-ink dark:group-hover:text-white mb-2"></i>
                                     <p class="text-xs font-bold text-gray-500 group-hover:text-ink dark:group-hover:text-white uppercase">Start New Quest</p>
                                 </a>
-                            </div>
-                        </div>
-
-                        <!-- 3. SETTINGS TAB -->
-                        <div id="settings-pane" class="tab-pane hidden animate-fade-in">
-                            <h1 class="font-display font-black text-4xl uppercase mb-2">System Config</h1>
-                            <p class="text-gray-500 dark:text-gray-400 font-mono text-sm mb-8">Update your parameters.</p>
-
-                            <form class="space-y-6 max-w-lg">
-                                <div>
-                                    <label class="block font-bold mb-2 text-xs font-mono uppercase">Display Name</label>
-                                    <input type="text" value="Alex Doe" class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-primary focus:outline-none shadow-sm">
-                                </div>
-                                <div>
-                                    <label class="block font-bold mb-2 text-xs font-mono uppercase">Bio</label>
-                                    <textarea rows="3" class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-primary focus:outline-none shadow-sm">Building cool stuff with the LHA crew.</textarea>
-                                </div>
-                                <div class="pt-4">
-                                    <button type="button" class="bg-neon-lime text-ink border-2 border-ink px-6 py-3 rounded font-bold uppercase text-sm shadow-manga-sm hover:shadow-none hover:translate-y-1 transition-all">
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </form>
-
-                            <!-- Danger Zone -->
-                            <div class="mt-12 border-2 border-pop-pink border-dashed rounded p-6 bg-pop-pink/5">
-                                <h3 class="font-bold text-pop-pink text-sm uppercase mb-2"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
-                                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                                    <p class="text-xs text-gray-500">Deleting your account will wipe all XP and Loot.</p>
-                                    <button class="bg-white dark:bg-gray-900 text-pop-pink border-2 border-pop-pink px-4 py-2 rounded font-bold text-xs uppercase hover:bg-pop-pink hover:text-white transition-colors">
-                                        Delete Account
-                                    </button>
-                                </div>
                             </div>
                         </div>
 

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Access | LHA Collective</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                        'mono': ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6',
+                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
+                    },
+                    backgroundImage: {
+                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
+                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                    },
+                    boxShadow: {
+                        'manga': '5px 5px 0px 0px #09090b',
+                        'manga-white': '5px 5px 0px 0px #fafafa',
+                    },
+                    animation: {
+                        'scan': 'scan 2s linear infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-halftone { background-size: 20px 20px; }
+        .hidden-state { display: none; opacity: 0; transform: scale(0.95); transition: all 0.5s ease; }
+        .visible-state { display: block; opacity: 1; transform: scale(1); }
+        
+        /* Glitch Text Effect */
+        .glitch-text { position: relative; }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .glitch-text::before { left: 2px; text-shadow: -1px 0 #ff00c1; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim-1 5s infinite linear alternate-reverse; }
+        .glitch-text::after { left: -2px; text-shadow: -1px 0 #00fff9; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim-2 5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim-1 { 0% { clip: rect(30px, 9999px, 10px, 0); } 20% { clip: rect(60px, 9999px, 80px, 0); } 40% { clip: rect(20px, 9999px, 90px, 0); } 60% { clip: rect(10px, 9999px, 50px, 0); } 80% { clip: rect(50px, 9999px, 30px, 0); } 100% { clip: rect(70px, 9999px, 100px, 0); } }
+        @keyframes glitch-anim-2 { 0% { clip: rect(10px, 9999px, 80px, 0); } 20% { clip: rect(80px, 9999px, 10px, 0); } 40% { clip: rect(50px, 9999px, 20px, 0); } 60% { clip: rect(30px, 9999px, 40px, 0); } 80% { clip: rect(90px, 9999px, 60px, 0); } 100% { clip: rect(20px, 9999px, 50px, 0); } }
+    </style>
+</head>
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 flex items-center justify-center min-h-screen p-4 relative overflow-hidden">
+
+    <!-- Background -->
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+
+    <!-- Navbar (Simple Exit) -->
+    <a href="index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors">
+        <i class="fas fa-arrow-left"></i> Return to Base
+    </a>
+
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
+        
+        <!-- LEFT SIDE: Text & Info -->
+        <div class="text-center md:text-left">
+            <div class="inline-flex items-center gap-2 bg-ink dark:bg-paper text-paper dark:text-ink px-3 py-1 font-mono text-xs font-bold mb-4 transform -rotate-2">
+                <span class="animate-pulse text-neon-lime">●</span> BETA ACCESS
+            </div>
+            
+            <h1 class="font-display font-black text-5xl md:text-6xl uppercase mb-4 leading-tight">
+                Pocket <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan to-primary" data-text="Terminal">Terminal</span>
+            </h1>
+            
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 font-medium">
+                Access the LHA Guild mainframe on the go. Chat, track quests, and check loot drops from your device.
+            </p>
+
+            <!-- Features List -->
+            <div class="space-y-3 mb-8 text-sm font-mono text-gray-500 dark:text-gray-400 hidden md:block">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check text-neon-lime"></i> <span>Push Notifications for Raids</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check text-neon-lime"></i> <span>Mobile-only AR Features</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check text-neon-lime"></i> <span>Member Directory Access</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: The Gatekeeper / QR Code -->
+        <div class="relative">
+            
+            <!-- Decorative Background Blob -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-primary to-cyber-cyan rounded-xl blur-2xl opacity-20"></div>
+
+            <!-- Container -->
+            <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-xl p-8 shadow-manga dark:shadow-manga-white relative overflow-hidden min-h-[400px] flex flex-col justify-center">
+                
+                <!-- STATE 1: LOCKED (Input Form) -->
+                <div id="locked-state" class="text-center">
+                    <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-ink dark:border-paper">
+                        <i class="fas fa-lock text-2xl text-pop-pink"></i>
+                    </div>
+                    
+                    <h3 class="font-display font-bold text-2xl uppercase mb-2">Access Restricted</h3>
+                    <p class="font-mono text-xs text-gray-500 mb-6">Enter Guild Invite Code to decrypt download link.</p>
+                    
+                    <form id="access-form" class="space-y-4">
+                        <div class="relative">
+                            <i class="fas fa-key absolute left-3 top-3.5 text-gray-400"></i>
+                            <input type="text" id="invite-code" placeholder="ENTER_CODE (e.g. LHA2025)" 
+                                   class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 pl-10 font-mono text-sm focus:border-primary focus:outline-none uppercase transition-colors">
+                        </div>
+                        <button type="submit" class="w-full bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent rounded py-3 font-bold font-display uppercase tracking-widest hover:bg-pop-pink hover:text-white hover:border-ink dark:hover:border-paper transition-all hover:-translate-y-1 shadow-none hover:shadow-manga-sm">
+                            Decrypt
+                        </button>
+                        <p id="error-msg" class="text-pop-pink font-mono text-xs font-bold hidden mt-2">
+                            <i class="fas fa-times-circle mr-1"></i> INVALID ACCESS CODE
+                        </p>
+                    </form>
+                    
+                    <div class="mt-6 pt-6 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
+                        <p class="text-[10px] font-mono text-gray-400">
+                            Don't have a code? Ask a Guild Officer on Discord.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- STATE 2: UNLOCKED (QR Code) -->
+                <div id="unlocked-state" class="hidden-state text-center">
+                    <div class="relative inline-block group">
+                        <!-- Scan Line Animation -->
+                        <div class="absolute inset-0 bg-neon-lime/20 h-1 w-full z-20 animate-scan pointer-events-none"></div>
+                        
+                        <!-- The QR Code Image -->
+                        <div class="bg-white p-4 border-2 border-ink dark:border-paper rounded mb-6 relative z-10">
+                            <!-- Using a placeholder QR API. Replace data with your actual App Link -->
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://lha-collective.com/download&color=09090b" 
+                                 alt="Download QR" class="w-48 h-48 mx-auto">
+                        </div>
+                        
+                        <!-- Corner Accents -->
+                        <div class="absolute -top-2 -left-2 w-6 h-6 border-t-4 border-l-4 border-primary"></div>
+                        <div class="absolute -bottom-2 -right-2 w-6 h-6 border-b-4 border-r-4 border-primary"></div>
+                    </div>
+
+                    <h3 class="font-display font-bold text-2xl uppercase mb-4 text-neon-lime glitch-text" data-text="ACCESS GRANTED">ACCESS GRANTED</h3>
+                    
+                    <div class="flex flex-col gap-3">
+                        <button class="flex items-center justify-center gap-3 bg-black text-white px-4 py-3 rounded border-2 border-gray-700 hover:bg-gray-900 transition-colors">
+                            <i class="fab fa-apple text-xl"></i>
+                            <div class="text-left leading-none">
+                                <span class="block text-[10px] font-mono text-gray-400">Download on the</span>
+                                <span class="font-bold">App Store</span>
+                            </div>
+                        </button>
+                        <button class="flex items-center justify-center gap-3 bg-black text-white px-4 py-3 rounded border-2 border-gray-700 hover:bg-gray-900 transition-colors">
+                            <i class="fab fa-google-play text-xl"></i>
+                            <div class="text-left leading-none">
+                                <span class="block text-[10px] font-mono text-gray-400">GET IT ON</span>
+                                <span class="font-bold">Google Play</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Theme Logic -->
+    <script>
+        // 1. Theme Init
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        }
+
+        // 2. Invite Code Logic
+        document.getElementById('access-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const codeInput = document.getElementById('invite-code');
+            const errorMsg = document.getElementById('error-msg');
+            const lockedState = document.getElementById('locked-state');
+            const unlockedState = document.getElementById('unlocked-state');
+            
+            // HARDCODED INVITE CODE FOR DEMO: "LHA2025"
+            const validCodes = ["LHA2025", "ADMIN", "GUILD"];
+
+            if (validCodes.includes(codeInput.value.toUpperCase().trim())) {
+                // Success Transition
+                errorMsg.classList.add('hidden');
+                
+                // Fade out locked state
+                lockedState.style.opacity = '0';
+                setTimeout(() => {
+                    lockedState.style.display = 'none';
+                    
+                    // Fade in unlocked state
+                    unlockedState.classList.remove('hidden-state');
+                    setTimeout(() => {
+                        unlockedState.classList.add('visible-state');
+                    }, 50);
+                }, 400);
+
+            } else {
+                // Error Shake
+                errorMsg.classList.remove('hidden');
+                codeInput.classList.add('border-pop-pink', 'animate-pulse');
+                setTimeout(() => {
+                    codeInput.classList.remove('border-pop-pink', 'animate-pulse');
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

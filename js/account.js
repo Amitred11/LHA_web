@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const folderLabel = document.getElementById('folder-label');
 
     const labels = {
-        'profile': 'Profile.dat',
-        'settings': 'Config.sys',
-        'projects': 'Projects.exe'
+        'overview': 'overview.sys',
+        'projects': 'quest_log.exe'
     };
 
     // Function to handle switching tabs
@@ -47,20 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Handle the "Edit Profile" button click
-    const editProfileButton = document.getElementById('edit-profile-button');
-    if (editProfileButton) {
-        editProfileButton.addEventListener('click', () => {
-            switchTab('settings');
-            history.pushState(null, null, '#settings');
-        });
-    }
-
     // Check for a hash in the URL on page load
     const currentHash = window.location.hash.substring(1);
-    if (currentHash) {
+    if (currentHash && (currentHash === 'overview' || currentHash === 'projects')) {
         switchTab(currentHash);
     } else {
-        switchTab('profile');
+        switchTab('overview'); // Default to Overview
     }
 });
