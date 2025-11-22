@@ -21,12 +21,8 @@
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'ink': '#09090b',
-                        'paper': '#fafafa',
-                        'primary': '#8b5cf6',
-                        'pop-pink': '#ff477e',
-                        'cyber-cyan': '#22d3ee',
-                        'neon-lime': '#bef264',
+                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6',
+                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
                     },
                     backgroundImage: {
                         'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
@@ -53,6 +49,9 @@
             background-color: #fafafa;
             color: #09090b;
         }
+        /* Fade In Animation */
+        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
@@ -115,9 +114,16 @@
                         <button data-tab="profile" class="account-nav-link nav-btn active text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
                             <i class="fas fa-id-card w-6"></i> Profile
                         </button>
+                        
+                        <!-- Updated: Projects Tab (Keeps user on page) -->
+                        <button data-tab="projects" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                            <i class="fas fa-scroll w-6"></i> Active Quests
+                        </button>
+                        
                         <button data-tab="settings" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
                             <i class="fas fa-sliders-h w-6"></i> Config
                         </button>
+
                         <button onclick="logout()" class="text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide text-pop-pink hover:bg-red-50 dark:hover:bg-red-900/20 transition-all mt-4 border-t-2 border-gray-200 dark:border-gray-800">
                             <i class="fas fa-power-off w-6"></i> Log Out
                         </button>
@@ -135,7 +141,7 @@
 
                     <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-b rounded-tr shadow-manga dark:shadow-manga-white p-8 min-h-[500px]">
                         
-                        <!-- PROFILE TAB -->
+                        <!-- 1. PROFILE TAB -->
                         <div id="profile-pane" class="tab-pane block animate-fade-in">
                             <div class="flex justify-between items-end mb-8 border-b-2 border-gray-100 dark:border-gray-800 pb-4">
                                 <div>
@@ -163,7 +169,62 @@
                             </div>
                         </div>
 
-                        <!-- SETTINGS TAB -->
+                        <!-- 2. PROJECTS TAB (NEW) -->
+                        <div id="projects-pane" class="tab-pane hidden animate-fade-in">
+                            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b-2 border-gray-100 dark:border-gray-800 pb-4 gap-4">
+                                <div>
+                                    <h1 class="font-display font-black text-4xl uppercase">Active Quests</h1>
+                                    <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">Recent mission activity.</p>
+                                </div>
+                                <a href="myprojects.html" class="bg-ink dark:bg-paper text-white dark:text-ink border-2 border-ink dark:border-paper px-4 py-2 rounded font-bold text-xs uppercase shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
+                                    See Full Log <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- List Item 1 -->
+                                <div class="group bg-gray-50 dark:bg-black/40 border-2 border-gray-200 dark:border-gray-800 p-4 rounded hover:border-primary transition-colors flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-white dark:bg-gray-800 rounded border-2 border-ink dark:border-gray-600 flex items-center justify-center">
+                                            <i class="fas fa-globe text-xl text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-display font-bold text-lg">Project Titan Website</h3>
+                                            <p class="text-xs font-mono text-gray-500 dark:text-gray-400">Submitted: Today</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                                        <span class="bg-yellow-400 text-ink text-[10px] font-bold px-2 py-1 border border-ink rounded font-mono">IN REVIEW</span>
+                                        <button class="text-gray-400 hover:text-primary"><i class="fas fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+
+                                <!-- List Item 2 -->
+                                <div class="group bg-gray-50 dark:bg-black/40 border-2 border-gray-200 dark:border-gray-800 p-4 rounded hover:border-pop-pink transition-colors flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-white dark:bg-gray-800 rounded border-2 border-ink dark:border-gray-600 flex items-center justify-center">
+                                            <i class="fas fa-mobile-alt text-xl text-pop-pink"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-display font-bold text-lg">FitTrack Mobile App</h3>
+                                            <p class="text-xs font-mono text-gray-500 dark:text-gray-400">Updated: 2h ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                                        <span class="bg-neon-lime text-ink text-[10px] font-bold px-2 py-1 border border-ink rounded font-mono">ACTIVE</span>
+                                        <button class="text-gray-400 hover:text-pop-pink"><i class="fas fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+
+                                <!-- Empty State / CTA -->
+                                <a href="start-project.html" class="block border-2 border-dashed border-gray-300 dark:border-gray-700 rounded p-4 text-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group">
+                                    <i class="fas fa-plus text-gray-400 group-hover:text-ink dark:group-hover:text-white mb-2"></i>
+                                    <p class="text-xs font-bold text-gray-500 group-hover:text-ink dark:group-hover:text-white uppercase">Start New Quest</p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 3. SETTINGS TAB -->
                         <div id="settings-pane" class="tab-pane hidden animate-fade-in">
                             <h1 class="font-display font-black text-4xl uppercase mb-2">System Config</h1>
                             <p class="text-gray-500 dark:text-gray-400 font-mono text-sm mb-8">Update your parameters.</p>
@@ -201,6 +262,7 @@
             </div>
         </div>
     </main>
+    
     <div id="alert-modal-placeholder"></div>
 
     <!-- SCRIPTS -->
