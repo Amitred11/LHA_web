@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Received | LHA Collective</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['"Space Grotesk"', 'sans-serif'],
+                        'mono': ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        'ink': '#09090b', 'paper': '#fafafa', 'neon-lime': '#bef264',
+                    },
+                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-ink text-ink dark:text-paper h-screen flex items-center justify-center overflow-hidden relative">
+
+    <!-- Background Burst -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+        <div class="w-[800px] h-[800px] bg-neon-lime rounded-full blur-[100px]"></div>
+    </div>
+
+    <div class="relative z-10 text-center p-6 max-w-lg">
+        
+        <!-- Icon -->
+        <div class="w-24 h-24 bg-neon-lime border-4 border-ink mx-auto mb-8 flex items-center justify-center rounded-full shadow-manga animate-bounce">
+            <i class="fas fa-check text-4xl text-ink"></i>
+        </div>
+
+        <h1 class="font-display font-black text-4xl md:text-6xl uppercase mb-4 leading-tight">
+            Request<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-green-400">Received</span>
+        </h1>
+
+        <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 rounded shadow-manga mb-8 transform -rotate-1">
+            <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                <span class="font-bold text-neon-lime">Success.</span> We have received your project details. Our team will review the information and reach out to the email address provided within 24-48 hours.
+            </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <a href="account.html" class="bg-ink dark:bg-paper text-white dark:text-ink px-6 py-3 rounded border-2 border-transparent font-bold font-display uppercase hover:scale-105 transition-transform">
+                Go to Dashboard
+            </a>
+            <a href="index.html" class="px-6 py-3 rounded border-2 border-ink dark:border-paper font-bold font-display uppercase hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                Return Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        }
+    </script>
+</body>
+</html>

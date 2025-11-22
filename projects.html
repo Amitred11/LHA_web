@@ -3,115 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Projects | LHA Collective</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
+    <title>Guild Roster | LHA Collective</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Tailwind + Config -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'header': ['"Space Grotesk"', 'sans-serif'],
-                        'body': ['"Outfit"', 'sans-serif'],
-                    },
-                    colors: {
-                        'cream': '#FFFDF5',
-                        'acid-green': '#CCFF00',
-                        'hot-pink': '#FF4D8C',
-                        'electric-purple': '#8A4FFF',
-                        'sky-blue': '#4DAFFF',
-                        'ink': '#1A1A1A'
-                    },
-                    boxShadow: {
-                        'hard': '4px 4px 0px 0px #1A1A1A',
-                        'hard-white': '4px 4px 0px 0px #FFFDF5',
-                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
-                    },
-                    borderWidth: {
-                        '3': '3px',
-                    }
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                fontFamily: {
+                    'display': ['"Space Grotesk"', 'sans-serif'],
+                    'body': ['"Outfit"', 'sans-serif'],
+                    'mono': ['"JetBrains Mono"', 'monospace'],
+                },
+                colors: {
+                    'ink': '#09090b',
+                    'paper': '#fafafa',
+                    'primary': '#8b5cf6',   // Violet
+                    'pop-pink': '#ff477e',  // Pink
+                    'cyber-cyan': '#22d3ee',// Cyan
+                    'neon-lime': '#bef264', // Lime
+                },
+                backgroundImage: {
+                    'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
+                    'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                },
+                boxShadow: {
+                    'manga': '5px 5px 0px 0px #09090b',
+                    'manga-sm': '3px 3px 0px 0px #09090b',
+                    'manga-white': '5px 5px 0px 0px #fafafa',
                 }
             }
         }
-    </script>
-
-    <link rel="stylesheet" href="css/style.css">
+    }
+</script>
+<style>
+    .bg-halftone { background-size: 20px 20px; }
+    .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
+    .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
+</style>
 </head>
-<body class="text-ink bg-cream font-body dark:bg-ink dark:text-cream transition-colors duration-300">
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
+
+    <!-- Background -->
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav class="fixed top-4 left-0 right-0 z-50 px-4">
-        <div class="container mx-auto max-w-6xl">
-            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream shadow-hard dark:shadow-hard-white rounded-full px-6 py-3 flex justify-between items-center">
-                <a href="index.html" class="flex items-center gap-2 group">
-                    <div class="bg-ink dark:bg-cream text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform">
-                        LHA
-                    </div>
+    <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+        <div class="container mx-auto max-w-7xl">
+            <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:rotate-12 transition-transform">LHA</div>
+                    <span class="font-bold font-display uppercase">The Guild</span>
                 </a>
-                <div class="font-header font-bold text-xl uppercase tracking-widest hidden md:block">Showcase</div>
-                
-                <a href="index.html" class="flex items-center gap-2 font-header font-bold hover:underline decoration-wavy">
-                    <i class="fas fa-arrow-left"></i> Back Home
+                <a href="index.html" class="font-mono text-xs font-bold uppercase hover:text-primary flex items-center gap-2 group">
+                    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Return to Base
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="pt-40 pb-12 text-center relative overflow-hidden">
-        <div class="absolute top-20 left-10 w-32 h-32 bg-sky-blue rounded-full blur-3xl opacity-30"></div>
-        <div class="absolute bottom-10 right-10 w-40 h-40 bg-hot-pink rounded-full blur-3xl opacity-30"></div>
-        
+    <!-- Hero -->
+    <header class="pt-40 pb-12 text-center">
         <div class="container mx-auto px-6">
-            <div class="inline-block bg-acid-green text-ink border-2 border-ink px-4 py-1 font-bold rounded-full mb-6 rotate-2 shadow-hard-sm">
-                Made By Humans
+            <div class="inline-flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink px-3 py-1 font-mono text-xs font-bold mb-6 transform -rotate-2 shadow-manga-sm">
+                SELECT YOUR FIGHTER
             </div>
-            <h1 class="font-header font-bold text-6xl md:text-8xl mb-6">
-                Ideas Brought <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-purple to-hot-pink">To Life.</span>
+            <h1 class="font-display font-black text-6xl md:text-8xl mb-4 uppercase italic">
+                Meet The <span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-primary text-stroke">Crew</span>
             </h1>
-            <p class="text-xl md:text-2xl max-w-2xl mx-auto text-gray-700 dark:text-gray-300">
-               Explore featured work from our core team. No corporate filler, just raw creativity and code.
+            <p class="text-xl font-mono text-gray-500 dark:text-gray-400">
+                // Accessing database... loading profiles...
             </p>
         </div>
     </header>
 
-    <!-- Projects Container -->
-    <main class="relative z-20 pb-24">
-        <!-- ID used by crew-loader.js -->
-        <section id="crew-showcase-container" class="py-12">
-            <div class="container mx-auto px-6 max-w-6xl">
-                <!-- Loader -->
-                <div class="flex flex-col items-center justify-center min-h-[300px] border-3 border-dashed border-ink dark:border-gray-600 rounded-xl bg-white/50 dark:bg-gray-800/50">
-                    <i class="fas fa-circle-notch fa-spin text-5xl text-electric-purple mb-4"></i>
-                    <p class="font-header font-bold text-xl">Loading awesome stuff...</p>
-                </div>
+    <!-- Crew Container (JS Injects Here) -->
+    <main class="pb-24 min-h-screen">
+        <section id="crew-showcase-container" class="container mx-auto px-6 max-w-6xl">
+            <!-- Loader -->
+            <div class="flex flex-col items-center justify-center min-h-[300px] border-2 border-dashed border-ink dark:border-gray-600 rounded bg-white/50 dark:bg-gray-800/50">
+                <i class="fas fa-cog fa-spin text-5xl text-primary mb-4"></i>
+                <p class="font-mono font-bold text-xl">Loading Assets...</p>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-900 border-t-4 border-ink dark:border-cream py-8">
-        <div class="container mx-auto px-6 text-center">
-             <p class="text-gray-500 dark:text-gray-400">&copy; 2025 LHA Collective. Stay Creative.</p>
-        </div>
+    <footer class="bg-paper dark:bg-ink border-t-2 border-ink dark:border-paper py-8 text-center font-mono text-xs">
+        <p>&copy; 2025 LHA Collective. All stats maxed out.</p>
     </footer>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
+    <div id="alert-modal-placeholder"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/alert.js"></script>
     <script src="js/crew-loader.js"></script>
-    <!-- Dark Mode Script -->
     <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        // Theme Check
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
     </script>
 </body>
 </html>

@@ -2,22 +2,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modalPlaceholder = document.getElementById('modal-placeholder');
     
-    // Inject transition styles
-    const styleSheet = document.createElement('style');
-    document.head.appendChild(styleSheet);
-    styleSheet.innerHTML = `
-        [data-state="closed"] { opacity: 0; pointer-events: none; }
-        [data-state="closed"] #modal-dialog { transform: translateY(20px) scale(0.95); }
-        [data-state="open"] { opacity: 1; pointer-events: auto; }
-        [data-state="open"] #modal-dialog { transform: translateY(0) scale(1); }
-    `;
+    // Inject transition styles if not already present
+    if (!document.getElementById('modal-styles')) {
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'modal-styles';
+        document.head.appendChild(styleSheet);
+        styleSheet.innerHTML = `
+            [data-state="closed"] { opacity: 0; pointer-events: none; }
+            [data-state="closed"] #modal-dialog { transform: translateY(20px) scale(0.95); }
+            [data-state="open"] { opacity: 1; pointer-events: auto; }
+            [data-state="open"] #modal-dialog { transform: translateY(0) scale(1); }
+        `;
+    }
 
     const openModal = async (contentUrl) => {
         // Prevent opening multiple instances
         if (document.getElementById('universal-modal')) return;
 
         try {
-            // 1. Fetch the Modal Shell
+            // 1. Fetch the Modal Shell Template
             const modalResponse = await fetch('components/modal.html');
             if (!modalResponse.ok) throw new Error('Could not load modal component.');
             const modalTemplate = await modalResponse.text();
@@ -38,11 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = contentHtml;
             
-            // Extract H3 from content to use as Modal Title
-            const titleElement = tempDiv.querySelector('h3');
+            // Attempt to extract an H1, H2, or H3 for the Modal Title
+            const titleElement = tempDiv.querySelector('h1, h2, h3');
             if (titleElement) {
                 modalTitle.innerText = titleElement.innerText;
-                titleElement.remove(); // Remove title from body since it's now in header
+                titleElement.remove(); // Remove it from the body
             }
             
             modalContentContainer.innerHTML = tempDiv.innerHTML;
@@ -50,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // 5. Define Closing Logic
             const closeModal = () => {
                 modal.setAttribute('data-state', 'closed');
-                // Wait for animation to finish before removing from DOM
                 setTimeout(() => {
                     modalPlaceholder.innerHTML = '';
                     document.removeEventListener('keydown', handleEscKey);
@@ -64,31 +66,36 @@ document.addEventListener('DOMContentLoaded', () => {
             // 6. Attach Listeners
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => {
-                // Close if clicking outside the dialog box
                 if (e.target === modal) closeModal();
             });
             document.addEventListener('keydown', handleEscKey);
 
             // 7. Open Animation
-            // Small delay to ensure DOM is ready for transition
             requestAnimationFrame(() => {
                 modal.setAttribute('data-state', 'open');
             });
 
         } catch (error) {
             console.error("Error opening modal:", error);
-            // Fallback: Just go to the link if fetch fails (e.g., local file system issues)
+            // Fallback
             window.location.href = contentUrl;
         }
     };
 
-    // Global Click Listener for the Footer Links
-    document.body.addEventListener('click', (event) => {
-        const trigger = event.target.closest('#privacy-policy-link, #terms-of-service-link');
-        if (trigger) {
-            event.preventDefault();
-            const contentUrl = trigger.getAttribute('href');
-            openModal(contentUrl);
-        }
-    });
+    // Connect Footer Links to Modal
+    const privacyLink = document.querySelector('a[href*="privacy-policy"]');
+    const termsLink = document.querySelector('a[href*="terms-of-service"]');
+
+    if (privacyLink) {
+        privacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('components/privacy-policy.html');
+        });
+    }
+    if (termsLink) {
+        termsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('components/terms-of-service.html');
+        });
+    }
 });

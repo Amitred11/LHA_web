@@ -3,38 +3,79 @@
  * Handles both interactive Modal Alerts (confirmations) and Toast Notifications.
  */
 
-/* --- MODAL LOGIC --- */
+/* --- MODAL CONFIRMATION LOGIC --- */
 
-function openAlertModal() {
+// Global variable to hold the callback
+let onConfirmCallback = null;
+
+/**
+ * Open the centralized confirmation modal.
+ * @param {Object} options
+ * @param {string} options.title - The modal title.
+ * @param {string} options.message - The body text.
+ * @param {string} options.icon - FontAwesome icon class (e.g., 'fa-trash').
+ * @param {Function} options.onConfirm - Function to run if user clicks confirm.
+ */
+function openAlertModal({ title, message, icon, onConfirm }) {
     const modal = document.getElementById("alert-modal");
-    const dialog = document.getElementById("alert-dialog");
+    const titleEl = document.getElementById("alert-title");
+    const messageEl = document.getElementById("alert-message");
+    const iconContainer = document.getElementById("alert-icon-container");
 
-    if (!modal || !dialog) return;
+    if (!modal) return;
 
+    // Set Content
+    if (titleEl) titleEl.textContent = title;
+    if (messageEl) messageEl.textContent = message;
+    
+    // Set Icon
+    if (iconContainer) {
+        iconContainer.innerHTML = `<i class="fas ${icon || 'fa-exclamation'} text-3xl text-ink dark:text-white"></i>`;
+    }
+
+    // Store Callback
+    onConfirmCallback = onConfirm;
+
+    // Show Modal
     modal.classList.remove("hidden");
-
-    // Small delay to allow display:flex to apply before animating opacity
     setTimeout(() => {
         modal.classList.remove("opacity-0");
-        dialog.classList.remove("opacity-0", "scale-95");
+        modal.querySelector('#alert-dialog').classList.remove("opacity-0", "scale-95");
     }, 10);
 }
 
 function closeAlertModal() {
     const modal = document.getElementById("alert-modal");
-    const dialog = document.getElementById("alert-dialog");
+    if (!modal) return;
 
-    if (!modal || !dialog) return;
-
+    modal.querySelector('#alert-dialog').classList.add("opacity-0", "scale-95");
     modal.classList.add("opacity-0");
-    dialog.classList.add("opacity-0", "scale-95");
 
     setTimeout(() => {
         modal.classList.add("hidden");
+        onConfirmCallback = null; // Reset callback
     }, 300);
 }
 
-/* --- TOAST LOGIC --- */
+// Attach Event Listeners for the Static Alert Modal HTML
+document.addEventListener('DOMContentLoaded', () => {
+    const confirmBtn = document.getElementById('alert-confirm-button');
+    const cancelBtn = document.getElementById('alert-cancel-button');
+
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+            if (onConfirmCallback) onConfirmCallback();
+            closeAlertModal();
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeAlertModal);
+    }
+});
+
+
+/* --- TOAST NOTIFICATION LOGIC --- */
 
 /**
  * Displays a custom toast-style alert notification.
@@ -43,7 +84,7 @@ function closeAlertModal() {
  * @param {string} type 'success', 'error', 'warning', 'info'.
  */
 function showAlert(title, message, type = 'info') {
-    // Handle object argument if passed as single parameter (backward compatibility)
+    // Handle object argument if passed as single parameter
     if (typeof title === 'object') {
         const params = title;
         type = params.type || 'info';
@@ -53,25 +94,23 @@ function showAlert(title, message, type = 'info') {
 
     const placeholder = document.getElementById('alert-modal-placeholder');
     if (!placeholder) {
-        // Create placeholder if it doesn't exist
-        const div = document.createElement('div');
-        div.id = 'alert-modal-placeholder';
-        document.body.appendChild(div);
+        console.error("Alert Placeholder missing in HTML");
+        return;
     }
 
     const alertId = `alert-${Date.now()}`;
     
-    // Neo-Brutalist Styles
+    // Manga/Tech Theme Colors
     const alertColors = {
         success: {
-            bg: 'bg-acid-green',
+            bg: 'bg-neon-lime',
             text: 'text-ink',
             border: 'border-ink',
             icon: 'fa-check-circle',
             iconColor: 'text-ink'
         },
         error: {
-            bg: 'bg-hot-pink',
+            bg: 'bg-pop-pink',
             text: 'text-white',
             border: 'border-ink',
             icon: 'fa-times-circle',
@@ -89,19 +128,18 @@ function showAlert(title, message, type = 'info') {
             text: 'text-ink',
             border: 'border-ink',
             icon: 'fa-info-circle',
-            iconColor: 'text-sky-blue'
+            iconColor: 'text-primary'
         }
     };
 
     const config = alertColors[type] || alertColors.info;
-    // Dark mode fallback handled by border-ink/cream logic in CSS or generic classes
-    const darkModeBorder = 'dark:border-cream';
+    const darkModeBorder = 'dark:border-paper';
 
     const alertElement = document.createElement('div');
     alertElement.id = alertId;
     
-    // Applied Tailwind classes: Fixed position, z-index high, hard shadow, border-3
-    alertElement.className = `fixed top-24 right-5 w-full max-w-sm p-4 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#FFF] ${config.bg} ${config.text} border-3 ${config.border} ${darkModeBorder} transform translate-x-[150%] transition-all duration-500 ease-in-out z-[9999]`;
+    // Tailwind Classes: Fixed Top-Right, Z-Index High, Manga Shadow
+    alertElement.className = `fixed top-24 right-5 w-full max-w-sm p-4 rounded shadow-[5px_5px_0px_0px_#09090b] dark:shadow-[5px_5px_0px_0px_#fafafa] ${config.bg} ${config.text} border-2 ${config.border} ${darkModeBorder} transform translate-x-[150%] transition-all duration-500 ease-in-out z-[9999] font-mono`;
     
     alertElement.innerHTML = `
         <div class="flex items-start">
@@ -109,8 +147,8 @@ function showAlert(title, message, type = 'info') {
                 <i class="fas ${config.icon} ${config.iconColor} text-2xl"></i>
             </div>
             <div class="ml-4 flex-1">
-                <h4 class="font-header font-bold text-lg uppercase leading-tight">${title}</h4>
-                <p class="font-body text-sm mt-1 opacity-90">${message}</p>
+                <h4 class="font-bold font-display text-lg uppercase leading-tight">${title}</h4>
+                <p class="text-xs mt-1 font-bold opacity-90">${message}</p>
             </div>
             <button onclick="document.getElementById('${alertId}').remove()" class="ml-auto -mx-1.5 -my-1.5 text-inherit hover:opacity-70 p-1.5">
                 <i class="fas fa-times"></i>
@@ -118,7 +156,7 @@ function showAlert(title, message, type = 'info') {
         </div>
     `;
 
-    document.getElementById('alert-modal-placeholder').appendChild(alertElement);
+    placeholder.appendChild(alertElement);
 
     // Animate In
     requestAnimationFrame(() => {

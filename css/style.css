@@ -1,32 +1,44 @@
-/* Dot Pattern Background */
-body {
-    background-color: #FFFDF5; /* Cream */
-    background-image: radial-gradient(#1A1A1A 1px, transparent 1px);
-    background-size: 24px 24px;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Dark Mode Dot Pattern */
-.dark body {
-    background-color: #1A1A1A; /* Ink */
-    background-image: radial-gradient(#FFFDF5 1px, transparent 1px); /* Cream Dots */
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
 }
-
-/* Custom Utilities */
-.rotate-hover:hover { transform: rotate(-2deg) translateY(-4px); }
-.rotate-hover-r:hover { transform: rotate(2deg) translateY(-4px); }
 
 /* Marquee Animation */
-.marquee-container { overflow: hidden; white-space: nowrap; }
-.marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-/* Reveal Animation for Intersection Observer in JS */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
+.marquee-container {
+    display: flex;
+    width: max-content;
+    animation: marquee 20s linear infinite;
 }
-.reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Custom Scrollbar for Modal Content */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: #27272a;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Handwriting Font for the Artist Note */
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+.font-handwriting {
+    font-family: 'Permanent Marker', cursive;
 }
