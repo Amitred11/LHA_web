@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmText: 'Log Out',
             onConfirm: () => {
                 localStorage.removeItem('isLoggedIn');
-                window.location.assign('/src/screens/main/index.html');
+                window.location.assign('/index.html');
             }
         });
     };
