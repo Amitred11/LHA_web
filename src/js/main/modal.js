@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // 1. Fetch the Modal Shell Template
-            const modalResponse = await fetch('../../components/modal.html');
+            const modalResponse = await fetch('../../../src/components/modal.html');
             if (!modalResponse.ok) throw new Error('Could not load modal component.');
             const modalTemplate = await modalResponse.text();
             modalPlaceholder.innerHTML = modalTemplate;
@@ -89,13 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (privacyLink) {
         privacyLink.addEventListener('click', (e) => {
             e.preventDefault();
-            openModal('../../components/privacy-policy.html');
+            openModal('../../../src/components/privacy-policy.html');
         });
     }
     if (termsLink) {
         termsLink.addEventListener('click', (e) => {
             e.preventDefault();
-            openModal('../../components/terms-of-service.html');
+            openModal('../../../src/components/terms-of-service.html');
         });
     }
 });

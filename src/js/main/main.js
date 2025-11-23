@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('../../components/alert.html');
+            const response = await fetch('../../../src/components/alert.html');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const html = await response.text();
             
