@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/src/screens/main/index.html" }
+  ]
+}
