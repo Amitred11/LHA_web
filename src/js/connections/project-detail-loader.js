@@ -18,11 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
             ? project.tags.map(tag => `<span class="text-[10px] font-bold bg-gray-200 dark:bg-gray-700 text-ink dark:text-white px-2 py-1 rounded">${tag}</span>`).join('')
             : '';
 
+        // Handle missing images
+        const imageSrc = project.image || 'https://placehold.co/600x400/1a1a1a/FFF?text=No+Image';
+
         return `
             <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-xl overflow-hidden shadow-manga dark:shadow-manga-white hover:translate-y-[-4px] transition-all flex flex-col h-full group">
                 <!-- Image Section -->
                 <div class="h-48 border-b-2 border-ink dark:border-paper relative overflow-hidden bg-gray-100 dark:bg-gray-800">
-                    <img src="${project.image}" 
+                    <img src="${imageSrc}" 
                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                          alt="${project.title}"
                          onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400 font-mono text-xs\'>[NO_IMAGE_DATA]</div>'">
@@ -65,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingSpinner.innerHTML = `
                 <div class="text-center">
                     <p class="font-mono font-bold text-pop-pink text-xl mb-4">ERROR 404: ID MISSING</p>
-                    <a href="index.html" class="underline">Return to Base</a>
+                    <a href="/src/screens/main/index.html" class="underline hover:text-primary">Return to Base</a>
                 </div>`;
             return;
         }
@@ -123,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fas fa-exclamation-triangle text-4xl text-pop-pink mb-2"></i>
                     <p class="font-bold text-xl mb-2">System Error</p>
                     <p class="font-mono text-sm">${error.message}</p>
+                    <a href="/src/screens/main/index.html" class="inline-block mt-4 underline text-sm">Go Back</a>
                 </div>
             `;
         }

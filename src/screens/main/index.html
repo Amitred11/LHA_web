@@ -13,8 +13,8 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../../src/css/style.css">
+    <!-- Custom CSS (Fixed Path) -->
+    <link rel="stylesheet" href="/src/css/style.css">
 
     <!-- Tailwind + Config -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,13 +29,13 @@
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'ink': '#09090b',       // Nearly Black
-                        'paper': '#fafafa',     // Off White
-                        'primary': '#8b5cf6',   // Violet (Code)
-                        'pop-pink': '#ff477e',  // Pink (Anime/Art)
-                        'cyber-cyan': '#22d3ee',// Cyan (Gaming)
-                        'neon-lime': '#bef264', // Lime (Conventions)
-                        'hot-pink': '#ff0055',  // For Logout Icon
+                        'ink': '#09090b',       
+                        'paper': '#fafafa',     
+                        'primary': '#8b5cf6',   
+                        'pop-pink': '#ff477e',  
+                        'cyber-cyan': '#22d3ee',
+                        'neon-lime': '#bef264', 
+                        'hot-pink': '#ff0055',  
                     },
                     backgroundImage: {
                         'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
@@ -65,15 +65,12 @@
             100% { transform: translate(0) }
         }
         .nav-link.active span { color: #8b5cf6; font-weight: 900; }
-        
-        /* Reveal Animation for Observer */
         .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
         .reveal.is-visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative">
 
-    <!-- Background Texture -->
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
 
     <!-- Back to Top Button -->
@@ -117,14 +114,14 @@
                     </button>
 
                     <!-- Desktop Auth: Logged Out -->
-                    <a href="../../../src/screens/auth/signin.html" data-auth="logged-out" class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold text-sm uppercase shadow-manga-sm dark:shadow-none hover:translate-y-0.5 hover:shadow-none transition-all">
+                    <a href="/src/screens/auth/signin.html" data-auth="logged-out" class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold text-sm uppercase shadow-manga-sm dark:shadow-none hover:translate-y-0.5 hover:shadow-none transition-all">
                         <i class="fas fa-gamepad mr-1"></i> Press Start
                     </a>
                     
                     <!-- Desktop Auth: Logged In -->
                    <div class="hidden md:flex items-center gap-3" data-auth="logged-in" style="display: none;">
-                        <a href="../../../src/screens/projects/projects.html" class="flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
-                            <i class="fas fa-rocket"></i> Projects
+                        <a href="/src/screens/projects/myprojects.html" class="flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
+                            <i class="fas fa-rocket"></i> My Projects
                         </a>
                         <div class="relative group">
                             <button id="profile-menu-button" class="flex items-center gap-2 bg-white dark:bg-gray-800 pl-1 pr-3 py-1 rounded border-2 border-ink dark:border-paper hover:shadow-manga-sm transition-all">
@@ -134,10 +131,9 @@
                             </button>
 
                             <div id="profile-menu-dropdown" class="hidden absolute right-0 top-12 w-48 bg-white dark:bg-ink border-2 border-ink dark:border-paper rounded p-0 flex-col z-50 shadow-manga dark:shadow-manga-white">
-                                <a href="account.html" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-bold border-b border-gray-200 dark:border-gray-800">
+                                <a href="/src/screens/main/account.html" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-bold border-b border-gray-200 dark:border-gray-800">
                                     <i class="fas fa-id-card mr-2"></i> Character Sheet
                                 </a>
-                                <!-- Logout handled by main.js via class -->
                                 <button class="logout-button w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-pop-pink text-sm font-bold">
                                     <i class="fas fa-power-off mr-2"></i> Log Out
                                 </button>
@@ -163,10 +159,10 @@
 
         <!-- Mobile Auth: Logged In -->
         <div data-auth="logged-in" class="flex flex-col space-y-4" style="display: none;">
-            <a href="../../../src/screens/projects/projects.html" class="text-2xl font-bold text-neon-lime font-mono">
-                <i class="fas fa-rocket mr-2"></i> Projects
+            <a href="/src/screens/projects/myprojects.html" class="text-2xl font-bold text-neon-lime font-mono">
+                <i class="fas fa-rocket mr-2"></i> My Projects
             </a>
-            <a href="account.html" class="text-2xl font-bold text-primary font-mono">
+            <a href="/src/screens/main/account.html" class="text-2xl font-bold text-primary font-mono">
                 <i class="fas fa-id-card mr-2"></i> Character Sheet
             </a>
             <button class="logout-button text-left text-2xl font-bold text-pop-pink font-mono">
@@ -176,7 +172,7 @@
 
         <!-- Mobile Auth: Logged Out -->
         <div data-auth="logged-out" class="flex flex-col">
-            <a href="../../../src/screens/auth/signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
+            <a href="/src/screens/auth/signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
         </div>
     </div>
 
@@ -201,13 +197,12 @@
                     </p>
                     
                     <div class="flex flex-wrap gap-4">
-                        <!-- Dynamic Button for Main.js to control -->
                         <a id="hero-cta-button" 
-                           href=".../../../src/screens/auth/signin.html"
+                           href="/src/screens/auth/signin.html"
                            data-logged-out-text="Join the Party"
-                           data-logged-out-href="../../screens/auth/signin.html"
+                           data-logged-out-href="/src/screens/auth/signin.html"
                            data-logged-in-text="Create Project"
-                           data-logged-in-href="../../screens/projects/start-project.html"
+                           data-logged-in-href="/src/screens/projects/start-project.html"
                            class="bg-primary text-white border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2 group">
                             <i class="fas fa-code"></i> Join the Party
                         </a>
@@ -269,11 +264,11 @@
                 </p>
             </div>
 
-            <!-- Bento Grid Layout with Clickable Links -->
+            <!-- Bento Grid Layout -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 
                 <!-- Coder Card -->
-                <a href="../../../src/screens/guild/devs.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+                <a href="/src/screens/guild/devs.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
                     <div class="flex justify-between items-start mb-8">
                         <i class="fas fa-terminal text-4xl group-hover:text-primary transition-colors"></i>
                         <span class="font-mono text-xs border border-current px-2 py-1 rounded">CLASS: DEV</span>
@@ -286,7 +281,7 @@
                 </a>
 
                 <!-- Artist Card -->
-                <a href="../../../src/screens/guild/artists.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+                <a href="/src/screens/guild/artists.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
                     <div class="flex justify-between items-start mb-8">
                         <i class="fas fa-palette text-4xl group-hover:text-pop-pink transition-colors"></i>
                         <span class="font-mono text-xs border border-current px-2 py-1 rounded">CLASS: ARTIST</span>
@@ -299,7 +294,7 @@
                 </a>
 
                 <!-- Gamer Card -->
-                <a href="../../../src/screens/guild/gamers.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+                <a href="/src/screens/guild/gamers.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
                     <div class="flex justify-between items-start mb-8">
                         <i class="fas fa-headset text-4xl group-hover:text-cyber-cyan transition-colors"></i>
                         <span class="font-mono text-xs border border-current px-2 py-1 rounded">CLASS: PLAYER</span>
@@ -311,7 +306,7 @@
                     </div>
                 </a>
 
-                <!-- Upcoming Con Widget (Actionable) -->
+                <!-- Upcoming Con Widget -->
                 <div class="md:col-span-3 mt-4 bg-neon-lime/20 dark:bg-neon-lime/10 border-2 border-dashed border-ink dark:border-paper p-8 rounded flex flex-col md:flex-row items-center gap-8">
                     <div class="bg-white dark:bg-ink border-2 border-ink dark:border-paper p-4 -rotate-2 shadow-manga-sm">
                         <div class="text-center font-mono font-bold text-2xl leading-none">
@@ -323,7 +318,7 @@
                         <h4 class="font-display font-bold text-2xl uppercase">Upcoming Raid: Tech & Otaku Summit</h4>
                         <p class="text-gray-600 dark:text-gray-400">Join us for a weekend of hackathons, cosplay contests, and gaming tournaments.</p>
                     </div>
-                    <a href="events/summit.html" class="bg-ink dark:bg-paper text-white dark:text-ink px-6 py-3 font-bold uppercase text-sm hover:scale-105 transition-transform shadow-manga-sm dark:shadow-none">
+                    <a href="/src/screens/events/summit.html" class="bg-ink dark:bg-paper text-white dark:text-ink px-6 py-3 font-bold uppercase text-sm hover:scale-105 transition-transform shadow-manga-sm dark:shadow-none">
                         RSVP Now
                     </a>
                 </div>
@@ -349,7 +344,7 @@
                     <p class="text-lg font-medium text-gray-600 dark:text-gray-300 mb-8 max-w-xl">
                         No NPCs here. Just a chaotic roster of senior devs, concept artists, and competitive gamers building the future.
                     </p>
-                    <a href="about.html" class="inline-block relative group">
+                    <a href="/src/screens/main/about.html" class="inline-block relative group">
                         <div class="absolute top-0 left-0 w-full h-full bg-ink dark:bg-paper translate-x-1 translate-y-1 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
                         <div class="relative bg-pop-pink text-white border-2 border-ink dark:border-paper px-10 py-4 font-bold font-display text-xl uppercase tracking-widest flex items-center gap-3">
                             Meet The Crew <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
@@ -409,16 +404,16 @@
                     <p class="text-sm font-mono text-gray-500 mt-2">Crafted for the culture.</p>
                 </div>
                 <div class="flex gap-6 font-bold uppercase text-sm tracking-widest">
-                    <a href="screens/guild/devs.html" class="hover:text-primary hover:underline decoration-wavy">Code</a>
-                    <a href="screens/guild/artists.html" class="hover:text-pop-pink hover:underline decoration-wavy">Art</a>
-                    <a href="screens/guild/gamers.html" class="hover:text-cyber-cyan hover:underline decoration-wavy">Game</a>
+                    <a href="/src/screens/guild/devs.html" class="hover:text-primary hover:underline decoration-wavy">Code</a>
+                    <a href="/src/screens/guild/artists.html" class="hover:text-pop-pink hover:underline decoration-wavy">Art</a>
+                    <a href="/src/screens/guild/gamers.html" class="hover:text-cyber-cyan hover:underline decoration-wavy">Game</a>
                 </div>
             </div>
             <div class="mt-12 pt-6 border-t border-gray-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-500">
                 <p>&copy; 2025 LHA Collective.</p>
                 <div class="flex gap-4 mt-2 md:mt-0">
-                    <a href="../../../src/components/privacy-policy.html">Privacy</a>
-                    <a href="../../../src/components/terms-of-service.html">Terms</a>
+                    <a href="/src/components/privacy-policy.html">Privacy</a>
+                    <a href="/src/components/terms-of-service.html">Terms</a>
                 </div>
             </div>
         </div>
@@ -429,8 +424,9 @@
     <div id="alert-modal-placeholder"></div>
 
     <!-- Scripts -->
-    <script src="../../../src/js/main/alert.js"></script>
-    <script src="../../../src/js/main/main.js"></script>
+    <script src="/src/js/main/alert.js"></script>
+    <script src="/src/js/main/modal.js"></script>
+    <script src="/src/js/main/main.js"></script>
     
     <script>
         // Page-Specific Logic: Theme Toggle & Scroll Spy

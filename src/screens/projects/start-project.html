@@ -31,6 +31,7 @@
                     boxShadow: {
                         'manga': '5px 5px 0px 0px #09090b',
                         'manga-white': '5px 5px 0px 0px #fafafa',
+                        'manga-sm': '3px 3px 0px 0px #09090b',
                     }
                 }
             }
@@ -38,9 +39,9 @@
     </script>
     <style>
         .bg-halftone { background-size: 20px 20px; }
-        /* Smooth fade for steps */
         .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .step-hidden { display: none; }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
@@ -51,11 +52,11 @@
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
         <div class="container mx-auto max-w-7xl">
             <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
-                <a href="../../../src/screens/main/index.html" class="flex items-center gap-3 group">
+                <a href="/src/screens/main/index.html" class="flex items-center gap-3 group">
                     <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl">LHA</div>
                     <span class="font-bold font-display uppercase">Start Project</span>
                 </a>
-                <a href="../../../src/screens/main/index.html" class="font-mono text-xs font-bold uppercase hover:text-pop-pink flex items-center gap-2 group">
+                <a href="/src/screens/main/index.html" class="font-mono text-xs font-bold uppercase hover:text-pop-pink flex items-center gap-2 group">
                     <i class="fas fa-times group-hover:scale-110 transition-transform"></i> Cancel
                 </a>
             </div>
@@ -79,7 +80,7 @@
         <!-- Progress Bar -->
         <section class="container mx-auto max-w-3xl mb-8">
             <div class="flex justify-between text-xs font-mono font-bold mb-2 text-gray-500">
-                <span>CONTACT</span>
+                <span id="step-indicator">STEP 1 OF 4</span>
                 <span>FINISH</span>
             </div>
             <div class="w-full h-4 bg-gray-200 dark:bg-gray-800 border-2 border-ink dark:border-paper rounded-full overflow-hidden">
@@ -103,7 +104,7 @@
                 <form id="project-inquiry-form">
                     
                     <!-- Step 1: Contact Info -->
-                    <div class="form-step active-step animate-fade-in">
+                    <div class="form-step animate-fade-in" data-step="1">
                         <h3 class="text-2xl font-display font-bold mb-6 uppercase text-primary">1. Contact Information</h3>
                         <div class="space-y-6">
                             <div>
@@ -118,42 +119,42 @@
                     </div>
 
                     <!-- Step 2: Service Type -->
-                    <div class="form-step hidden animate-fade-in">
+                    <div class="form-step hidden animate-fade-in" data-step="2">
                         <h3 class="text-2xl font-display font-bold mb-6 uppercase text-pop-pink">2. What do you need?</h3>
                         <div class="grid grid-cols-2 gap-4">
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="Website" class="hidden peer">
                                 <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary transition-all">
                                     <i class="fas fa-globe text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Website / Web App</div>
+                                    <div class="font-bold text-sm">Website</div>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="App" class="hidden peer">
                                 <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-pop-pink peer-checked:bg-pop-pink/10 peer-checked:text-pop-pink transition-all">
                                     <i class="fas fa-mobile-alt text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Mobile App</div>
+                                    <div class="font-bold text-sm">App</div>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="Design" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-neon-lime peer-checked:bg-neon-lime/10 peer-checked:text-ink transition-all">
+                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-neon-lime peer-checked:bg-neon-lime/10 peer-checked:text-ink dark:peer-checked:text-paper transition-all">
                                     <i class="fas fa-paint-brush text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Graphic Design</div>
+                                    <div class="font-bold text-sm">Design</div>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="Other" class="hidden peer">
                                 <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-cyber-cyan peer-checked:bg-cyber-cyan/10 peer-checked:text-cyber-cyan transition-all">
                                     <i class="fas fa-ellipsis-h text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Other / Custom</div>
+                                    <div class="font-bold text-sm">Other</div>
                                 </div>
                             </label>
                         </div>
                     </div>
 
                     <!-- Step 3: Details -->
-                    <div class="form-step hidden animate-fade-in">
+                    <div class="form-step hidden animate-fade-in" data-step="3">
                         <h3 class="text-2xl font-display font-bold mb-6 uppercase text-neon-lime">3. Project Details</h3>
                         <div>
                             <label class="block font-bold mb-2 text-sm text-gray-500">Describe your project</label>
@@ -162,7 +163,7 @@
                     </div>
 
                     <!-- Step 4: Budget & Timeline -->
-                    <div class="form-step hidden animate-fade-in">
+                    <div class="form-step hidden animate-fade-in" data-step="4">
                         <h3 class="text-2xl font-display font-bold mb-6 uppercase text-cyber-cyan">4. Budget & Timeline</h3>
                         <div class="space-y-6">
                             <div>
@@ -193,14 +194,14 @@
                             <i class="fas fa-chevron-left mr-1"></i> Back
                         </button>
                         
-                        <button type="button" id="next-btn" class="ml-auto bg-ink dark:bg-paper text-white dark:text-ink px-8 py-3 rounded font-bold uppercase text-sm hover:scale-105 transition-transform">
+                        <button type="button" id="next-btn" class="ml-auto bg-ink dark:bg-paper text-white dark:text-ink px-8 py-3 rounded font-bold uppercase text-sm hover:scale-105 transition-transform shadow-manga-sm">
                             Next Step <i class="fas fa-chevron-right ml-1"></i>
                         </button>
                         
-                        <!-- Changed Action to direct to accepted page -->
-                        <a href="quest-accepted.html" id="submit-btn" class="hidden ml-auto bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-3 rounded font-bold uppercase text-sm shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all text-center">
+                        <!-- Corrected: Button Type Submit -->
+                        <button type="submit" id="submit-btn" class="hidden ml-auto bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-3 rounded font-bold uppercase text-sm shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
                             Submit Request
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -209,25 +210,14 @@
 
     <!-- Scripts -->
     <div id="alert-modal-placeholder"></div>
-
-    <!-- SCRIPTS -->
-    <script src="../../../src/js/main/alert.js"></script>
-    <script src="../../../src/js/main/main.js"></script>
-    <script src="../../../src/js/connections/project-inquiry.js"></script>
+    <script src="/src/js/main/alert.js"></script>
+    <script src="/src/js/connections/project-inquiry.js"></script>
+    
     <script>
-        // Theme Check
+        // --- Dark Mode Logic ---
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         }
-        document.getElementById('theme-toggle')?.addEventListener('click', function() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        });
     </script>
 </body>
 </html>

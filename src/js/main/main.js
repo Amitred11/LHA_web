@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('../../../src/components/alert.html');
+            const response = await fetch('/src/components/alert.html');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const html = await response.text();
             
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmText: 'Log Out',
             onConfirm: () => {
                 localStorage.removeItem('isLoggedIn');
-                window.location.assign('../../screens/main/index.html');
+                window.location.assign('/src/screens/main/index.html');
             }
         });
     };
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleAuthRedirect = (event) => {
         if (!isLoggedIn) {
             event.preventDefault();
-            window.location.href = 'signin.html';
+            window.location.href = '/src/screens/auth/signin.html';
         }
     };
     

@@ -1,3 +1,5 @@
+<!-- src/screens/guild/gamers.html -->
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth text-[16px]">
 <head>
@@ -38,13 +40,13 @@
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 w-full z-50 px-4 py-4">
         <div class="container mx-auto max-w-7xl bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
-            <a href="../../../src/screens/main/index.html" class="font-display font-bold text-xl">LHA <span class="text-cyber-cyan">/// WATCH</span></a>
+            <a href="/src/screens/main/index.html" class="font-display font-bold text-xl">LHA <span class="text-cyber-cyan">/// WATCH</span></a>
             <div class="flex items-center gap-4">
                 <div class="hidden md:flex items-center gap-2 font-mono text-xs text-gray-500">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                     <span>LIVE FEED</span>
                 </div>
-                <a href="../../../src/screens/main/index.html" class="font-bold hover:text-cyber-cyan">Back to Base</a>
+                <a href="/src/screens/main/index.html" class="font-bold hover:text-cyber-cyan">Back to Base</a>
             </div>
         </div>
     </nav>
@@ -136,8 +138,8 @@
     <div id="alert-modal-placeholder"></div>
 
     <!-- Scripts -->
-    <script src="../../../src/js/main/alert.js"></script>
-    <script src="../../../src/js/main/main.js"></script>
+    <script src="/src/js/main/alert.js"></script>
+    <script src="/src/js/main/main.js"></script>
 
     <script>
         // --- 1. Modal Logic (Localized for this page) ---
@@ -163,7 +165,8 @@
                 return;
             }
             try {
-                const response = await fetch('../../components/alert.html');
+                // Corrected Path
+                const response = await fetch('/src/components/alert.html');
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const html = await response.text();
                 document.getElementById('alert-modal-placeholder').innerHTML = html;

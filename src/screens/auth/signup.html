@@ -39,7 +39,7 @@
 <body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 flex justify-center items-center min-h-screen p-4 relative">
 
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
-    <a href="../../../src/screens/main/index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors"><i class="fas fa-arrow-left"></i> Cancel</a>
+    <a href="/src/screens/main/index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors"><i class="fas fa-arrow-left"></i> Cancel</a>
 
     <div class="w-full max-w-md relative">
         <div class="absolute -top-4 -left-4 bg-cyber-cyan w-full h-full border-2 border-ink dark:border-paper rounded z-0"></div>
@@ -68,15 +68,15 @@
                 </button>
             </form>
              <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
-                <p class="text-sm font-mono">Existing Player? <a href="signin.html" class="font-bold text-primary hover:underline decoration-wavy">Load Save</a></p>
+                <p class="text-sm font-mono">Existing Player? <a href="/src/screens/auth/signin.html" class="font-bold text-primary hover:underline decoration-wavy">Load Save</a></p>
             </div>
         </div>
     </div>
     <div id="alert-modal-placeholder"></div>
 
     <!-- SCRIPTS -->
-    <script src="../../../src/js/main/alert.js"></script>
-    <script src="../../../src/js/main/auth.js"></script>
+    <script src="/src/js/main/alert.js"></script>
+    <script src="/src/js/main/auth.js"></script>
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
     </script>

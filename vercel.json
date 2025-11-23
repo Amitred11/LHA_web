@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/src/screens/main/index.html" }
-  ]
+    { 
+      "source": "/", 
+      "destination": "/src/screens/main/index.html" 
+    }
+  ],
+  "cleanUrls": true
 }

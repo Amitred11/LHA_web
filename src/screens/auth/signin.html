@@ -48,7 +48,7 @@
 
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
 
-    <a href="../../../src/screens/main/index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors">
+    <a href="/src/screens/main/index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors">
         <i class="fas fa-arrow-left"></i> Return to Base
     </a>
 
@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <a href="forgot-password.html" class="text-xs font-bold font-mono text-gray-500 hover:text-pop-pink transition-colors hover:underline decoration-wavy">Forgot Password?</a>
+                    <a href="/src/screens/auth/forgot-password.html" class="text-xs font-bold font-mono text-gray-500 hover:text-pop-pink transition-colors hover:underline decoration-wavy">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="w-full bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent rounded py-3 font-bold font-display uppercase tracking-widest hover:bg-pop-pink hover:text-white hover:border-ink dark:hover:border-paper transition-all hover:-translate-y-1 shadow-none hover:shadow-manga-sm">
@@ -101,7 +101,7 @@
 
             <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
                 <p class="text-sm font-mono">
-                    New Player? <a href="signup.html" class="font-bold text-primary hover:underline decoration-wavy">Create Character</a>
+                    New Player? <a href="/src/screens/auth/signup.html" class="font-bold text-primary hover:underline decoration-wavy">Create Character</a>
                 </p>
             </div>
         </div>
@@ -110,9 +110,9 @@
     <div id="alert-modal-placeholder"></div>
 
     <!-- SCRIPTS -->
-    <script src="../../../src/js/main/alert.js"></script>
+    <script src="/src/js/main/alert.js"></script>
 
-    <script src="../../../src/js/main/auth.js"></script>
+    <script src="/src/js/main/auth.js"></script>
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
     </script>

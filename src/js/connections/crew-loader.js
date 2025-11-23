@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const featured = author.featuredProject;
 
                 // Card Logic
+                // Fixed Link to absolute path
                 const authorCard = `
                     <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-8 rounded shadow-manga dark:shadow-manga-white flex flex-col justify-center h-full relative group">
                         <div class="absolute -top-3 -left-3 bg-neon-lime text-ink font-bold px-2 py-1 text-xs border-2 border-ink shadow-sm transform -rotate-3 group-hover:rotate-0 transition-transform">
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <h2 class="font-display font-black text-4xl mb-2">${author.name}</h2>
                         <p class="text-gray-600 dark:text-gray-300 font-mono text-sm mb-6">"${author.description}"</p>
-                        <a href="project-details.html?id=${author._id}" class="inline-block text-center bg-ink dark:bg-paper text-white dark:text-ink font-bold py-3 rounded border-2 border-transparent hover:bg-primary hover:text-white transition-colors">
+                        <a href="/src/screens/guild/project-details.html?id=${author._id}" class="inline-block text-center bg-ink dark:bg-paper text-white dark:text-ink font-bold py-3 rounded border-2 border-transparent hover:bg-primary hover:text-white transition-colors">
                             View Portfolio
                         </a>
                     </div>
