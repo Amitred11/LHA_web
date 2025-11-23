@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth text-[16px]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LHA | Art Guild</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 'display': ['"Space Grotesk"'], 'body': ['"Outfit"'], 'mono': ['"JetBrains Mono"'] },
+                    colors: { 'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee' },
+                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b', 'manga-white': '5px 5px 0px 0px #fafafa' }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-halftone { background-image: radial-gradient(#e5e7eb 2px, transparent 2px); background-size: 20px 20px; }
+        .dark .bg-halftone { background-image: radial-gradient(#27272a 2px, transparent 2px); }
+        /* Custom Loader */
+        .loader { width: 48px; height: 48px; border: 5px solid #ff477e; border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
+    
+    <div class="fixed inset-0 z-[-1] bg-halftone opacity-40 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 px-4 py-4">
+        <div class="container mx-auto max-w-7xl bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
+            <a href="../../screens/main/index.html" class="font-display font-bold text-xl">LHA <span class="text-pop-pink">/// ART</span></a>
+            <div class="flex gap-4">
+                <a href="../../screens/main/index.html" class="font-bold hover:text-pop-pink">Back to Base</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-8 container mx-auto px-6 max-w-7xl text-center">
+        <div class="inline-block bg-pop-pink text-white px-4 py-1 font-mono font-bold -rotate-2 mb-4">DIGITAL • TRADITIONAL • COSPLAY</div>
+        <h1 class="font-display font-black text-6xl md:text-9xl uppercase leading-none mb-6">
+            Visual <span class="text-stroke font-black text-6xl">Storytellers</span>
+        </h1>
+        <p class="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400">
+            From rough sketches to polished renders. Browse the roster.
+        </p>
+    </header>
+
+    <!-- Search & Filter Section -->
+    <section class="container mx-auto px-6 max-w-4xl mb-12">
+        <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-4 shadow-manga flex flex-col md:flex-row gap-4">
+            <div class="flex-1 relative">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="search-input" placeholder="Search by Artist Name or Style..." 
+                    class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 py-3 pl-12 pr-4 font-mono text-sm focus:outline-none focus:border-pop-pink transition-colors text-ink dark:text-white">
+            </div>
+            <select id="filter-select" class="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 py-3 px-4 font-mono text-sm focus:outline-none focus:border-pop-pink cursor-pointer text-ink dark:text-white">
+                <option value="all">All Specs</option>
+                <option value="Digital Artist">Digital Artist</option>
+                <option value="Concept Artist">Concept Artist</option>
+                <option value="Illustrator">Illustrator</option>
+                <option value="3D Modeler">3D Modeler</option>
+            </select>
+            <button id="search-btn" class="bg-pop-pink text-white px-8 py-3 font-bold uppercase hover:bg-pink-600 transition-colors shadow-sm">
+                Filter
+            </button>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="pb-24 px-4 md:px-12">
+        <div id="artist-grid" class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Content Injected via JS -->
+        </div>
+        
+        <!-- Loading State -->
+        <div id="loading-state" class="flex flex-col items-center justify-center py-20 hidden">
+            <span class="loader"></span>
+            <p class="font-mono mt-4 text-pop-pink animate-pulse">Loading Assets...</p>
+        </div>
+
+        <!-- Error/Empty State -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <h3 class="font-display font-bold text-3xl mb-2">No Artists Found</h3>
+            <p class="text-gray-500">Try adjusting your search filters.</p>
+        </div>
+    </section>
+
+    <script src="../../js/main/main.js"></script>
+    
+    <script>
+        // --- Backend Connection Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('artist-grid');
+            const loader = document.getElementById('loading-state');
+            const emptyState = document.getElementById('empty-state');
+            const searchInput = document.getElementById('search-input');
+            const filterSelect = document.getElementById('filter-select');
+            const searchBtn = document.getElementById('search-btn');
+
+            let allArtists = []; // Store fetched data locally for fast filtering
+
+            // 1. Fetch Data
+            const fetchArtists = async () => {
+                grid.innerHTML = '';
+                loader.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+
+                try {
+                    // Update this URL if your flask runs on a different port
+                    const response = await fetch('http://127.0.0.1:5000/api/authors');
+                    if (!response.ok) throw new Error('Network error');
+                    
+                    allArtists = await response.json();
+                    renderArtists(allArtists);
+                } catch (error) {
+                    console.error('Error fetching artists:', error);
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center p-8 border-2 border-red-500 bg-red-100 text-red-800 font-mono">
+                            <i class="fas fa-exclamation-triangle mb-2 text-2xl"></i><br>
+                            Failed to connect to LHA Mainframe. Ensure Backend is running.
+                        </div>`;
+                } finally {
+                    loader.classList.add('hidden');
+                }
+            };
+
+            // 2. Render Function
+            const renderArtists = (artists) => {
+                grid.innerHTML = '';
+
+                if (artists.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+                emptyState.classList.add('hidden');
+
+                artists.forEach(artist => {
+                    // Safety check for featured project
+                    const project = artist.featuredProject || {};
+                    const projectImg = project.image || 'https://placehold.co/600x400/1a1a1a/FFF?text=No+Featured+Work';
+                    const projectTitle = project.title || 'Portfolio Highlight';
+                    
+                    // Generate Tag HTML
+                    let tagsHtml = '';
+                    if (project.tags && Array.isArray(project.tags)) {
+                        tagsHtml = project.tags.slice(0, 3).map(tag => 
+                            `<span class="text-[10px] uppercase font-bold border border-ink dark:border-paper px-1.5 py-0.5 rounded-sm bg-paper text-ink">${tag}</span>`
+                        ).join('');
+                    }
+
+                    // Card HTML
+                    const card = document.createElement('div');
+                    card.className = "group relative bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper shadow-manga hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex flex-col h-full";
+                    
+                    card.innerHTML = `
+                        <!-- Image Container -->
+                        <div class="relative w-full h-64 overflow-hidden border-b-2 border-ink dark:border-paper bg-gray-200">
+                            <img src="${projectImg}" alt="${projectTitle}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-2 right-2 bg-pop-pink text-white text-xs font-bold px-2 py-1 transform rotate-3 shadow-sm">
+                                ${artist.title || 'Artist'}
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-display font-bold text-2xl leading-none">${artist.name}</h3>
+                                ${artist.portfolioUrl ? `<a href="${artist.portfolioUrl}" target="_blank" class="text-gray-400 hover:text-pop-pink transition-colors"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                            </div>
+                            
+                            <p class="text-sm text-gray-600 dark:text-gray-400 font-mono mb-4 line-clamp-2">
+                                ${artist.description || 'No description provided.'}
+                            </p>
+
+                            <!-- Tags (from Featured Project) -->
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                ${tagsHtml}
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="mt-auto grid grid-cols-2 gap-3">
+                                ${project.liveDemoUrl ? 
+                                    `<a href="${project.liveDemoUrl}" target="_blank" class="text-center text-xs font-bold uppercase py-2 border-2 border-ink dark:border-paper hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-colors">
+                                        View Art
+                                    </a>` : 
+                                    `<button disabled class="opacity-50 cursor-not-allowed text-center text-xs font-bold uppercase py-2 border-2 border-gray-300 text-gray-400">No Link</button>`
+                                }
+                                
+                                <a href="project-details.html?id=${artist._id}" class="text-center text-xs font-bold uppercase py-2 bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent hover:bg-pop-pink hover:border-ink hover:text-white transition-colors">
+                                    Profile
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            };
+
+            // 3. Search Logic (Client-side filtering for speed)
+            const handleSearch = () => {
+                const query = searchInput.value.toLowerCase();
+                const specFilter = filterSelect.value;
+
+                const filtered = allArtists.filter(artist => {
+                    const matchesName = artist.name.toLowerCase().includes(query);
+                    const matchesDesc = (artist.description || '').toLowerCase().includes(query);
+                    
+                    // Filter by Dropdown (Title)
+                    const matchesSpec = specFilter === 'all' || (artist.title && artist.title.includes(specFilter));
+
+                    return (matchesName || matchesDesc) && matchesSpec;
+                });
+
+                renderArtists(filtered);
+            };
+
+            // Event Listeners
+            searchBtn.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keyup', (e) => {
+                if(e.key === 'Enter') handleSearch();
+            });
+            filterSelect.addEventListener('change', handleSearch);
+
+            // Initialize
+            fetchArtists();
+        });
+
+        // Theme Toggle Logic (Matches index.html)
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        }
+    </script>
+</body>
+</html>

@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Redirect
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = '../../screens/main/index.html';
                 }, 1500);
             } else {
                 // API Error

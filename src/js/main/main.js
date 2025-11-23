@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('components/alert.html');
+            const response = await fetch('../../components/alert.html');
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const html = await response.text();
             
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmText: 'Log Out',
             onConfirm: () => {
                 localStorage.removeItem('isLoggedIn');
-                window.location.assign('index.html');
+                window.location.assign('../../screens/main/index.html');
             }
         });
     };
