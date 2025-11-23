@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
     <!-- Tailwind + Config -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -106,13 +106,13 @@
                     </button>
 
                     <!-- Desktop Auth: Logged Out -->
-                    <a href="signin.html" data-auth="logged-out" class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold text-sm uppercase shadow-manga-sm dark:shadow-none hover:translate-y-0.5 hover:shadow-none transition-all">
+                    <a href="../auth/signin.html" data-auth="logged-out" class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold text-sm uppercase shadow-manga-sm dark:shadow-none hover:translate-y-0.5 hover:shadow-none transition-all">
                         <i class="fas fa-gamepad mr-1"></i> Press Start
                     </a>                    
                         
                     <!-- Desktop Auth: Logged In -->
                    <div class="hidden md:flex items-center gap-3" data-auth="logged-in" style="display: none;">
-                        <a href="projects.html" class="flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
+                        <a href="../projects/projects.html" class="flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
                             <i class="fas fa-rocket"></i> Projects
                         </a>
                         <div class="relative group">
@@ -151,7 +151,7 @@
 
         <!-- Mobile Auth: Logged In -->
         <div data-auth="logged-in" class="flex flex-col space-y-4" style="display: none;">
-            <a href="projects.html" class="text-2xl font-bold text-neon-lime font-mono">
+            <a href="../projects/projects.html" class="text-2xl font-bold text-neon-lime font-mono">
                 <i class="fas fa-rocket mr-2"></i> Projects
             </a>
             <a href="account.html" class="text-2xl font-bold text-primary font-mono">
@@ -164,7 +164,7 @@
 
         <!-- Mobile Auth: Logged Out -->
         <div data-auth="logged-out" class="flex flex-col">
-            <a href="signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
+            <a href="../auth/signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
         </div>
     </div>
 
@@ -192,13 +192,13 @@
                     
                     <div class="flex flex-wrap gap-4">
                         <!-- Hero Auth: Logged Out -->
-                        <a href="signin.html" data-auth="logged-out" 
+                        <a href="../auth/signin.html" data-auth="logged-out" 
                            class="bg-primary text-white border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2 group">
                             <i class="fas fa-code"></i> Join the Party
                         </a>
 
                         <!-- Hero Auth: Logged In -->
-                        <a href="start-project.html" data-auth="logged-in" style="display: none;"
+                        <a href="../projects/start-project.html" data-auth="logged-in" style="display: none;"
                             class="bg-neon-lime text-ink border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2 group">
                            <i class="fas fa-scroll"></i> Let's Create Together
                         </a>
@@ -490,8 +490,8 @@
             <div class="mt-12 pt-6 border-t border-gray-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-500">
                 <p>&copy; 2025 LHA Collective.</p>
                 <div class="flex gap-4 mt-2 md:mt-0">
-                    <a href="components/privacy-policy.html">Privacy</a>
-                    <a href="components/terms-of-service.html">Terms</a>
+                    <a href="../../components/privacy-policy.html">Privacy</a>
+                    <a href="../../components/terms-of-service.html">Terms</a>
                 </div>
             </div>
         </div>
@@ -501,10 +501,10 @@
     <div id="alert-modal-placeholder"></div>
 
     <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/modal.js"></script>
-    <script src="js/alert.js"></script>
-    <script src="js/contact-form.js"></script>
+    <script src="../../js/main/main.js"></script>
+    <script src="../../js/main/modal.js"></script>
+    <script src="../../js/main/alert.js"></script>
+    <script src="../../js/connections/contact-form.js"></script>
     
     <script>
         function logout() {
