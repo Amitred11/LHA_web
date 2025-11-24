@@ -1,5 +1,29 @@
+// Helper to decode JWT (Put this at the top of main.js)
+function isTokenExpired(token) {
+    if (!token) return true;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const expiry = payload.exp * 1000; // Convert to milliseconds
+        return Date.now() > expiry;
+    } catch (e) {
+        return true;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- Global State ---
+    
+    // 1. CHECK TOKEN VALIDITY ON LOAD
+    const token = localStorage.getItem('accessToken');
+    if (token && isTokenExpired(token)) {
+        // If expired, clear storage immediately
+        console.log("Session expired. Logging out.");
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+    }
+
+    // Now set the state based on the cleaned storage
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
     // --- DOM Elements Cache ---
