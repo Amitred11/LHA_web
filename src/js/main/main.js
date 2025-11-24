@@ -47,10 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. Modal Logic (Alerts) ---
     const loadAlertModal = async () => {
-        if (document.getElementById('alert-modal')) {
-            cacheModalElements();
-            return;
-        }
+        if (document.getElementById('alert-modal')) return;
 
         try {
             const response = await fetch('/src/components/alert.html');
@@ -62,54 +59,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     document.body.insertAdjacentHTML('beforeend', html);
                 }
-                cacheModalElements();
+                // No need to cache elements here anymore, alert.js handles it
             }
         } catch (error) {
             console.error("Could not load the alert modal component:", error);
         }
     };
 
-    const cacheModalElements = () => {
-        alertModalElements = {
-            modal: document.getElementById('alert-modal'),
-            title: document.getElementById('alert-title'),
-            message: document.getElementById('alert-message'),
-            iconContainer: document.getElementById('alert-icon-container'),
-            confirmButton: document.getElementById('alert-confirm-button'),
-            cancelButton: document.getElementById('alert-cancel-button'),
-        };
-    };
-
-    const showAlertModal = ({ title, message, iconHTML, confirmText = 'Confirm', cancelText = 'Cancel', onConfirm }) => {
-        if (!alertModalElements.modal) cacheModalElements();
-
-        if (!alertModalElements.modal || typeof openAlertModal === 'undefined') {
-            if (window.confirm(`${title}\n${message}`)) onConfirm();
-            return;
+    const showAlertModal = (options) => {
+        // Check if the external script function exists
+        if (typeof openAlertModal === 'function') {
+            // PASS THE OPTIONS OBJECT CORRECTLY HERE
+            openAlertModal(options); 
+        } else {
+            // Fallback if alert.js didn't load
+            if (confirm(`${options.title}\n${options.message}`)) {
+                if(options.onConfirm) options.onConfirm();
+            }
         }
-
-        alertModalElements.title.textContent = title;
-        alertModalElements.message.textContent = message;
-        if(iconHTML) alertModalElements.iconContainer.innerHTML = iconHTML;
-
-        // Clone to strip listeners
-        const newConfirm = alertModalElements.confirmButton.cloneNode(true);
-        newConfirm.textContent = confirmText;
-        alertModalElements.confirmButton.parentNode.replaceChild(newConfirm, alertModalElements.confirmButton);
-        alertModalElements.confirmButton = newConfirm;
-
-        const newCancel = alertModalElements.cancelButton.cloneNode(true);
-        newCancel.textContent = cancelText;
-        alertModalElements.cancelButton.parentNode.replaceChild(newCancel, alertModalElements.cancelButton);
-        alertModalElements.cancelButton = newCancel;
-
-        openAlertModal();
-
-        alertModalElements.confirmButton.onclick = () => {
-            if (typeof onConfirm === 'function') onConfirm();
-            closeAlertModal();
-        };
-        alertModalElements.cancelButton.onclick = closeAlertModal;
     };
 
     // --- 3. UI Interactions ---
@@ -215,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Try relative path first, fallback to hardcoded local if needed
-                const apiUrl = 'http://127.0.0.1:5000/api/contact'; 
+                const apiUrl = 'https://backendkostudy.onrender.com/api/contact'; 
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',

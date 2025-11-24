@@ -1,4 +1,3 @@
-<!-- src/screens/guild/artists.html -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth text-[16px]">
 <head>
@@ -27,12 +26,8 @@
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'ink': '#09090b',       
-                        'paper': '#fafafa',     
-                        'primary': '#8b5cf6',   
-                        'pop-pink': '#ff477e',  
-                        'cyber-cyan': '#22d3ee',
-                        'neon-lime': '#bef264', 
+                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 
+                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264', 
                     },
                     backgroundImage: {
                         'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
@@ -40,7 +35,6 @@
                     },
                     boxShadow: {
                         'manga': '5px 5px 0px 0px #09090b',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
                         'manga-white': '5px 5px 0px 0px #fafafa',
                     }
                 }
@@ -52,35 +46,27 @@
         .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
         .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
         
-        /* Custom Loader */
         .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #ff477e;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
+            width: 48px; height: 48px;
+            border: 5px solid #ff477e; border-bottom-color: transparent;
+            border-radius: 50%; display: inline-block;
+            box-sizing: border-box; animation: rotation 1s linear infinite;
         }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* Mobile Menu Transition */
         #mobile-menu { transition: opacity 0.3s ease, transform 0.3s ease; }
         #mobile-menu.hidden { pointer-events: none; opacity: 0; transform: translateY(-10px); }
         #mobile-menu.flex { pointer-events: auto; opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative">
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative flex flex-col min-h-screen">
     
-    <!-- Background -->
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
 
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
         <div class="container mx-auto max-w-7xl">
             <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
-                <!-- Logo -->
                 <a href="/index.html" class="flex items-center gap-3 group">
                     <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:-translate-x-1 transition-transform">
                         <i class="fas fa-arrow-left"></i>
@@ -91,7 +77,6 @@
                     </div>
                 </a>
 
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-6 font-bold uppercase text-xs tracking-wider">
                      <span class="text-gray-400">GUILD SELECTION:</span>
                      <a href="devs.html" class="hover:text-primary transition-colors opacity-50 hover:opacity-100">Devs</a>
@@ -99,7 +84,6 @@
                      <a href="gamers.html" class="hover:text-cyber-cyan transition-colors opacity-50 hover:opacity-100">Gamers</a>
                 </div>
 
-                <!-- Controls -->
                 <div class="flex items-center gap-3">
                     <button id="theme-toggle" class="w-10 h-10 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                         <i class="fas fa-moon block dark:hidden"></i>
@@ -113,22 +97,16 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-ink/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
-        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform">
-            <i class="fas fa-times"></i>
-        </button>
-        
+        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>
         <div class="flex flex-col items-center space-y-6 text-center">
             <span class="font-mono text-xs text-gray-400 mb-4">SELECT GUILD CLASS</span>
             <a href="devs.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-primary transition-colors">Devs</a>
             <a href="#" class="mobile-link text-5xl font-display font-black uppercase text-pop-pink">Artists</a>
             <a href="gamers.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-cyber-cyan transition-colors">Gamers</a>
         </div>
-
-        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-paper font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-paper dark:hover:text-ink transition-colors">
-            Return to Base
-        </a>
+        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-paper font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-paper dark:hover:text-ink transition-colors">Return to Base</a>
     </div>
 
     <!-- Header -->
@@ -136,18 +114,15 @@
         <div class="inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-4 py-1 font-mono font-bold text-xs md:text-sm -rotate-2 mb-6 shadow-[4px_4px_0px_0px_rgba(9,9,11,1)] dark:shadow-[4px_4px_0px_0px_#fafafa]">
             DIGITAL • TRADITIONAL • COSPLAY
         </div>
-        
         <h1 class="font-display font-black text-5xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-6">
-            Visual <br>
-            <span class="text-stroke">Storytellers</span>
+            Visual <br><span class="text-stroke">Storytellers</span>
         </h1>
-        
         <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium">
             From rough sketches on napkins to fully rendered masterpieces. Browse the roster of LHA's finest creators.
         </p>
     </header>
 
-    <!-- Search & Filter Section -->
+    <!-- Filter -->
     <section class="container mx-auto px-6 max-w-5xl mb-16">
         <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-4 md:p-6 shadow-manga dark:shadow-manga-white flex flex-col md:flex-row gap-4 transform hover:-translate-y-1 transition-transform">
             <div class="flex-1 relative">
@@ -164,29 +139,21 @@
                     <option value="3D Modeler">3D Modeler</option>
                     <option value="Cosplayer">Cosplayer</option>
                 </select>
-                <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-500">
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-500"><i class="fas fa-chevron-down text-xs"></i></div>
             </div>
-            <button id="search-btn" class="bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-3 font-bold uppercase hover:bg-hot-pink transition-colors shadow-sm hover:shadow-none hover:translate-y-[2px] active:translate-y-[4px]">
-                Filter
-            </button>
+            <button id="search-btn" class="bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-3 font-bold uppercase hover:bg-hot-pink transition-colors shadow-sm hover:shadow-none hover:translate-y-[2px] active:translate-y-[4px]">Filter</button>
         </div>
     </section>
 
-    <!-- Gallery Grid -->
-    <section class="pb-24 px-4 md:px-8">
-        <div id="artist-grid" class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Content Injected via JS -->
-        </div>
+    <!-- Grid -->
+    <section class="pb-24 px-4 md:px-8 flex-grow">
+        <div id="artist-grid" class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         
-        <!-- Loading State -->
         <div id="loading-state" class="flex flex-col items-center justify-center py-20 hidden">
             <span class="loader"></span>
             <p class="font-mono mt-6 text-pop-pink animate-pulse uppercase font-bold">Accessing Mainframe...</p>
         </div>
 
-        <!-- Error/Empty State -->
         <div id="empty-state" class="hidden text-center py-20 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded mx-auto max-w-2xl">
             <i class="fas fa-ghost text-4xl text-gray-300 mb-4"></i>
             <h3 class="font-display font-bold text-3xl mb-2">No Artists Found</h3>
@@ -194,193 +161,7 @@
         </div>
     </section>
 
-    <!-- Scripts -->
-    <script>
-        // --- 1. UI Logic (Theme & Menu) ---
-        
-        // Theme Logic
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        });
-
-        // Mobile Menu Logic
-        const menuBtn = document.getElementById('mobile-menu-button');
-        const closeBtn = document.getElementById('close-menu-button');
-        const menu = document.getElementById('mobile-menu');
-        const body = document.body;
-
-        function toggleMenu() {
-            const isHidden = menu.classList.contains('hidden');
-            if(isHidden) {
-                menu.classList.remove('hidden');
-                setTimeout(() => menu.classList.add('flex'), 10);
-                body.classList.add('overflow-hidden');
-            } else {
-                menu.classList.remove('flex');
-                setTimeout(() => menu.classList.add('hidden'), 300);
-                body.classList.remove('overflow-hidden');
-            }
-        }
-
-        menuBtn.addEventListener('click', toggleMenu);
-        closeBtn.addEventListener('click', toggleMenu);
-        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', toggleMenu));
-
-
-        // --- 2. Data Logic (Fetch & Filter) ---
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const grid = document.getElementById('artist-grid');
-            const loader = document.getElementById('loading-state');
-            const emptyState = document.getElementById('empty-state');
-            const searchInput = document.getElementById('search-input');
-            const filterSelect = document.getElementById('filter-select');
-            const searchBtn = document.getElementById('search-btn');
-
-            let allArtists = [];
-
-            // Fetch Function
-            const fetchArtists = async () => {
-                grid.innerHTML = '';
-                loader.classList.remove('hidden');
-                emptyState.classList.add('hidden');
-
-                try {
-                    // Adjust API URL if needed
-                    const response = await fetch('http://127.0.0.1:5000/api/authors');
-                    if (!response.ok) throw new Error('Network error');
-                    
-                    allArtists = await response.json();
-                    // Initial Filter: Show only authors who might have Art-related titles or default to all if title logic isn't strict
-                    // For now, we render all and let client filter
-                    renderArtists(allArtists);
-                } catch (error) {
-                    console.error('Error fetching artists:', error);
-                    grid.innerHTML = `
-                        <div class="col-span-full text-center p-8 border-2 border-red-500 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-mono rounded">
-                            <i class="fas fa-wifi mb-2 text-3xl"></i><br>
-                            <span class="font-bold">CONNECTION FAILED</span><br>
-                            Unable to retrieve artist data from the mainframe.
-                        </div>`;
-                } finally {
-                    loader.classList.add('hidden');
-                }
-            };
-
-            // Render Function
-            const renderArtists = (artists) => {
-                grid.innerHTML = '';
-
-                if (artists.length === 0) {
-                    emptyState.classList.remove('hidden');
-                    return;
-                }
-                emptyState.classList.add('hidden');
-
-                artists.forEach(artist => {
-                    const project = artist.featuredProject || {};
-                    // Fallback image if none provided
-                    const projectImg = project.image || 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'; 
-                    
-                    // Tags Logic
-                    let tagsHtml = '';
-                    if (project.tags && Array.isArray(project.tags)) {
-                        tagsHtml = project.tags.slice(0, 3).map(tag => 
-                            `<span class="text-[10px] uppercase font-bold border border-ink dark:border-paper px-2 py-1 rounded-sm bg-white dark:bg-gray-800 text-ink dark:text-paper shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)]">${tag}</span>`
-                        ).join('');
-                    }
-
-                    // Create Card
-                    const card = document.createElement('div');
-                    card.className = "group relative bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper shadow-manga dark:shadow-manga-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex flex-col h-full overflow-hidden";
-                    
-                    card.innerHTML = `
-                        <!-- Image -->
-                        <div class="relative w-full h-64 overflow-hidden border-b-2 border-ink dark:border-paper bg-gray-200 dark:bg-gray-800">
-                            <img src="${projectImg}" alt="${artist.name}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500">
-                            
-                            <!-- Floating Badge -->
-                            <div class="absolute top-3 right-3 bg-pop-pink text-white border-2 border-ink dark:border-paper text-xs font-bold px-3 py-1 transform rotate-3 shadow-sm z-10">
-                                ${artist.title || 'ARTIST'}
-                            </div>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="p-6 flex-1 flex flex-col">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-display font-bold text-2xl leading-none uppercase truncate pr-2">${artist.name}</h3>
-                                ${artist.portfolioUrl ? `<a href="${artist.portfolioUrl}" target="_blank" class="text-gray-400 hover:text-pop-pink transition-colors" title="Portfolio"><i class="fas fa-globe"></i></a>` : ''}
-                            </div>
-                            
-                            <p class="text-sm text-gray-600 dark:text-gray-400 font-mono mb-4 line-clamp-2 min-h-[2.5rem]">
-                                ${artist.description || 'A mysterious creative entity yet to share their lore.'}
-                            </p>
-
-                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
-                                ${tagsHtml || '<span class="text-[10px] text-gray-400 italic">No tags</span>'}
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                ${project.liveDemoUrl ? 
-                                    `<a href="${project.liveDemoUrl}" target="_blank" class="text-center text-xs font-bold uppercase py-2.5 border-2 border-ink dark:border-paper hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-colors">
-                                        View Work
-                                    </a>` : 
-                                    `<button disabled class="opacity-40 cursor-not-allowed text-center text-xs font-bold uppercase py-2.5 border-2 border-gray-300 dark:border-gray-700 text-gray-400">
-                                        No Link
-                                    </button>`
-                                }
-                                
-                                <a href="/src/screens/guild/project-details.html?id=${artist._id}" class="text-center text-xs font-bold uppercase py-2.5 bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent hover:bg-pop-pink hover:border-ink hover:text-white transition-all">
-                                    Profile
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            };
-
-            // Search Logic
-            const handleSearch = () => {
-                const query = searchInput.value.toLowerCase();
-                const specFilter = filterSelect.value;
-
-                const filtered = allArtists.filter(artist => {
-                    const matchesName = artist.name.toLowerCase().includes(query);
-                    const matchesDesc = (artist.description || '').toLowerCase().includes(query);
-                    const matchesTitle = (artist.title || '').toLowerCase().includes(query);
-                    
-                    // Filter by Dropdown
-                    const artistTitle = artist.title || '';
-                    const matchesSpec = specFilter === 'all' || artistTitle.includes(specFilter);
-
-                    return (matchesName || matchesDesc || matchesTitle) && matchesSpec;
-                });
-
-                renderArtists(filtered);
-            };
-
-            searchBtn.addEventListener('click', handleSearch);
-            searchInput.addEventListener('keyup', (e) => {
-                if(e.key === 'Enter') handleSearch();
-            });
-            filterSelect.addEventListener('change', handleSearch);
-
-            // Init
-            fetchArtists();
-        });
-    </script>
+    <!-- JavaScript Link -->
+    <script src="/src/js/guild/fetch-artists.js"></script>
 </body>
 </html>

@@ -5,44 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Summit | LHA Collective</title>
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Tailwind + Config -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        'display': ['"Space Grotesk"', 'sans-serif'],
-                        'body': ['"Outfit"', 'sans-serif'],
-                        'mono': ['"JetBrains Mono"', 'monospace'],
-                    },
-                    colors: {
-                        'ink': '#09090b',       
-                        'paper': '#fafafa',     
-                        'primary': '#8b5cf6',   
-                        'pop-pink': '#ff477e',  
-                        'cyber-cyan': '#22d3ee',
-                        'neon-lime': '#bef264', 
-                        'hot-pink': '#ff0055',  
-                    },
-                    backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
-                    },
-                    boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
-                    }
+                    fontFamily: { 'display': ['"Space Grotesk"', 'sans-serif'], 'body': ['"Outfit"', 'sans-serif'], 'mono': ['"JetBrains Mono"', 'monospace'] },
+                    colors: { 'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264', 'hot-pink': '#ff0055' },
+                    backgroundImage: { 'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)", 'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)" },
+                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b', 'manga-sm': '3px 3px 0px 0px #09090b', 'manga-white': '5px 5px 0px 0px #fafafa' }
                 }
             }
         }
@@ -51,169 +28,82 @@
         .bg-halftone { background-size: 20px 20px; }
         .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
         .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
-        
-        /* Marquee Animation */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee 20s linear infinite;
-        }
-
-        /* Mobile Menu Transition */
-        #mobile-menu {
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        }
-        #mobile-menu.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-20px);
-        }
-        #mobile-menu.flex {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: inline-block; white-space: nowrap; animation: marquee 20s linear infinite; }
+        #mobile-menu { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        #mobile-menu.hidden { opacity: 0; pointer-events: none; transform: translateY(-20px); }
+        #mobile-menu.flex { opacity: 1; pointer-events: auto; transform: translateY(0); }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative">
 
-    <!-- Background Pattern -->
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
 
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
         <div class="container mx-auto max-w-7xl">
             <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
-                <!-- Logo -->
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:-translate-x-1 transition-transform">
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-bold leading-none text-sm">BACK TO BASE</span>
-                        <span class="text-[10px] font-mono uppercase text-primary">EVENT_ID: SUMMIT_25</span>
-                    </div>
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:-translate-x-1 transition-transform"><i class="fas fa-arrow-left"></i></div>
+                    <div class="flex flex-col"><span class="font-bold leading-none text-sm">BACK TO BASE</span><span class="text-[10px] font-mono uppercase text-primary">EVENT_ID: SUMMIT_25</span></div>
                 </a>
-
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-8 font-bold uppercase text-sm tracking-wider">
                     <a href="#intel" class="hover:text-primary transition-colors">01. Intel</a>
                     <a href="#schedule" class="hover:text-pop-pink transition-colors">02. Timeline</a>
                     <a href="#register" class="hover:text-neon-lime transition-colors">03. Join Raid</a>
                 </div>
-
-                <!-- Action Buttons -->
                 <div class="flex items-center gap-3">
-                    <button id="theme-toggle" class="w-10 h-10 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                        <i class="fas fa-moon block dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
-                    </button>
-                    <!-- Mobile Toggle -->
+                    <button id="theme-toggle" class="w-10 h-10 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"><i class="fas fa-moon block dark:hidden"></i><i class="fas fa-sun hidden dark:block text-yellow-400"></i></button>
                     <button id="mobile-menu-button" class="md:hidden text-xl w-10 h-10 flex items-center justify-center rounded border-2 border-transparent active:bg-gray-200 dark:active:bg-gray-800"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-ink/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
-        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform">
-            <i class="fas fa-times"></i>
-        </button>
-        
+        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>
         <div class="flex flex-col items-center space-y-6 text-center">
             <a href="#intel" class="mobile-link text-5xl font-display font-black uppercase hover:text-primary transition-colors">Intel</a>
             <a href="#schedule" class="mobile-link text-5xl font-display font-black uppercase hover:text-pop-pink transition-colors">Timeline</a>
             <a href="#register" class="mobile-link text-5xl font-display font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-primary to-pop-pink">Join Raid</a>
         </div>
-
-        <div class="pt-8 border-t-2 border-dashed border-ink dark:border-paper w-full max-w-xs text-center">
-            <p class="font-mono text-sm text-gray-500">LHA COLLECTIVE /// 2025</p>
-        </div>
+        <div class="pt-8 border-t-2 border-dashed border-ink dark:border-paper w-full max-w-xs text-center"><p class="font-mono text-sm text-gray-500">LHA COLLECTIVE /// 2025</p></div>
     </div>
 
-    <!-- Hero / Ticket Section -->
+    <!-- Hero -->
     <header class="pt-32 pb-12 md:pt-48 md:pb-32 container mx-auto px-6 max-w-7xl">
         <div class="flex flex-col lg:flex-row gap-12 items-center">
-            
-            <!-- Text Content -->
             <div class="lg:w-1/2 z-10 text-center lg:text-left">
-                <div class="inline-block bg-neon-lime text-ink px-3 py-1 font-mono font-bold text-sm mb-6 border border-ink transform md:-rotate-2 hover:rotate-0 transition-transform shadow-sm">
-                    <i class="fas fa-wifi mr-2"></i>LIVE EVENT • NOV 29
-                </div>
-                
-                <h1 class="font-display font-black text-5xl md:text-7xl xl:text-8xl leading-[0.9] mb-6">
-                    TECH & <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pop-pink">OTAKU</span><br>
-                    SUMMIT.
-                </h1>
-                
-                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 border-l-0 md:border-l-4 border-pop-pink md:pl-4 max-w-lg mx-auto lg:mx-0">
-                    The ultimate crossover event. Hackathon by day, gaming tournament by night. Bring your laptop and your controller.
-                </p>
+                <div class="inline-block bg-neon-lime text-ink px-3 py-1 font-mono font-bold text-sm mb-6 border border-ink transform md:-rotate-2 hover:rotate-0 transition-transform shadow-sm"><i class="fas fa-wifi mr-2"></i>LIVE EVENT • NOV 29</div>
+                <h1 class="font-display font-black text-5xl md:text-7xl xl:text-8xl leading-[0.9] mb-6">TECH & <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pop-pink">OTAKU</span><br>SUMMIT.</h1>
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 border-l-0 md:border-l-4 border-pop-pink md:pl-4 max-w-lg mx-auto lg:mx-0">The ultimate crossover event. Hackathon by day, gaming tournament by night. Bring your laptop and your controller.</p>
                 
                 <!-- Countdown -->
                 <div class="grid grid-cols-4 gap-2 md:gap-4 max-w-sm mx-auto lg:mx-0 mb-8 font-mono text-center">
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm">
-                        <span id="d" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">DAYS</span>
-                    </div>
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm">
-                        <span id="h" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">HRS</span>
-                    </div>
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm">
-                        <span id="m" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">MIN</span>
-                    </div>
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm">
-                        <span id="s" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">SEC</span>
-                    </div>
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm"><span id="d" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">DAYS</span></div>
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm"><span id="h" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">HRS</span></div>
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm"><span id="m" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">MIN</span></div>
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink p-2 rounded shadow-manga-sm"><span id="s" class="block text-xl md:text-2xl font-bold">00</span><span class="text-[10px] md:text-xs opacity-70">SEC</span></div>
                 </div>
-
-                <a href="#register" class="inline-flex items-center gap-2 bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all group">
-                    Get Your Pass <i class="fas fa-ticket-alt group-hover:-rotate-12 transition-transform"></i>
-                </a>
+                <a href="#register" class="inline-flex items-center gap-2 bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all group">Get Your Pass <i class="fas fa-ticket-alt group-hover:-rotate-12 transition-transform"></i></a>
             </div>
-
-            <!-- Graphic / Ticket Stub -->
+            <!-- Ticket Visual (No changes to structure) -->
             <div class="lg:w-1/2 w-full relative px-4 md:px-0 mt-8 lg:mt-0">
                 <div class="relative bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 md:p-8 shadow-manga dark:shadow-manga-white transform rotate-0 lg:rotate-3 hover:rotate-0 transition-transform duration-500 max-w-md mx-auto lg:ml-auto">
-                    <!-- Ticket Header -->
                     <div class="flex justify-between items-start border-b-2 border-dashed border-gray-300 dark:border-gray-700 pb-6 mb-6">
-                        <div>
-                            <h3 class="font-display font-black text-3xl md:text-4xl uppercase">LHA Summit</h3>
-                            <span class="font-mono text-primary text-xs md:text-sm">ADMITS ONE // NON-TRANSFERABLE</span>
-                        </div>
-                        <div class="w-12 h-12 md:w-16 md:h-16 bg-black text-white flex items-center justify-center font-bold text-xl md:text-2xl shrink-0 ml-4">
-                            29
-                        </div>
+                        <div><h3 class="font-display font-black text-3xl md:text-4xl uppercase">LHA Summit</h3><span class="font-mono text-primary text-xs md:text-sm">ADMITS ONE // NON-TRANSFERABLE</span></div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-black text-white flex items-center justify-center font-bold text-xl md:text-2xl shrink-0 ml-4">29</div>
                     </div>
-                    
-                    <!-- Ticket Body -->
                     <div class="space-y-4 font-mono text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">LOCATION</span>
-                            <span class="font-bold text-right">CyberHub, Manila</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">TIME</span>
-                            <span class="font-bold text-right">09:00 - 22:00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500">LOOT</span>
-                            <span class="font-bold text-right">Stickers, Merch, XP</span>
-                        </div>
+                        <div class="flex justify-between"><span class="text-gray-500">LOCATION</span><span class="font-bold text-right">CyberHub, Manila</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">TIME</span><span class="font-bold text-right">09:00 - 22:00</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">LOOT</span><span class="font-bold text-right">Stickers, Merch, XP</span></div>
                     </div>
-
-                    <!-- Barcode -->
                     <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-300 dark:border-gray-700">
                         <div class="h-12 w-full bg-ink dark:bg-paper" style="mask-image: repeating-linear-gradient(90deg, black, black 2px, transparent 2px, transparent 4px);"></div>
                         <div class="text-center font-mono text-xs mt-2 tracking-[0.5em] text-gray-500">8839-2991-LHA</div>
                     </div>
-
-                    <!-- Decorative Pin -->
                     <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-500 border-2 border-ink shadow-sm z-20"></div>
                 </div>
             </div>
@@ -222,12 +112,10 @@
 
     <!-- Marquee -->
     <div class="bg-primary text-white py-3 border-y-2 border-ink overflow-hidden whitespace-nowrap select-none">
-        <div class="animate-marquee font-mono font-bold text-lg">
-             WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED /// WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED /// WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED ///
-        </div>
+        <div class="animate-marquee font-mono font-bold text-lg">WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED /// WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED ///</div>
     </div>
 
-    <!-- Intel / Activities -->
+    <!-- Intel / Activities (Abbreviated content, structure same as request) -->
     <section id="intel" class="py-20 bg-paper dark:bg-ink scroll-mt-20">
         <div class="container mx-auto px-6 max-w-6xl">
             <div class="flex items-center justify-center gap-4 mb-12">
@@ -235,106 +123,66 @@
                 <h2 class="font-display font-black text-4xl md:text-5xl text-center uppercase">Mission Intel</h2>
                 <i class="fas fa-star text-3xl text-neon-lime animate-spin-slow"></i>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Activity 1 -->
                 <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 relative group shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(250,250,250,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                    <div class="absolute -top-3 -right-3 bg-neon-lime text-ink border-2 border-ink w-10 h-10 flex items-center justify-center font-bold text-xl shadow-sm z-10 group-hover:rotate-12 transition-transform">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="h-48 bg-gray-200 dark:bg-gray-800 mb-4 overflow-hidden border border-ink dark:border-paper">
-                        <img src="https://images.unsplash.com/photo-1504384308090-c54be3855833?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
-                    </div>
+                    <div class="absolute -top-3 -right-3 bg-neon-lime text-ink border-2 border-ink w-10 h-10 flex items-center justify-center font-bold text-xl shadow-sm z-10 group-hover:rotate-12 transition-transform"><i class="fas fa-code"></i></div>
+                    <div class="h-48 bg-gray-200 dark:bg-gray-800 mb-4 overflow-hidden border border-ink dark:border-paper"><img src="https://images.unsplash.com/photo-1504384308090-c54be3855833?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"></div>
                     <h3 class="font-bold text-2xl mb-2 font-display uppercase">Speed Hackathon</h3>
                     <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">4 hours to build a functional app or game based on a surprise anime theme. Prizes include mechanical keyboards and hosting credits.</p>
                 </div>
-
-                <!-- Activity 2 -->
+                <!-- Activity 2 & 3 (Same structure) -->
                 <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 relative group shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(250,250,250,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                    <div class="absolute -top-3 -right-3 bg-pop-pink text-white border-2 border-ink dark:border-paper w-10 h-10 flex items-center justify-center font-bold text-xl shadow-sm z-10 group-hover:rotate-12 transition-transform">
-                        <i class="fas fa-mask"></i>
-                    </div>
-                    <div class="h-48 bg-gray-200 dark:bg-gray-800 mb-4 overflow-hidden border border-ink dark:border-paper">
-                        <img src="https://images.unsplash.com/photo-1612450622285-d8b5840b396e?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
-                    </div>
+                    <div class="absolute -top-3 -right-3 bg-pop-pink text-white border-2 border-ink dark:border-paper w-10 h-10 flex items-center justify-center font-bold text-xl shadow-sm z-10 group-hover:rotate-12 transition-transform"><i class="fas fa-mask"></i></div>
+                    <div class="h-48 bg-gray-200 dark:bg-gray-800 mb-4 overflow-hidden border border-ink dark:border-paper"><img src="https://images.unsplash.com/photo-1612450622285-d8b5840b396e?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"></div>
                     <h3 class="font-bold text-2xl mb-2 font-display uppercase">Cosplay Showcase</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Strut your stuff. Whether it's 3D-printed armor or hand-sewn fabric, show off your craftsmanship. Theme: Cyberpunk 2077 x Ghibli.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Strut your stuff. Theme: Cyberpunk 2077 x Ghibli.</p>
                 </div>
-
-                <!-- Activity 3 -->
                 <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 relative group shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(250,250,250,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                    <div class="absolute -top-3 -right-3 bg-cyber-cyan text-ink border-2 border-ink w-10 h-10 flex items-center justify-center font-bold text-xl shadow-sm z-10 group-hover:rotate-12 transition-transform">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="h-48 bg-gray-200 dark:bg-gray-800 mb-4 overflow-hidden border border-ink dark:border-paper">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
-                    </div>
+                    <div class="absolute -top-3 -right-3 bg-cyber-cyan text-ink border-2 border-ink w-10 h-10 flex items-center justify-center font-bold text-xl shadow-sm z-10 group-hover:rotate-12 transition-transform"><i class="fas fa-gamepad"></i></div>
+                    <div class="h-48 bg-gray-200 dark:bg-gray-800 mb-4 overflow-hidden border border-ink dark:border-paper"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"></div>
                     <h3 class="font-bold text-2xl mb-2 font-display uppercase">Tekken Tournament</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Double elimination bracket. No items. Fox only. Final Destination. Winner takes home the Golden Joystick trophy.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Double elimination bracket. No items. Fox only. Winner takes home the Golden Joystick trophy.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Schedule -->
+    <!-- Schedule (Timeline) -->
     <section id="schedule" class="py-20 bg-ink text-paper relative overflow-hidden scroll-mt-20">
-        <!-- Grid BG -->
         <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;"></div>
-
         <div class="container mx-auto px-6 max-w-4xl relative z-10">
             <h2 class="font-display font-black text-4xl md:text-5xl mb-16 text-center text-neon-lime uppercase"><i class="far fa-clock mr-3"></i>Timeline</h2>
-
-            <!-- Timeline Line -->
             <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-600 before:to-transparent">
-                
-                <!-- Item 1 -->
+                <!-- Timeline items (Same structure, abbreviated) -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-ink bg-gray-600 group-[.is-active]:bg-neon-lime shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_15px_rgba(190,242,100,0.5)] z-10"></div>
                     <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-900 border border-gray-700 p-4 rounded shadow-manga-white hover:border-neon-lime transition-colors">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-lg md:text-xl font-display">Login & Setup</span>
-                            <span class="font-mono text-neon-lime text-xs bg-gray-800 px-2 py-1 rounded">09:00</span>
-                        </div>
-                        <p class="text-gray-400 text-sm">Doors open. Grab your badge, connect to the LAN, and get your coffee.</p>
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-lg md:text-xl font-display">Login & Setup</span><span class="font-mono text-neon-lime text-xs bg-gray-800 px-2 py-1 rounded">09:00</span></div>
+                        <p class="text-gray-400 text-sm">Doors open. Grab your badge.</p>
                     </div>
                 </div>
-
-                <!-- Item 2 -->
                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-ink bg-gray-600 group-[.is-active]:bg-primary shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                     <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-900 border border-gray-700 p-4 rounded shadow-manga-white hover:border-primary transition-colors">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-lg md:text-xl font-display">Keynote: AI & Art</span>
-                            <span class="font-mono text-primary text-xs bg-gray-800 px-2 py-1 rounded">10:30</span>
-                        </div>
-                        <p class="text-gray-400 text-sm">Speaker: Sarah 'Glitch' Conner on how generative AI is changing the workflow for manga artists.</p>
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-lg md:text-xl font-display">Keynote</span><span class="font-mono text-primary text-xs bg-gray-800 px-2 py-1 rounded">10:30</span></div>
+                        <p class="text-gray-400 text-sm">AI & Art with Sarah 'Glitch' Conner.</p>
                     </div>
                 </div>
-
-                <!-- Item 3 -->
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-ink bg-gray-600 group-[.is-active]:bg-pop-pink shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                     <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-900 border border-gray-700 p-4 rounded shadow-manga-white hover:border-pop-pink transition-colors">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-lg md:text-xl font-display">Main Event Start</span>
-                            <span class="font-mono text-pop-pink text-xs bg-gray-800 px-2 py-1 rounded">13:00</span>
-                        </div>
-                        <p class="text-gray-400 text-sm">Hackathon coding begins. Fighting game pools open. Artist alley marketplace opens.</p>
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-lg md:text-xl font-display">Event Start</span><span class="font-mono text-pop-pink text-xs bg-gray-800 px-2 py-1 rounded">13:00</span></div>
+                        <p class="text-gray-400 text-sm">Hackathon & Tournaments begin.</p>
                     </div>
                 </div>
-                
-                <!-- Item 4 -->
-                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                     <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-ink bg-gray-600 group-[.is-active]:bg-cyber-cyan shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                     <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-900 border border-gray-700 p-4 rounded shadow-manga-white hover:border-cyber-cyan transition-colors">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-lg md:text-xl font-display">Boss Fight (Finals)</span>
-                            <span class="font-mono text-cyber-cyan text-xs bg-gray-800 px-2 py-1 rounded">20:00</span>
-                        </div>
-                        <p class="text-gray-400 text-sm">Hackathon demos and Tournament Grand Finals on the main stage.</p>
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-lg md:text-xl font-display">Finals</span><span class="font-mono text-cyber-cyan text-xs bg-gray-800 px-2 py-1 rounded">20:00</span></div>
+                        <p class="text-gray-400 text-sm">Hackathon demos and Tournament Grand Finals.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -342,22 +190,21 @@
     <!-- Registration -->
     <section id="register" class="py-24 bg-neon-lime relative scroll-mt-20">
         <div class="container mx-auto px-6 max-w-3xl">
-            <!-- Card adapted for both light and dark mode parent containers, but fixed internal colors -->
             <div class="bg-white dark:bg-gray-900 border-4 border-ink dark:border-paper p-6 md:p-12 shadow-[10px_10px_0px_0px_rgba(9,9,11,1)] dark:shadow-[10px_10px_0px_0px_rgba(250,250,250,1)]">
                 <div class="text-center mb-10">
                     <h2 class="font-display font-black text-4xl md:text-5xl uppercase mb-2 text-ink dark:text-paper">Join The Party</h2>
                     <p class="font-mono text-gray-600 dark:text-gray-400">Limited spots available. RSVP required.</p>
                 </div>
 
-                <form class="space-y-6">
+                <form id="registration-form" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block font-bold text-sm uppercase mb-2 text-ink dark:text-paper">Code Name</label>
-                            <input type="text" placeholder="e.g. Neo" class="w-full bg-paper dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-gray-600 p-3 rounded focus:outline-none focus:border-primary transition-colors placeholder-gray-400">
+                            <input type="text" name="codeName" required placeholder="e.g. Neo" class="w-full bg-paper dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-gray-600 p-3 rounded focus:outline-none focus:border-primary transition-colors placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block font-bold text-sm uppercase mb-2 text-ink dark:text-paper">Email Address</label>
-                            <input type="email" placeholder="user@domain.com" class="w-full bg-paper dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-gray-600 p-3 rounded focus:outline-none focus:border-primary transition-colors placeholder-gray-400">
+                            <input type="email" name="email" required placeholder="user@domain.com" class="w-full bg-paper dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-gray-600 p-3 rounded focus:outline-none focus:border-primary transition-colors placeholder-gray-400">
                         </div>
                     </div>
 
@@ -365,19 +212,19 @@
                         <label class="block font-bold text-sm uppercase mb-2 text-ink dark:text-paper">Select Your Class</label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <label class="cursor-pointer group">
-                                <input type="radio" name="class" class="peer sr-only">
+                                <input type="radio" name="classType" value="Dev" class="peer sr-only">
                                 <div class="border-2 border-ink dark:border-gray-600 text-ink dark:text-paper rounded p-3 text-center hover:bg-gray-100 dark:hover:bg-gray-800 peer-checked:bg-ink peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary dark:peer-checked:text-white transition-all">
                                     <i class="fas fa-terminal block mb-1"></i> DEV
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
-                                <input type="radio" name="class" class="peer sr-only" checked>
+                                <input type="radio" name="classType" value="Artist" class="peer sr-only" checked>
                                 <div class="border-2 border-ink dark:border-gray-600 text-ink dark:text-paper rounded p-3 text-center hover:bg-gray-100 dark:hover:bg-gray-800 peer-checked:bg-ink peer-checked:text-white dark:peer-checked:bg-pop-pink dark:peer-checked:border-pop-pink dark:peer-checked:text-white transition-all">
                                     <i class="fas fa-pen-nib block mb-1"></i> ARTIST
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
-                                <input type="radio" name="class" class="peer sr-only">
+                                <input type="radio" name="classType" value="Gamer" class="peer sr-only">
                                 <div class="border-2 border-ink dark:border-gray-600 text-ink dark:text-paper rounded p-3 text-center hover:bg-gray-100 dark:hover:bg-gray-800 peer-checked:bg-ink peer-checked:text-white dark:peer-checked:bg-cyber-cyan dark:peer-checked:border-cyber-cyan dark:peer-checked:text-ink transition-all">
                                     <i class="fas fa-gamepad block mb-1"></i> GAMER
                                 </div>
@@ -388,19 +235,17 @@
                     <div>
                         <label class="block font-bold text-sm uppercase mb-2 text-ink dark:text-paper">Main Interest</label>
                         <div class="relative">
-                            <select class="w-full bg-paper dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-gray-600 p-3 rounded focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
-                                <option>Participating in Hackathon</option>
-                                <option>Cosplay Contest</option>
-                                <option>Tekken Tournament</option>
-                                <option>Just Spectating</option>
+                            <select name="interest" class="w-full bg-paper dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-gray-600 p-3 rounded focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
+                                <option value="Hackathon">Participating in Hackathon</option>
+                                <option value="Cosplay">Cosplay Contest</option>
+                                <option value="Tournament">Tekken Tournament</option>
+                                <option value="Spectating">Just Spectating</option>
                             </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-ink dark:text-paper">
-                                <i class="fas fa-chevron-down text-xs"></i>
-                            </div>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-ink dark:text-paper"><i class="fas fa-chevron-down text-xs"></i></div>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-pop-pink text-white border-2 border-ink dark:border-paper py-4 font-bold text-xl uppercase tracking-wider hover:bg-hot-pink hover:shadow-lg transition-all transform hover:-translate-y-1 shadow-manga-sm dark:shadow-none">
+                    <button id="submit-btn" type="submit" class="w-full bg-pop-pink text-white border-2 border-ink dark:border-paper py-4 font-bold text-xl uppercase tracking-wider hover:bg-hot-pink hover:shadow-lg transition-all transform hover:-translate-y-1 shadow-manga-sm dark:shadow-none">
                         Confirm Registration
                     </button>
                 </form>
@@ -424,87 +269,16 @@
             </div>
             <div class="mt-12 pt-6 border-t border-gray-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-500">
                 <p>&copy; 2025 LHA Collective.</p>
-                <div class="flex gap-4 mt-2 md:mt-0">
-                    <a href="#">Privacy</a>
-                    <a href="#">Terms</a>
-                </div>
+                <div class="flex gap-4 mt-2 md:mt-0"><a href="#">Privacy</a><a href="#">Terms</a></div>
             </div>
         </div>
     </footer>
+    
+    <!-- Alert Placeholder -->
+    <div id="alert-modal-placeholder"></div>
 
     <!-- Scripts -->
-    <script>
-        // --- 1. Dark Mode Logic ---
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            }
-        });
-
-        // --- 2. Mobile Menu Logic ---
-        const btn = document.getElementById('mobile-menu-button');
-        const closeBtn = document.getElementById('close-menu-button');
-        const menu = document.getElementById('mobile-menu');
-        const body = document.body;
-
-        function toggleMenu() {
-            const isHidden = menu.classList.contains('hidden');
-            if(isHidden) {
-                menu.classList.remove('hidden');
-                // Small delay to allow display:flex to apply before opacity transition
-                setTimeout(() => menu.classList.add('flex'), 10);
-                body.classList.add('overflow-hidden'); // Prevent background scrolling
-            } else {
-                menu.classList.remove('flex');
-                setTimeout(() => menu.classList.add('hidden'), 300);
-                body.classList.remove('overflow-hidden');
-            }
-        }
-
-        btn.addEventListener('click', toggleMenu);
-        closeBtn.addEventListener('click', toggleMenu);
-
-        // Close menu when clicking a link
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.remove('flex');
-                setTimeout(() => menu.classList.add('hidden'), 300);
-                body.classList.remove('overflow-hidden');
-            });
-        });
-
-        // --- 3. Countdown Timer ---
-        // Set date to Nov 29, 2025
-        const countDownDate = new Date("Nov 29, 2025 09:00:00").getTime();
-
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countDownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("d").innerHTML = days < 10 ? '0'+days : days;
-            document.getElementById("h").innerHTML = hours < 10 ? '0'+hours : hours;
-            document.getElementById("m").innerHTML = minutes < 10 ? '0'+minutes : minutes;
-            document.getElementById("s").innerHTML = seconds < 10 ? '0'+seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("d").innerHTML = "00";
-            }
-        }, 1000);
-    </script>
+    <script src="/src/js/main/alert.js"></script>
+    <script src="/src/js/events/summit.js"></script>
 </body>
 </html>

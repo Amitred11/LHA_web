@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. Universal Form Handler ---
     // Ensure this matches your running backend URL
-    const API_URL = 'http://192.168.100.12:5000/auth'; 
+    const API_URL = 'https://backendkostudy.onrender.com/auth'; 
 
     const handleAuthSubmit = async (event, endpoint) => {
         event.preventDefault();
