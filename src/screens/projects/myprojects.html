@@ -4,49 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Projects | LHA Collective</title>
-    
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        'display': ['"Space Grotesk"', 'sans-serif'],
-                        'body': ['"Outfit"', 'sans-serif'],
-                        'mono': ['"JetBrains Mono"', 'monospace'],
-                    },
-                    colors: {
-                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6',
-                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
-                    },
-                    backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
-                    },
-                    boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
-                    }
+                    fontFamily: { 'display': ['"Space Grotesk"', 'sans-serif'], 'mono': ['"JetBrains Mono"', 'monospace'] },
+                    colors: { 'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264' },
+                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b', 'manga-sm': '3px 3px 0px 0px #09090b', 'manga-white': '5px 5px 0px 0px #fafafa' }
                 }
             }
         }
     </script>
-    <style>
-        .bg-halftone { background-size: 20px 20px; }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 min-h-screen flex flex-col">
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper transition-colors duration-300 min-h-screen flex flex-col">
 
-    <!-- Background -->
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] opacity-40 pointer-events-none" style="background-image: radial-gradient(#9ca3af 1px, transparent 1px); background-size: 20px 20px;"></div>
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
@@ -54,9 +30,7 @@
             <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
                 <a href="/index.html" class="flex items-center gap-3 group">
                     <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:rotate-12 transition-transform">LHA</div>
-                    <span class="font-bold font-display uppercase hidden md:block">The Collective</span>
                 </a>
-                
                 <div class="flex items-center gap-4">
                     <a href="/src/screens/projects/start-project.html" class="hidden md:flex items-center gap-2 bg-pop-pink text-white border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
                         <i class="fas fa-plus"></i> New Quest
@@ -65,9 +39,6 @@
                         <i class="fas fa-moon block dark:hidden"></i>
                         <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
                     </button>
-                    <a href="/src/screens/main/account.html" class="font-mono text-xs font-bold uppercase hover:text-primary flex items-center gap-2 group">
-                        <i class="fas fa-user-circle text-xl"></i>
-                    </a>
                 </div>
             </div>
         </div>
@@ -77,7 +48,6 @@
     <main class="flex-grow pt-32 pb-20 px-4">
         <div class="container mx-auto max-w-6xl">
             
-            <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-4 border-ink dark:border-paper pb-6">
                 <div>
                     <div class="inline-flex items-center gap-2 bg-cyber-cyan text-ink border-2 border-ink px-3 py-1 font-mono text-xs font-bold mb-4 transform -rotate-2 shadow-sm">
@@ -88,54 +58,33 @@
                     </h1>
                 </div>
                 <div class="mt-4 md:mt-0 text-right font-mono text-sm text-gray-500 dark:text-gray-400">
-                    User: <span class="text-ink dark:text-white font-bold">Guest</span><br>
                     <span id="total-count">Loading...</span>
                 </div>
             </div>
 
-            <!-- Filter Tabs -->
-            <div class="flex gap-4 mb-8 overflow-x-auto pb-2">
-                <button data-filter="all" class="filter-btn bg-ink dark:bg-paper text-white dark:text-ink px-6 py-2 rounded border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase whitespace-nowrap shadow-manga-sm transition-all">
-                    All Quests
-                </button>
-                <button data-filter="active" class="filter-btn bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-6 py-2 rounded border-2 border-gray-300 dark:border-gray-700 font-bold font-mono text-xs uppercase whitespace-nowrap hover:border-ink dark:hover:border-paper transition-colors">
-                    In Progress
-                </button>
-                <button data-filter="completed" class="filter-btn bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-6 py-2 rounded border-2 border-gray-300 dark:border-gray-700 font-bold font-mono text-xs uppercase whitespace-nowrap hover:border-ink dark:hover:border-paper transition-colors">
-                    Completed
-                </button>
+            <div class="flex gap-4 mb-8 overflow-x-auto pb-2 no-scrollbar">
+                <button data-filter="all" class="filter-btn bg-ink dark:bg-paper text-white dark:text-ink px-6 py-2 rounded border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase whitespace-nowrap shadow-manga-sm transition-all">All Quests</button>
+                <button data-filter="active" class="filter-btn bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-6 py-2 rounded border-2 border-gray-300 dark:border-gray-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-colors">In Progress</button>
+                <button data-filter="completed" class="filter-btn bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-6 py-2 rounded border-2 border-gray-300 dark:border-gray-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-colors">Completed</button>
             </div>
 
-            <!-- Projects Grid (Populated by JS) -->
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- JavaScript will insert cards here -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Cards injected here -->
             </div>
-
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-ink border-t-2 border-ink dark:border-paper py-6">
-        <div class="container mx-auto px-6 text-center font-mono text-xs text-gray-500">
-            <p>&copy; 2025 LHA Collective. All Systems Operational.</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
+    <!-- Logic -->
     <script src="/src/js/connections/fetch-projects.js"></script>
-    
     <script>
-        // Theme Logic
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         }
         document.getElementById('theme-toggle').addEventListener('click', function() {
             if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
+                document.documentElement.classList.remove('dark'); localStorage.theme = 'light';
             } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
+                document.documentElement.classList.add('dark'); localStorage.theme = 'dark';
             }
         });
     </script>

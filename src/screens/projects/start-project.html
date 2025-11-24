@@ -4,44 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start a Project | LHA Collective</title>
-    
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        'display': ['"Space Grotesk"', 'sans-serif'],
-                        'body': ['"Outfit"', 'sans-serif'],
-                        'mono': ['"JetBrains Mono"', 'monospace'],
-                    },
-                    colors: {
-                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6',
-                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
-                    },
-                    backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
-                    },
-                    boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
-                    }
+                    fontFamily: { 'display': ['"Space Grotesk"', 'sans-serif'], 'body': ['"Outfit"', 'sans-serif'], 'mono': ['"JetBrains Mono"', 'monospace'] },
+                    colors: { 'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264' },
+                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b', 'manga-sm': '3px 3px 0px 0px #09090b', 'manga-white': '5px 5px 0px 0px #fafafa' }
                 }
             }
         }
     </script>
     <style>
         .bg-halftone { background-size: 20px 20px; }
-        .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .step-hidden { display: none; }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
@@ -52,9 +33,9 @@
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
         <div class="container mx-auto max-w-7xl">
             <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
-                <a href="/index.html" class="flex items-center gap-3 group">
+                <a href="/index.html" class="flex items-center gap-3">
                     <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl">LHA</div>
-                    <span class="font-bold font-display uppercase">Start Project</span>
+                    <span class="font-bold font-display uppercase hidden sm:inline">Start Project</span>
                 </a>
                 <a href="/index.html" class="font-mono text-xs font-bold uppercase hover:text-pop-pink flex items-center gap-2 group">
                     <i class="fas fa-times group-hover:scale-110 transition-transform"></i> Cancel
@@ -63,91 +44,81 @@
         </div>
     </nav>
 
-    <!-- Header -->
-    <header class="pt-40 pb-12 text-center">
-        <div class="container mx-auto px-6">
-            <h1 class="font-display font-black text-5xl md:text-7xl mb-6 uppercase">
-                Let's Build <br>
-                <span class="text-primary">Something Great</span>
+    <main class="pt-32 pb-24 px-4 flex flex-col items-center justify-center min-h-screen">
+        
+        <div class="text-center mb-8">
+            <h1 class="font-display font-black text-4xl md:text-6xl uppercase mb-2">
+                Let's Build <span class="text-primary">It.</span>
             </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                Tell us about your idea. We'll help you bring it to life.
-            </p>
         </div>
-    </header>
 
-    <main class="pb-24 px-4">
         <!-- Progress Bar -->
-        <section class="container mx-auto max-w-3xl mb-8">
-            <div class="flex justify-between text-xs font-mono font-bold mb-2 text-gray-500">
+        <div class="w-full max-w-2xl mb-8">
+            <div class="flex justify-between text-[10px] md:text-xs font-mono font-bold mb-2 text-gray-500">
                 <span id="step-indicator">STEP 1 OF 4</span>
-                <span>FINISH</span>
+                <span>PROGRESS</span>
             </div>
-            <div class="w-full h-4 bg-gray-200 dark:bg-gray-800 border-2 border-ink dark:border-paper rounded-full overflow-hidden">
+            <div class="w-full h-3 bg-gray-200 dark:bg-gray-800 border-2 border-ink dark:border-paper rounded-full overflow-hidden">
                 <div id="progress-bar" class="bg-gradient-to-r from-primary to-pop-pink h-full border-r-2 border-ink dark:border-paper transition-all duration-500" style="width: 25%;"></div>
             </div>
-        </section>
+        </div>
 
         <!-- Form Container -->
-        <section class="container mx-auto max-w-3xl">
-            <!-- Window Header -->
+        <div class="w-full max-w-2xl">
+            <!-- Retro Window Bar -->
             <div class="bg-ink text-paper border-2 border-ink dark:border-paper rounded-t-lg px-4 py-2 flex items-center gap-2">
                 <div class="flex gap-1.5">
                     <div class="w-3 h-3 rounded-full bg-red-500 border border-white"></div>
                     <div class="w-3 h-3 rounded-full bg-yellow-500 border border-white"></div>
                 </div>
-                <span class="font-mono text-xs ml-2">project_request_form.pdf</span>
+                <span class="font-mono text-xs ml-2">project_request.exe</span>
             </div>
 
-            <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper border-t-0 rounded-b-lg shadow-manga dark:shadow-manga-white p-8 md:p-12">
+            <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper border-t-0 rounded-b-lg shadow-manga dark:shadow-manga-white p-6 md:p-10">
                 
                 <form id="project-inquiry-form">
                     
-                    <!-- Step 1: Contact Info -->
+                    <!-- Step 1: Contact -->
                     <div class="form-step animate-fade-in" data-step="1">
-                        <h3 class="text-2xl font-display font-bold mb-6 uppercase text-primary">1. Contact Information</h3>
-                        <div class="space-y-6">
+                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-primary">1. Contact Info</h3>
+                        <div class="space-y-4">
                             <div>
-                                <label class="block font-bold mb-2 text-sm text-gray-500">Your Name</label>
-                                <input type="text" name="clientName" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors" placeholder="John Doe" required>
+                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">YOUR NAME</label>
+                                <input type="text" name="clientName" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Gojo Satoru" required>
                             </div>
                             <div>
-                                <label class="block font-bold mb-2 text-sm text-gray-500">Email Address</label>
-                                <input type="email" name="clientEmail" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors" placeholder="john@example.com" required>
+                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">EMAIL ADDRESS</label>
+                                <input type="email" name="clientEmail" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors" placeholder="gojo@ jujutsu.high" required>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 2: Service Type -->
+                    <!-- Step 2: Type -->
                     <div class="form-step hidden animate-fade-in" data-step="2">
-                        <h3 class="text-2xl font-display font-bold mb-6 uppercase text-pop-pink">2. What do you need?</h3>
-                        <div class="grid grid-cols-2 gap-4">
+                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-pop-pink">2. Service Type</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="Website" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary transition-all">
-                                    <i class="fas fa-globe text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Website</div>
+                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary transition-all flex items-center gap-3">
+                                    <i class="fas fa-globe text-xl"></i> <span class="font-bold text-sm">Website / Web App</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
-                                <input type="checkbox" name="projectTypes" value="App" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-pop-pink peer-checked:bg-pop-pink/10 peer-checked:text-pop-pink transition-all">
-                                    <i class="fas fa-mobile-alt text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">App</div>
+                                <input type="checkbox" name="projectTypes" value="Mobile App" class="hidden peer">
+                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-pop-pink peer-checked:bg-pop-pink/10 peer-checked:text-pop-pink transition-all flex items-center gap-3">
+                                    <i class="fas fa-mobile-alt text-xl"></i> <span class="font-bold text-sm">Mobile App</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="Design" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-neon-lime peer-checked:bg-neon-lime/10 peer-checked:text-ink dark:peer-checked:text-paper transition-all">
-                                    <i class="fas fa-paint-brush text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Design</div>
+                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-neon-lime peer-checked:bg-neon-lime/10 peer-checked:text-ink dark:peer-checked:text-paper transition-all flex items-center gap-3">
+                                    <i class="fas fa-paint-brush text-xl"></i> <span class="font-bold text-sm">UI/UX Design</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
                                 <input type="checkbox" name="projectTypes" value="Other" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-cyber-cyan peer-checked:bg-cyber-cyan/10 peer-checked:text-cyber-cyan transition-all">
-                                    <i class="fas fa-ellipsis-h text-2xl mb-2"></i>
-                                    <div class="font-bold text-sm">Other</div>
+                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-cyber-cyan peer-checked:bg-cyber-cyan/10 peer-checked:text-cyber-cyan transition-all flex items-center gap-3">
+                                    <i class="fas fa-asterisk text-xl"></i> <span class="font-bold text-sm">Other / Custom</span>
                                 </div>
                             </label>
                         </div>
@@ -155,21 +126,21 @@
 
                     <!-- Step 3: Details -->
                     <div class="form-step hidden animate-fade-in" data-step="3">
-                        <h3 class="text-2xl font-display font-bold mb-6 uppercase text-neon-lime">3. Project Details</h3>
+                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-neon-lime">3. The Brief</h3>
                         <div>
-                            <label class="block font-bold mb-2 text-sm text-gray-500">Describe your project</label>
-                            <textarea name="projectDescription" rows="6" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors text-sm" placeholder="What are your goals? Who is the target audience?" required></textarea>
+                            <label class="block font-bold mb-1 text-xs font-mono text-gray-500">DESCRIBE THE MISSION</label>
+                            <textarea name="projectDescription" rows="5" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors text-sm" placeholder="Target audience, main features, design inspiration..." required></textarea>
                         </div>
                     </div>
 
-                    <!-- Step 4: Budget & Timeline -->
+                    <!-- Step 4: Logistics -->
                     <div class="form-step hidden animate-fade-in" data-step="4">
-                        <h3 class="text-2xl font-display font-bold mb-6 uppercase text-cyber-cyan">4. Budget & Timeline</h3>
-                        <div class="space-y-6">
+                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-cyber-cyan">4. Logistics</h3>
+                        <div class="space-y-4">
                             <div>
-                                <label class="block font-bold mb-2 text-sm text-gray-500">Estimated Budget</label>
-                                <select name="budget" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none" required>
-                                    <option value="" disabled selected>Select a range...</option>
+                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">BUDGET RANGE</label>
+                                <select name="budget" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none text-sm" required>
+                                    <option value="" disabled selected>Select credits...</option>
                                     <option value="<1k">Under $1,000</option>
                                     <option value="1k-5k">$1,000 - $5,000</option>
                                     <option value="5k-10k">$5,000 - $10,000</option>
@@ -177,44 +148,39 @@
                                 </select>
                             </div>
                              <div>
-                                <label class="block font-bold mb-2 text-sm text-gray-500">Preferred Timeline</label>
-                                <select name="timeline" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none" required>
-                                    <option value="" disabled selected>Select duration...</option>
-                                    <option value="Urgent">ASAP (Rush)</option>
+                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">TIMELINE</label>
+                                <select name="timeline" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none text-sm" required>
+                                    <option value="" disabled selected>Select timeframe...</option>
+                                    <option value="Urgent">Rush (ASAP)</option>
                                     <option value="Standard">Standard (1-2 Months)</option>
-                                    <option value="Flexible">Flexible / No Rush</option>
+                                    <option value="Flexible">Flexible</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Controls -->
-                    <div class="flex justify-between mt-12 pt-6 border-t-2 border-gray-200 dark:border-gray-800">
-                        <button type="button" id="prev-btn" class="hidden text-gray-500 hover:text-ink dark:hover:text-white font-bold text-sm uppercase">
+                    <!-- Buttons -->
+                    <div class="flex justify-between mt-8 pt-6 border-t-2 border-gray-100 dark:border-gray-800">
+                        <button type="button" id="prev-btn" class="hidden text-gray-400 hover:text-ink dark:hover:text-white font-bold text-xs uppercase tracking-wider">
                             <i class="fas fa-chevron-left mr-1"></i> Back
                         </button>
                         
-                        <button type="button" id="next-btn" class="ml-auto bg-ink dark:bg-paper text-white dark:text-ink px-8 py-3 rounded font-bold uppercase text-sm hover:scale-105 transition-transform shadow-manga-sm">
+                        <button type="button" id="next-btn" class="ml-auto bg-ink dark:bg-paper text-white dark:text-ink px-6 py-2 rounded font-bold uppercase text-xs shadow-manga-sm hover:translate-y-0.5 hover:shadow-none transition-all">
                             Next Step <i class="fas fa-chevron-right ml-1"></i>
                         </button>
                         
-                        <!-- Corrected: Button Type Submit -->
-                        <button type="submit" id="submit-btn" class="hidden ml-auto bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 py-3 rounded font-bold uppercase text-sm shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
+                        <button type="submit" id="submit-btn" class="hidden ml-auto bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold uppercase text-xs shadow-manga-sm hover:translate-y-0.5 hover:shadow-none transition-all">
                             Submit Request
                         </button>
                     </div>
                 </form>
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Scripts -->
-    <div id="alert-modal-placeholder"></div>
-    <script src="/src/js/main/alert.js"></script>
+    <!-- Logic -->
     <script src="/src/js/connections/project-inquiry.js"></script>
-    
     <script>
-        // --- Dark Mode Logic ---
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         }

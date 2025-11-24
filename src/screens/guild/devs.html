@@ -1,114 +1,416 @@
 <!-- src/screens/guild/devs.html -->
-
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth overflow-x-hidden">
+<html lang="en" class="scroll-smooth text-[16px]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guild Roster | LHA Collective</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>LHA | Dev Archives</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-    tailwind.config = {
-        darkMode: 'class',
-        theme: {
-            extend: {
-                fontFamily: {
-                    'display': ['"Space Grotesk"', 'sans-serif'],
-                    'body': ['"Outfit"', 'sans-serif'],
-                    'mono': ['"JetBrains Mono"', 'monospace'],
-                },
-                colors: {
-                    'ink': '#09090b',
-                    'paper': '#fafafa',
-                    'primary': '#8b5cf6',   // Violet
-                    'pop-pink': '#ff477e',  // Pink
-                    'cyber-cyan': '#22d3ee',// Cyan
-                    'neon-lime': '#bef264', // Lime
-                },
-                backgroundImage: {
-                    'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                    'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
-                },
-                boxShadow: {
-                    'manga': '5px 5px 0px 0px #09090b',
-                    'manga-sm': '3px 3px 0px 0px #09090b',
-                    'manga-white': '5px 5px 0px 0px #fafafa',
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['"Space Grotesk"', 'sans-serif'],
+                        'body': ['"Outfit"', 'sans-serif'],
+                        'mono': ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 
+                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
+                    },
+                    backgroundImage: {
+                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
+                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                    },
+                    boxShadow: {
+                        'manga': '5px 5px 0px 0px #09090b',
+                        'manga-sm': '3px 3px 0px 0px #09090b',
+                        'manga-white': '5px 5px 0px 0px #fafafa',
+                    }
                 }
             }
         }
-    }
-</script>
-<style>
-    .bg-halftone { background-size: 20px 20px; }
-    .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
-    .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
-</style>
+    </script>
+    <style>
+        .bg-halftone { background-size: 20px 20px; }
+        .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
+        .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
+        
+        /* Play Button Pulse */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        .play-btn::before {
+            content: ''; absolute; inset: -10px; border-radius: 50%; border: 2px solid white;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu { transition: opacity 0.3s ease, transform 0.3s ease; }
+        #mobile-menu.hidden { pointer-events: none; opacity: 0; transform: translateY(-10px); }
+        #mobile-menu.flex { pointer-events: auto; opacity: 1; transform: translateY(0); }
+    </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative">
 
     <!-- Background -->
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
         <div class="container mx-auto max-w-7xl">
             <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
+                <!-- Logo -->
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:rotate-12 transition-transform">LHA</div>
-                    <span class="font-bold font-display uppercase">The Guild</span>
+                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:-translate-x-1 transition-transform">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-bold leading-none text-sm uppercase">LHA <span class="text-primary">/// DEVS</span></span>
+                        <span class="text-[10px] font-mono uppercase text-gray-500">BACK TO BASE</span>
+                    </div>
                 </a>
-                <a href="/index.html" class="font-mono text-xs font-bold uppercase hover:text-primary flex items-center gap-2 group">
-                    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Return to Base
-                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-6 font-bold uppercase text-xs tracking-wider">
+                     <span class="text-gray-400">GUILD SELECTION:</span>
+                     <a href="#" class="text-primary border-b-2 border-primary">Devs</a>
+                     <a href="artists.html" class="hover:text-pop-pink transition-colors opacity-50 hover:opacity-100">Artists</a>
+                     <a href="gamers.html" class="hover:text-cyber-cyan transition-colors opacity-50 hover:opacity-100">Gamers</a>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle" class="w-10 h-10 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-moon block dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                    </button>
+                    <button id="mobile-menu-button" class="md:hidden w-10 h-10 rounded border-2 border-transparent flex items-center justify-center text-xl active:bg-gray-200 dark:active:bg-gray-800">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="pt-40 pb-12 text-center">
-        <div class="container mx-auto px-6">
-            <div class="inline-flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink px-3 py-1 font-mono text-xs font-bold mb-6 transform -rotate-2 shadow-manga-sm">
-                SELECT YOUR FIGHTER
-            </div>
-            <h1 class="font-display font-black text-6xl md:text-8xl mb-4 uppercase italic">
-                Meet The <span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-primary text-stroke">Crew</span>
-            </h1>
-            <p class="text-xl font-mono text-gray-500 dark:text-gray-400">
-                // Accessing database... loading profiles...
-            </p>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-ink/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
+        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="flex flex-col items-center space-y-6 text-center">
+            <span class="font-mono text-xs text-gray-400 mb-4">SELECT GUILD CLASS</span>
+            <a href="#" class="mobile-link text-5xl font-display font-black uppercase text-primary">Devs</a>
+            <a href="artists.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-pop-pink transition-colors">Artists</a>
+            <a href="gamers.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-cyber-cyan transition-colors">Gamers</a>
         </div>
+
+        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-paper font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-paper dark:hover:text-ink transition-colors">
+            Return to Base
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-12 md:pt-40 md:pb-16 container mx-auto px-6 max-w-7xl text-center">
+        <div class="inline-flex items-center gap-2 bg-primary text-white border-2 border-ink dark:border-paper px-4 py-1 font-mono font-bold text-xs md:text-sm -rotate-2 mb-6 shadow-manga dark:shadow-manga-white">
+            <span class="animate-pulse">●</span> LIVE REPOSITORY
+        </div>
+        
+        <h1 class="font-display font-black text-5xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-6">
+            Dev <br>
+            <span class="text-stroke">Archives</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium">
+            Seminars, speed-coding tutorials, and deep dives. Level up your stack without the fluff.
+        </p>
     </header>
 
-    <!-- Crew Container (JS Injects Here) -->
-    <main class="pb-24 min-h-screen">
-        <section id="crew-showcase-container" class="container mx-auto px-6 max-w-6xl">
-            <!-- Loader -->
-            <div class="flex flex-col items-center justify-center min-h-[300px] border-2 border-dashed border-ink dark:border-gray-600 rounded bg-white/50 dark:bg-gray-800/50">
-                <i class="fas fa-cog fa-spin text-5xl text-primary mb-4"></i>
-                <p class="font-mono font-bold text-xl">Loading Assets...</p>
+    <!-- Filter & Search -->
+    <section class="container mx-auto px-6 max-w-7xl mb-12">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 border-b-2 border-ink dark:border-paper pb-6">
+            
+            <!-- Tabs -->
+            <div class="flex flex-wrap justify-center gap-3" id="filter-tabs">
+                <button class="filter-btn active px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all bg-ink text-white dark:bg-paper dark:text-ink" data-category="all">
+                    All Uploads
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all" data-category="tutorial">
+                    Tutorials
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all" data-category="seminar">
+                    Seminars
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all" data-category="resource">
+                    Resources
+                </button>
             </div>
+
+            <!-- Search -->
+            <div class="relative w-full md:w-64">
+                <input type="text" id="search-input" placeholder="Search Database..." class="w-full bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded px-4 py-2 font-mono text-sm focus:outline-none focus:border-primary transition-colors">
+                <i class="fas fa-search absolute right-3 top-3 text-gray-400 text-xs"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Grid -->
+    <main class="pb-24 px-4 md:px-8">
+        <section id="video-grid" class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Content Injected via JS -->
         </section>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <div class="inline-block p-6 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
+                <i class="fas fa-robot text-4xl text-gray-400"></i>
+            </div>
+            <h3 class="font-display font-bold text-3xl mb-2">Data Not Found</h3>
+            <p class="text-gray-500 font-mono">Try adjusting your search parameters.</p>
+        </div>
     </main>
 
-    <footer class="bg-paper dark:bg-ink border-t-2 border-ink dark:border-paper py-8 text-center font-mono text-xs">
-        <p>&copy; 2025 LHA Collective. All stats maxed out.</p>
-    </footer>
+    <!-- Video Modal (Mockup) -->
+    <div id="video-modal" class="fixed inset-0 z-[100] bg-ink/90 backdrop-blur hidden flex items-center justify-center p-4">
+        <div class="bg-black w-full max-w-4xl border-2 border-paper shadow-2xl rounded overflow-hidden relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-white text-2xl hover:text-pop-pink z-20"><i class="fas fa-times"></i></button>
+            
+            <!-- Video Player Placeholder -->
+            <div class="aspect-video bg-gray-900 flex items-center justify-center relative group">
+                <i class="fas fa-play text-6xl text-white opacity-50"></i>
+                <div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+                    <div class="w-1/3 h-full bg-pop-pink"></div>
+                </div>
+            </div>
 
-    <!-- SCRIPTS -->
-    <div id="alert-modal-placeholder"></div>
+            <div class="p-6 bg-white dark:bg-gray-900">
+                <h2 id="modal-title" class="font-display font-bold text-2xl mb-2">Video Title</h2>
+                <p id="modal-desc" class="text-sm text-gray-600 dark:text-gray-400 font-mono">Description goes here.</p>
+                <div class="mt-4 flex gap-2">
+                    <button class="bg-primary text-white px-4 py-2 font-bold text-xs uppercase rounded hover:bg-violet-600">Like</button>
+                    <button class="bg-gray-200 dark:bg-gray-800 text-ink dark:text-white px-4 py-2 font-bold text-xs uppercase rounded hover:bg-gray-300">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- SCRIPTS -->
     <script src="/src/js/main/alert.js"></script>
-    <script src="/src/js/connections/crew-loader.js"></script>
     <script>
-        // Theme Check
+        // --- Data Simulation ---
+        const videoData = [
+            {
+                id: 1,
+                title: "Python for Absolute Beginners",
+                author: "DevLead_Sarah",
+                category: "tutorial",
+                duration: "12:45",
+                tags: ["Python", "Basics"],
+                thumbnail: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=800&auto=format&fit=crop",
+                description: "Start your coding journey here. Variables, loops, and functions explained simply."
+            },
+            {
+                id: 2,
+                title: "The Art of Clean Code (Seminar)",
+                author: "Senior_Architect",
+                category: "seminar",
+                duration: "45:20",
+                tags: ["Best Practices", "Architecture"],
+                thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
+                description: "A deep dive recording from the LHA Summit 2024 covering SOLID principles."
+            },
+            {
+                id: 3,
+                title: "CSS Grid in 100 Seconds",
+                author: "Frontend_Wizard",
+                category: "tutorial",
+                duration: "01:40",
+                tags: ["CSS", "Web Design"],
+                thumbnail: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?q=80&w=800&auto=format&fit=crop",
+                description: "Stop floating elements. Learn Grid layout fast."
+            },
+            {
+                id: 4,
+                title: "Fullstack Roadmap 2025",
+                author: "Career_Bot",
+                category: "resource",
+                duration: "15:00",
+                tags: ["Career", "Planning"],
+                thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
+                description: "What technologies should you learn this year? We break it down."
+            },
+            {
+                id: 5,
+                title: "Hacking the Mainframe (CyberSec)",
+                author: "WhiteHat_01",
+                category: "seminar",
+                duration: "1:12:00",
+                tags: ["Security", "Ethical Hacking"],
+                thumbnail: "https://images.unsplash.com/photo-1563206767-5b1d97299337?q=80&w=800&auto=format&fit=crop",
+                description: "Intro to penetration testing and securing your applications."
+            },
+            {
+                id: 6,
+                title: "React vs Vue: The Final Battle",
+                author: "JS_Junkie",
+                category: "tutorial",
+                duration: "22:15",
+                tags: ["JavaScript", "Frameworks"],
+                thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=800&auto=format&fit=crop",
+                description: "Comparing state management, ecosystem, and ease of use."
+            }
+        ];
+
+        // --- UI Logic ---
+
+        const grid = document.getElementById('video-grid');
+        const emptyState = document.getElementById('empty-state');
+        const searchInput = document.getElementById('search-input');
+        const filterTabs = document.querySelectorAll('.filter-btn');
+        
+        // Modal Elements
+        const modal = document.getElementById('video-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const closeModal = document.getElementById('close-modal');
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // Render Videos
+        function renderVideos() {
+            grid.innerHTML = '';
+            
+            const filtered = videoData.filter(video => {
+                const matchesCategory = currentCategory === 'all' || video.category === currentCategory;
+                const matchesSearch = video.title.toLowerCase().includes(currentSearch) || 
+                                      video.tags.some(tag => tag.toLowerCase().includes(currentSearch));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            filtered.forEach(video => {
+                const card = document.createElement('div');
+                card.className = "group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper shadow-manga dark:shadow-manga-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex flex-col cursor-pointer";
+                card.onclick = () => openVideoModal(video);
+
+                const tagsHtml = video.tags.map(tag => 
+                    `<span class="text-[10px] font-bold uppercase bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-600 dark:text-gray-300">${tag}</span>`
+                ).join('');
+
+                let badgeColor = 'bg-gray-800';
+                if(video.category === 'seminar') badgeColor = 'bg-pop-pink';
+                if(video.category === 'tutorial') badgeColor = 'bg-primary';
+
+                card.innerHTML = `
+                    <div class="relative w-full h-48 overflow-hidden bg-black group">
+                        <img src="${video.thumbnail}" class="w-full h-full object-cover opacity-80 group-hover:opacity-60 group-hover:scale-105 transition-all duration-500">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="w-14 h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center border-2 border-white play-btn">
+                                <i class="fas fa-play text-white pl-1"></i>
+                            </div>
+                        </div>
+                        <span class="absolute bottom-2 right-2 bg-black text-white text-xs font-mono px-1.5 py-0.5 rounded">${video.duration}</span>
+                        <span class="absolute top-2 left-2 ${badgeColor} text-white text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm">${video.category}</span>
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <h3 class="font-display font-bold text-xl leading-tight mb-2 group-hover:text-primary transition-colors">${video.title}</h3>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${tagsHtml}
+                        </div>
+                        <div class="mt-auto flex items-center justify-between border-t-2 border-gray-100 dark:border-gray-800 pt-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-primary to-cyan-400"></div>
+                                <span class="text-xs font-mono font-bold text-gray-500">${video.author}</span>
+                            </div>
+                            <span class="text-xs font-bold text-primary uppercase group-hover:translate-x-1 transition-transform">Watch <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Logic
+        filterTabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset Classes
+                filterTabs.forEach(b => {
+                    b.classList.remove('bg-ink', 'text-white', 'dark:bg-paper', 'dark:text-ink');
+                    b.classList.add('hover:bg-ink', 'hover:text-white', 'dark:hover:bg-paper', 'dark:hover:text-ink');
+                });
+                // Set Active
+                btn.classList.add('bg-ink', 'text-white', 'dark:bg-paper', 'dark:text-ink');
+                btn.classList.remove('hover:bg-ink', 'hover:text-white');
+                
+                currentCategory = btn.dataset.category;
+                renderVideos();
+            });
+        });
+
+        // Search Logic
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            renderVideos();
+        });
+
+        // Modal Logic
+        function openVideoModal(video) {
+            modalTitle.innerText = video.title;
+            modalDesc.innerText = video.description;
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const closeMenuBtn = document.getElementById('close-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if(isHidden) {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => mobileMenu.classList.add('flex'), 10);
+                document.body.classList.add('overflow-hidden');
+            } else {
+                mobileMenu.classList.remove('flex');
+                setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Theme Logic
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
         }
         document.getElementById('theme-toggle').addEventListener('click', function() {
             if (document.documentElement.classList.contains('dark')) {
@@ -119,6 +421,10 @@
                 localStorage.theme = 'dark';
             }
         });
+
+        // Init
+        renderVideos();
+
     </script>
 </body>
 </html>

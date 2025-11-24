@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | LHA Collective</title>
     
-    <!-- Fonts -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,87 +22,84 @@
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'ink': '#09090b',
-                        'paper': '#fafafa',
-                        'primary': '#8b5cf6',
-                        'pop-pink': '#ff477e',
-                        'cyber-cyan': '#22d3ee',
-                        'neon-lime': '#bef264',
-                    },
-                    backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e',
                     },
                     boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
+                        'manga': '4px 4px 0px 0px #09090b',
+                        'manga-white': '4px 4px 0px 0px #fafafa',
                     }
                 }
             }
         }
     </script>
     <style>
-        .bg-halftone { background-size: 20px 20px; }
+        /* Dot Pattern Background */
+        .bg-dots {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .dark .bg-dots {
+            background-image: radial-gradient(#333 1px, transparent 1px);
+        }
+        /* Custom Toast Animation */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .toast-enter { animation: slideIn 0.3s ease-out forwards; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 flex justify-center items-center min-h-screen p-4 relative">
+<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 flex justify-center items-center min-h-screen p-4 relative overflow-x-hidden">
 
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+    <!-- Background -->
+    <div class="fixed inset-0 z-[-1] bg-dots opacity-60 pointer-events-none"></div>
 
+    <!-- Nav -->
     <a href="/index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors">
-        <i class="fas fa-arrow-left"></i> Return to Base
+        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Return to Base</span>
     </a>
 
-    <div class="w-full max-w-md relative">
-        <!-- Decorative Element -->
-        <div class="absolute -top-4 -right-4 bg-neon-lime w-full h-full border-2 border-ink dark:border-paper rounded z-0"></div>
+    <!-- Card Container -->
+    <div class="w-full max-w-md relative group">
+        <!-- Decorative Offset Border -->
+        <div class="absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-paper rounded translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
         
-        <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded p-8 md:p-12 relative z-10 shadow-manga dark:shadow-manga-white">
+        <!-- Main Card -->
+        <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded p-6 sm:p-10 relative z-10">
             
             <div class="text-center mb-8">
-                <div class="inline-block bg-ink dark:bg-paper text-white dark:text-ink px-2 py-1 font-mono text-xs font-bold mb-4">SYSTEM_ACCESS</div>
-                <h1 class="font-display font-black text-4xl uppercase">Identify</h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-2 font-mono text-xs">Please enter your credentials.</p>
+                <div class="inline-block bg-primary text-white px-2 py-1 font-mono text-[10px] font-bold mb-3 rounded-sm">SYSTEM_ACCESS</div>
+                <h1 class="font-display font-black text-3xl sm:text-4xl uppercase tracking-tight">Identify</h1>
             </div>
 
-            <!-- Socials -->
-            <div class="flex gap-4 mb-6">
-                <button class="flex-1 py-2 border-2 border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"><i class="fab fa-google"></i></button>
-                <button class="flex-1 py-2 border-2 border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"><i class="fab fa-github"></i></button>
-            </div>
-
-            <div class="relative flex py-2 items-center mb-6">
-                <div class="flex-grow border-t-2 border-gray-200 dark:border-gray-700"></div>
-                <span class="flex-shrink-0 mx-4 text-gray-400 font-mono text-[10px] uppercase">Or connect manually</span>
-                <div class="flex-grow border-t-2 border-gray-200 dark:border-gray-700"></div>
-            </div>
-
-            <form id="signInForm" class="space-y-6">
+            <form id="signin-form" class="space-y-5">
                 <div>
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-primary">Username / Email</label>
-                    <input type="text" name="username" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-gray-700 rounded p-3 font-mono text-sm focus:border-ink dark:focus:border-paper focus:outline-none transition-colors" placeholder="user@lha.gg">
+                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400">Username / Email</label>
+                    <input type="text" name="username" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-gray-700 rounded p-3 font-mono text-sm focus:border-primary dark:focus:border-primary focus:outline-none transition-colors placeholder-gray-400" placeholder="user@lha.gg">
                 </div>
 
                 <div class="relative">
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-primary">Password</label>
-                    <input type="password" id="password" name="password" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-gray-700 rounded p-3 font-mono text-sm focus:border-ink dark:focus:border-paper focus:outline-none transition-colors" placeholder="••••••••">
-                    <button type="button" id="togglePassword" class="absolute top-[34px] right-3 text-gray-400 hover:text-ink dark:hover:text-white">
+                    <div class="flex justify-between mb-2">
+                        <label class="font-bold text-xs font-mono uppercase text-gray-500 dark:text-gray-400">Password</label>
+                    </div>
+                    <input type="password" id="password" name="password" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-gray-700 rounded p-3 font-mono text-sm focus:border-primary dark:focus:border-primary focus:outline-none transition-colors placeholder-gray-400" placeholder="••••••••">
+                    <button type="button" id="togglePassword" class="absolute top-[34px] right-3 text-gray-400 hover:text-primary transition-colors">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
 
                 <div class="flex justify-end">
-                    <a href="/src/screens/auth/forgot-password.html" class="text-xs font-bold font-mono text-gray-500 hover:text-pop-pink transition-colors hover:underline decoration-wavy">Forgot Password?</a>
+                    <a href="forgot-password.html" class="text-xs font-bold font-mono text-gray-400 hover:text-pop-pink transition-colors hover:underline">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="w-full bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent rounded py-3 font-bold font-display uppercase tracking-widest hover:bg-pop-pink hover:text-white hover:border-ink dark:hover:border-paper transition-all hover:-translate-y-1 shadow-none hover:shadow-manga-sm">
+                <button type="submit" class="w-full bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent rounded py-3 font-bold font-display uppercase tracking-widest hover:bg-primary hover:text-white hover:border-ink dark:hover:border-paper transition-all shadow-none hover:shadow-lg active:scale-95">
                     Connect
                 </button>
             </form>
 
             <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
                 <p class="text-sm font-mono">
-                    New Player? <a href="/src/screens/auth/signup.html" class="font-bold text-primary hover:underline decoration-wavy">Create Character</a>
+                    New Player? <a href="signup.html" class="font-bold text-primary hover:text-pop-pink hover:underline">Create Character</a>
                 </p>
             </div>
         </div>
