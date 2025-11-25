@@ -36,7 +36,8 @@
                     boxShadow: {
                         'manga': '4px 4px 0px 0px #09090b',
                         'manga-white': '4px 4px 0px 0px #ffffff',
-                        'neon': '0 0 15px rgba(255, 42, 109, 0.4)'
+                        'neon': '0 0 15px rgba(255, 42, 109, 0.4)',
+                        'floating': '0 10px 30px -10px rgba(0,0,0,0.2)'
                     }
                 }
             }
@@ -55,29 +56,47 @@
         }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        #mobile-menu { transition: opacity 0.3s ease, transform 0.3s ease; }
-        #mobile-menu.hidden { pointer-events: none; opacity: 0; transform: translateY(-10px); }
-        #mobile-menu.flex { pointer-events: auto; opacity: 1; transform: translateY(0); }
+        /* Hide Scrollbar for Horizontal Scroll */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen pb-20 md:pb-0">
     
     <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-[60] px-4 py-3 md:py-4 transition-all bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md md:bg-transparent md:backdrop-filter-none border-b border-gray-200 dark:border-zinc-800 md:border-none shadow-sm md:shadow-none">
         <div class="container mx-auto max-w-7xl">
-            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none transition-all">
+            
+            <!-- Mobile Header: Simple & Compact -->
+            <div class="md:hidden flex justify-between items-center">
+                <a href="/index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-ink dark:bg-white text-white dark:text-ink rounded flex items-center justify-center font-bold text-lg shadow-sm">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <span class="font-display font-black text-lg uppercase tracking-tight">LHA <span class="text-pop-pink">/// ART</span></span>
+                </a>
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle-mobile" class="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-zinc-800 rounded-full text-sm transition-colors">
+                         <i class="fas fa-moon block dark:hidden"></i><i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Desktop Header: Full Experience -->
+            <div class="hidden md:flex bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md md:backdrop-blur border-2 border-ink dark:border-zinc-700 md:rounded-xl px-4 md:px-5 py-3 justify-between items-center shadow-manga dark:shadow-none transition-all rounded-xl">
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl group-hover:-translate-x-1 transition-transform shadow-sm">
+                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded md:rounded-lg font-display font-bold text-lg md:text-xl group-hover:-translate-x-1 transition-transform shadow-sm">
                         <i class="fas fa-arrow-left"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-display font-black leading-none text-lg uppercase tracking-tight">LHA <span class="text-pop-pink">/// ART</span></span>
-                        <span class="text-[10px] font-mono uppercase text-gray-500 font-bold tracking-widest">BACK TO BASE</span>
+                        <span class="font-display font-black leading-none text-base md:text-lg uppercase tracking-tight">LHA <span class="text-pop-pink">/// ART</span></span>
+                        <span class="text-[8px] md:text-[10px] font-mono uppercase text-gray-500 font-bold tracking-widest">BACK TO BASE</span>
                     </div>
                 </a>
 
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-6 font-bold uppercase text-xs tracking-wider font-mono">
                      <span class="text-gray-400">GUILD SELECTION:</span>
                      <a href="devs.html" class="hover:text-primary transition-colors opacity-50 hover:opacity-100">Devs</a>
@@ -86,52 +105,67 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button id="theme-toggle" class="w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
-                        <i class="fas fa-moon block dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
-                    </button>
-                    <button id="mobile-menu-button" class="md:hidden w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center text-xl hover:bg-gray-100 dark:hover:bg-zinc-800">
-                        <i class="fas fa-bars"></i>
+                    <button id="theme-toggle" class="w-9 h-9 md:w-10 md:h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
+                        <i class="fas fa-moon block dark:hidden text-sm md:text-base"></i>
+                        <i class="fas fa-sun hidden dark:block text-yellow-400 text-sm md:text-base"></i>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-black/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
-        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>
-        <div class="flex flex-col items-center space-y-6 text-center">
-            <span class="font-mono text-xs text-gray-400 mb-4 tracking-widest">SELECT GUILD CLASS</span>
-            <a href="devs.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-primary transition-colors">Devs</a>
-            <a href="#" class="mobile-link text-5xl font-display font-black uppercase text-pop-pink">Artists</a>
-            <a href="gamers.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-cyber-cyan transition-colors">Gamers</a>
-        </div>
-        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-white font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-white dark:hover:text-ink transition-colors tracking-widest text-xs">Return to Base</a>
-    </div>
-
     <!-- Hero -->
-    <header class="pt-32 pb-12 md:pt-40 md:pb-16 container mx-auto px-6 max-w-7xl text-center">
-        <div class="inline-block bg-pop-pink text-white border-2 border-ink dark:border-white px-4 py-1 font-mono font-bold text-xs md:text-sm -rotate-2 mb-6 shadow-manga dark:shadow-neon">
+    <header class="pt-24 md:pt-40 pb-6 md:pb-16 container mx-auto px-4 md:px-6 max-w-7xl text-center">
+        <!-- Mobile Badge -->
+        <div class="md:hidden inline-flex items-center gap-2 mb-4">
+            <span class="w-2 h-2 rounded-full bg-pop-pink animate-pulse"></span>
+            <span class="font-mono text-[10px] uppercase font-bold text-gray-400 tracking-widest">Guild Roster Loaded</span>
+        </div>
+
+        <!-- Desktop Badge -->
+        <div class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-white px-4 py-1 font-mono font-bold text-xs -rotate-2 mb-6 shadow-manga dark:shadow-neon">
             DIGITAL • TRADITIONAL • COSPLAY
         </div>
-        <h1 class="font-display font-black text-6xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-6">
+
+        <h1 class="font-display font-black text-5xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-4 md:mb-6">
             Visual <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-primary text-stroke">Storytellers</span>
         </h1>
-        <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium">
-            From rough sketches on napkins to fully rendered masterpieces. <br>Browse the roster of LHA's finest creators.
+        <p class="text-sm md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium px-4">
+            From rough sketches on napkins to fully rendered masterpieces. Browse the roster of LHA's finest creators.
         </p>
     </header>
 
-    <!-- Filter -->
-    <section class="container mx-auto px-6 max-w-5xl mb-16">
-        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-4 md:p-6 shadow-manga dark:shadow-none flex flex-col md:flex-row gap-4 transform hover:-translate-y-1 transition-transform rounded-xl">
+    <!-- Filter Section (Sticky on Mobile) -->
+    <section class="sticky top-[57px] md:static z-40 md:z-auto container mx-auto px-0 md:px-6 max-w-5xl mb-8 md:mb-16">
+        
+        <!-- Mobile "Control Deck" Layout -->
+        <div class="md:hidden bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-y border-gray-200 dark:border-zinc-700 py-3 shadow-lg">
+            <div class="px-4 mb-3">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-pop-pink text-xs"></i>
+                    <input type="text" id="mobile-search-input" placeholder="Find an artist..." 
+                        class="w-full bg-gray-100 dark:bg-black border border-transparent focus:border-pop-pink rounded-full py-2 pl-9 pr-4 font-mono text-xs focus:outline-none transition-all">
+                </div>
+            </div>
+            <!-- Horizontal Scrollable Pills -->
+            <div class="flex overflow-x-auto px-4 gap-2 hide-scrollbar" id="mobile-filter-container">
+                <button class="filter-pill active whitespace-nowrap px-4 py-1.5 rounded-full bg-ink text-white text-[10px] font-bold uppercase tracking-wider border border-ink" data-value="all">All Specs</button>
+                <button class="filter-pill whitespace-nowrap px-4 py-1.5 rounded-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 text-gray-500 text-[10px] font-bold uppercase tracking-wider" data-value="Digital Artist">Digital</button>
+                <button class="filter-pill whitespace-nowrap px-4 py-1.5 rounded-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 text-gray-500 text-[10px] font-bold uppercase tracking-wider" data-value="Concept Artist">Concept</button>
+                <button class="filter-pill whitespace-nowrap px-4 py-1.5 rounded-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 text-gray-500 text-[10px] font-bold uppercase tracking-wider" data-value="Illustrator">Illustrator</button>
+                <button class="filter-pill whitespace-nowrap px-4 py-1.5 rounded-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 text-gray-500 text-[10px] font-bold uppercase tracking-wider" data-value="3D Modeler">3D</button>
+                <button class="filter-pill whitespace-nowrap px-4 py-1.5 rounded-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 text-gray-500 text-[10px] font-bold uppercase tracking-wider" data-value="Cosplayer">Cosplay</button>
+            </div>
+        </div>
+
+        <!-- Desktop Original Layout (Hidden on Mobile) -->
+        <div class="hidden md:flex bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-6 shadow-manga dark:shadow-none flex-row gap-4 transform hover:-translate-y-1 transition-transform rounded-xl">
             <div class="flex-1 relative">
                 <i class="fas fa-paint-brush absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 <input type="text" id="search-input" placeholder="Search by Artist Name or Style..." 
                     class="w-full bg-gray-50 dark:bg-black border-2 border-transparent focus:border-pop-pink dark:focus:border-pop-pink py-3 pl-12 pr-4 font-mono text-sm focus:outline-none transition-colors text-ink dark:text-white rounded-lg">
             </div>
-            <div class="relative md:w-1/4">
+            <div class="relative w-1/4">
                 <select id="filter-select" class="w-full h-full appearance-none bg-gray-50 dark:bg-black border-2 border-transparent focus:border-pop-pink dark:focus:border-pop-pink py-3 px-4 font-mono text-sm focus:outline-none cursor-pointer text-ink dark:text-white rounded-lg">
                     <option value="all">All Specs</option>
                     <option value="Digital Artist">Digital Artist</option>
@@ -147,8 +181,10 @@
     </section>
 
     <!-- Grid -->
-    <section class="pb-24 px-4 md:px-8 flex-grow">
-        <div id="artist-grid" class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    <section class="pb-24 px-4 md:px-8 flex-grow min-h-[50vh]">
+        <div id="artist-grid" class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Grid items will be injected here via JS -->
+        </div>
         
         <div id="loading-state" class="flex flex-col items-center justify-center py-20 hidden">
             <span class="loader"></span>
@@ -162,7 +198,87 @@
         </div>
     </section>
 
-    <!-- JavaScript Link -->
+    <!-- MOBILE BOTTOM NAV -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-lg border-t border-gray-200 dark:border-zinc-800 pb-safe">
+        <div class="flex justify-around items-center py-2">
+            <a href="devs.html" class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-ink dark:hover:text-white transition-colors">
+                <i class="fas fa-code text-xl"></i>
+                <span class="text-[9px] font-bold font-mono uppercase">Devs</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-1 p-2 text-pop-pink">
+                <i class="fas fa-paint-brush text-xl"></i>
+                <span class="text-[9px] font-bold font-mono uppercase">Art</span>
+            </a>
+            <a href="gamers.html" class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-ink dark:hover:text-white transition-colors">
+                <i class="fas fa-gamepad text-xl"></i>
+                <span class="text-[9px] font-bold font-mono uppercase">Watch</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
     <script src="/src/js/guild/fetch-artists.js"></script>
+    <script>
+        // Inline script to handle Mobile Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme Toggle for Mobile
+            const tBtn = document.getElementById('theme-toggle-mobile');
+            const dBtn = document.getElementById('theme-toggle');
+
+            const toggleTheme = () => {
+                const html = document.documentElement;
+                if(html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    html.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            };
+
+            if(tBtn) tBtn.addEventListener('click', toggleTheme);
+            if(dBtn) dBtn.addEventListener('click', toggleTheme);
+
+            // Sync Mobile Search with Desktop Search
+            const mobileSearch = document.getElementById('mobile-search-input');
+            const desktopSearch = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+
+            if(mobileSearch && desktopSearch) {
+                mobileSearch.addEventListener('input', (e) => {
+                    desktopSearch.value = e.target.value;
+                    // Trigger search automatically on mobile after delay
+                    clearTimeout(window.searchTimeout);
+                    window.searchTimeout = setTimeout(() => {
+                        searchBtn.click();
+                    }, 500);
+                });
+            }
+
+            // Mobile Filter Pills Logic
+            const pills = document.querySelectorAll('.filter-pill');
+            const desktopSelect = document.getElementById('filter-select');
+
+            pills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    // Update UI
+                    pills.forEach(p => {
+                        p.classList.remove('bg-ink', 'text-white', 'border-ink');
+                        p.classList.add('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
+                    });
+                    pill.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
+                    pill.classList.add('bg-ink', 'text-white', 'border-ink');
+
+                    // Update Data
+                    const val = pill.dataset.value;
+                    if(desktopSelect) {
+                        desktopSelect.value = val;
+                        // Trigger the Fetch Logic
+                        searchBtn.click();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

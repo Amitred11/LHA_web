@@ -32,20 +32,39 @@
         .input-group:focus-within label { color: #ff2a6d; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 flex justify-center items-center min-h-screen p-4 relative overflow-x-hidden">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 min-h-screen relative overflow-x-hidden md:flex md:justify-center md:items-center">
 
+    <!-- Background Grid -->
     <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
     
-    <a href="/index.html" class="absolute top-8 left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
-        <i class="fas fa-times group-hover:scale-110 transition-transform"></i> Cancel
+    <!-- Nav (Adaptive) -->
+    <a href="/index.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/80 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
+        <i class="fas fa-times group-hover:scale-110 transition-transform text-pop-pink md:text-inherit"></i> Cancel
     </a>
 
-    <div class="w-full max-w-md relative group">
-        <!-- Decorative Offset -->
-        <div class="absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-zinc-700 rounded-xl translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 bg-pop-pink/10 dark:bg-pop-pink/5"></div>
+    <!-- Container -->
+    <div class="w-full h-full md:h-auto md:max-w-md relative group flex flex-col md:block">
         
-        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-8 sm:p-10 relative z-10 shadow-manga dark:shadow-neon-pink">
-            <div class="text-center mb-8">
+        <!-- MOBILE HEADER SECTION -->
+        <div class="md:hidden h-[35vh] bg-gray-100 dark:bg-zinc-900 flex flex-col justify-end p-8 pb-12 rounded-b-[3rem] shadow-inner relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-pop-pink opacity-10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
+            <div class="relative z-10">
+                <div class="w-12 h-12 bg-pop-pink text-white rounded-xl flex items-center justify-center mb-4 shadow-lg transform -rotate-3">
+                    <i class="fas fa-gamepad text-xl"></i>
+                </div>
+                <h1 class="font-display font-black text-4xl uppercase tracking-tighter text-ink dark:text-white leading-none">New<br><span class="text-pop-pink">Game</span></h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-2 font-mono text-[10px] uppercase tracking-widest pl-1">/// Initialize_Hero</p>
+            </div>
+        </div>
+
+        <!-- DESKTOP DECORATIVE OFFSET (Hidden on Mobile) -->
+        <div class="hidden md:block absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-zinc-700 rounded-xl translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 bg-pop-pink/10 dark:bg-pop-pink/5"></div>
+        
+        <!-- MAIN CARD / FORM SECTION -->
+        <div class="flex-1 bg-paper dark:bg-black md:bg-white md:dark:bg-zinc-900 md:border-2 md:border-ink md:dark:border-zinc-700 rounded-none md:rounded-xl p-6 sm:p-10 relative z-10 shadow-none md:shadow-manga md:dark:shadow-neon-pink -mt-8 md:mt-0">
+            
+            <!-- Desktop Header (Hidden on Mobile) -->
+            <div class="hidden md:block text-center mb-8">
                 <div class="w-16 h-16 bg-pop-pink/10 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-pop-pink dark:border-zinc-700">
                     <i class="fas fa-gamepad text-2xl text-pop-pink"></i>
                 </div>
@@ -53,7 +72,7 @@
                 <p class="text-gray-500 dark:text-gray-400 mt-2 font-mono text-xs uppercase tracking-widest">Initialize character creation.</p>
             </div>
 
-            <form id="signup-form" class="space-y-5">
+            <form id="signup-form" class="space-y-5 bg-white dark:bg-zinc-900 md:bg-transparent p-6 md:p-0 rounded-2xl shadow-lg md:shadow-none border border-gray-100 dark:border-zinc-800 md:border-none">
                 <!-- Username -->
                 <div class="input-group">
                     <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Username</label>
@@ -79,7 +98,7 @@
 
                 <!-- Confirm Password -->
                 <div class="input-group">
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Confirm Password</label>
+                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Confirm</label>
                     <div class="relative">
                         <input type="password" id="signup-confirm" name="confirm_password" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
                         <button type="button" id="toggleSignupConfirm" class="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 hover:text-pop-pink transition-colors">
@@ -88,12 +107,12 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="w-full bg-pop-pink text-white border-2 border-transparent rounded-lg py-3.5 font-bold font-display uppercase tracking-widest hover:bg-pink-600 hover:shadow-lg transition-all active:scale-[0.98] mt-4 shadow-md">
+                <button type="submit" class="w-full bg-pop-pink text-white border-2 border-transparent rounded-lg py-3.5 font-bold font-display uppercase tracking-widest hover:bg-pink-600 hover:shadow-lg transition-all active:scale-[0.98] mt-4 shadow-md shadow-pop-pink/20">
                     Start Adventure <i class="fas fa-chevron-right ml-1 text-sm"></i>
                 </button>
             </form>
 
-             <div class="mt-8 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center">
+             <div class="mt-8 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center pb-8 md:pb-0">
                 <p class="text-xs font-mono text-gray-500">Existing Player? <a href="signin.html" class="font-bold text-pop-pink hover:underline decoration-wavy ml-1">Load Save</a></p>
             </div>
         </div>

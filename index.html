@@ -30,10 +30,10 @@
                     },
                     colors: {
                         'ink': '#09090b',       
-                        'paper': '#fdfbf7', // Slightly warmer white for "Manga Paper" feel
+                        'paper': '#fdfbf7', 
                         'surface': '#ffffff',
-                        'surface-dark': '#18181b', // Zinc 900
-                        'primary': '#8b5cf6',   // Violet
+                        'surface-dark': '#18181b', 
+                        'primary': '#8b5cf6',   
                         'pop-pink': '#ff2a6d',  
                         'cyber-cyan': '#05d9e8',
                         'neon-lime': '#d1f25e', 
@@ -43,12 +43,9 @@
                         'grid-pattern-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
-                        // Light Mode: Hard, offset shadows (Manga style)
                         'manga': '4px 4px 0px 0px #09090b',
                         'manga-sm': '2px 2px 0px 0px #09090b',
                         'manga-lg': '8px 8px 0px 0px #09090b',
-                        
-                        // Dark Mode: Soft, colorful glows (Cyber style)
                         'neon-purple': '0 0 15px -3px rgba(139, 92, 246, 0.4)',
                         'neon-pink': '0 0 15px -3px rgba(255, 42, 109, 0.4)',
                         'neon-cyan': '0 0 15px -3px rgba(5, 217, 232, 0.4)',
@@ -77,6 +74,15 @@
         .dark ::-webkit-scrollbar-thumb { background: #3f3f46; border: 2px solid #09090b; }
         ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+        /* Hide scrollbar for horizontal mobile swipe */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
 
         /* Selection */
         ::selection { background-color: #d1f25e; color: #09090b; }
@@ -225,9 +231,9 @@
     </div>
 
     <!-- Hero Section -->
-    <header id="home" class="relative pt-32 pb-12 md:pt-48 md:pb-32 overflow-hidden min-h-[90vh] flex flex-col justify-center">
+    <header id="home" class="relative pt-32 pb-12 md:pt-48 md:pb-32 overflow-hidden min-h-[85vh] md:min-h-[90vh] flex flex-col justify-center">
         <div class="container mx-auto px-6 max-w-7xl relative z-10">
-            <div class="flex flex-col lg:flex-row gap-16 items-center">
+            <div class="flex flex-col lg:flex-row gap-12 md:gap-16 items-center">
                 
                 <!-- Text / Intro -->
                 <div class="w-full lg:w-1/2 relative z-20 text-center lg:text-left">
@@ -262,9 +268,9 @@
                 </div>
 
                 <!-- Visual Collage -->
-                <div class="w-full lg:w-1/2 relative h-[400px] md:h-[600px] flex justify-center items-center perspective-1000">
+                <div class="w-full lg:w-1/2 relative h-[300px] md:h-[600px] flex justify-center items-center perspective-1000 mt-8 md:mt-0">
                     <!-- Floating Terminal -->
-                    <div class="absolute top-10 right-0 md:right-10 w-72 md:w-80 bg-[#1e1e1e] text-green-400 p-5 rounded-xl border-2 border-ink dark:border-zinc-600 shadow-manga-lg dark:shadow-neon-cyan animate-float z-20 font-mono text-xs">
+                    <div class="absolute top-0 md:top-10 right-4 md:right-10 w-64 md:w-80 bg-[#1e1e1e] text-green-400 p-4 md:p-5 rounded-xl border-2 border-ink dark:border-zinc-600 shadow-manga-lg dark:shadow-neon-cyan animate-float z-20 font-mono text-xs scale-90 md:scale-100">
                         <div class="flex justify-between items-center mb-4 border-b border-zinc-700 pb-2">
                             <div class="flex gap-1.5">
                                 <div class="w-3 h-3 rounded-full bg-red-500"></div>
@@ -283,8 +289,8 @@
                     </div>
 
                     <!-- Floating Art -->
-                    <div class="absolute bottom-10 left-0 md:left-10 w-64 md:w-72 bg-white dark:bg-zinc-800 p-3 rounded-xl border-2 border-ink dark:border-zinc-600 shadow-manga dark:shadow-neon-purple transform -rotate-6 z-10 hover:rotate-0 transition-transform duration-500">
-                        <div class="w-full h-48 bg-gray-200 dark:bg-zinc-700 rounded mb-3 overflow-hidden relative group">
+                    <div class="absolute bottom-4 md:bottom-10 left-4 md:left-10 w-56 md:w-72 bg-white dark:bg-zinc-800 p-3 rounded-xl border-2 border-ink dark:border-zinc-600 shadow-manga dark:shadow-neon-purple transform -rotate-6 z-10 hover:rotate-0 transition-transform duration-500 scale-90 md:scale-100">
+                        <div class="w-full h-40 md:h-48 bg-gray-200 dark:bg-zinc-700 rounded mb-3 overflow-hidden relative group">
                              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                              <div class="absolute bottom-2 right-2 bg-pop-pink text-white text-[10px] font-bold px-2 py-1 rounded">ARTIST_ALLEY.JPG</div>
                         </div>
@@ -316,24 +322,29 @@
     </div>
 
     <!-- The Guild (About Section) -->
-    <section id="vibe" class="reveal py-24 bg-paper dark:bg-black relative scroll-mt-24">
+    <section id="vibe" class="reveal py-16 md:py-24 bg-paper dark:bg-black relative scroll-mt-24">
         <div class="container mx-auto px-6 max-w-6xl">
-            <div class="flex flex-col md:flex-row gap-6 items-end mb-16 border-b-2 border-gray-200 dark:border-zinc-800 pb-6">
+            <div class="flex flex-col md:flex-row gap-6 items-end mb-12 md:mb-16 border-b-2 border-gray-200 dark:border-zinc-800 pb-6">
                 <div>
                     <span class="text-primary font-mono text-xs font-bold tracking-widest uppercase mb-2 block">Select Class</span>
                     <h2 class="font-display font-black text-5xl md:text-7xl uppercase text-ink dark:text-white">The Guild</h2>
                 </div>
                 <span class="font-mono text-xl text-gray-400 mb-2 hidden md:block select-none">/ ギルド</span>
-                <p class="md:ml-auto text-gray-600 dark:text-gray-400 font-medium max-w-md text-right w-full md:w-auto">
+                <p class="md:ml-auto text-gray-600 dark:text-gray-400 font-medium max-w-md text-left md:text-right w-full md:w-auto">
+                    <span class="md:hidden text-xs uppercase tracking-wide font-bold text-primary mb-1 block">Swipe to explore</span>
                     Pick your role. Click a card to explore the sub-guilds and skill trees.
                 </p>
             </div>
 
-            <!-- Bento Grid Layout -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- 
+               Responsive Layout Switch: 
+               Mobile = Horizontal Snap Scroll (flex + overflow-x-auto)
+               Desktop = Bento Grid (md:grid)
+            -->
+            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-6 px-6 no-scrollbar md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:pb-0 md:mx-0 md:px-0">
                 
                 <!-- Coder Card -->
-                <a href="/src/screens/guild/devs.html" class="relative group h-full">
+                <a href="/src/screens/guild/devs.html" class="relative group h-full min-w-[85vw] md:min-w-0 snap-center">
                     <div class="absolute inset-0 bg-ink dark:bg-primary translate-x-2 translate-y-2 rounded-xl transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
                     <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-8 rounded-xl h-full flex flex-col justify-between transition-transform group-hover:-translate-y-1">
                         <div>
@@ -354,7 +365,7 @@
                 </a>
 
                 <!-- Artist Card -->
-                <a href="/src/screens/guild/artists.html" class="relative group h-full">
+                <a href="/src/screens/guild/artists.html" class="relative group h-full min-w-[85vw] md:min-w-0 snap-center">
                     <div class="absolute inset-0 bg-ink dark:bg-pop-pink translate-x-2 translate-y-2 rounded-xl transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
                     <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-8 rounded-xl h-full flex flex-col justify-between transition-transform group-hover:-translate-y-1">
                         <div>
@@ -375,7 +386,7 @@
                 </a>
 
                 <!-- Gamer Card -->
-                <a href="/src/screens/guild/gamers.html" class="relative group h-full">
+                <a href="/src/screens/guild/gamers.html" class="relative group h-full min-w-[85vw] md:min-w-0 snap-center">
                     <div class="absolute inset-0 bg-ink dark:bg-cyber-cyan translate-x-2 translate-y-2 rounded-xl transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
                     <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-8 rounded-xl h-full flex flex-col justify-between transition-transform group-hover:-translate-y-1">
                         <div>
@@ -395,8 +406,8 @@
                     </div>
                 </a>
 
-                <!-- Upcoming Con Widget -->
-                <div class="md:col-span-3 mt-8 bg-neon-lime/10 dark:bg-zinc-900 border border-dashed border-ink dark:border-zinc-700 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
+                <!-- Upcoming Con Widget (Desktop: col-span-3, Mobile: separate card) -->
+                <div class="md:col-span-3 mt-0 md:mt-8 min-w-[85vw] md:min-w-0 snap-center bg-neon-lime/10 dark:bg-zinc-900 border border-dashed border-ink dark:border-zinc-700 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
                     <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
                     
                     <div class="bg-white dark:bg-zinc-800 border-2 border-ink dark:border-zinc-600 p-5 -rotate-3 group-hover:rotate-0 transition-transform shadow-manga-sm dark:shadow-lg rounded-lg z-10">
@@ -410,7 +421,7 @@
                         <h4 class="font-display font-bold text-2xl uppercase mb-1">Tech & Otaku Summit</h4>
                         <p class="text-gray-600 dark:text-gray-400 text-sm">Join us for a weekend of hackathons, cosplay contests, and gaming tournaments.</p>
                     </div>
-                    <a href="/src/screens/events/summit.html" class="bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 rounded-lg font-bold uppercase text-xs hover:scale-105 transition-transform shadow-lg z-10">
+                    <a href="/src/screens/events/summit.html" class="bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 rounded-lg font-bold uppercase text-xs hover:scale-105 transition-transform shadow-lg z-10 w-full md:w-auto text-center">
                         RSVP Now
                     </a>
                 </div>
@@ -419,7 +430,7 @@
     </section>
 
     <!-- Roster (About) -->
-    <section id="roster" class="reveal py-20 bg-gray-50 dark:bg-zinc-900/50 border-y border-gray-200 dark:border-zinc-800 relative overflow-hidden scroll-mt-24">
+    <section id="roster" class="reveal py-16 md:py-20 bg-gray-50 dark:bg-zinc-900/50 border-y border-gray-200 dark:border-zinc-800 relative overflow-hidden scroll-mt-24">
         
         <div class="container mx-auto px-6 max-w-7xl relative z-10">
             <div class="bg-white dark:bg-black border border-gray-200 dark:border-zinc-700 p-8 md:p-16 shadow-xl dark:shadow-glass rounded-3xl flex flex-col md:flex-row items-center gap-12 md:gap-20">
@@ -439,18 +450,20 @@
                     </a>
                 </div>
                 <!-- Visuals -->
-                <div class="w-full md:w-1/3 relative h-64 flex items-center justify-center mt-6 md:mt-0">
-                    <!-- Avatars with stylized borders -->
-                    <div class="absolute w-28 h-28 rounded-full border-4 border-white dark:border-zinc-800 shadow-xl z-10 left-10 md:left-0 top-6 overflow-hidden bg-neon-lime transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full object-cover"></div>
-                    <div class="absolute w-36 h-36 rounded-full border-4 border-white dark:border-zinc-800 shadow-2xl z-20 bg-pop-pink overflow-hidden transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="w-full h-full object-cover"></div>
-                    <div class="absolute w-28 h-28 rounded-full border-4 border-white dark:border-zinc-800 shadow-xl z-10 right-10 md:right-0 bottom-0 overflow-hidden bg-cyber-cyan transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bandit" class="w-full h-full object-cover"></div>
+                <div class="w-full md:w-1/3 relative h-48 md:h-64 flex items-center justify-center mt-2 md:mt-0">
+                    <!-- Avatars with stylized borders - Optimized for mobile centering -->
+                    <div class="absolute w-24 md:w-28 h-24 md:h-28 rounded-full border-4 border-white dark:border-zinc-800 shadow-xl z-10 left-1/2 -translate-x-[120%] md:left-0 md:translate-x-0 top-6 overflow-hidden bg-neon-lime transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full object-cover"></div>
+                    
+                    <div class="absolute w-32 md:w-36 h-32 md:h-36 rounded-full border-4 border-white dark:border-zinc-800 shadow-2xl z-20 bg-pop-pink overflow-hidden transform left-1/2 -translate-x-1/2 hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="w-full h-full object-cover"></div>
+                    
+                    <div class="absolute w-24 md:w-28 h-24 md:h-28 rounded-full border-4 border-white dark:border-zinc-800 shadow-xl z-10 left-1/2 translate-x-[20%] md:left-auto md:right-0 md:translate-x-0 bottom-0 overflow-hidden bg-cyber-cyan transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bandit" class="w-full h-full object-cover"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="dms" class="reveal py-24 bg-ink dark:bg-[#050505] text-paper relative overflow-hidden scroll-mt-24">
+    <section id="dms" class="reveal py-16 md:py-24 bg-ink dark:bg-[#050505] text-paper relative overflow-hidden scroll-mt-24">
         <!-- Decoration -->
         <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
 
@@ -458,44 +471,45 @@
             <div class="bg-gray-900 dark:bg-black border border-gray-700 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px]">
                 
                 <!-- Terminal Sidebar -->
-                <div class="md:w-1/3 bg-[#0d0d0d] p-8 border-b md:border-b-0 md:border-r border-gray-800 flex flex-col relative">
-                    <div class="absolute top-4 left-4 flex gap-2">
+                <div class="w-full md:w-1/3 bg-[#0d0d0d] p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-800 flex flex-row md:flex-col justify-between md:justify-start relative gap-4">
+                    <!-- Decor dots -->
+                    <div class="absolute top-4 left-4 flex gap-2 hidden md:flex">
                         <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                         <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                         <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
 
-                    <div class="mt-12 flex-1">
-                        <div class="mb-8">
-                            <div class="text-gray-500 font-mono text-[10px] mb-2 uppercase tracking-widest">System Status</div>
+                    <div class="mt-0 md:mt-12 flex-1 md:block flex items-center justify-between w-full">
+                        <div class="mb-0 md:mb-8">
+                            <div class="text-gray-500 font-mono text-[10px] mb-1 md:mb-2 uppercase tracking-widest">System Status</div>
                             <div class="flex items-center gap-3 text-green-400 font-mono text-sm">
                                 <span class="relative flex h-3 w-3">
                                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                   <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                                 </span>
-                                ONLINE
+                                <span class="hidden md:inline">ONLINE</span>
                             </div>
                         </div>
                         <div>
-                            <div class="text-gray-500 font-mono text-[10px] mb-2 uppercase tracking-widest">Connect</div>
-                            <div class="flex gap-4 text-2xl text-gray-400">
+                            <div class="text-gray-500 font-mono text-[10px] mb-1 md:mb-2 uppercase tracking-widest hidden md:block">Connect</div>
+                            <div class="flex gap-6 md:gap-4 text-xl md:text-2xl text-gray-400">
                                 <a href="#" class="hover:text-pop-pink transition-colors"><i class="fab fa-discord"></i></a>
                                 <a href="#" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
                                 <a href="#" class="hover:text-cyber-cyan transition-colors"><i class="fab fa-twitter"></i></a>
                             </div>
                         </div>
                     </div>
-                    <div class="text-gray-700 font-mono text-xs mt-8">v2.0.5 stable</div>
+                    <div class="text-gray-700 font-mono text-xs mt-8 hidden md:block">v2.0.5 stable</div>
                 </div>
 
                 <!-- Form -->
-                <div class="md:w-2/3 p-8 md:p-12 bg-gray-900/50 relative">
+                <div class="w-full md:w-2/3 p-6 md:p-12 bg-gray-900/50 relative">
                     <!-- Scanlines effect for form bg -->
                     <div class="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 pointer-events-none bg-[length:100%_4px,3px_100%]"></div>
 
                     <div class="relative z-10">
-                        <h3 class="font-mono text-xl text-primary mb-8 border-b border-gray-700 pb-2 inline-block">> Send_Message()</h3>
-                        <form action="contact-form" method="POST" class="space-y-5 font-mono text-sm">
+                        <h3 class="font-mono text-lg md:text-xl text-primary mb-6 md:mb-8 border-b border-gray-700 pb-2 inline-block">> Send_Message()</h3>
+                        <form action="contact-form" method="POST" class="space-y-4 md:space-y-5 font-mono text-sm">
                             <div class="group">
                                 <label class="block text-gray-500 text-xs mb-1 group-focus-within:text-primary transition-colors">name_string</label>
                                 <input type="text" name="name" required placeholder='"Kirito"' class="w-full bg-[#151515] border border-gray-700 p-3 rounded text-white focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all">

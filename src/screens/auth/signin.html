@@ -41,34 +41,35 @@
         .dark .input-group:focus-within label { color: #8b5cf6; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 flex justify-center items-center min-h-screen p-4 relative overflow-hidden">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 min-h-screen relative overflow-x-hidden md:flex md:justify-center md:items-center">
 
     <!-- Background Grid -->
     <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Nav -->
-    <a href="/index.html" class="absolute top-8 left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
+    <a href="/index.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/80 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
         <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden sm:inline">Return to Base</span>
     </a>
 
-    <!-- Card Container -->
-    <div class="w-full max-w-md relative group">
-        <!-- Decorative Elements -->
-        <div class="absolute -top-3 -right-3 w-12 h-12 bg-dots-pattern opacity-50 z-0"></div>
-        <div class="absolute -bottom-3 -left-3 w-12 h-12 bg-dots-pattern opacity-50 z-0"></div>
+    <!-- Container -->
+    <div class="w-full h-full md:h-auto md:max-w-md relative group flex flex-col justify-center">
+        
+        <!-- Desktop Deco (Hidden Mobile) -->
+        <div class="hidden md:block absolute -top-3 -right-3 w-12 h-12 bg-dots-pattern opacity-50 z-0"></div>
+        <div class="hidden md:block absolute -bottom-3 -left-3 w-12 h-12 bg-dots-pattern opacity-50 z-0"></div>
         
         <!-- Main Card -->
-        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-8 sm:p-10 relative z-10 shadow-manga dark:shadow-neon transition-all duration-300">
+        <div class="flex-1 md:flex-none flex flex-col justify-center md:block bg-transparent md:bg-white md:dark:bg-zinc-900 md:border-2 md:border-ink md:dark:border-zinc-700 rounded-xl px-6 md:p-10 relative z-10 shadow-none md:shadow-manga md:dark:shadow-neon transition-all duration-300">
             
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center gap-2 bg-ink dark:bg-white text-white dark:text-ink px-3 py-1 font-mono text-[10px] font-bold mb-4 rounded transform -rotate-2">
+            <div class="text-left md:text-center mb-8 pt-16 md:pt-0">
+                <div class="inline-flex items-center gap-2 bg-ink dark:bg-white text-white dark:text-ink px-3 py-1 font-mono text-[10px] font-bold mb-4 rounded transform md:-rotate-2">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> SYSTEM_ACCESS
                 </div>
-                <h1 class="font-display font-black text-4xl uppercase tracking-tight text-ink dark:text-white">Identify</h1>
-                <p class="text-xs font-mono text-gray-500 mt-2 uppercase tracking-widest">Enter Credentials to proceed.</p>
+                <h1 class="font-display font-black text-5xl md:text-4xl uppercase tracking-tighter md:tracking-tight text-ink dark:text-white mb-2 md:mb-0">Identify</h1>
+                <p class="text-xs font-mono text-gray-500 mt-0 md:mt-2 uppercase tracking-widest pl-1 md:pl-0">Enter Credentials to proceed.</p>
             </div>
 
-            <form id="signin-form" class="space-y-6">
+            <form id="signin-form" class="space-y-6 bg-white dark:bg-zinc-900 md:bg-transparent p-6 md:p-0 rounded-2xl shadow-xl md:shadow-none border border-gray-100 dark:border-zinc-800 md:border-none">
                 <div class="input-group">
                     <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 transition-colors">Username / Email</label>
                     <div class="relative">
@@ -108,20 +109,20 @@
 
             <!-- Social Buttons -->
             <div class="grid grid-cols-3 gap-3 mb-2">
-                <button data-provider="google" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group">
+                <button data-provider="google" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-black md:bg-transparent text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group shadow-sm md:shadow-none">
                     <i class="fab fa-google text-lg group-hover:scale-110 transition-transform"></i>
                 </button>
                 
-                <button data-provider="github" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group">
+                <button data-provider="github" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-black md:bg-transparent text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group shadow-sm md:shadow-none">
                     <i class="fab fa-github text-lg group-hover:scale-110 transition-transform"></i>
                 </button>
                 
-                <button data-provider="facebook" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group">
+                <button data-provider="facebook" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-black md:bg-transparent text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group shadow-sm md:shadow-none">
                     <i class="fab fa-facebook-f text-lg group-hover:scale-110 transition-transform"></i>
                 </button>
             </div>
 
-            <div class="mt-6 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center">
+            <div class="mt-6 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center pb-8 md:pb-0">
                 <p class="text-xs font-mono text-gray-500">
                     New Player? <a href="signup.html" class="font-bold text-primary hover:text-pop-pink hover:underline decoration-wavy ml-1 transition-colors">Create Character</a>
                 </p>

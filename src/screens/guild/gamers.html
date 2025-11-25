@@ -37,24 +37,40 @@
         .dark .app-lock-pattern { background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 10px); }
         .loader { width: 48px; height: 48px; border: 5px solid #05d9e8; border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #mobile-menu { transition: opacity 0.3s ease, transform 0.3s ease; }
-        #mobile-menu.hidden { pointer-events: none; opacity: 0; transform: translateY(-10px); }
-        #mobile-menu.flex { pointer-events: auto; opacity: 1; transform: translateY(0); }
         
         /* Scanline Effect */
         .scanlines { position: fixed; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); background-size: 100% 4px; z-index: 9999; opacity: 0; }
         .dark .scanlines { opacity: 0.05; }
+
+        /* Hide Scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen pb-20 md:pb-0">
     
     <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
     <div class="scanlines"></div>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-3 md:py-4 transition-all bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md md:bg-transparent md:backdrop-filter-none border-b border-gray-200 dark:border-zinc-800 md:border-none shadow-sm md:shadow-none">
         <div class="container mx-auto max-w-7xl">
-            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none transition-all">
+            <!-- Mobile Header: Simple & Compact -->
+            <div class="md:hidden flex justify-between items-center">
+                <a href="/index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-cyber-cyan text-ink rounded flex items-center justify-center font-bold text-lg"><i class="fas fa-arrow-left"></i></div>
+                    <span class="font-display font-black text-lg uppercase tracking-tight">LHA <span class="text-cyber-cyan">/// WATCH</span></span>
+                </a>
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_red]"></div>
+                    <button id="theme-toggle-mobile" class="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-zinc-800 rounded-full text-sm">
+                         <i class="fas fa-moon block dark:hidden"></i><i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Desktop Header: Full Experience (Original) -->
+            <div class="hidden md:flex bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 justify-between items-center shadow-manga dark:shadow-none transition-all">
                 <a href="/index.html" class="flex items-center gap-3 group">
                     <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl group-hover:-translate-x-1 transition-transform shadow-sm"><i class="fas fa-arrow-left"></i></div>
                     <div class="flex flex-col">
@@ -62,7 +78,7 @@
                         <span class="text-[10px] font-mono uppercase text-gray-500 font-bold tracking-widest">BACK TO BASE</span>
                     </div>
                 </a>
-                <div class="hidden md:flex items-center gap-6 font-bold uppercase text-xs tracking-wider font-mono">
+                <div class="flex items-center gap-6 font-bold uppercase text-xs tracking-wider font-mono">
                      <span class="text-gray-400">GUILD SELECTION:</span>
                      <a href="devs.html" class="hover:text-primary transition-colors opacity-50 hover:opacity-100">Devs</a>
                      <a href="artists.html" class="hover:text-pop-pink transition-colors opacity-50 hover:opacity-100">Artists</a>
@@ -71,40 +87,35 @@
                 <div class="flex items-center gap-3">
                     <div class="hidden md:flex items-center gap-2 font-mono text-[10px] font-bold border border-green-500/50 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded animate-pulse"><span class="w-2 h-2 bg-green-500 rounded-full"></span> LIVE_FEED</div>
                     <button id="theme-toggle" class="w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"><i class="fas fa-moon block dark:hidden"></i><i class="fas fa-sun hidden dark:block text-yellow-400"></i></button>
-                    <button id="mobile-menu-button" class="md:hidden w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center text-xl hover:bg-gray-100 dark:hover:bg-zinc-800"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-black/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
-        <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>
-        <div class="flex flex-col items-center space-y-6 text-center">
-            <span class="font-mono text-xs text-gray-400 mb-4 tracking-widest">SELECT GUILD CLASS</span>
-            <a href="devs.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-primary transition-colors">Devs</a>
-            <a href="artists.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-pop-pink transition-colors">Artists</a>
-            <a href="#" class="mobile-link text-5xl font-display font-black uppercase text-cyber-cyan">Gamers</a>
-        </div>
-        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-white font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-white dark:hover:text-ink transition-colors tracking-widest text-xs">Return to Base</a>
-    </div>
-
     <!-- Header -->
-    <header class="pt-32 pb-8 md:pt-40 md:pb-12 container mx-auto px-6 max-w-7xl">
-        <div class="flex flex-col lg:flex-row justify-between items-end gap-8 mb-12 border-b-2 border-ink dark:border-zinc-700 pb-8">
+    <header class="pt-20 md:pt-40 pb-6 md:pb-12 container mx-auto px-4 md:px-6 max-w-7xl">
+        <div class="flex flex-col lg:flex-row justify-between items-end gap-6 md:gap-8 mb-6 md:mb-12 border-b-0 md:border-b-2 border-ink dark:border-zinc-700 pb-0 md:pb-8">
             <div>
-                <div class="inline-flex items-center gap-2 bg-cyber-cyan text-ink border-2 border-ink dark:border-white px-3 py-1 font-mono text-[10px] font-bold mb-4 transform -rotate-2 shadow-sm">
+                <!-- Mobile Only Badge -->
+                <div class="md:hidden flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 rounded bg-red-500 text-white text-[10px] font-bold uppercase tracking-wider animate-pulse">Live</span>
+                    <span class="text-[10px] font-mono text-gray-500 uppercase">Incoming Signal...</span>
+                </div>
+
+                <!-- Desktop Badge -->
+                <div class="hidden md:inline-flex items-center gap-2 bg-cyber-cyan text-ink border-2 border-ink dark:border-white px-3 py-1 font-mono text-[10px] font-bold mb-4 transform -rotate-2 shadow-sm">
                     <span class="animate-pulse bg-white rounded-full w-2 h-2"></span> INCOMING_TRANSMISSION
                 </div>
-                <h1 class="font-display font-black text-6xl md:text-8xl lg:text-9xl uppercase leading-[0.9] mb-4">
+
+                <h1 class="font-display font-black text-5xl md:text-8xl lg:text-9xl uppercase leading-[0.9] mb-2 md:mb-4">
                     Top <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan to-pop-pink">Frags.</span>
                 </h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400 font-mono flex items-center gap-2">
-                    <i class="fas fa-satellite-dish text-pop-pink animate-pulse"></i> Receiving Live Transmissions from the Collective.
+                <p class="text-sm md:text-lg text-gray-600 dark:text-gray-400 font-mono flex items-center gap-2 max-w-md md:max-w-none">
+                    <i class="fas fa-satellite-dish text-pop-pink animate-pulse hidden md:inline-block"></i> Receiving Live Transmissions from the Collective.
                 </p>
             </div>
             
-            <div class="bg-white dark:bg-zinc-900 text-ink dark:text-white p-6 rounded-xl w-full max-w-md shadow-manga dark:shadow-neon flex items-center gap-5 border-2 border-ink dark:border-cyber-cyan transform lg:rotate-2 hover:rotate-0 transition-transform group">
+            <div class="hidden md:flex bg-white dark:bg-zinc-900 text-ink dark:text-white p-6 rounded-xl w-full max-w-md shadow-manga dark:shadow-neon items-center gap-5 border-2 border-ink dark:border-cyber-cyan transform lg:rotate-2 hover:rotate-0 transition-transform group">
                 <div class="text-4xl text-cyber-cyan group-hover:scale-110 transition-transform"><i class="fas fa-mobile-alt"></i></div>
                 <div class="flex-1">
                     <h4 class="font-bold text-lg leading-none uppercase mb-1">Squad Up Now</h4>
@@ -115,21 +126,41 @@
         </div>
     </header>
 
+    <!-- MOBILE ONLY: Horizontal Stories (Streamer Roster) -->
+    <div class="md:hidden container mx-auto px-4 mb-8">
+        <h3 class="text-xs font-bold font-mono text-gray-500 uppercase mb-3 tracking-wider">Active Agents</h3>
+        <div id="mobile-roster-list" class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+            <!-- Will be populated by JS -->
+            <div class="flex flex-col items-center gap-1 shrink-0">
+                <div class="w-14 h-14 rounded-full border-2 border-dashed border-gray-300 dark:border-zinc-700 flex items-center justify-center animate-pulse">
+                    <div class="w-12 h-12 bg-gray-200 dark:bg-zinc-800 rounded-full"></div>
+                </div>
+                <div class="w-10 h-2 bg-gray-200 dark:bg-zinc-800 rounded"></div>
+            </div>
+            <div class="flex flex-col items-center gap-1 shrink-0">
+                <div class="w-14 h-14 rounded-full border-2 border-dashed border-gray-300 dark:border-zinc-700 flex items-center justify-center animate-pulse">
+                    <div class="w-12 h-12 bg-gray-200 dark:bg-zinc-800 rounded-full"></div>
+                </div>
+                <div class="w-10 h-2 bg-gray-200 dark:bg-zinc-800 rounded"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <div class="container mx-auto px-6 max-w-7xl pb-24 flex-grow">
+    <div class="container mx-auto px-4 md:px-6 max-w-7xl pb-24 flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             <!-- LEFT: Video Feed -->
             <div class="lg:col-span-8">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-                    <h2 class="font-display font-black text-3xl uppercase flex items-center gap-2">
+                    <h2 class="font-display font-black text-2xl md:text-3xl uppercase flex items-center gap-2">
                         <i class="fas fa-play-circle text-cyber-cyan"></i> Trending Clips
                     </h2>
-                    <div class="h-px bg-gray-200 dark:bg-zinc-800 flex-1 w-full sm:w-auto"></div>
+                    <div class="h-px bg-gray-200 dark:bg-zinc-800 flex-1 w-full sm:w-auto hidden md:block"></div>
                 </div>
 
                 <!-- Feed Container -->
-                <div id="clips-feed" class="space-y-8 min-h-[300px]"></div>
+                <div id="clips-feed" class="space-y-6 md:space-y-8 min-h-[300px]"></div>
 
                 <!-- Loading State -->
                 <div id="loading-clips" class="flex flex-col items-center justify-center py-16 bg-white dark:bg-zinc-900 border-2 border-dashed border-gray-200 dark:border-zinc-700 rounded-xl">
@@ -143,16 +174,16 @@
                     <p class="font-mono text-gray-500">No signals found in this sector.</p>
                 </div>
                 
-                <div class="text-center mt-16">
+                <div class="text-center mt-12 md:mt-16 mb-8 md:mb-0">
                     <p class="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">--- End of public feed ---</p>
-                    <button onclick="triggerAppPromo()" class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 px-8 py-3 rounded-lg font-bold uppercase text-xs hover:border-cyber-cyan hover:text-cyber-cyan transition-all shadow-sm hover:shadow-md">
+                    <button onclick="triggerAppPromo()" class="w-full md:w-auto bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 px-8 py-3 rounded-lg font-bold uppercase text-xs hover:border-cyber-cyan hover:text-cyber-cyan transition-all shadow-sm hover:shadow-md">
                         Load More on App <i class="fas fa-arrow-down ml-2"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- RIGHT: Top Streamers Sidebar -->
-            <div class="lg:col-span-4">
+            <!-- RIGHT: Top Streamers Sidebar (Desktop Only) -->
+            <div class="hidden lg:block lg:col-span-4">
                 <div class="sticky top-24">
                     <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 shadow-manga dark:shadow-none p-0 overflow-hidden rounded-xl">
                         
@@ -183,42 +214,58 @@
         </div>
     </div>
 
-    <!-- Video Player Modal -->
-    <div id="video-player-modal" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="w-full max-w-5xl bg-black border border-zinc-800 rounded-2xl overflow-hidden relative shadow-2xl">
-            <button id="close-player-btn" class="absolute top-4 right-4 text-white/50 hover:text-white text-2xl z-50 transition-colors bg-black/50 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur"><i class="fas fa-times"></i></button>
+    <!-- MOBILE BOTTOM NAV -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-lg border-t border-gray-200 dark:border-zinc-800 pb-safe">
+        <div class="flex justify-around items-center py-2">
+            <a href="devs.html" class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-ink dark:hover:text-white transition-colors">
+                <i class="fas fa-code text-xl"></i>
+                <span class="text-[9px] font-bold font-mono uppercase">Devs</span>
+            </a>
+            <a href="artists.html" class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-ink dark:hover:text-white transition-colors">
+                <i class="fas fa-paint-brush text-xl"></i>
+                <span class="text-[9px] font-bold font-mono uppercase">Art</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-1 p-2 text-cyber-cyan">
+                <i class="fas fa-gamepad text-xl"></i>
+                <span class="text-[9px] font-bold font-mono uppercase">Watch</span>
+            </a>
+        </div>
+    </div>
 
-            <div class="aspect-video bg-zinc-900 flex items-center justify-center relative group">
-                <img id="modal-video-thumb" src="" class="w-full h-full object-cover opacity-50">
+    <!-- Video Player Modal -->
+    <div id="video-player-modal" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center p-0 md:p-4 backdrop-blur-md">
+        <div class="w-full h-full md:h-auto md:max-w-5xl bg-black border-0 md:border border-zinc-800 md:rounded-2xl overflow-hidden relative shadow-2xl flex flex-col">
+            <!-- Modal Header (Mobile) -->
+            <div class="md:hidden flex items-center justify-between p-4 bg-zinc-900 border-b border-zinc-800">
+                <span class="font-mono text-xs font-bold text-cyber-cyan uppercase">Watching Stream</span>
+                <button id="close-player-btn-mobile" class="text-white text-xl"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <button id="close-player-btn" class="hidden md:flex absolute top-4 right-4 text-white/50 hover:text-white text-2xl z-50 transition-colors bg-black/50 w-10 h-10 rounded-full items-center justify-center backdrop-blur"><i class="fas fa-times"></i></button>
+
+            <div class="flex-grow flex items-center justify-center bg-black relative group md:aspect-video">
+                <img id="modal-video-thumb" src="" class="w-full h-full object-contain opacity-50">
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <button id="modal-play-btn" class="w-20 h-20 bg-cyber-cyan text-ink rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-[0_0_20px_rgba(5,217,232,0.6)]">
+                    <button id="modal-play-btn" class="w-16 h-16 md:w-20 md:h-20 bg-cyber-cyan text-ink rounded-full flex items-center justify-center text-3xl hover:scale-110 transition-transform shadow-[0_0_20px_rgba(5,217,232,0.6)]">
                         <i class="fas fa-play ml-1"></i>
                     </button>
-                </div>
-                <!-- Fake Controls -->
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div class="h-1 bg-white/20 rounded-full mb-4 cursor-pointer hover:h-1.5 transition-all"><div class="w-1/3 h-full bg-cyber-cyan relative"><div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-sm"></div></div></div>
-                    <div class="flex justify-between text-white items-center">
-                        <div class="flex gap-4 items-center"><i class="fas fa-play hover:text-cyber-cyan cursor-pointer"></i><i class="fas fa-volume-up hover:text-cyber-cyan cursor-pointer"></i><span class="text-xs font-mono text-gray-300">LIVE</span></div>
-                        <div class="flex gap-4"><i class="fas fa-cog hover:text-cyber-cyan cursor-pointer"></i><i class="fas fa-expand hover:text-cyber-cyan cursor-pointer"></i></div>
-                    </div>
                 </div>
             </div>
 
             <div class="p-6 bg-zinc-900 border-t border-zinc-800">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-4">
                     <div>
-                        <h2 id="modal-video-title" class="text-2xl font-bold text-white mb-1 font-display uppercase tracking-wide"></h2>
+                        <h2 id="modal-video-title" class="text-xl md:text-2xl font-bold text-white mb-1 font-display uppercase tracking-wide"></h2>
                         <div class="flex items-center gap-2 text-sm text-gray-400 font-mono">
                             <span>Streamed by</span>
                             <span id="modal-video-author" class="text-cyber-cyan font-bold bg-cyber-cyan/10 px-2 py-0.5 rounded"></span>
                         </div>
                     </div>
-                    <div class="flex gap-3">
-                         <button class="bg-zinc-800 hover:bg-zinc-700 text-white px-5 py-2.5 rounded-lg font-bold uppercase text-xs border border-zinc-700 transition-colors" onclick="triggerAppPromo()">
-                            <i class="fas fa-save mr-2 text-gray-500"></i> Save
+                    <div class="flex gap-3 w-full md:w-auto">
+                         <button class="flex-1 md:flex-none justify-center bg-zinc-800 hover:bg-zinc-700 text-white px-5 py-3 md:py-2.5 rounded-lg font-bold uppercase text-xs border border-zinc-700 transition-colors flex items-center gap-2" onclick="triggerAppPromo()">
+                            <i class="fas fa-save text-gray-500"></i> Save
                          </button>
-                         <button id="modal-like-btn" class="bg-pop-pink hover:bg-pink-600 text-white px-6 py-2.5 rounded-lg font-bold uppercase text-xs shadow-lg transition-transform active:scale-95 flex items-center gap-2">
+                         <button id="modal-like-btn" class="flex-1 md:flex-none justify-center bg-pop-pink hover:bg-pink-600 text-white px-6 py-3 md:py-2.5 rounded-lg font-bold uppercase text-xs shadow-lg transition-transform active:scale-95 flex items-center gap-2">
                             <i class="fas fa-thumbs-up"></i> Respect
                          </button>
                     </div>
@@ -233,5 +280,37 @@
     <!-- Scripts -->
     <script src="/src/js/main/alert.js"></script>
     <script src="/src/js/guild/fetch-gamers.js"></script>
+    <script>
+        // Inline Mobile Scripts
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme Toggle for Mobile
+            const tBtn = document.getElementById('theme-toggle-mobile');
+            if(tBtn) {
+                tBtn.addEventListener('click', function() {
+                    const html = document.documentElement;
+                    if(html.classList.contains('dark')) {
+                        html.classList.remove('dark');
+                        localStorage.theme = 'light';
+                    } else {
+                        html.classList.add('dark');
+                        localStorage.theme = 'dark';
+                    }
+                });
+            }
+
+            // Close Modal on Mobile
+            const closeBtnMobile = document.getElementById('close-player-btn-mobile');
+            const closeBtnDesktop = document.getElementById('close-player-btn');
+            const modal = document.getElementById('video-player-modal');
+            
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                // stop video logic here if needed
+            };
+
+            if(closeBtnMobile) closeBtnMobile.addEventListener('click', closeModal);
+            if(closeBtnDesktop) closeBtnDesktop.addEventListener('click', closeModal);
+        });
+    </script>
 </body>
 </html>

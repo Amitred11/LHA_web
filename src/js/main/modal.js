@@ -7,13 +7,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'modal-styles';
         document.head.appendChild(styleSheet);
+        
+        // CSS FOR MOBILE BOTTOM SHEET vs DESKTOP MODAL
         styleSheet.innerHTML = `
-            [data-state="closed"] { opacity: 0; pointer-events: none; }
-            [data-state="closed"] #modal-dialog { transform: translateY(20px) scale(0.95); opacity: 0; }
-            [data-state="open"] { opacity: 1; pointer-events: auto; }
-            [data-state="open"] #modal-dialog { transform: translateY(0) scale(1); opacity: 1; }
+            /* Default State (Closed) */
+            [data-state="closed"] { 
+                opacity: 0; 
+                pointer-events: none; 
+            }
             
-            /* Custom Scrollbar for Modal Content */
+            /* Mobile: Slide down to close */
+            [data-state="closed"] #modal-dialog { 
+                transform: translateY(100%); 
+            }
+
+            /* Desktop: Fade out and scale down */
+            @media (min-width: 768px) {
+                [data-state="closed"] #modal-dialog { 
+                    transform: translateY(20px) scale(0.95); 
+                    opacity: 0;
+                }
+            }
+
+            /* Open State */
+            [data-state="open"] { 
+                opacity: 1; 
+                pointer-events: auto; 
+            }
+            [data-state="open"] #modal-dialog { 
+                transform: translateY(0) scale(1); 
+                opacity: 1; 
+            }
+            
+            /* Custom Scrollbar */
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
             .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
             .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e5e7eb; border-radius: 20px; }
@@ -27,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.getElementById('universal-modal')) return;
 
         try {
-            // 1. Fetch the Modal Shell Template
+            // 1. Fetch Template
             const modalResponse = await fetch('/src/components/modal.html');
             if (!modalResponse.ok) throw new Error('Could not load modal component.');
             const modalTemplate = await modalResponse.text();
@@ -39,31 +65,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const modalTitle = document.getElementById('modal-title');
             const closeModalButton = document.getElementById('close-modal-button');
 
-            // 3. Fetch the Content (Privacy or Terms)
+            // 3. Fetch Content
             const contentResponse = await fetch(contentUrl);
             if (!contentResponse.ok) throw new Error(`Could not load content from ${contentUrl}`);
             const contentHtml = await contentResponse.text();
             
-            // 4. Parse Title and Content
+            // 4. Parse Title
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = contentHtml;
-            
-            // Attempt to extract an H1, H2, or H3 for the Modal Title
             const titleElement = tempDiv.querySelector('h1, h2, h3');
             if (titleElement) {
                 modalTitle.innerText = titleElement.innerText;
-                titleElement.remove(); // Remove it from the body
+                titleElement.remove(); 
             }
-            
             modalContentContainer.innerHTML = tempDiv.innerHTML;
             
-            // 5. Define Closing Logic
+            // 5. Close Logic
             const closeModal = () => {
                 modal.setAttribute('data-state', 'closed');
                 setTimeout(() => {
                     modalPlaceholder.innerHTML = '';
                     document.removeEventListener('keydown', handleEscKey);
-                }, 300);
+                }, 300); // Wait for animation
             };
             
             const handleEscKey = (event) => {
@@ -73,23 +96,26 @@ document.addEventListener('DOMContentLoaded', () => {
             // 6. Attach Listeners
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => {
+                // Close if clicking the backdrop (outside dialog)
                 if (e.target === modal) closeModal();
             });
             document.addEventListener('keydown', handleEscKey);
 
             // 7. Open Animation
+            // Double RAF ensures CSS transition triggers correctly
             requestAnimationFrame(() => {
-                modal.setAttribute('data-state', 'open');
+                requestAnimationFrame(() => {
+                    modal.setAttribute('data-state', 'open');
+                });
             });
 
         } catch (error) {
             console.error("Error opening modal:", error);
-            // Fallback
             window.location.href = contentUrl;
         }
     };
 
-    // Connect Footer Links to Modal
+    // Connect Footer Links
     const privacyLink = document.querySelector('a[href*="privacy-policy"]');
     const termsLink = document.querySelector('a[href*="terms-of-service"]');
 
