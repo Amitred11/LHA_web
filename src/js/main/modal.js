@@ -9,9 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(styleSheet);
         styleSheet.innerHTML = `
             [data-state="closed"] { opacity: 0; pointer-events: none; }
-            [data-state="closed"] #modal-dialog { transform: translateY(20px) scale(0.95); }
+            [data-state="closed"] #modal-dialog { transform: translateY(20px) scale(0.95); opacity: 0; }
             [data-state="open"] { opacity: 1; pointer-events: auto; }
-            [data-state="open"] #modal-dialog { transform: translateY(0) scale(1); }
+            [data-state="open"] #modal-dialog { transform: translateY(0) scale(1); opacity: 1; }
+            
+            /* Custom Scrollbar for Modal Content */
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e5e7eb; border-radius: 20px; }
+            .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #3f3f46; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #a1a1aa; }
         `;
     }
 

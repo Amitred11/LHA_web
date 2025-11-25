@@ -13,31 +13,43 @@
             theme: {
                 extend: {
                     fontFamily: { 'display': ['"Space Grotesk"', 'sans-serif'], 'body': ['"Outfit"', 'sans-serif'], 'mono': ['"JetBrains Mono"', 'monospace'] },
-                    colors: { 'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264' },
-                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b', 'manga-sm': '3px 3px 0px 0px #09090b', 'manga-white': '5px 5px 0px 0px #fafafa' }
+                    colors: { 'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6', 'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8', 'neon-lime': '#d1f25e' },
+                    backgroundImage: {
+                        'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+                    },
+                    boxShadow: { 
+                        'manga': '6px 6px 0px 0px #09090b', 
+                        'manga-sm': '3px 3px 0px 0px #09090b', 
+                        'manga-white': '4px 4px 0px 0px #ffffff' 
+                    }
                 }
             }
         }
     </script>
     <style>
-        .bg-halftone { background-size: 20px 20px; }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .bg-grid { background-size: 40px 40px; }
+        .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom Checkbox Style */
+        .custom-check:checked + div { border-color: #8b5cf6; background-color: rgba(139, 92, 246, 0.05); }
+        .dark .custom-check:checked + div { border-color: #8b5cf6; background-color: rgba(139, 92, 246, 0.1); }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500">
 
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
         <div class="container mx-auto max-w-7xl">
-            <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
+            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none transition-all">
                 <a href="/index.html" class="flex items-center gap-3">
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl">LHA</div>
-                    <span class="font-bold font-display uppercase hidden sm:inline">Start Project</span>
+                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl shadow-sm">L</div>
+                    <span class="font-bold font-display uppercase hidden sm:inline text-sm tracking-wide">Start Project</span>
                 </a>
-                <a href="/index.html" class="font-mono text-xs font-bold uppercase hover:text-pop-pink flex items-center gap-2 group">
+                <a href="/index.html" class="font-mono text-xs font-bold uppercase text-gray-500 hover:text-pop-pink transition-colors flex items-center gap-2 group border border-transparent hover:border-pop-pink px-2 py-1 rounded">
                     <i class="fas fa-times group-hover:scale-110 transition-transform"></i> Cancel
                 </a>
             </div>
@@ -46,132 +58,154 @@
 
     <main class="pt-32 pb-24 px-4 flex flex-col items-center justify-center min-h-screen">
         
-        <div class="text-center mb-8">
-            <h1 class="font-display font-black text-4xl md:text-6xl uppercase mb-2">
+        <div class="text-center mb-10 animate-fade-in">
+            <h1 class="font-display font-black text-5xl md:text-7xl uppercase mb-3 leading-[0.9]">
                 Let's Build <span class="text-primary">It.</span>
             </h1>
+            <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">Fill out the specs below to initiate your request.</p>
         </div>
 
         <!-- Progress Bar -->
-        <div class="w-full max-w-2xl mb-8">
-            <div class="flex justify-between text-[10px] md:text-xs font-mono font-bold mb-2 text-gray-500">
+        <div class="w-full max-w-2xl mb-8 animate-fade-in" style="animation-delay: 0.1s;">
+            <div class="flex justify-between text-[10px] font-mono font-bold mb-2 text-gray-500 uppercase tracking-widest">
                 <span id="step-indicator">STEP 1 OF 4</span>
                 <span>PROGRESS</span>
             </div>
-            <div class="w-full h-3 bg-gray-200 dark:bg-gray-800 border-2 border-ink dark:border-paper rounded-full overflow-hidden">
-                <div id="progress-bar" class="bg-gradient-to-r from-primary to-pop-pink h-full border-r-2 border-ink dark:border-paper transition-all duration-500" style="width: 25%;"></div>
+            <div class="w-full h-2 bg-gray-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-primary to-pop-pink h-full rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(139,92,246,0.5)]" style="width: 25%;"></div>
             </div>
         </div>
 
         <!-- Form Container -->
-        <div class="w-full max-w-2xl">
+        <div class="w-full max-w-2xl animate-fade-in" style="animation-delay: 0.2s;">
             <!-- Retro Window Bar -->
-            <div class="bg-ink text-paper border-2 border-ink dark:border-paper rounded-t-lg px-4 py-2 flex items-center gap-2">
+            <div class="bg-ink dark:bg-zinc-800 text-white border-2 border-ink dark:border-zinc-700 rounded-t-xl px-4 py-2.5 flex items-center gap-2 select-none">
                 <div class="flex gap-1.5">
-                    <div class="w-3 h-3 rounded-full bg-red-500 border border-white"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-500 border border-white"></div>
+                    <div class="w-3 h-3 rounded-full bg-red-500 border border-black/20"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500 border border-black/20"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500 border border-black/20"></div>
                 </div>
-                <span class="font-mono text-xs ml-2">project_request.exe</span>
+                <span class="font-mono text-[10px] ml-2 text-gray-400 uppercase tracking-wider">project_request.exe</span>
             </div>
 
-            <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper border-t-0 rounded-b-lg shadow-manga dark:shadow-manga-white p-6 md:p-10">
+            <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 border-t-0 rounded-b-xl shadow-manga dark:shadow-lg p-6 md:p-10">
                 
-                <form id="project-inquiry-form">
+                <form id="project-inquiry-form" class="relative" novalidate>
                     
                     <!-- Step 1: Contact -->
-                    <div class="form-step animate-fade-in" data-step="1">
-                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-primary">1. Contact Info</h3>
-                        <div class="space-y-4">
+                    <div class="form-step" data-step="1">
+                        <h3 class="text-2xl md:text-3xl font-display font-black mb-8 uppercase text-ink dark:text-white flex items-center gap-3">
+                            <span class="text-primary bg-primary/10 px-2 rounded">01.</span> Contact Info
+                        </h3>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">YOUR NAME</label>
-                                <input type="text" name="clientName" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors" placeholder="Gojo Satoru" required>
+                                <label class="block font-bold mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider">Your Name</label>
+                                <input type="text" name="clientName" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3.5 focus:border-ink dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400 font-medium" placeholder="e.g. Gojo Satoru" required>
                             </div>
                             <div>
-                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">EMAIL ADDRESS</label>
-                                <input type="email" name="clientEmail" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors" placeholder="gojo@ jujutsu.high" required>
+                                <label class="block font-bold mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider">Email Address</label>
+                                <input type="email" name="clientEmail" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3.5 focus:border-ink dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400 font-medium" placeholder="e.g. gojo@jujutsu.high" required>
                             </div>
                         </div>
                     </div>
 
                     <!-- Step 2: Type -->
-                    <div class="form-step hidden animate-fade-in" data-step="2">
-                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-pop-pink">2. Service Type</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="form-step hidden" data-step="2">
+                        <h3 class="text-2xl md:text-3xl font-display font-black mb-8 uppercase text-ink dark:text-white flex items-center gap-3">
+                            <span class="text-pop-pink bg-pop-pink/10 px-2 rounded">02.</span> Service Type
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <label class="cursor-pointer group">
-                                <input type="checkbox" name="projectTypes" value="Website" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary transition-all flex items-center gap-3">
-                                    <i class="fas fa-globe text-xl"></i> <span class="font-bold text-sm">Website / Web App</span>
+                                <input type="checkbox" name="projectTypes" value="Website" class="hidden peer custom-check">
+                                <div class="p-5 border-2 border-gray-200 dark:border-zinc-700 rounded-xl hover:border-primary transition-all flex items-center gap-4 h-full">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-gray-400 peer-checked:text-primary"><i class="fas fa-globe"></i></div>
+                                    <span class="font-bold text-sm">Website / Web App</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
-                                <input type="checkbox" name="projectTypes" value="Mobile App" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-pop-pink peer-checked:bg-pop-pink/10 peer-checked:text-pop-pink transition-all flex items-center gap-3">
-                                    <i class="fas fa-mobile-alt text-xl"></i> <span class="font-bold text-sm">Mobile App</span>
+                                <input type="checkbox" name="projectTypes" value="Mobile App" class="hidden peer custom-check">
+                                <div class="p-5 border-2 border-gray-200 dark:border-zinc-700 rounded-xl hover:border-pop-pink transition-all flex items-center gap-4 h-full">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-gray-400 peer-checked:text-pop-pink"><i class="fas fa-mobile-alt"></i></div>
+                                    <span class="font-bold text-sm">Mobile App</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
-                                <input type="checkbox" name="projectTypes" value="Design" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-neon-lime peer-checked:bg-neon-lime/10 peer-checked:text-ink dark:peer-checked:text-paper transition-all flex items-center gap-3">
-                                    <i class="fas fa-paint-brush text-xl"></i> <span class="font-bold text-sm">UI/UX Design</span>
+                                <input type="checkbox" name="projectTypes" value="Design" class="hidden peer custom-check">
+                                <div class="p-5 border-2 border-gray-200 dark:border-zinc-700 rounded-xl hover:border-neon-lime transition-all flex items-center gap-4 h-full">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-gray-400 peer-checked:text-neon-lime"><i class="fas fa-paint-brush"></i></div>
+                                    <span class="font-bold text-sm">UI/UX Design</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer group">
-                                <input type="checkbox" name="projectTypes" value="Other" class="hidden peer">
-                                <div class="p-4 border-2 border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-800 peer-checked:border-cyber-cyan peer-checked:bg-cyber-cyan/10 peer-checked:text-cyber-cyan transition-all flex items-center gap-3">
-                                    <i class="fas fa-asterisk text-xl"></i> <span class="font-bold text-sm">Other / Custom</span>
+                                <input type="checkbox" name="projectTypes" value="Other" class="hidden peer custom-check">
+                                <div class="p-5 border-2 border-gray-200 dark:border-zinc-700 rounded-xl hover:border-cyber-cyan transition-all flex items-center gap-4 h-full">
+                                    <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-gray-400 peer-checked:text-cyber-cyan"><i class="fas fa-asterisk"></i></div>
+                                    <span class="font-bold text-sm">Other / Custom</span>
                                 </div>
                             </label>
                         </div>
                     </div>
 
                     <!-- Step 3: Details -->
-                    <div class="form-step hidden animate-fade-in" data-step="3">
-                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-neon-lime">3. The Brief</h3>
+                    <div class="form-step hidden" data-step="3">
+                        <h3 class="text-2xl md:text-3xl font-display font-black mb-8 uppercase text-ink dark:text-white flex items-center gap-3">
+                            <span class="text-neon-lime bg-neon-lime/10 px-2 rounded">03.</span> The Brief
+                        </h3>
                         <div>
-                            <label class="block font-bold mb-1 text-xs font-mono text-gray-500">DESCRIBE THE MISSION</label>
-                            <textarea name="projectDescription" rows="5" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none transition-colors text-sm" placeholder="Target audience, main features, design inspiration..." required></textarea>
+                            <label class="block font-bold mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider">Describe the Mission</label>
+                            <textarea name="projectDescription" rows="6" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-4 focus:border-ink dark:focus:border-primary focus:outline-none transition-colors text-sm font-medium placeholder-gray-400 resize-none" placeholder="Target audience, main features, design inspiration..." required></textarea>
                         </div>
                     </div>
 
                     <!-- Step 4: Logistics -->
-                    <div class="form-step hidden animate-fade-in" data-step="4">
-                        <h3 class="text-xl md:text-2xl font-display font-bold mb-6 uppercase text-cyber-cyan">4. Logistics</h3>
-                        <div class="space-y-4">
+                    <div class="form-step hidden" data-step="4">
+                        <h3 class="text-2xl md:text-3xl font-display font-black mb-8 uppercase text-ink dark:text-white flex items-center gap-3">
+                            <span class="text-cyber-cyan bg-cyber-cyan/10 px-2 rounded">04.</span> Logistics
+                        </h3>
+                        <div class="space-y-6">
                             <div>
-                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">BUDGET RANGE</label>
-                                <select name="budget" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none text-sm" required>
-                                    <option value="" disabled selected>Select credits...</option>
-                                    <option value="<1k">Under $1,000</option>
-                                    <option value="1k-5k">$1,000 - $5,000</option>
-                                    <option value="5k-10k">$5,000 - $10,000</option>
-                                    <option value="10k+">$10,000+</option>
-                                </select>
+                                <label class="block font-bold mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider">Budget Range</label>
+                                <div class="relative">
+                                    <select name="budget" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-3.5 focus:border-ink dark:focus:border-primary focus:outline-none text-sm font-medium appearance-none" required>
+                                        <option value="" disabled selected>Select credits...</option>
+                                        <option value="<1k">Under $1,000</option>
+                                        <option value="1k-5k">$1,000 - $5,000</option>
+                                        <option value="5k-10k">$5,000 - $10,000</option>
+                                        <option value="10k+">$10,000+</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down absolute right-4 top-4 text-xs text-gray-400 pointer-events-none"></i>
+                                </div>
                             </div>
                              <div>
-                                <label class="block font-bold mb-1 text-xs font-mono text-gray-500">TIMELINE</label>
-                                <select name="timeline" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-300 dark:border-gray-700 rounded p-3 focus:border-primary focus:outline-none text-sm" required>
-                                    <option value="" disabled selected>Select timeframe...</option>
-                                    <option value="Urgent">Rush (ASAP)</option>
-                                    <option value="Standard">Standard (1-2 Months)</option>
-                                    <option value="Flexible">Flexible</option>
-                                </select>
+                                <label class="block font-bold mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider">Timeline</label>
+                                <div class="relative">
+                                    <select name="timeline" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-xl p-3.5 focus:border-ink dark:focus:border-primary focus:outline-none text-sm font-medium appearance-none" required>
+                                        <option value="" disabled selected>Select timeframe...</option>
+                                        <option value="Urgent">Rush (ASAP)</option>
+                                        <option value="Standard">Standard (1-2 Months)</option>
+                                        <option value="Flexible">Flexible</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down absolute right-4 top-4 text-xs text-gray-400 pointer-events-none"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Buttons -->
-                    <div class="flex justify-between mt-8 pt-6 border-t-2 border-gray-100 dark:border-gray-800">
-                        <button type="button" id="prev-btn" class="hidden text-gray-400 hover:text-ink dark:hover:text-white font-bold text-xs uppercase tracking-wider">
-                            <i class="fas fa-chevron-left mr-1"></i> Back
+                    <div class="flex justify-between mt-10 pt-8 border-t border-gray-100 dark:border-zinc-800">
+                        <button type="button" id="prev-btn" class="hidden text-gray-400 hover:text-ink dark:hover:text-white font-bold text-xs uppercase tracking-widest transition-colors py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-zinc-800">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
                         </button>
                         
-                        <button type="button" id="next-btn" class="ml-auto bg-ink dark:bg-paper text-white dark:text-ink px-6 py-2 rounded font-bold uppercase text-xs shadow-manga-sm hover:translate-y-0.5 hover:shadow-none transition-all">
-                            Next Step <i class="fas fa-chevron-right ml-1"></i>
-                        </button>
-                        
-                        <button type="submit" id="submit-btn" class="hidden ml-auto bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold uppercase text-xs shadow-manga-sm hover:translate-y-0.5 hover:shadow-none transition-all">
-                            Submit Request
-                        </button>
+                        <div class="ml-auto">
+                             <button type="button" id="next-btn" class="bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 rounded-lg font-bold uppercase text-xs shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition-all tracking-wide">
+                                Next Step <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                            
+                            <button type="submit" id="submit-btn" class="hidden bg-pop-pink text-white border-2 border-transparent px-8 py-3 rounded-lg font-bold uppercase text-xs shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition-all tracking-wide">
+                                Submit Request
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>

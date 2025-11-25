@@ -12,6 +12,7 @@ function isTokenExpired(token) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Global State ---
+    const API_BASE_URL = 'https://backendkostudy.onrender.com';
     
     // 1. CHECK TOKEN VALIDITY ON LOAD
     const token = localStorage.getItem('accessToken');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Session expired. Logging out.");
         localStorage.removeItem('accessToken');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userId');   // <--- Add this
         localStorage.removeItem('username');
     }
 
@@ -127,7 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
             iconHTML: '<i class="fas fa-sign-out-alt text-3xl text-hot-pink"></i>',
             confirmText: 'Log Out',
             onConfirm: () => {
+                localStorage.removeItem('accessToken');
                 localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userId'); 
+                localStorage.removeItem('username');
                 window.location.assign('/index.html');
             }
         });
@@ -143,6 +148,27 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.mobileMenu.classList.add('hidden');
             elements.body.classList.remove('overflow-hidden');
             elements.mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    };
+
+    const updateNavbarProfile = async () => {
+        const userId = localStorage.getItem('userId');
+        const navbarAvatar = document.getElementById('navbar-avatar');
+
+        // Only run if user is logged in and the avatar element exists
+        if (isLoggedIn && userId && navbarAvatar) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.profile && data.profile.avatarUrl) {
+                        // Update the src. Ensure API_BASE_URL is prepended if the URL is relative
+                        navbarAvatar.src = `${API_BASE_URL}${data.profile.avatarUrl}`;
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to load navbar avatar", error);
+            }
         }
     };
 
@@ -292,6 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
         handleScroll(); // Initial check
         setupIntersectionObserver();
         initContactForm();
+        updateNavbarProfile(); 
     };
 
     init();

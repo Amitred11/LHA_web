@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,59 +22,63 @@
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6',
-                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
+                        'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6',
+                        'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8', 'neon-lime': '#d1f25e',
                     },
                     backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                        'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
+                        'manga': '4px 4px 0px 0px #09090b',
+                        'manga-white': '4px 4px 0px 0px #ffffff',
+                        'neon': '0 0 10px rgba(139, 92, 246, 0.5)',
+                        'manga-sm': '2px 2px 0px 0px #09090b',
                     }
                 }
             }
         }
     </script>
     <style>
-        .bg-halftone { background-size: 20px 20px; }
+        .bg-grid-pattern { background-size: 30px 30px; }
         .nav-btn.active {
             background-color: #09090b;
-            color: #bef264;
-            transform: translateX(5px);
-            box-shadow: 3px 3px 0px 0px rgba(0,0,0,0.1);
+            color: #d1f25e;
+            border-color: #09090b;
         }
         .dark .nav-btn.active {
-            background-color: #fafafa;
+            background-color: #ffffff;
             color: #09090b;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500">
 
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] bg-grid bg-grid-pattern dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Auth Check -->
     <script>
-        if (localStorage.getItem('isLoggedIn') !== 'true') { window.location.href = '/src/screens/auth/signin.html'; }
+        if (localStorage.getItem('isLoggedIn') !== 'true' || !localStorage.getItem('userId')) { 
+            window.location.href = '/src/screens/auth/signin.html'; 
+        }
     </script>
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
         <div class="container mx-auto max-w-6xl">
-            <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
-                <a href="/index.html" class="flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors">
-                    <i class="fas fa-arrow-left"></i> Exit
+            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none">
+                <a href="/index.html" class="flex items-center gap-2 font-mono font-bold text-xs uppercase hover:text-primary transition-colors">
+                    <i class="fas fa-arrow-left"></i> Exit Game
                 </a>
                 <div class="flex items-center gap-4">
-                    <div class="hidden md:flex items-center gap-2 font-mono text-xs">
-                        <span class="text-green-500 animate-pulse">●</span> ONLINE
+                    <div class="hidden md:flex items-center gap-2 font-mono text-[10px] tracking-widest bg-gray-100 dark:bg-zinc-800 px-2 py-1 rounded border border-gray-200 dark:border-zinc-700">
+                        <span class="text-green-500 animate-pulse">●</span> SERVER_ONLINE
                     </div>
-                    <button id="theme-toggle" class="w-8 h-8 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <button id="theme-toggle" class="w-8 h-8 rounded border border-gray-300 dark:border-zinc-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
                         <i class="fas fa-moon block dark:hidden text-xs"></i>
                         <i class="fas fa-sun hidden dark:block text-xs text-yellow-400"></i>
                     </button>
@@ -87,127 +92,160 @@
         <div class="container mx-auto max-w-6xl">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 
-                <!-- Sidebar -->
+                <!-- Sidebar (Player Card) -->
                 <aside class="lg:col-span-1 space-y-6">
-                    <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded p-6 shadow-manga dark:shadow-manga-white text-center">
-                        <div class="relative inline-block mb-4">
-                            <img src="/src/assets/good.jpg" alt="Avatar" class="w-24 h-24 rounded border-2 border-ink dark:border-paper object-cover bg-cyber-cyan">
-                            <div class="absolute -bottom-2 -right-2 bg-pop-pink text-white text-[10px] font-bold px-2 py-1 border border-ink">LVL. 5</div>
-                        </div>
-                        <h2 class="font-display font-bold text-xl uppercase">Femboy</h2>
-                        <p class="text-gray-500 dark:text-gray-400 text-xs font-mono mb-4">Class: FEM</p>
-                        <div class="w-full bg-gray-200 h-2 border border-ink dark:border-paper rounded-full overflow-hidden mb-1">
-                            <div class="bg-primary h-full w-[65%]"></div>
-                        </div>
-                        <div class="flex justify-between text-[10px] font-mono text-gray-400">
-                            <span>XP</span>
-                            <span>1500/2500</span>
+                    <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-0 overflow-hidden shadow-manga dark:shadow-neon transition-all">
+                        <div class="bg-ink dark:bg-white text-white dark:text-ink p-2 text-center font-mono text-[10px] uppercase font-bold tracking-widest">Player Card</div>
+                        <div class="p-6 text-center">
+                            <div class="relative inline-block mb-4 group">
+                                <div class="absolute inset-0 bg-primary rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                <img src="/src/assets/default-avatar.jpg" alt="Avatar" id="player-avatar" class="w-24 h-24 rounded-full border-4 border-ink dark:border-white object-cover bg-gray-200 relative z-10 cursor-pointer" title="Click to change avatar">
+                                <input type="file" id="avatar-upload-input" class="hidden" accept="image/*">
+                                <div id="player-level" class="absolute -bottom-2 -right-2 bg-neon-lime text-ink text-[10px] font-bold px-2 py-1 border-2 border-ink rounded z-20">LVL. ?</div>
+                            </div>
+                            <h2 id="player-username" class="font-display font-black text-xl uppercase mb-1">Loading...</h2>
+                            <p class="text-gray-500 dark:text-gray-400 text-xs font-mono mb-6">Class: <span id="player-job-class" class="text-primary">...</span></p>
+                            
+                            <!-- XP Bar -->
+                            <div class="w-full bg-gray-200 dark:bg-zinc-800 h-3 border border-ink dark:border-zinc-600 rounded-full overflow-hidden mb-1 relative">
+                                <div id="player-xp-bar" class="bg-gradient-to-r from-primary to-pop-pink h-full w-[0%] transition-all duration-500"></div>
+                                <div class="absolute inset-0 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==')] opacity-20"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px] font-mono text-gray-400 font-bold">
+                                <span>XP</span>
+                                <span id="player-xp-text">0 / 0</span>
+                            </div>
                         </div>
                     </div>
 
-                    <nav class="flex flex-col gap-2">
-                        <button data-tab="overview" class="account-nav-link nav-btn active text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all flex items-center gap-3">
-                            <i class="fas fa-id-card w-5"></i> Character Sheet
+                    <nav class="flex flex-col gap-3">
+                        <button data-tab="overview" class="account-nav-link nav-btn active text-left px-4 py-3 border-2 border-transparent rounded-lg font-display font-bold uppercase text-sm hover:border-gray-200 dark:hover:border-zinc-700 transition-all flex items-center gap-3">
+                            <i class="fas fa-id-card w-4 text-center"></i> Character Sheet
                         </button>
                         
-                        <button data-tab="projects" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide hover:bg-gray-100 dark:hover:bg-gray-800 transition-all flex items-center gap-3">
-                            <i class="fas fa-scroll w-5"></i> Quest Log
+                        <button data-tab="projects" class="account-nav-link nav-btn text-left px-4 py-3 border-2 border-transparent rounded-lg font-display font-bold uppercase text-sm hover:border-gray-200 dark:hover:border-zinc-700 transition-all flex items-center gap-3">
+                            <i class="fas fa-scroll w-4 text-center"></i> Quest Log
                         </button>
 
-                        <button onclick="logout()" class="text-left px-4 py-3 border-2 border-transparent rounded font-display font-bold uppercase tracking-wide text-pop-pink hover:bg-red-50 dark:hover:bg-red-900/20 transition-all mt-4 border-t-2 border-gray-200 dark:border-gray-800 flex items-center gap-3">
-                            <i class="fas fa-power-off w-5"></i> Log Out
+                        <button id="logout-btn" class="text-left px-4 py-3 border-2 border-transparent rounded-lg font-display font-bold uppercase text-sm text-pop-pink hover:bg-pop-pink/10 transition-all mt-4 border-t border-gray-200 dark:border-zinc-800 flex items-center gap-3">
+                            <i class="fas fa-power-off w-4 text-center"></i> Disconnect
                         </button>
                     </nav>
                 </aside>
 
                 <!-- Main Panel -->
                 <div class="lg:col-span-3">
-                    <div class="flex items-center gap-2 mb-[-2px] px-4">
-                        <div class="bg-ink dark:bg-paper text-white dark:text-ink px-4 py-1 font-mono text-xs font-bold border-2 border-ink dark:border-paper border-b-0 rounded-t">
-                            <span id="folder-label">overview.sys</span>
+                    <!-- System Header -->
+                    <div class="flex items-center gap-1 mb-[-2px] px-2">
+                        <div class="bg-ink dark:bg-white text-white dark:text-ink px-6 py-2 font-mono text-xs font-bold border-2 border-ink dark:border-white border-b-0 rounded-t-lg">
+                            <i class="fas fa-terminal mr-2"></i><span id="folder-label">overview.sys</span>
                         </div>
+                        <div class="h-2 w-2 bg-ink dark:bg-white rounded-full opacity-50"></div>
+                        <div class="h-2 w-2 bg-ink dark:bg-white rounded-full opacity-25"></div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded-b rounded-tr shadow-manga dark:shadow-manga-white p-6 md:p-8 min-h-[600px]">
+                    <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-white rounded-b-xl rounded-tr-xl shadow-manga dark:shadow-[0_0_20px_rgba(255,255,255,0.1)] p-6 md:p-10 min-h-[600px] relative overflow-hidden">
                         
+                        <!-- Background decoration -->
+                         <div class="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
+                            <i class="fas fa-fingerprint text-9xl"></i>
+                        </div>
+
                         <!-- 1. OVERVIEW TAB -->
-                        <div id="overview-pane" class="tab-pane block animate-fade-in">
-                            <div class="flex justify-between items-center mb-6 border-b-2 border-gray-100 dark:border-gray-800 pb-4">
-                                <h1 class="font-display font-black text-3xl md:text-4xl uppercase">Character Stats</h1>
-                                <button class="bg-neon-lime text-ink border-2 border-ink px-6 py-2 rounded font-bold text-xs uppercase shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
-                                    <i class="fas fa-save mr-1"></i> Save Data
+                        <div id="overview-pane" class="tab-pane block animate-fade-in relative z-10">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-200 dark:border-zinc-700 pb-6 gap-4">
+                                <div>
+                                    <h1 class="font-display font-black text-3xl md:text-4xl uppercase tracking-tight">Stats & Config</h1>
+                                    <p class="text-gray-500 font-mono text-xs mt-1">Manage your public profile settings.</p>
+                                </div>
+                                <button id="save-profile-btn" class="bg-neon-lime text-ink border-2 border-ink px-6 py-2 rounded-lg font-bold text-xs uppercase shadow-manga-sm hover:translate-y-0.5 hover:shadow-none transition-all">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
                                 </button>
                             </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 <div class="space-y-8">
-                                    <div class="bg-gray-50 dark:bg-black/40 p-4 border-2 border-gray-200 dark:border-gray-700 rounded">
-                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-4 uppercase tracking-wider">Attributes</h3>
-                                        <div class="space-y-4">
+                                    <!-- Attribute Box -->
+                                    <div class="bg-gray-50 dark:bg-black p-5 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl">
+                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-5 uppercase tracking-wider flex items-center gap-2">
+                                            <i class="fas fa-chart-bar"></i> Attributes
+                                        </h3>
+                                        <div class="space-y-5">
                                             <div>
-                                                <div class="flex justify-between text-[10px] font-bold mb-1">
-                                                    <span>INT (Coding)</span><span class="text-primary">LVL 8</span>
+                                                <div class="flex justify-between text-[10px] font-bold mb-1.5 font-mono">
+                                                    <span>INT (Code)</span><span id="attr-int-text" class="text-primary">LVL ?</span>
                                                 </div>
-                                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full w-[80%]"></div></div>
+                                                <div class="w-full bg-gray-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden border border-gray-300 dark:border-zinc-600"><div id="attr-int-bar" class="bg-primary h-full w-[0%] shadow-[0_0_10px_#8b5cf6]"></div></div>
                                             </div>
                                             <div>
-                                                <div class="flex justify-between text-[10px] font-bold mb-1">
-                                                    <span>DEX (Design)</span><span class="text-pop-pink">LVL 6</span>
+                                                <div class="flex justify-between text-[10px] font-bold mb-1.5 font-mono">
+                                                    <span>DEX (Design)</span><span id="attr-dex-text" class="text-pop-pink">LVL ?</span>
                                                 </div>
-                                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden"><div class="bg-pop-pink h-full w-[60%]"></div></div>
+                                                <div class="w-full bg-gray-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden border border-gray-300 dark:border-zinc-600"><div id="attr-dex-bar" class="bg-pop-pink h-full w-[0%] shadow-[0_0_10px_#ff2a6d]"></div></div>
                                             </div>
                                             <div>
-                                                <div class="flex justify-between text-[10px] font-bold mb-1">
-                                                    <span>CHA (Comms)</span><span class="text-cyber-cyan">LVL 9</span>
+                                                <div class="flex justify-between text-[10px] font-bold mb-1.5 font-mono">
+                                                    <span>CHA (Comms)</span><span id="attr-cha-text" class="text-cyber-cyan">LVL ?</span>
                                                 </div>
-                                                <div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden"><div class="bg-cyber-cyan h-full w-[90%]"></div></div>
+                                                <div class="w-full bg-gray-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden border border-gray-300 dark:border-zinc-600"><div id="attr-cha-bar" class="bg-cyber-cyan h-full w-[0%] shadow-[0_0_10px_#05d9e8]"></div></div>
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <!-- Badges -->
                                     <div>
-                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-3 uppercase tracking-wider">Badges</h3>
-                                        <div class="grid grid-cols-4 gap-2">
-                                            <div class="aspect-square bg-gray-100 dark:bg-gray-800 border border-ink dark:border-gray-600 rounded flex items-center justify-center text-lg">🚀</div>
-                                            <div class="aspect-square bg-gray-100 dark:bg-gray-800 border border-ink dark:border-gray-600 rounded flex items-center justify-center text-lg">🐛</div>
-                                            <div class="aspect-square bg-gray-100 dark:bg-gray-800 border border-ink dark:border-gray-600 rounded flex items-center justify-center text-lg">📜</div>
-                                            <div class="aspect-square border-2 border-dashed border-gray-300 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 text-xs">?</div>
+                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-3 uppercase tracking-wider">Inventory / Badges</h3>
+                                        <div class="grid grid-cols-4 gap-3">
+                                            <div class="aspect-square bg-white dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-600 rounded-lg flex items-center justify-center text-xl hover:border-primary cursor-help transition-colors" title="Early Adopter">🚀</div>
+                                            <div class="aspect-square bg-white dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-600 rounded-lg flex items-center justify-center text-xl hover:border-pop-pink cursor-help transition-colors" title="Bug Hunter">🐛</div>
+                                            <div class="aspect-square bg-white dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-600 rounded-lg flex items-center justify-center text-xl hover:border-cyber-cyan cursor-help transition-colors" title="Scholar">📜</div>
+                                            <div class="aspect-square border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-lg flex items-center justify-center text-gray-400 text-xs font-mono">EMPTY</div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="md:col-span-2 space-y-6">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label class="block font-bold mb-1 text-xs font-mono uppercase text-primary">Display Name</label>
-                                            <input type="text" value="Alex Doe" class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-primary focus:outline-none shadow-sm transition-all">
+                                            <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500">Display Name</label>
+                                            <input type="text" id="displayName-input" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 font-medium focus:border-ink dark:focus:border-white focus:outline-none transition-all">
                                         </div>
                                         <div>
-                                            <label class="block font-bold mb-1 text-xs font-mono uppercase text-pop-pink">Job Class (Role)</label>
-                                            <select class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-pop-pink focus:outline-none shadow-sm transition-all">
-                                                <option>Webmancer (Developer)</option>
-                                                <option>Pixel Artist (Designer)</option>
-                                                <option>Game Master (Manager)</option>
-                                            </select>
+                                            <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500">Job Class</label>
+                                            <div class="relative">
+                                                <select id="jobClass-select" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 font-medium focus:border-ink dark:focus:border-white focus:outline-none appearance-none transition-all">
+                                                    <option>Webmancer (Developer)</option>
+                                                    <option>Pixel Artist (Designer)</option>
+                                                    <option>Game Master (Manager)</option>
+                                                </select>
+                                                <i class="fas fa-chevron-down absolute right-4 top-4 text-xs pointer-events-none text-gray-400"></i>
+                                            </div>
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="block font-bold mb-1 text-xs font-mono uppercase">Bio / Status</label>
-                                        <textarea rows="3" class="w-full bg-white dark:bg-black border-2 border-ink dark:border-paper rounded p-3 focus:border-primary focus:outline-none shadow-sm text-sm transition-all">Building cool stuff with the LHA crew. I love Tailwind, Node.js, and pixel art.</textarea>
+                                        <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500">Bio / Status</label>
+                                        <textarea id="bio-textarea" rows="3" class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 font-medium focus:border-ink dark:focus:border-white focus:outline-none text-sm transition-all resize-none"></textarea>
                                     </div>
-                                    <div class="bg-gray-50 dark:bg-black/20 p-4 rounded border border-gray-200 dark:border-gray-800">
-                                        <h3 class="font-mono font-bold text-xs text-gray-500 mb-3 uppercase tracking-wider">Equipment (Links)</h3>
-                                        <div class="grid grid-cols-1 gap-3">
-                                            <div class="flex items-center">
-                                                <span class="w-10 h-10 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center rounded-l border-r-0"><i class="fab fa-github"></i></span>
-                                                <input type="text" placeholder="github.com/username" class="flex-1 bg-white dark:bg-black border-2 border-gray-300 dark:border-gray-600 rounded-r p-2 h-10 text-sm focus:border-ink focus:outline-none">
+                                    
+                                    <div class="bg-blue-50/50 dark:bg-zinc-800/50 p-6 rounded-xl border border-blue-100 dark:border-zinc-700">
+                                        <h3 class="font-mono font-bold text-xs text-blue-500 dark:text-blue-400 mb-4 uppercase tracking-wider flex items-center gap-2">
+                                            <i class="fas fa-link"></i> Linked Equipment
+                                        </h3>
+                                        <div class="grid grid-cols-1 gap-4">
+                                            <div class="flex items-center group">
+                                                <span class="w-12 h-10 bg-white dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-600 flex items-center justify-center rounded-l-lg border-r-0 group-focus-within:border-ink dark:group-focus-within:border-white transition-colors"><i class="fab fa-github"></i></span>
+                                                <input type="text" id="github-input" placeholder="github.com/username" class="flex-1 bg-white dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-600 rounded-r-lg p-2 h-10 text-sm focus:border-ink dark:focus:border-white focus:outline-none transition-colors">
                                             </div>
-                                            <div class="flex items-center">
-                                                <span class="w-10 h-10 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center rounded-l border-r-0"><i class="fas fa-globe"></i></span>
-                                                <input type="text" placeholder="yourportfolio.com" class="flex-1 bg-white dark:bg-black border-2 border-gray-300 dark:border-gray-600 rounded-r p-2 h-10 text-sm focus:border-ink focus:outline-none">
+                                            <div class="flex items-center group">
+                                                <span class="w-12 h-10 bg-white dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-600 flex items-center justify-center rounded-l-lg border-r-0 group-focus-within:border-ink dark:group-focus-within:border-white transition-colors"><i class="fas fa-globe"></i></span>
+                                                <input type="text" id="portfolio-input" placeholder="yourportfolio.com" class="flex-1 bg-white dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-600 rounded-r-lg p-2 h-10 text-sm focus:border-ink dark:focus:border-white focus:outline-none transition-colors">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="pt-4 border-t-2 border-dashed border-gray-200 dark:border-gray-800">
-                                        <button class="text-xs font-bold text-red-500 hover:text-red-600 hover:underline uppercase">
-                                            <i class="fas fa-trash mr-1"></i> Delete Character Data
+                                    
+                                    <div class="pt-6 mt-6 border-t border-gray-100 dark:border-zinc-800">
+                                        <button class="text-xs font-bold text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2 rounded transition-colors uppercase tracking-wide">
+                                            <i class="fas fa-trash mr-2"></i> Delete Save File
                                         </button>
                                     </div>
                                 </div>
@@ -215,56 +253,27 @@
                         </div>
 
                         <!-- 2. PROJECTS TAB -->
-                        <div id="projects-pane" class="tab-pane hidden animate-fade-in">
-                            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b-2 border-gray-100 dark:border-gray-800 pb-4 gap-4">
+                        <div id="projects-pane" class="tab-pane hidden animate-fade-in relative z-10">
+                            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-200 dark:border-zinc-700 pb-6 gap-4">
                                 <div>
                                     <h1 class="font-display font-black text-3xl md:text-4xl uppercase">Active Quests</h1>
-                                    <p class="text-gray-500 dark:text-gray-400 font-mono text-sm">Recent mission activity.</p>
+                                    <p class="text-gray-500 dark:text-gray-400 font-mono text-sm mt-1">Current mission log and submissions.</p>
                                 </div>
-                                <a href="/src/screens/projects/myprojects.html" class="bg-ink dark:bg-paper text-white dark:text-ink border-2 border-ink dark:border-paper px-4 py-2 rounded font-bold text-xs uppercase shadow-manga-sm hover:translate-y-1 hover:shadow-none transition-all">
-                                    See Full Directory <i class="fas fa-arrow-right ml-1"></i>
+                                <a href="/src/screens/projects/myprojects.html" class="bg-ink dark:bg-white text-white dark:text-ink border-2 border-transparent px-5 py-2 rounded-lg font-bold text-xs uppercase shadow-lg hover:-translate-y-0.5 transition-all">
+                                    Full Directory <i class="fas fa-arrow-right ml-2"></i>
                                 </a>
                             </div>
 
-                            <div class="space-y-4">
-                                <!-- List Item 1 -->
-                                <div class="group bg-gray-50 dark:bg-black/40 border-2 border-gray-200 dark:border-gray-800 p-4 rounded hover:border-primary transition-colors flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-white dark:bg-gray-800 rounded border-2 border-ink dark:border-gray-600 flex items-center justify-center">
-                                            <i class="fas fa-globe text-xl text-primary"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-display font-bold text-lg">Project Titan Website</h3>
-                                            <p class="text-xs font-mono text-gray-500 dark:text-gray-400">Submitted: Today</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
-                                        <span class="bg-yellow-400 text-ink text-[10px] font-bold px-2 py-1 border border-ink rounded font-mono">IN REVIEW</span>
-                                        <button class="text-gray-400 hover:text-primary"><i class="fas fa-chevron-right"></i></button>
-                                    </div>
-                                </div>
-
-                                <!-- List Item 2 -->
-                                <div class="group bg-gray-50 dark:bg-black/40 border-2 border-gray-200 dark:border-gray-800 p-4 rounded hover:border-pop-pink transition-colors flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-white dark:bg-gray-800 rounded border-2 border-ink dark:border-gray-600 flex items-center justify-center">
-                                            <i class="fas fa-mobile-alt text-xl text-pop-pink"></i>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-display font-bold text-lg">FitTrack Mobile App</h3>
-                                            <p class="text-xs font-mono text-gray-500 dark:text-gray-400">Updated: 2h ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
-                                        <span class="bg-neon-lime text-ink text-[10px] font-bold px-2 py-1 border border-ink rounded font-mono">ACTIVE</span>
-                                        <button class="text-gray-400 hover:text-pop-pink"><i class="fas fa-chevron-right"></i></button>
-                                    </div>
-                                </div>
+                            <div id="account-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                                <!-- Projects will load here -->
+                            </div>
 
                                 <!-- Empty State / CTA -->
-                                <a href="/src/screens/projects/start-project.html" class="block border-2 border-dashed border-gray-300 dark:border-gray-700 rounded p-4 text-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group">
-                                    <i class="fas fa-plus text-gray-400 group-hover:text-ink dark:group-hover:text-white mb-2"></i>
-                                    <p class="text-xs font-bold text-gray-500 group-hover:text-ink dark:group-hover:text-white uppercase">Start New Quest</p>
+                                <a href="/src/screens/projects/start-project.html" class="block border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl p-8 text-center hover:bg-gray-50 dark:hover:bg-zinc-900 hover:border-gray-400 dark:hover:border-zinc-500 transition-all group mt-6">
+                                    <div class="w-12 h-12 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                                        <i class="fas fa-plus text-gray-400 group-hover:text-ink dark:group-hover:text-white"></i>
+                                    </div>
+                                    <p class="text-sm font-bold text-gray-500 group-hover:text-ink dark:group-hover:text-white uppercase">Accept New Quest</p>
                                 </a>
                             </div>
                         </div>
@@ -283,22 +292,25 @@
     <script>
         function logout() {
             localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userId'); // Also remove the user ID on logout
             window.location.href = '/src/screens/main/index.html';
         }
         // Theme Logic
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
             } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
+                document.documentElement.classList.remove('dark')
             }
+            document.getElementById('theme-toggle').addEventListener('click', function() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            });
         });
     </script>
 </body>

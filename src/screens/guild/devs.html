@@ -25,38 +25,25 @@
                         'body': ['"Outfit"', 'sans-serif'],
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
-                    colors: {
-                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 
-                        'pop-pink': '#ff477e', 'cyber-cyan': '#22d3ee', 'neon-lime': '#bef264',
-                    },
+                    colors: { 'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6', 'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8', 'neon-lime': '#d1f25e' },
                     backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                        'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
+                        'manga': '4px 4px 0px 0px #09090b',
+                        'manga-white': '4px 4px 0px 0px #ffffff',
+                        'neon': '0 0 15px rgba(139, 92, 246, 0.4)'
                     }
                 }
             }
         }
     </script>
     <style>
-        .bg-halftone { background-size: 20px 20px; }
+        .bg-grid { background-size: 40px 40px; }
         .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
-        .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
+        .dark .text-stroke { -webkit-text-stroke: 1px #ffffff; }
         
-        /* Play Button Pulse */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            100% { transform: scale(1.3); opacity: 0; }
-        }
-        .play-btn::before {
-            content: ''; position: absolute; inset: -10px; border-radius: 50%; border: 2px solid white;
-            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        }
-
         .loader {
             width: 48px; height: 48px; border: 5px solid #8b5cf6; border-bottom-color: transparent;
             border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite;
@@ -68,28 +55,28 @@
         #mobile-menu.flex { pointer-events: auto; opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative flex flex-col min-h-screen">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen">
 
     <!-- Background -->
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
         <div class="container mx-auto max-w-7xl">
-            <div class="bg-white/90 dark:bg-ink/90 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
+            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none transition-all">
                 <!-- Logo -->
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:-translate-x-1 transition-transform">
+                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl group-hover:-translate-x-1 transition-transform shadow-sm">
                         <i class="fas fa-arrow-left"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-bold leading-none text-sm uppercase">LHA <span class="text-primary">/// DEVS</span></span>
-                        <span class="text-[10px] font-mono uppercase text-gray-500">BACK TO BASE</span>
+                        <span class="font-display font-black leading-none text-lg uppercase tracking-tight">LHA <span class="text-primary">/// DEVS</span></span>
+                        <span class="text-[10px] font-mono uppercase text-gray-500 font-bold tracking-widest">BACK TO BASE</span>
                     </div>
                 </a>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-6 font-bold uppercase text-xs tracking-wider">
+                <div class="hidden md:flex items-center gap-6 font-bold uppercase text-xs tracking-wider font-mono">
                      <span class="text-gray-400">GUILD SELECTION:</span>
                      <a href="#" class="text-primary border-b-2 border-primary">Devs</a>
                      <a href="artists.html" class="hover:text-pop-pink transition-colors opacity-50 hover:opacity-100">Artists</a>
@@ -98,11 +85,11 @@
 
                 <!-- Controls -->
                 <div class="flex items-center gap-3">
-                    <button id="theme-toggle" class="w-10 h-10 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <button id="theme-toggle" class="w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
                         <i class="fas fa-moon block dark:hidden"></i>
                         <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
                     </button>
-                    <button id="mobile-menu-button" class="md:hidden w-10 h-10 rounded border-2 border-transparent flex items-center justify-center text-xl active:bg-gray-200 dark:active:bg-gray-800">
+                    <button id="mobile-menu-button" class="md:hidden w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center text-xl hover:bg-gray-100 dark:hover:bg-zinc-800">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
@@ -111,44 +98,44 @@
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-ink/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
+    <div id="mobile-menu" class="fixed inset-0 bg-paper/95 dark:bg-black/95 backdrop-blur-xl z-[60] hidden flex-col justify-center items-center space-y-8 p-6">
         <button id="close-menu-button" class="absolute top-8 right-8 text-2xl p-2 hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>
         <div class="flex flex-col items-center space-y-6 text-center">
-            <span class="font-mono text-xs text-gray-400 mb-4">SELECT GUILD CLASS</span>
+            <span class="font-mono text-xs text-gray-400 mb-4 tracking-widest">SELECT GUILD CLASS</span>
             <a href="#" class="mobile-link text-5xl font-display font-black uppercase text-primary">Devs</a>
             <a href="artists.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-pop-pink transition-colors">Artists</a>
             <a href="gamers.html" class="mobile-link text-5xl font-display font-black uppercase hover:text-cyber-cyan transition-colors">Gamers</a>
         </div>
-        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-paper font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-paper dark:hover:text-ink transition-colors">Return to Base</a>
+        <a href="/index.html" class="mobile-link mt-12 px-8 py-3 border-2 border-ink dark:border-white font-bold uppercase hover:bg-ink hover:text-paper dark:hover:bg-white dark:hover:text-ink transition-colors tracking-widest text-xs">Return to Base</a>
     </div>
 
     <!-- Hero Section -->
     <header class="pt-32 pb-12 md:pt-40 md:pb-16 container mx-auto px-6 max-w-7xl text-center">
-        <div class="inline-flex items-center gap-2 bg-primary text-white border-2 border-ink dark:border-paper px-4 py-1 font-mono font-bold text-xs md:text-sm -rotate-2 mb-6 shadow-manga dark:shadow-manga-white">
-            <span class="animate-pulse">●</span> LIVE REPOSITORY
+        <div class="inline-flex items-center gap-2 bg-primary text-white border-2 border-ink dark:border-white px-4 py-1 font-mono font-bold text-xs md:text-sm -rotate-2 mb-6 shadow-manga dark:shadow-neon">
+            <span class="animate-pulse bg-white rounded-full w-2 h-2"></span> LIVE REPOSITORY
         </div>
-        <h1 class="font-display font-black text-5xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-6">
-            Dev <br><span class="text-stroke">Archives</span>
+        <h1 class="font-display font-black text-6xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-6">
+            Dev <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyber-cyan text-stroke">Archives</span>
         </h1>
         <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium">
-            Seminars, speed-coding tutorials, and deep dives. Level up your stack without the fluff.
+            Seminars, speed-coding tutorials, and deep dives. <br>Level up your stack without the corporate fluff.
         </p>
     </header>
 
     <!-- Filter & Search -->
     <section class="container mx-auto px-6 max-w-7xl mb-12">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-6 border-b-2 border-ink dark:border-paper pb-6">
+        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-6 rounded-xl shadow-manga dark:shadow-none flex flex-col md:flex-row justify-between items-center gap-6">
             <!-- Tabs -->
-            <div class="flex flex-wrap justify-center gap-3" id="filter-tabs">
-                <button class="filter-btn active px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase transition-all bg-ink text-white dark:bg-paper dark:text-ink" data-category="all">All Uploads</button>
-                <button class="filter-btn px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all" data-category="tutorial">Tutorials</button>
-                <button class="filter-btn px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all" data-category="seminar">Seminars</button>
-                <button class="filter-btn px-6 py-2 rounded-full border-2 border-ink dark:border-paper font-bold font-mono text-xs uppercase hover:bg-ink hover:text-white dark:hover:bg-paper dark:hover:text-ink transition-all" data-category="resource">Resources</button>
+            <div class="flex flex-wrap justify-center gap-2" id="filter-tabs">
+                <button class="filter-btn active px-5 py-2 rounded-lg border-2 border-ink dark:border-zinc-500 font-bold font-mono text-xs uppercase transition-all bg-ink text-white dark:bg-white dark:text-ink hover:-translate-y-0.5" data-category="all">All Files</button>
+                <button class="filter-btn px-5 py-2 rounded-lg border-2 border-ink dark:border-zinc-500 font-bold font-mono text-xs uppercase hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all hover:-translate-y-0.5" data-category="tutorial">Tutorials</button>
+                <button class="filter-btn px-5 py-2 rounded-lg border-2 border-ink dark:border-zinc-500 font-bold font-mono text-xs uppercase hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all hover:-translate-y-0.5" data-category="seminar">Seminars</button>
+                <button class="filter-btn px-5 py-2 rounded-lg border-2 border-ink dark:border-zinc-500 font-bold font-mono text-xs uppercase hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all hover:-translate-y-0.5" data-category="resource">Source Code</button>
             </div>
             <!-- Search -->
-            <div class="relative w-full md:w-64">
-                <input type="text" id="search-input" placeholder="Search Database..." class="w-full bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded px-4 py-2 font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                <i class="fas fa-search absolute right-3 top-3 text-gray-400 text-xs"></i>
+            <div class="relative w-full md:w-72">
+                <input type="text" id="search-input" placeholder="grep search_term..." class="w-full bg-gray-50 dark:bg-black border-2 border-ink dark:border-zinc-600 rounded-lg px-4 py-2.5 font-mono text-sm focus:outline-none focus:border-primary dark:focus:border-primary transition-colors pl-10">
+                <i class="fas fa-terminal absolute left-3 top-3 text-gray-400 text-xs"></i>
             </div>
         </div>
     </section>
@@ -160,35 +147,43 @@
         <!-- Loading State -->
         <div id="loading-state" class="flex flex-col items-center justify-center py-20 hidden">
             <span class="loader"></span>
-            <p class="font-mono mt-6 text-primary animate-pulse uppercase font-bold">Retrieving Data...</p>
+            <p class="font-mono mt-6 text-primary animate-pulse uppercase font-bold text-xs tracking-widest">Querying Database...</p>
         </div>
 
         <!-- Empty State -->
-        <div id="empty-state" class="hidden text-center py-20">
-            <div class="inline-block p-6 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
-                <i class="fas fa-robot text-4xl text-gray-400"></i>
+        <div id="empty-state" class="hidden text-center py-20 bg-gray-50 dark:bg-zinc-900 border-2 border-dashed border-gray-200 dark:border-zinc-700 rounded-xl mx-auto max-w-lg">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-zinc-800 mb-4 text-3xl">
+                <i class="fas fa-robot text-gray-400"></i>
             </div>
-            <h3 class="font-display font-bold text-3xl mb-2">Data Not Found</h3>
-            <p class="text-gray-500 font-mono">Try adjusting your search parameters.</p>
+            <h3 class="font-display font-bold text-2xl mb-2">404: Data Not Found</h3>
+            <p class="text-gray-500 font-mono text-sm">Try adjusting your search parameters.</p>
         </div>
     </main>
 
     <!-- Video Modal -->
-    <div id="video-modal" class="fixed inset-0 z-[100] bg-ink/90 backdrop-blur hidden flex items-center justify-center p-4">
-        <div class="bg-black w-full max-w-4xl border-2 border-paper shadow-2xl rounded overflow-hidden relative">
-            <button id="close-modal" class="absolute top-4 right-4 text-white text-2xl hover:text-pop-pink z-20"><i class="fas fa-times"></i></button>
+    <div id="video-modal" class="fixed inset-0 z-[100] bg-ink/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-black w-full max-w-4xl border-2 border-zinc-700 shadow-2xl rounded-2xl overflow-hidden relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-white/50 hover:text-white text-2xl z-20 transition-colors bg-black/50 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur"><i class="fas fa-times"></i></button>
             
-            <div class="aspect-video bg-gray-900 flex items-center justify-center relative group">
-                <i class="fas fa-play text-6xl text-white opacity-50"></i>
-                <div class="absolute bottom-0 left-0 right-0 h-1 bg-gray-700"><div class="w-1/3 h-full bg-pop-pink"></div></div>
+            <div class="aspect-video bg-zinc-900 flex items-center justify-center relative group">
+                <i class="fas fa-code text-6xl text-white opacity-20"></i>
+                <div class="absolute bottom-0 left-0 right-0 h-1 bg-zinc-800"><div class="w-1/3 h-full bg-primary relative"><div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-sm"></div></div></div>
             </div>
 
-            <div class="p-6 bg-white dark:bg-gray-900">
-                <h2 id="modal-title" class="font-display font-bold text-2xl mb-2 text-ink dark:text-white">Video Title</h2>
-                <p id="modal-desc" class="text-sm text-gray-600 dark:text-gray-400 font-mono">Description goes here.</p>
-                <div class="mt-4 flex gap-2">
-                    <button class="bg-primary text-white px-4 py-2 font-bold text-xs uppercase rounded hover:bg-violet-600">Like</button>
-                    <button class="bg-gray-200 dark:bg-gray-800 text-ink dark:text-white px-4 py-2 font-bold text-xs uppercase rounded hover:bg-gray-300">Share</button>
+            <div class="p-8 bg-white dark:bg-zinc-900 border-t border-zinc-800">
+                <div class="flex flex-col md:flex-row gap-6 justify-between items-start">
+                    <div>
+                        <h2 id="modal-title" class="font-display font-black text-3xl mb-2 text-ink dark:text-white uppercase leading-none">Video Title</h2>
+                        <p id="modal-desc" class="text-sm text-gray-600 dark:text-gray-400 font-mono leading-relaxed">Description goes here.</p>
+                    </div>
+                    <div class="flex gap-3 shrink-0">
+                        <button class="bg-primary hover:bg-violet-600 text-white px-5 py-2.5 font-bold text-xs uppercase rounded-lg shadow-lg hover:-translate-y-0.5 transition-all">
+                            <i class="fas fa-thumbs-up mr-2"></i> Commit
+                        </button>
+                        <button class="bg-gray-100 dark:bg-zinc-800 text-ink dark:text-white hover:bg-gray-200 dark:hover:bg-zinc-700 px-5 py-2.5 font-bold text-xs uppercase rounded-lg transition-colors border border-gray-200 dark:border-zinc-700">
+                            <i class="fas fa-share-alt mr-2"></i> Fork
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

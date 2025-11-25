@@ -21,85 +21,109 @@
                         'body': ['"Outfit"', 'sans-serif'],
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
-                    colors: {
-                        'ink': '#09090b', 'paper': '#fafafa', 'primary': '#8b5cf6', 'pop-pink': '#ff477e',
+                    colors: { 'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6', 'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8' },
+                    backgroundImage: {
+                        'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
                         'manga': '4px 4px 0px 0px #09090b',
-                        'manga-white': '4px 4px 0px 0px #fafafa',
+                        'manga-sm': '2px 2px 0px 0px #09090b',
+                        'neon': '0 0 15px rgba(139, 92, 246, 0.3)',
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Dot Pattern Background */
-        .bg-dots {
-            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-        .dark .bg-dots {
-            background-image: radial-gradient(#333 1px, transparent 1px);
-        }
-        /* Custom Toast Animation */
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .toast-enter { animation: slideIn 0.3s ease-out forwards; }
+        .bg-grid { background-size: 40px 40px; }
+        .input-group:focus-within label { color: #8b5cf6; }
+        .dark .input-group:focus-within label { color: #8b5cf6; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 flex justify-center items-center min-h-screen p-4 relative overflow-x-hidden">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 flex justify-center items-center min-h-screen p-4 relative overflow-hidden">
 
-    <!-- Background -->
-    <div class="fixed inset-0 z-[-1] bg-dots opacity-60 pointer-events-none"></div>
+    <!-- Background Grid -->
+    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Nav -->
-    <a href="/index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 font-mono font-bold text-sm uppercase hover:text-primary transition-colors">
-        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Return to Base</span>
+    <a href="/index.html" class="absolute top-8 left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
+        <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden sm:inline">Return to Base</span>
     </a>
 
     <!-- Card Container -->
     <div class="w-full max-w-md relative group">
-        <!-- Decorative Offset Border -->
-        <div class="absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-paper rounded translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
+        <!-- Decorative Elements -->
+        <div class="absolute -top-3 -right-3 w-12 h-12 bg-dots-pattern opacity-50 z-0"></div>
+        <div class="absolute -bottom-3 -left-3 w-12 h-12 bg-dots-pattern opacity-50 z-0"></div>
         
         <!-- Main Card -->
-        <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper rounded p-6 sm:p-10 relative z-10">
+        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-8 sm:p-10 relative z-10 shadow-manga dark:shadow-neon transition-all duration-300">
             
             <div class="text-center mb-8">
-                <div class="inline-block bg-primary text-white px-2 py-1 font-mono text-[10px] font-bold mb-3 rounded-sm">SYSTEM_ACCESS</div>
-                <h1 class="font-display font-black text-3xl sm:text-4xl uppercase tracking-tight">Identify</h1>
+                <div class="inline-flex items-center gap-2 bg-ink dark:bg-white text-white dark:text-ink px-3 py-1 font-mono text-[10px] font-bold mb-4 rounded transform -rotate-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> SYSTEM_ACCESS
+                </div>
+                <h1 class="font-display font-black text-4xl uppercase tracking-tight text-ink dark:text-white">Identify</h1>
+                <p class="text-xs font-mono text-gray-500 mt-2 uppercase tracking-widest">Enter Credentials to proceed.</p>
             </div>
 
-            <form id="signin-form" class="space-y-5">
-                <div>
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400">Username / Email</label>
-                    <input type="text" name="username" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-gray-700 rounded p-3 font-mono text-sm focus:border-primary dark:focus:border-primary focus:outline-none transition-colors placeholder-gray-400" placeholder="user@lha.gg">
+            <form id="signin-form" class="space-y-6">
+                <div class="input-group">
+                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 transition-colors">Username / Email</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" name="username" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg py-3 pl-10 pr-4 font-mono text-sm focus:border-ink dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400" placeholder="user@lha.gg">
+                    </div>
                 </div>
 
-                <div class="relative">
+                <div class="input-group">
                     <div class="flex justify-between mb-2">
-                        <label class="font-bold text-xs font-mono uppercase text-gray-500 dark:text-gray-400">Password</label>
+                        <label class="font-bold text-xs font-mono uppercase text-gray-500 transition-colors">Password</label>
                     </div>
-                    <input type="password" id="password" name="password" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-gray-700 rounded p-3 font-mono text-sm focus:border-primary dark:focus:border-primary focus:outline-none transition-colors placeholder-gray-400" placeholder="••••••••">
-                    <button type="button" id="togglePassword" class="absolute top-[34px] right-3 text-gray-400 hover:text-primary transition-colors">
-                        <i class="fas fa-eye"></i>
-                    </button>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="password" id="password" name="password" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg py-3 pl-10 pr-10 font-mono text-sm focus:border-ink dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
+                        <button type="button" id="togglePassword" class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-primary transition-colors">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex justify-end">
-                    <a href="forgot-password.html" class="text-xs font-bold font-mono text-gray-400 hover:text-pop-pink transition-colors hover:underline">Forgot Password?</a>
+                    <a href="forgot-password.html" class="text-[10px] font-bold font-mono text-gray-400 hover:text-pop-pink transition-colors uppercase tracking-wider hover:underline decoration-wavy">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="w-full bg-ink dark:bg-paper text-white dark:text-ink border-2 border-transparent rounded py-3 font-bold font-display uppercase tracking-widest hover:bg-primary hover:text-white hover:border-ink dark:hover:border-paper transition-all shadow-none hover:shadow-lg active:scale-95">
-                    Connect
+                <button type="submit" class="w-full bg-ink dark:bg-white text-white dark:text-ink border-2 border-transparent rounded-lg py-3.5 font-bold font-display uppercase tracking-widest hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all shadow-lg hover:-translate-y-1 active:scale-[0.98]">
+                    Connect <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </form>
 
-            <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
-                <p class="text-sm font-mono">
-                    New Player? <a href="signup.html" class="font-bold text-primary hover:text-pop-pink hover:underline">Create Character</a>
+            <!-- Social Login Divider -->
+            <div class="relative flex items-center gap-4 py-6">
+                <div class="flex-grow border-t-2 border-gray-100 dark:border-zinc-800"></div>
+                <span class="flex-shrink-0 text-[10px] font-mono font-bold text-gray-400 uppercase tracking-widest">Or Link With</span>
+                <div class="flex-grow border-t-2 border-gray-100 dark:border-zinc-800"></div>
+            </div>
+
+            <!-- Social Buttons -->
+            <div class="grid grid-cols-3 gap-3 mb-2">
+                <button data-provider="google" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group">
+                    <i class="fab fa-google text-lg group-hover:scale-110 transition-transform"></i>
+                </button>
+                
+                <button data-provider="github" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group">
+                    <i class="fab fa-github text-lg group-hover:scale-110 transition-transform"></i>
+                </button>
+                
+                <button data-provider="facebook" class="social-auth-btn h-12 flex items-center justify-center rounded-lg border-2 border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white hover:text-ink dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all duration-300 group">
+                    <i class="fab fa-facebook-f text-lg group-hover:scale-110 transition-transform"></i>
+                </button>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center">
+                <p class="text-xs font-mono text-gray-500">
+                    New Player? <a href="signup.html" class="font-bold text-primary hover:text-pop-pink hover:underline decoration-wavy ml-1 transition-colors">Create Character</a>
                 </p>
             </div>
         </div>
@@ -109,7 +133,6 @@
 
     <!-- SCRIPTS -->
     <script src="/src/js/main/alert.js"></script>
-
     <script src="/src/js/main/auth.js"></script>
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');

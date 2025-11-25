@@ -1,6 +1,7 @@
 /**
  * js/alert.js
  * FIXED: Attaches event listeners dynamically when the modal opens.
+ * UPDATED: Toast notification vertical position adjusted to be higher.
  */
 
 let onConfirmCallback = null;
@@ -56,7 +57,13 @@ function openAlertModal({ title, message, icon, iconHTML, confirmText = "Confirm
         if (iconHTML) {
             iconContainer.innerHTML = iconHTML;
         } else {
-            iconContainer.innerHTML = `<i class="fas ${icon || 'fa-exclamation'} text-3xl text-ink dark:text-white"></i>`;
+            // Default styling based on icon name approximation
+            let colorClass = "text-ink dark:text-white";
+            if(icon === 'fa-exclamation-triangle') colorClass = "text-yellow-500";
+            if(icon === 'fa-trash' || icon === 'fa-times') colorClass = "text-pop-pink";
+            if(icon === 'fa-check') colorClass = "text-neon-lime";
+
+            iconContainer.innerHTML = `<i class="fas ${icon || 'fa-bell'} text-2xl ${colorClass}"></i>`;
         }
     }
 
@@ -83,7 +90,7 @@ function closeAlertModal() {
     }, 300);
 }
 
-/* --- TOAST NOTIFICATION LOGIC (Keep as is) --- */
+/* --- TOAST NOTIFICATION LOGIC --- */
 function showAlert(title, message, type = 'info') {
     if (typeof title === 'object') {
         const params = title;
@@ -97,28 +104,66 @@ function showAlert(title, message, type = 'info') {
 
     const alertId = `alert-${Date.now()}`;
     
+    // Updated aesthetic colors
     const alertColors = {
-        success: { bg: 'bg-neon-lime', text: 'text-ink', border: 'border-ink', icon: 'fa-check-circle', iconColor: 'text-ink' },
-        error: { bg: 'bg-pop-pink', text: 'text-white', border: 'border-ink', icon: 'fa-times-circle', iconColor: 'text-white' },
-        warning: { bg: 'bg-yellow-400', text: 'text-ink', border: 'border-ink', icon: 'fa-exclamation-triangle', iconColor: 'text-ink' },
-        info: { bg: 'bg-white', text: 'text-ink', border: 'border-ink', icon: 'fa-info-circle', iconColor: 'text-primary' }
+        success: { 
+            bg: 'bg-white dark:bg-zinc-900', 
+            text: 'text-ink dark:text-white', 
+            border: 'border-l-4 border-l-neon-lime', 
+            icon: 'fa-check-circle', 
+            iconColor: 'text-neon-lime' 
+        },
+        error: { 
+            bg: 'bg-white dark:bg-zinc-900', 
+            text: 'text-ink dark:text-white', 
+            border: 'border-l-4 border-l-pop-pink', 
+            icon: 'fa-times-circle', 
+            iconColor: 'text-pop-pink' 
+        },
+        warning: { 
+            bg: 'bg-white dark:bg-zinc-900', 
+            text: 'text-ink dark:text-white', 
+            border: 'border-l-4 border-l-yellow-400', 
+            icon: 'fa-exclamation-triangle', 
+            iconColor: 'text-yellow-400' 
+        },
+        info: { 
+            bg: 'bg-white dark:bg-zinc-900', 
+            text: 'text-ink dark:text-white', 
+            border: 'border-l-4 border-l-primary', 
+            icon: 'fa-info-circle', 
+            iconColor: 'text-primary' 
+        }
     };
 
     const config = alertColors[type] || alertColors.info;
+    
+    // Design: Card with Shadow
     const alertElement = document.createElement('div');
     alertElement.id = alertId;
-    alertElement.className = `fixed top-24 right-5 w-full max-w-sm p-4 rounded shadow-[5px_5px_0px_0px_#09090b] dark:shadow-[5px_5px_0px_0px_#fafafa] ${config.bg} ${config.text} border-2 ${config.border} dark:border-paper transform translate-x-[150%] transition-all duration-500 ease-in-out z-[9999] font-mono`;
+    
+    // --- CHANGE IS HERE ---
+    // Changed `top-24` to `top-20` to move the toast higher.
+    // You can use `top-5` for an even higher position.
+    alertElement.className = `fixed top-5 right-5 w-full max-w-sm p-4 rounded-r shadow-manga dark:shadow-lg ${config.bg} ${config.text} ${config.border} transform translate-x-[150%] transition-all duration-500 ease-in-out z-[9999] border-y border-r border-gray-200 dark:border-zinc-700`;
     
     alertElement.innerHTML = `
         <div class="flex items-start">
-            <div class="flex-shrink-0 pt-0.5"><i class="fas ${config.icon} ${config.iconColor} text-2xl"></i></div>
-            <div class="ml-4 flex-1"><h4 class="font-bold font-display text-lg uppercase leading-tight">${title}</h4><p class="text-xs mt-1 font-bold opacity-90">${message}</p></div>
-            <button onclick="document.getElementById('${alertId}').remove()" class="ml-auto -mx-1.5 -my-1.5 text-inherit hover:opacity-70 p-1.5"><i class="fas fa-times"></i></button>
+            <div class="flex-shrink-0 pt-0.5"><i class="fas ${config.icon} ${config.iconColor} text-xl"></i></div>
+            <div class="ml-4 flex-1">
+                <h4 class="font-bold font-display text-sm uppercase tracking-wide">${title}</h4>
+                <p class="text-xs mt-1 font-mono text-gray-500 dark:text-gray-400">${message}</p>
+            </div>
+            <button onclick="document.getElementById('${alertId}').remove()" class="ml-auto -mx-1.5 -my-1.5 text-gray-400 hover:text-ink dark:hover:text-white p-1.5 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
 
     placeholder.appendChild(alertElement);
     requestAnimationFrame(() => alertElement.classList.remove('translate-x-[150%]'));
+    
+    // Auto remove
     setTimeout(() => {
         if (document.body.contains(alertElement)) {
             alertElement.classList.add('translate-x-[150%]');

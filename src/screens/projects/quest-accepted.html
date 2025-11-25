@@ -13,41 +13,52 @@
             theme: {
                 extend: {
                     fontFamily: { 'display': ['"Space Grotesk"', 'sans-serif'], 'mono': ['"JetBrains Mono"', 'monospace'] },
-                    colors: { 'ink': '#09090b', 'paper': '#fafafa', 'neon-lime': '#bef264' },
-                    boxShadow: { 'manga': '5px 5px 0px 0px #09090b' }
+                    colors: { 'ink': '#09090b', 'paper': '#fdfbf7', 'neon-lime': '#d1f25e' },
+                    boxShadow: { 
+                        'manga': '4px 4px 0px 0px #09090b',
+                        'neon': '0 0 30px rgba(209, 242, 94, 0.4)'
+                    },
+                    backgroundImage: {
+                        'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+                    }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-paper dark:bg-ink text-ink dark:text-paper h-screen flex items-center justify-center overflow-hidden relative p-4">
+<body class="bg-paper dark:bg-black text-ink dark:text-paper h-screen flex items-center justify-center overflow-hidden relative p-4 transition-colors duration-500">
+
+    <!-- Background Grid -->
+    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Background Burst -->
-    <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-        <div class="w-[500px] h-[500px] bg-neon-lime rounded-full blur-[100px]"></div>
+    <div class="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
+        <div class="w-[600px] h-[600px] bg-neon-lime rounded-full blur-[150px]"></div>
     </div>
 
     <div class="relative z-10 text-center max-w-lg w-full">
         
-        <div class="w-20 h-20 md:w-24 md:h-24 bg-neon-lime border-4 border-ink mx-auto mb-8 flex items-center justify-center rounded-full shadow-manga animate-bounce">
-            <i class="fas fa-check text-3xl md:text-4xl text-ink"></i>
+        <div class="w-24 h-24 bg-neon-lime border-4 border-ink dark:border-white mx-auto mb-8 flex items-center justify-center rounded-2xl shadow-manga dark:shadow-neon animate-bounce">
+            <i class="fas fa-check text-4xl text-ink"></i>
         </div>
 
-        <h1 class="font-display font-black text-4xl md:text-6xl uppercase mb-4 leading-tight">
-            Quest<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-green-400">Accepted</span>
+        <h1 class="font-display font-black text-5xl md:text-7xl uppercase mb-6 leading-[0.9] tracking-tight text-ink dark:text-white">
+            Quest<br><span class="text-neon-lime">Accepted</span>
         </h1>
 
-        <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 rounded shadow-manga mb-8 transform -rotate-1">
-            <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                <span class="font-bold text-neon-lime">Success.</span> The Guild has received your briefing. We will review the specs and send a transmission to your email within 24 hours.
+        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-8 rounded-xl shadow-manga dark:shadow-none mb-10 transform -rotate-1 hover:rotate-0 transition-transform">
+            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                <span class="font-bold text-neon-lime bg-ink px-2 py-0.5 rounded text-xs uppercase tracking-wide mr-1">Success</span> 
+                The Guild has received your briefing. We will review the specs and send a transmission to your email within 24 hours.
             </p>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/src/screens/projects/myprojects.html" class="bg-ink dark:bg-paper text-white dark:text-ink px-6 py-3 rounded border-2 border-transparent font-bold font-display uppercase hover:scale-105 transition-transform shadow-lg">
+            <a href="/src/screens/projects/myprojects.html" class="bg-ink dark:bg-white text-white dark:text-ink px-8 py-3.5 rounded-lg border-2 border-transparent font-bold font-display uppercase hover:-translate-y-1 hover:shadow-lg transition-all text-sm tracking-wide">
                 View Status
             </a>
-            <a href="/index.html" class="px-6 py-3 rounded border-2 border-ink dark:border-paper font-bold font-display uppercase hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <a href="/index.html" class="px-8 py-3.5 rounded-lg border-2 border-ink dark:border-zinc-700 font-bold font-display uppercase hover:bg-gray-100 dark:hover:bg-zinc-900 text-sm tracking-wide transition-colors">
                 Return Base
             </a>
         </div>

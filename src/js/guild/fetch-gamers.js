@@ -237,9 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconHTML: '<i class="fas fa-mobile-alt text-4xl text-pop-pink mb-2 animate-bounce"></i>',
                 confirmText: 'Get App',
                 cancelText: 'Later',
-                onConfirm: () => {
-                    alert("Redirecting to App Store...");
-                }
+                onConfirm: () => { fetch('/src/screens/main/qr.html')
+  .then(r => console.log("FOUND:", r.ok));  }
             });
         }
     };

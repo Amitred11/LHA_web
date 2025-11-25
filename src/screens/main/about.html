@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth overflow-x-hidden">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Tailwind + Config -->
@@ -21,49 +21,57 @@
                     fontFamily: {
                         'header': ['"Space Grotesk"', 'sans-serif'],
                         'body': ['"Outfit"', 'sans-serif'],
+                        'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'cream': '#FFFDF5',
-                        'acid-green': '#CCFF00',
-                        'hot-pink': '#FF4D8C',
-                        'electric-purple': '#8A4FFF',
-                        'sky-blue': '#4DAFFF',
-                        'ink': '#1A1A1A'
+                        'ink': '#09090b',       
+                        'paper': '#fdfbf7',
+                        'primary': '#8b5cf6',   
+                        'pop-pink': '#ff2a6d',  
+                        'cyber-cyan': '#05d9e8',
+                        'neon-lime': '#d1f25e',
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-pattern-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
-                        'hard': '4px 4px 0px 0px #1A1A1A',
-                        'hard-white': '4px 4px 0px 0px #FFFDF5',
-                        'hard-hover': '8px 8px 0px 0px #1A1A1A',
-                        'hard-sm': '2px 2px 0px 0px #1A1A1A',
-                    },
-                    borderWidth: {
-                        '3': '3px',
+                        'hard': '4px 4px 0px 0px #09090b',
+                        'hard-white': '4px 4px 0px 0px #ffffff',
+                        'hard-hover': '8px 8px 0px 0px #09090b',
+                        'hard-hover-white': '8px 8px 0px 0px #ffffff',
+                        'glow': '0 0 15px rgba(139, 92, 246, 0.5)',
                     }
                 }
             }
         }
     </script>
-    
-    <!-- Reusing Main Styles -->
-    <link rel="stylesheet" href="/src/css/style.css">
+    <style>
+        .bg-grid { background-size: 40px 40px; }
+        .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
+        .dark .text-stroke { -webkit-text-stroke: 1px #ffffff; }
+    </style>
 </head>
-<body class="text-ink bg-cream font-body selection:bg-acid-green selection:text-ink dark:bg-ink dark:text-cream transition-colors duration-300">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden selection:bg-neon-lime selection:text-ink">
+
+    <!-- Background Grid -->
+    <div class="fixed inset-0 z-[-1] bg-grid-pattern dark:bg-grid-pattern-dark bg-grid opacity-[0.4] dark:opacity-[0.1] pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav class="fixed top-4 left-0 right-0 z-50 px-4">
+    <nav class="fixed top-6 left-0 right-0 z-50 px-4">
         <div class="container mx-auto max-w-6xl">
-            <div class="bg-white dark:bg-gray-900 border-3 border-ink dark:border-cream shadow-hard dark:shadow-hard-white rounded-full px-6 py-3 flex justify-between items-center transition-all">
-                <a href="/index.html" class="flex items-center gap-2 group">
-                    <div class="bg-ink dark:bg-cream text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform">
+            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-2 border-ink dark:border-zinc-700 rounded-2xl px-6 py-3 flex justify-between items-center shadow-hard dark:shadow-none transition-all">
+                <a href="/index.html" class="flex items-center gap-3 group">
+                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform shadow-sm">
                         <i class="fas fa-arrow-left"></i>
                     </div>
-                    <span class="font-header font-bold hidden md:block">Back to Home</span>
+                    <span class="font-mono font-bold text-xs uppercase tracking-widest hidden md:block group-hover:text-primary transition-colors">Return to Base</span>
                 </a>
                 
-                <div class="font-header font-bold text-xl uppercase tracking-widest">The Lore</div>
+                <div class="font-header font-black text-xl uppercase tracking-tighter">The <span class="text-primary">Lore</span></div>
                 
-                <!-- Dark Mode Toggle (Mini) -->
-                <button id="theme-toggle" class="w-10 h-10 rounded-full border-2 border-ink dark:border-cream flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle" class="w-10 h-10 rounded-full border border-gray-200 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600 dark:text-yellow-400">
                     <i class="fas fa-moon block dark:hidden"></i>
                     <i class="fas fa-sun hidden dark:block"></i>
                 </button>
@@ -72,59 +80,64 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="pt-40 pb-20 text-center relative overflow-hidden">
-        <div class="absolute top-20 right-10 w-32 h-32 bg-acid-green rounded-full blur-3xl opacity-30"></div>
-        <div class="container mx-auto px-6">
-            <h1 class="font-header font-bold text-6xl md:text-8xl mb-6 relative inline-block">
-                Origin Story
-                <div class="absolute -top-6 -right-8 bg-hot-pink text-white text-sm px-3 py-1 rotate-12 border-2 border-ink dark:border-cream shadow-hard-sm font-bold rounded-full">
-                    No Spoilers
+    <header class="pt-48 pb-24 text-center relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="inline-block bg-neon-lime text-ink font-mono text-[10px] font-bold px-2 py-1 mb-4 border border-ink transform -rotate-2">
+                FILE_ID: ORIGIN_STORY
+            </div>
+            <h1 class="font-header font-black text-6xl md:text-8xl mb-6 relative inline-block">
+                <span class="text-stroke">Origin</span> Story
+                <div class="absolute -top-6 -right-12 bg-pop-pink text-white text-xs px-3 py-1 rotate-12 border-2 border-ink dark:border-white shadow-hard-sm font-bold font-mono">
+                    NO_SPOILERS
                 </div>
             </h1>
-            <p class="text-xl md:text-2xl max-w-2xl mx-auto text-gray-700 dark:text-gray-300">
-                LHA wasn't built in a boardroom. It was built in School, and the desire to make cool things with cool people.
+            <p class="text-xl md:text-2xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
+                LHA wasn't built in a boardroom. It was built in <span class="text-ink dark:text-white font-bold bg-gray-200 dark:bg-zinc-800 px-1">classrooms</span>, fueled by caffeine and the desire to ship code that actually matters.
             </p>
         </div>
     </header>
 
     <!-- Timeline Section -->
-    <section class="py-20">
+    <section class="py-24 border-y border-gray-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50">
         <div class="container mx-auto px-6 max-w-4xl">
-            <!-- Vertical Line -->
-            <div class="relative border-l-4 border-ink dark:border-cream ml-4 md:ml-1/2 md:-translate-x-0.5 space-y-12">
+            <!-- Vertical Line (Tech Tree Style) -->
+            <div class="relative border-l-2 border-dashed border-ink dark:border-zinc-600 ml-4 md:ml-1/2 md:-translate-x-0.5 space-y-20">
                 
-                <!-- Timeline Item 1 -->
-                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-12 items-center group">
-                    <div class="absolute left-[-10px] md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-ink border-4 border-ink dark:border-cream rounded-full z-10 group-hover:bg-hot-pink transition-colors"></div>
+                <!-- Node 1 -->
+                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center group">
+                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-white dark:bg-black border-4 border-ink dark:border-white rounded-full z-10 group-hover:scale-125 transition-transform duration-300"></div>
                     <div class="md:col-start-2 md:text-left">
-                        <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream p-6 rounded-xl shadow-hard dark:shadow-hard-white rotate-1 group-hover:rotate-0 transition-transform">
-                            <span class="inline-block bg-ink dark:bg-cream text-white dark:text-ink text-xs font-bold px-2 py-1 rounded mb-2">The Spark</span>
-                            <h3 class="font-header font-bold text-2xl mb-2">It Started in Class</h3>
-                            <p class="text-gray-600 dark:text-gray-300">Just a group chat of BSIT students who realized school projects were boring. We wanted to build apps that people actually used.</p>
+                        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-8 rounded-xl shadow-hard dark:shadow-none hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all relative">
+                            <i class="fas fa-bolt absolute -top-4 -left-4 w-10 h-10 bg-primary text-white flex items-center justify-center rounded-lg border-2 border-ink dark:border-white shadow-sm z-20"></i>
+                            <span class="font-mono text-xs text-gray-400 block mb-2">PHASE 1.0</span>
+                            <h3 class="font-header font-bold text-2xl mb-3">It Started in Class</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Just a group chat of BSIT students who realized school projects were boring. We wanted to build apps that people actually used.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Timeline Item 2 -->
-                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-12 items-center group">
-                    <div class="absolute left-[-10px] md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-ink border-4 border-ink dark:border-cream rounded-full z-10 group-hover:bg-electric-purple transition-colors"></div>
+                <!-- Node 2 -->
+                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center group">
+                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-white dark:bg-black border-4 border-ink dark:border-pop-pink rounded-full z-10 group-hover:scale-125 transition-transform duration-300"></div>
                     <div class="md:col-start-1 md:text-right">
-                        <div class="bg-sky-blue text-ink border-3 border-ink dark:border-cream p-6 rounded-xl shadow-hard dark:shadow-hard-white -rotate-1 group-hover:rotate-0 transition-transform">
-                            <span class="inline-block bg-white border-2 border-ink text-xs font-bold px-2 py-1 rounded mb-2">The Pivot</span>
-                            <h3 class="font-header font-bold text-2xl mb-2">Breaking The Loop</h3>
-                            <p>Freelancing is lonely. We decided to pool our resources, share clients, and critique each other's code. A collective was born.</p>
+                        <div class="bg-ink dark:bg-pop-pink text-white border-2 border-ink dark:border-pop-pink p-8 rounded-xl shadow-hard dark:shadow-glow hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+                             <span class="font-mono text-xs text-gray-400 dark:text-white/80 block mb-2">PHASE 2.0</span>
+                            <h3 class="font-header font-bold text-2xl mb-3">Breaking The Loop</h3>
+                            <p class="text-gray-400 dark:text-white/90 text-sm">Freelancing is lonely. We decided to pool our resources, share clients, and critique each other's code. A collective was born.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Timeline Item 3 -->
-                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-12 items-center group">
-                    <div class="absolute left-[-10px] md:left-1/2 md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-ink border-4 border-ink dark:border-cream rounded-full z-10 group-hover:bg-acid-green transition-colors"></div>
+                <!-- Node 3 -->
+                <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center group">
+                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-white dark:bg-black border-4 border-ink dark:border-neon-lime rounded-full z-10 group-hover:scale-125 transition-transform duration-300"></div>
                     <div class="md:col-start-2 md:text-left">
-                        <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream p-6 rounded-xl shadow-hard dark:shadow-hard-white rotate-1 group-hover:rotate-0 transition-transform">
-                            <span class="inline-block bg-ink dark:bg-cream text-white dark:text-ink text-xs font-bold px-2 py-1 rounded mb-2">Present Day</span>
-                            <h3 class="font-header font-bold text-2xl mb-2">The Ecosystem</h3>
-                            <p class="text-gray-600 dark:text-gray-300">Now, LHA is a hub for developers, designers, and gamers. We build, we play, and we help each other level up.</p>
+                        <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-8 rounded-xl shadow-hard dark:shadow-none hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all relative">
+                            <i class="fas fa-globe absolute -top-4 -right-4 w-10 h-10 bg-neon-lime text-ink flex items-center justify-center rounded-lg border-2 border-ink dark:border-white shadow-sm z-20"></i>
+                             <span class="font-mono text-xs text-gray-400 block mb-2">CURRENT_STATE</span>
+                            <h3 class="font-header font-bold text-2xl mb-3">The Ecosystem</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Now, LHA is a hub for developers, designers, and gamers. We build, we play, and we help each other level up.</p>
                         </div>
                     </div>
                 </div>
@@ -133,81 +146,97 @@
     </section>
 
     <!-- Manifesto -->
-    <section class="py-20 bg-ink dark:bg-cream text-cream dark:text-ink -rotate-1 scale-105 border-y-4 border-ink dark:border-cream">
-        <div class="container mx-auto px-6 max-w-6xl rotate-1">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-acid-green text-ink border-3 border-white dark:border-ink p-8 rounded-2xl shadow-[8px_8px_0px_0px_#FFF] dark:shadow-[8px_8px_0px_0px_#1A1A1A]">
-                    <i class="fas fa-flag-checkered text-4xl mb-4"></i>
-                    <h2 class="font-header font-bold text-3xl mb-4">The Mission</h2>
-                    <p class="font-medium text-lg">
+    <section class="py-24 bg-ink dark:bg-black text-paper relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
+        <div class="container mx-auto px-6 max-w-6xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <!-- Mission Card -->
+                <div class="bg-zinc-900 border-2 border-zinc-700 p-10 rounded-2xl relative group hover:border-neon-lime transition-colors">
+                    <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <i class="fas fa-flag-checkered text-6xl text-neon-lime transform rotate-12"></i>
+                    </div>
+                    <h2 class="font-mono text-neon-lime text-sm font-bold mb-4 tracking-widest uppercase">> The Mission</h2>
+                    <p class="font-display font-bold text-2xl md:text-3xl leading-tight">
                         To build exceptional digital experiences without the corporate fluff, fostering a space where "learning by doing" is the only rule that matters.
                     </p>
                 </div>
-                <div class="bg-hot-pink text-white border-3 border-white dark:border-ink p-8 rounded-2xl shadow-[8px_8px_0px_0px_#FFF] dark:shadow-[8px_8px_0px_0px_#1A1A1A]">
-                    <i class="fas fa-eye text-4xl mb-4"></i>
-                    <h2 class="font-header font-bold text-3xl mb-4">The Vision</h2>
-                    <p class="font-medium text-lg">
-                        To be the go-to collective for creative tech talent. If you need something built, you call LHA. If you want to learn how to build, you join LHA.
+                <!-- Vision Card -->
+                <div class="bg-white text-ink border-2 border-white p-10 rounded-2xl relative group shadow-[10px_10px_0px_0px_#22d3ee] hover:translate-y-1 hover:shadow-none transition-all">
+                     <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <i class="fas fa-eye text-6xl text-ink transform -rotate-12"></i>
+                    </div>
+                    <h2 class="font-mono text-primary text-sm font-bold mb-4 tracking-widest uppercase">> The Vision</h2>
+                    <p class="font-display font-bold text-2xl md:text-3xl leading-tight">
+                        To be the go-to collective for creative tech talent. If you need something built, you call LHA. If you want to learn, you join LHA.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- The Crew (Redesigned Cards) -->
+    <!-- The Crew -->
     <section id="crew" class="py-24">
         <div class="container mx-auto px-6 max-w-6xl">
             <div class="text-center mb-16">
-                <h2 class="font-header font-bold text-5xl mb-4">The Usual Suspects</h2>
-                <p class="text-gray-600 dark:text-gray-400">Blame these people when the server goes down.</p>
+                <div class="inline-flex items-center gap-2 text-primary font-mono text-xs font-bold mb-2 tracking-widest">
+                     <i class="fas fa-users"></i> ROSTER
+                </div>
+                <h2 class="font-header font-black text-5xl md:text-6xl uppercase">The Usual Suspects</h2>
+                <p class="text-gray-600 dark:text-gray-400 mt-4 font-medium">Blame these people when the server goes down.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Profile Card 1 -->
-                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2">
-                    <div class="h-48 bg-gray-200 relative border-b-3 border-ink dark:border-cream">
-                        <!-- Corrected Path -->
-                        <img src="/src/assets/us/amadore.jpg" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Leo'" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-sky-blue text-ink text-xs font-bold px-2 py-1 border-2 border-ink rounded shadow-hard-sm">DEV</div>
+                <div class="group bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300">
+                    <div class="h-64 bg-gray-200 dark:bg-zinc-800 relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden">
+                        <img src="/src/assets/us/amadore.jpg" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Leo'" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
+                        <div class="absolute top-3 right-3 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-2 py-1 border-2 border-ink dark:border-white rounded shadow-sm">
+                            LVL 99 DEV
+                        </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-header font-bold text-2xl">Leoncio Amadore III</h3>
-                        <p class="text-electric-purple font-bold text-sm mb-4">Lead Developer</p>
-                        <p class="text-gray-600 dark:text-gray-400 mb-6">Full-stack wizard. Dreams in JavaScript. Probably needs more coffee.</p>
-                        <div class="flex gap-3 text-xl">
-                            <a href="#" class="w-10 h-10 flex items-center justify-center border-2 border-ink dark:border-cream rounded-full hover:bg-ink hover:text-white dark:hover:bg-cream dark:hover:text-ink transition-colors"><i class="fab fa-github"></i></a>
+                        <h3 class="font-header font-bold text-2xl mb-1 group-hover:text-primary transition-colors">Leoncio Amadore III</h3>
+                        <p class="text-primary font-mono text-xs font-bold mb-4 uppercase tracking-wider">Lead Developer</p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 border-l-2 border-gray-200 dark:border-zinc-700 pl-3">Full-stack wizard. Dreams in JavaScript. Probably needs more coffee.</p>
+                        <div class="flex gap-4 text-xl">
+                            <a href="#" class="text-gray-400 hover:text-ink dark:hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-blue-500 transition-colors"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Profile Card 2 -->
-                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2 md:mt-8">
-                    <div class="h-48 bg-gray-200 relative border-b-3 border-ink dark:border-cream">
-                        <img src="/src/assets/bad.jpg" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-hot-pink text-white text-xs font-bold px-2 py-1 border-2 border-ink rounded shadow-hard-sm">DEV</div>
+                <div class="group bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 md:mt-8">
+                    <div class="h-64 bg-gray-200 dark:bg-zinc-800 relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden">
+                        <img src="/src/assets/bad.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
+                        <div class="absolute top-3 right-3 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-2 py-1 border-2 border-ink dark:border-white rounded shadow-sm">
+                            LVL 80 TANK
+                        </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-header font-bold text-2xl">Jameel Tutungan</h3>
-                        <p class="text-hot-pink font-bold text-sm mb-4">Lead Developer</p>
-                        <p class="text-gray-600 dark:text-gray-400 mb-6">RAWR</p>
-                        <div class="flex gap-3 text-xl">
-                            <a href="#" class="w-10 h-10 flex items-center justify-center border-2 border-ink dark:border-cream rounded-full hover:bg-pink-500 hover:text-white transition-colors"><i class="fab fa-dribbble"></i></a>
+                        <h3 class="font-header font-bold text-2xl mb-1 group-hover:text-pop-pink transition-colors">Jameel Tutungan</h3>
+                        <p class="text-pop-pink font-mono text-xs font-bold mb-4 uppercase tracking-wider">Lead Developer</p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 border-l-2 border-gray-200 dark:border-zinc-700 pl-3">Writes clean code and breaks production on Fridays. RAWR.</p>
+                        <div class="flex gap-4 text-xl">
+                            <a href="#" class="text-gray-400 hover:text-pink-500 transition-colors"><i class="fab fa-dribbble"></i></a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Profile Card 3 -->
-                <div class="bg-white dark:bg-gray-800 border-3 border-ink dark:border-cream rounded-xl overflow-hidden shadow-hard dark:shadow-hard-white hover:shadow-hard-hover transition-all hover:-translate-y-2 md:mt-4">
-                    <div class="h-48 bg-gray-200 relative border-b-3 border-ink dark:border-cream">
-                        <img src="/src/assets/art.jpg" class="w-full h-full object-cover">
-                        <div class="absolute top-2 right-2 bg-acid-green text-ink text-xs font-bold px-2 py-1 border-2 border-ink rounded shadow-hard-sm">DEV</div>
+                <div class="group bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 md:mt-4">
+                    <div class="h-64 bg-gray-200 dark:bg-zinc-800 relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden">
+                        <img src="/src/assets/art.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
+                        <div class="absolute top-3 right-3 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-2 py-1 border-2 border-ink dark:border-white rounded shadow-sm">
+                            LVL 50 MAGE
+                        </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="font-header font-bold text-2xl">Adrian Vine Cruz</h3>
-                        <p class="text-acid-green bg-ink inline-block px-1 font-bold text-sm mb-4">Project Manager</p>
-                        <p class="text-gray-600 dark:text-gray-400 mb-6">Meowaw</p>
-                        <div class="flex gap-3 text-xl">
-                            <a href="#" class="w-10 h-10 flex items-center justify-center border-2 border-ink dark:border-cream rounded-full hover:bg-ink hover:text-white dark:hover:bg-cream dark:hover:text-ink transition-colors"><i class="fas fa-envelope"></i></a>
+                        <h3 class="font-header font-bold text-2xl mb-1 group-hover:text-neon-lime transition-colors">Adrian Vine Cruz</h3>
+                        <p class="text-neon-lime font-mono text-xs font-bold mb-4 uppercase tracking-wider">Project Manager</p>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 border-l-2 border-gray-200 dark:border-zinc-700 pl-3">Keeps the chaos organized. Professional cat herder.</p>
+                        <div class="flex gap-4 text-xl">
+                            <a href="#" class="text-gray-400 hover:text-ink dark:hover:text-white transition-colors"><i class="fas fa-envelope"></i></a>
                         </div>
                     </div>
                 </div>
@@ -216,13 +245,14 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-900 border-t-4 border-ink dark:border-cream py-8">
+    <footer class="bg-paper dark:bg-black border-t-2 border-gray-200 dark:border-zinc-800 py-10">
         <div class="container mx-auto px-6 text-center">
-             <p class="text-gray-500">&copy; 2025 LHA Collective. Stay Creative.</p>
+            <h2 class="font-header font-black text-2xl mb-2">LHA.</h2>
+             <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">&copy; 2025 LHA Collective. Stay Creative.</p>
         </div>
     </footer>
 
-    <!-- Theme Logic -->
+    <!-- Theme Logic (Preserved) -->
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')

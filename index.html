@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth text-[16px]">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,32 +30,62 @@
                     },
                     colors: {
                         'ink': '#09090b',       
-                        'paper': '#fafafa',     
-                        'primary': '#8b5cf6',   
-                        'pop-pink': '#ff477e',  
-                        'cyber-cyan': '#22d3ee',
-                        'neon-lime': '#bef264', 
-                        'hot-pink': '#ff0055',  
+                        'paper': '#fdfbf7', // Slightly warmer white for "Manga Paper" feel
+                        'surface': '#ffffff',
+                        'surface-dark': '#18181b', // Zinc 900
+                        'primary': '#8b5cf6',   // Violet
+                        'pop-pink': '#ff2a6d',  
+                        'cyber-cyan': '#05d9e8',
+                        'neon-lime': '#d1f25e', 
                     },
                     backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
-                        'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
+                        'grid-pattern': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        'grid-pattern-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
-                        'manga': '5px 5px 0px 0px #09090b',
-                        'manga-sm': '3px 3px 0px 0px #09090b',
-                        'manga-white': '5px 5px 0px 0px #fafafa',
-                        'glow': '0 0 15px rgba(139, 92, 246, 0.5)',
+                        // Light Mode: Hard, offset shadows (Manga style)
+                        'manga': '4px 4px 0px 0px #09090b',
+                        'manga-sm': '2px 2px 0px 0px #09090b',
+                        'manga-lg': '8px 8px 0px 0px #09090b',
+                        
+                        // Dark Mode: Soft, colorful glows (Cyber style)
+                        'neon-purple': '0 0 15px -3px rgba(139, 92, 246, 0.4)',
+                        'neon-pink': '0 0 15px -3px rgba(255, 42, 109, 0.4)',
+                        'neon-cyan': '0 0 15px -3px rgba(5, 217, 232, 0.4)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Essential Custom Styles */
-        .bg-halftone { background-size: 20px 20px; }
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #d4d4d8; border: 2px solid #f1f1f1; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: #3f3f46; border: 2px solid #09090b; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+        /* Selection */
+        ::selection { background-color: #d1f25e; color: #09090b; }
+        .dark ::selection { background-color: #ff2a6d; color: #ffffff; }
+
+        /* Utilities */
         .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
-        .dark .text-stroke { -webkit-text-stroke: 1px #fafafa; }
+        .dark .text-stroke { -webkit-text-stroke: 1px rgba(255,255,255,0.8); }
+        
         .glitch-hover:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
         @keyframes glitch {
             0% { transform: translate(0) }
@@ -65,180 +95,205 @@
             80% { transform: translate(2px, -2px) }
             100% { transform: translate(0) }
         }
-        .nav-link.active span { color: #8b5cf6; font-weight: 900; }
-        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.is-visible { opacity: 1; transform: translateY(0); }
         
-        /* Mobile Menu Animation */
+        /* Mobile Menu */
         #mobile-menu { transition: opacity 0.3s ease, transform 0.3s ease; }
         #mobile-menu.hidden { display: none; }
         #mobile-menu:not(.hidden) { display: flex; }
+
+        /* Grid Background sizing */
+        .bg-grid { background-size: 40px 40px; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-ink dark:text-paper font-body transition-colors duration-300 overflow-x-hidden relative">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative selection:bg-neon-lime selection:text-ink">
 
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 pointer-events-none"></div>
+    <!-- Background Grid Effect -->
+    <div class="fixed inset-0 z-[-1] bg-grid-pattern dark:bg-grid-pattern-dark bg-grid opacity-[0.4] dark:opacity-[0.1] pointer-events-none mask-image-gradient"></div>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-16 right-8 z-40 bg-ink dark:bg-paper text-paper dark:text-ink w-12 h-12 rounded border-2 border-transparent hover:border-primary shadow-manga hidden transition-all hover:-translate-y-1">
-        <i class="fas fa-arrow-up"></i>
+    <button id="back-to-top" class="fixed bottom-16 right-8 z-40 bg-white dark:bg-zinc-800 text-ink dark:text-white w-12 h-12 rounded-lg border-2 border-ink dark:border-zinc-700 hover:border-primary shadow-manga dark:shadow-neon-purple hidden transition-all hover:-translate-y-1 flex items-center justify-center group">
+        <i class="fas fa-arrow-up group-hover:text-primary transition-colors"></i>
     </button>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300">
         <div class="container mx-auto max-w-7xl">
-            <div class="bg-white/95 dark:bg-ink/95 backdrop-blur border-2 border-ink dark:border-paper rounded-xl px-4 md:px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-manga-white">
+            <div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-2 border-ink dark:border-zinc-700/50 rounded-2xl px-5 py-3 flex justify-between items-center shadow-manga-sm dark:shadow-lg transition-all">
                 <!-- Logo -->
                 <a href="#home" class="flex items-center gap-3 group z-50 relative">
-                    <div class="bg-ink dark:bg-paper text-paper dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-bold text-xl group-hover:rotate-12 transition-transform">
-                        LHA
+                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded font-display font-black text-xl group-hover:rotate-12 transition-transform shadow-sm">
+                        L
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-bold leading-none text-sm">THE COLLECTIVE</span>
-                        <span class="text-[10px] font-mono uppercase text-primary">EST. 2025</span>
+                        <span class="font-display font-bold leading-none text-lg tracking-tight group-hover:text-primary transition-colors">LHA</span>
+                        <span class="text-[10px] font-mono font-bold tracking-widest text-gray-500 dark:text-gray-400">COLLECTIVE</span>
                     </div>
                 </a>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-8 font-bold uppercase text-sm tracking-wider">
-                    <a href="#vibe" class="nav-link hover:text-primary transition-colors group">
-                        <span class="text-xs text-gray-400 group-hover:text-primary">01.</span> The Guild
+                <div class="hidden md:flex items-center gap-8 font-bold text-sm tracking-wide">
+                    <a href="#vibe" class="nav-link hover:text-primary transition-colors relative group py-2">
+                        <span class="font-mono text-[10px] text-gray-400 mr-1 group-hover:text-primary">01</span> The Guild
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
                     </a>
-                    <a href="#roster" class="nav-link hover:text-pop-pink transition-colors group">
-                        <span class="text-xs text-gray-400 group-hover:text-pop-pink">02.</span> Loot & XP
+                    <a href="#roster" class="nav-link hover:text-pop-pink transition-colors relative group py-2">
+                        <span class="font-mono text-[10px] text-gray-400 mr-1 group-hover:text-pop-pink">02</span> Loot & XP
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-pop-pink transition-all group-hover:w-full"></span>
                     </a>
-                    <a href="#dms" class="nav-link hover:text-cyber-cyan transition-colors group">
-                        <span class="text-xs text-gray-400 group-hover:text-cyber-cyan">03.</span> Comms
+                    <a href="#dms" class="nav-link hover:text-cyber-cyan transition-colors relative group py-2">
+                        <span class="font-mono text-[10px] text-gray-400 mr-1 group-hover:text-cyber-cyan">03</span> Comms
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-cyber-cyan transition-all group-hover:w-full"></span>
                     </a>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex items-center gap-3 z-50 relative">
-                    <button id="theme-toggle" class="w-10 h-10 rounded border-2 border-ink dark:border-paper flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <div class="flex items-center gap-4 z-50 relative">
+                    <button id="theme-toggle" class="w-10 h-10 rounded-full border border-gray-200 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600 dark:text-yellow-400">
                         <i class="fas fa-moon block dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
                     </button>
 
                     <!-- Desktop Auth: Logged Out -->
-                    <a href="/src/screens/auth/signin.html" data-auth="logged-out" class="hidden md:inline-block bg-pop-pink text-white border-2 border-ink dark:border-paper px-6 py-2 rounded font-bold text-sm uppercase shadow-manga-sm dark:shadow-none hover:translate-y-0.5 hover:shadow-none transition-all">
-                        <i class="fas fa-gamepad mr-1"></i> Press Start
+                    <a href="/src/screens/auth/signin.html" data-auth="logged-out" class="hidden md:inline-flex items-center gap-2 bg-ink dark:bg-white text-white dark:text-ink border-2 border-transparent px-6 py-2.5 rounded-lg font-bold text-sm uppercase shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                        <i class="fas fa-gamepad"></i> <span>Press Start</span>
                     </a>
                     
                     <!-- Desktop Auth: Logged In -->
                    <div class="hidden md:flex items-center gap-3" data-auth="logged-in" style="display: none;">
-                        <a href="/src/screens/projects/myprojects.html" class="flex items-center gap-2 bg-neon-lime text-ink border-2 border-ink dark:border-paper px-4 py-1 rounded font-bold font-mono text-xs uppercase hover:shadow-manga-sm hover:-translate-y-0.5 transition-all">
-                            <i class="fas fa-rocket"></i> My Projects
+                        <a href="/src/screens/projects/myprojects.html" class="flex items-center gap-2 bg-neon-lime/20 text-ink dark:text-neon-lime border border-neon-lime px-4 py-2 rounded-lg font-bold font-mono text-xs uppercase hover:bg-neon-lime hover:text-ink transition-all">
+                            <i class="fas fa-rocket"></i> <span class="hidden lg:inline">Projects</span>
                         </a>
                         <div class="relative group">
-                            <button id="profile-menu-button" class="flex items-center gap-2 bg-white dark:bg-gray-800 pl-1 pr-3 py-1 rounded border-2 border-ink dark:border-paper hover:shadow-manga-sm transition-all">
-                                <img src="https://i.pravatar.cc/150?u=otaku" alt="User" class="w-8 h-8 rounded border border-ink dark:border-paper bg-cyber-cyan">
-                                <span class="font-mono text-xs">LVL. 1</span>
-                                <i class="fas fa-caret-down text-xs"></i>
+                            <button id="profile-menu-button" class="flex items-center gap-3 bg-gray-100 dark:bg-zinc-800 pl-1 pr-3 py-1 rounded-full border border-gray-200 dark:border-zinc-700 hover:border-primary transition-all">
+                                <img id="navbar-avatar" src="https://i.pravatar.cc/150?u=otaku" alt="User" class="w-8 h-8 rounded-full border border-white dark:border-zinc-600 object-cover">
+                                <span class="font-mono text-xs font-bold mr-1">LVL. 1</span>
+                                <i class="fas fa-caret-down text-xs text-gray-400"></i>
                             </button>
 
-                            <div id="profile-menu-dropdown" class="hidden absolute right-0 top-12 w-48 bg-white dark:bg-ink border-2 border-ink dark:border-paper rounded p-0 flex-col z-50 shadow-manga dark:shadow-manga-white">
-                                <a href="/src/screens/main/account.html" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm font-bold border-b border-gray-200 dark:border-gray-800">
-                                    <i class="fas fa-id-card mr-2"></i> Character Sheet
+                            <div id="profile-menu-dropdown" class="hidden absolute right-0 top-12 w-56 bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-2 flex-col z-50 shadow-xl dark:shadow-neon-purple origin-top-right transition-transform">
+                                <a href="/src/screens/main/account.html" class="block px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-800 text-sm font-bold transition-colors">
+                                    <i class="fas fa-id-card mr-3 text-primary"></i> Character Sheet
                                 </a>
-                                <button class="logout-button w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-pop-pink text-sm font-bold">
-                                    <i class="fas fa-power-off mr-2"></i> Log Out
+                                <div class="h-px bg-gray-100 dark:bg-zinc-800 my-1"></div>
+                                <button class="logout-button w-full text-left px-4 py-3 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 text-sm font-bold transition-colors">
+                                    <i class="fas fa-power-off mr-3"></i> Log Out
                                 </button>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Mobile Toggle -->
-                    <button id="mobile-menu-button" class="md:hidden text-xl p-2 w-10 h-10 flex justify-center items-center"><i class="fas fa-bars"></i></button>
+                    <button id="mobile-menu-button" class="md:hidden text-ink dark:text-white text-xl p-2 w-10 h-10 flex justify-center items-center hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-paper dark:bg-ink z-40 hidden flex-col pt-32 px-6 space-y-6 overflow-y-auto w-full h-full">
+    <div id="mobile-menu" class="fixed inset-0 bg-paper dark:bg-black z-40 hidden flex-col pt-32 px-8 space-y-8 overflow-y-auto w-full h-full">
         <!-- Public Links -->
-        <a href="#vibe" class="text-4xl sm:text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">The Guild</a>
-        <a href="#roster" class="text-4xl sm:text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">Loot & XP</a>
-        <a href="#dms" class="text-4xl sm:text-5xl font-display font-black uppercase text-stroke hover:text-ink dark:hover:text-paper transition-colors">Comms</a>
+        <div class="flex flex-col gap-6">
+            <a href="#vibe" class="text-5xl font-display font-black uppercase text-transparent text-stroke hover:text-ink dark:hover:text-white transition-colors">The Guild</a>
+            <a href="#roster" class="text-5xl font-display font-black uppercase text-transparent text-stroke hover:text-ink dark:hover:text-white transition-colors">Loot & XP</a>
+            <a href="#dms" class="text-5xl font-display font-black uppercase text-transparent text-stroke hover:text-ink dark:hover:text-white transition-colors">Comms</a>
+        </div>
         
-        <hr class="border-ink dark:border-paper opacity-50">
+        <hr class="border-gray-200 dark:border-zinc-800">
 
         <!-- Mobile Auth: Logged In -->
         <div data-auth="logged-in" class="flex flex-col space-y-4" style="display: none;">
-            <a href="/src/screens/projects/myprojects.html" class="text-2xl font-bold text-neon-lime font-mono">
+            <a href="/src/screens/projects/myprojects.html" class="text-xl font-bold text-neon-lime font-mono p-4 border border-neon-lime/20 bg-neon-lime/5 rounded-lg">
                 <i class="fas fa-rocket mr-2"></i> My Projects
             </a>
-            <a href="/src/screens/main/account.html" class="text-2xl font-bold text-primary font-mono">
+            <a href="/src/screens/main/account.html" class="text-xl font-bold text-primary font-mono p-4 border border-primary/20 bg-primary/5 rounded-lg">
                 <i class="fas fa-id-card mr-2"></i> Character Sheet
             </a>
-            <button class="logout-button text-left text-2xl font-bold text-pop-pink font-mono">
+            <button class="logout-button text-left text-xl font-bold text-pop-pink font-mono p-4 border border-pop-pink/20 bg-pop-pink/5 rounded-lg">
                 <i class="fas fa-power-off mr-2"></i> Log Out
             </button>
         </div>
 
         <!-- Mobile Auth: Logged Out -->
         <div data-auth="logged-out" class="flex flex-col">
-            <a href="/src/screens/auth/signin.html" class="text-2xl font-bold text-primary font-mono">> Press_Start_</a>
+            <a href="/src/screens/auth/signin.html" class="text-xl font-bold text-center bg-ink dark:bg-white text-white dark:text-ink py-4 rounded-lg font-mono shadow-manga dark:shadow-none">
+                > Press_Start_
+            </a>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <header id="home" class="relative pt-32 pb-12 md:pt-48 md:pb-32 overflow-hidden min-h-[85vh] flex flex-col justify-center">
+    <header id="home" class="relative pt-32 pb-12 md:pt-48 md:pb-32 overflow-hidden min-h-[90vh] flex flex-col justify-center">
         <div class="container mx-auto px-6 max-w-7xl relative z-10">
-            <div class="flex flex-col lg:flex-row gap-12 items-center">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
                 
                 <!-- Text / Intro -->
                 <div class="w-full lg:w-1/2 relative z-20 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 bg-ink dark:bg-paper text-paper dark:text-ink px-3 py-1 rounded-sm font-mono text-xs font-bold mb-6 transform lg:-rotate-2 border border-transparent hover:rotate-0 transition-transform">
-                        <span class="text-neon-lime">●</span> CODERS • ARTISTS • GAMERS
+                    <div class="inline-flex items-center gap-3 bg-white dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-full font-mono text-xs font-bold mb-8 shadow-manga-sm dark:shadow-none animate-pulse-slow">
+                        <span class="w-2 h-2 bg-neon-lime rounded-full"></span> CODERS • ARTISTS • GAMERS
                     </div>
                     
-                    <h1 class="font-display font-black text-5xl md:text-7xl lg:text-8xl leading-[0.9] mb-6 glitch-hover cursor-default">
+                    <h1 class="font-display font-black text-6xl md:text-8xl lg:text-8xl leading-[0.9] mb-8 tracking-tight">
                         YOUR NEW <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-pop-pink to-cyber-cyan">SPAWN POINT.</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-pop-pink to-cyber-cyan animate-gradient">SPAWN POINT.</span>
                     </h1>
 
-                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg mx-auto lg:mx-0 font-medium border-l-0 lg:border-l-4 border-neon-lime lg:pl-4">
-                        A creative sandbox for people who push commits, grind ranked matches, and fill sketchbooks. No NPCs allowed.
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed">
+                        A creative sandbox for people who push commits, grind ranked matches, and fill sketchbooks. <span class="text-ink dark:text-white font-bold bg-neon-lime/20 px-1">No NPCs allowed.</span>
                     </p>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
                         <a id="hero-cta-button" 
                            href="/src/screens/auth/signin.html"
                            data-logged-out-text="Join the Party"
                            data-logged-out-href="/src/screens/auth/signin.html"
                            data-logged-in-text="Create Project"
                            data-logged-in-href="/src/screens/projects/start-project.html"
-                           class="bg-primary text-white border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all flex items-center justify-center gap-2 group">
+                           class="bg-ink dark:bg-white text-white dark:text-ink px-8 py-4 rounded-xl font-bold text-lg shadow-manga dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:translate-y-1 hover:shadow-none transition-all flex items-center justify-center gap-3 group">
                             <i class="fas fa-code"></i> Join the Party
                         </a>
 
-                        <a href="/src/screens/main/qr.html" class="bg-white dark:bg-gray-800 text-ink dark:text-paper border-2 border-ink dark:border-paper px-8 py-4 rounded font-bold text-lg shadow-manga dark:shadow-manga-white hover:translate-y-1 hover:shadow-none transition-all">
+                        <a href="/src/screens/main/qr.html" class="bg-white dark:bg-zinc-900 text-ink dark:text-white border-2 border-ink dark:border-zinc-700 px-8 py-4 rounded-xl font-bold text-lg shadow-manga-sm dark:shadow-none hover:bg-gray-50 dark:hover:bg-zinc-800 hover:-translate-y-1 transition-all">
                             Explore World
                         </a>
                     </div>
                 </div>
 
                 <!-- Visual Collage -->
-                <div class="w-full lg:w-1/2 relative h-[300px] md:h-[500px] flex justify-center items-center">
+                <div class="w-full lg:w-1/2 relative h-[400px] md:h-[600px] flex justify-center items-center perspective-1000">
                     <!-- Floating Terminal -->
-                    <div class="absolute top-10 right-4 md:right-10 w-60 md:w-72 bg-ink text-green-400 p-4 rounded border-2 border-paper shadow-lg transform rotate-3 z-10 font-mono text-[10px] md:text-xs hover:rotate-0 transition-transform">
-                        <div class="flex justify-between mb-2 border-b border-gray-700 pb-1">
-                            <span>terminal.exe</span><span class="text-red-500">●</span>
+                    <div class="absolute top-10 right-0 md:right-10 w-72 md:w-80 bg-[#1e1e1e] text-green-400 p-5 rounded-xl border-2 border-ink dark:border-zinc-600 shadow-manga-lg dark:shadow-neon-cyan animate-float z-20 font-mono text-xs">
+                        <div class="flex justify-between items-center mb-4 border-b border-zinc-700 pb-2">
+                            <div class="flex gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="opacity-50">terminal.exe</span>
                         </div>
-                        <p>> git clone creative-chaos</p>
-                        <p>> npm install anime-vibes</p>
-                        <p class="text-pop-pink">> Done. Welcome home.</p>
+                        <div class="space-y-2 opacity-90">
+                            <p>> git clone creative-chaos</p>
+                            <p class="text-blue-400">> Installing vibes...</p>
+                            <p>> [==================] 100%</p>
+                            <p class="text-pop-pink">> Done. Welcome home.</p>
+                            <span class="animate-pulse inline-block w-2 h-4 bg-green-400 align-middle"></span>
+                        </div>
                     </div>
 
                     <!-- Floating Art -->
-                    <div class="absolute top-20 md:top-40 left-4 md:left-10 w-48 md:w-64 h-64 md:h-80 bg-white dark:bg-gray-800 border-2 border-ink dark:border-paper p-2 transform -rotate-6 z-20 shadow-manga dark:shadow-manga-white hover:rotate-0 transition-transform">
-                        <div class="w-full h-32 md:h-48 bg-gray-100 dark:bg-gray-700 mb-2 overflow-hidden relative">
-                             <img src="src/assets/art.jpg" class="w-full h-full object-cover opacity-80 grayscale">
-                             <div class="absolute bottom-2 right-2 bg-pop-pink text-white text-xs font-bold px-2 py-1">ARTIST_ALLEY.JPG</div>
+                    <div class="absolute bottom-10 left-0 md:left-10 w-64 md:w-72 bg-white dark:bg-zinc-800 p-3 rounded-xl border-2 border-ink dark:border-zinc-600 shadow-manga dark:shadow-neon-purple transform -rotate-6 z-10 hover:rotate-0 transition-transform duration-500">
+                        <div class="w-full h-48 bg-gray-200 dark:bg-zinc-700 rounded mb-3 overflow-hidden relative group">
+                             <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                             <div class="absolute bottom-2 right-2 bg-pop-pink text-white text-[10px] font-bold px-2 py-1 rounded">ARTIST_ALLEY.JPG</div>
                         </div>
-                        <div class="flex justify-between items-center px-2">
-                             <i class="fas fa-pen-nib text-ink dark:text-paper"><span class="ml-2 font-semibold tracking-wide text-sm">Illustrated Artwork</span></i>
+                        <div class="flex justify-between items-center px-1">
+                             <div class="flex items-center gap-2">
+                                <i class="fas fa-pen-nib text-primary"></i>
+                                <span class="font-bold text-sm">Concept Art</span>
+                             </div>
+                             <i class="fas fa-heart text-gray-300 dark:text-zinc-600"></i>
                         </div>
                     </div>
                 </div>
@@ -246,85 +301,116 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <a href="#vibe" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer z-20 hidden md:block">
-            <i class="fas fa-chevron-down text-3xl text-ink dark:text-paper opacity-50 hover:opacity-100 transition-opacity"></i>
+        <a href="#vibe" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer z-20 hidden md:block">
+            <i class="fas fa-chevron-down text-2xl text-ink dark:text-gray-500 hover:text-primary transition-colors"></i>
         </a>
     </header>
 
     <!-- Marquee -->
-    <div class="bg-neon-lime text-ink py-3 border-y-2 border-ink overflow-hidden pointer-events-none select-none">
-        <div class="marquee-container flex gap-12 font-display font-black text-2xl uppercase italic tracking-tighter whitespace-nowrap">
+    <div class="bg-neon-lime dark:bg-pop-pink text-ink dark:text-white py-4 border-y-2 border-ink dark:border-none overflow-hidden pointer-events-none select-none relative z-20">
+        <div class="marquee-container flex gap-16 font-display font-black text-2xl uppercase italic tracking-tighter whitespace-nowrap opacity-90">
+            <span>/// Code</span> <span>/// Cosplay</span> <span>/// Draw</span> <span>/// Game</span> <span>/// Convention</span>
             <span>/// Code</span> <span>/// Cosplay</span> <span>/// Draw</span> <span>/// Game</span> <span>/// Convention</span>
             <span>/// Code</span> <span>/// Cosplay</span> <span>/// Draw</span> <span>/// Game</span> <span>/// Convention</span>
         </div>
     </div>
 
     <!-- The Guild (About Section) -->
-    <section id="vibe" class="reveal py-16 md:py-24 bg-paper dark:bg-ink relative scroll-mt-24">
+    <section id="vibe" class="reveal py-24 bg-paper dark:bg-black relative scroll-mt-24">
         <div class="container mx-auto px-6 max-w-6xl">
-            <div class="flex flex-col md:flex-row gap-4 items-end mb-16 border-b-4 border-ink dark:border-paper pb-4">
-                <h2 class="font-display font-black text-5xl md:text-7xl uppercase">The Guild</h2>
-                <span class="font-mono text-xl text-primary mb-2 hidden md:block">ギルド</span>
-                <p class="md:ml-auto text-gray-600 dark:text-gray-400 font-bold max-w-md text-right w-full md:w-auto">
-                    Select your class. Click a card to explore the sub-guilds.
+            <div class="flex flex-col md:flex-row gap-6 items-end mb-16 border-b-2 border-gray-200 dark:border-zinc-800 pb-6">
+                <div>
+                    <span class="text-primary font-mono text-xs font-bold tracking-widest uppercase mb-2 block">Select Class</span>
+                    <h2 class="font-display font-black text-5xl md:text-7xl uppercase text-ink dark:text-white">The Guild</h2>
+                </div>
+                <span class="font-mono text-xl text-gray-400 mb-2 hidden md:block select-none">/ ギルド</span>
+                <p class="md:ml-auto text-gray-600 dark:text-gray-400 font-medium max-w-md text-right w-full md:w-auto">
+                    Pick your role. Click a card to explore the sub-guilds and skill trees.
                 </p>
             </div>
 
             <!-- Bento Grid Layout -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
                 <!-- Coder Card -->
-                <a href="/src/screens/guild/devs.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                    <div class="flex justify-between items-start mb-8">
-                        <i class="fas fa-terminal text-4xl group-hover:text-primary transition-colors"></i>
-                        <span class="font-mono text-xs border border-current px-2 py-1 rounded">CLASS: DEV</span>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl mb-2 group-hover:text-primary transition-colors">Hackers</h3>
-                    <p class="text-sm opacity-80 mb-4">Web, Game Dev, AI. We build the tools everyone else uses.</p>
-                    <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden border border-current">
-                        <div class="bg-primary w-[85%] h-full"></div>
+                <a href="/src/screens/guild/devs.html" class="relative group h-full">
+                    <div class="absolute inset-0 bg-ink dark:bg-primary translate-x-2 translate-y-2 rounded-xl transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
+                    <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-8 rounded-xl h-full flex flex-col justify-between transition-transform group-hover:-translate-y-1">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-gray-50 dark:bg-zinc-800 flex items-center justify-center text-2xl group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                                <span class="font-mono text-[10px] border border-gray-200 dark:border-zinc-700 px-2 py-1 rounded text-gray-400">CLASS: DEV</span>
+                            </div>
+                            <h3 class="font-display font-bold text-3xl mb-3 group-hover:text-primary transition-colors">Hackers</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Web, Game Dev, AI. We build the tools everyone else uses.</p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+                            <span>View Roster</span>
+                            <i class="fas fa-arrow-right -rotate-45 group-hover:rotate-0 transition-transform text-primary"></i>
+                        </div>
                     </div>
                 </a>
 
                 <!-- Artist Card -->
-                <a href="/src/screens/guild/artists.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                    <div class="flex justify-between items-start mb-8">
-                        <i class="fas fa-palette text-4xl group-hover:text-pop-pink transition-colors"></i>
-                        <span class="font-mono text-xs border border-current px-2 py-1 rounded">CLASS: ARTIST</span>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl mb-2 group-hover:text-pop-pink transition-colors">Creators</h3>
-                    <p class="text-sm opacity-80 mb-4">Digital art, fan fiction, cosplay crafting. Show off your WIPs.</p>
-                    <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden border border-current">
-                        <div class="bg-pop-pink w-[90%] h-full"></div>
+                <a href="/src/screens/guild/artists.html" class="relative group h-full">
+                    <div class="absolute inset-0 bg-ink dark:bg-pop-pink translate-x-2 translate-y-2 rounded-xl transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
+                    <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-8 rounded-xl h-full flex flex-col justify-between transition-transform group-hover:-translate-y-1">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-gray-50 dark:bg-zinc-800 flex items-center justify-center text-2xl group-hover:bg-pop-pink group-hover:text-white transition-colors">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                                <span class="font-mono text-[10px] border border-gray-200 dark:border-zinc-700 px-2 py-1 rounded text-gray-400">CLASS: ARTIST</span>
+                            </div>
+                            <h3 class="font-display font-bold text-3xl mb-3 group-hover:text-pop-pink transition-colors">Creators</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Digital art, fan fiction, cosplay crafting. Show off your WIPs.</p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+                            <span>View Gallery</span>
+                            <i class="fas fa-arrow-right -rotate-45 group-hover:rotate-0 transition-transform text-pop-pink"></i>
+                        </div>
                     </div>
                 </a>
 
                 <!-- Gamer Card -->
-                <a href="/src/screens/guild/gamers.html" class="block group bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#fafafa] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
-                    <div class="flex justify-between items-start mb-8">
-                        <i class="fas fa-headset text-4xl group-hover:text-cyber-cyan transition-colors"></i>
-                        <span class="font-mono text-xs border border-current px-2 py-1 rounded">CLASS: PLAYER</span>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl mb-2 group-hover:text-cyber-cyan transition-colors">Gamers</h3>
-                    <p class="text-sm opacity-80 mb-4">FPS, RPG, Gacha. We discuss meta, lore, and tournaments.</p>
-                    <div class="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden border border-current">
-                        <div class="bg-cyber-cyan w-[75%] h-full"></div>
+                <a href="/src/screens/guild/gamers.html" class="relative group h-full">
+                    <div class="absolute inset-0 bg-ink dark:bg-cyber-cyan translate-x-2 translate-y-2 rounded-xl transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
+                    <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 p-8 rounded-xl h-full flex flex-col justify-between transition-transform group-hover:-translate-y-1">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-gray-50 dark:bg-zinc-800 flex items-center justify-center text-2xl group-hover:bg-cyber-cyan group-hover:text-ink transition-colors">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <span class="font-mono text-[10px] border border-gray-200 dark:border-zinc-700 px-2 py-1 rounded text-gray-400">CLASS: PLAYER</span>
+                            </div>
+                            <h3 class="font-display font-bold text-3xl mb-3 group-hover:text-cyber-cyan transition-colors">Gamers</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">FPS, RPG, Gacha. We discuss meta, lore, and tournaments.</p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+                            <span>Join Squad</span>
+                            <i class="fas fa-arrow-right -rotate-45 group-hover:rotate-0 transition-transform text-cyber-cyan"></i>
+                        </div>
                     </div>
                 </a>
 
                 <!-- Upcoming Con Widget -->
-                <div class="md:col-span-3 mt-4 bg-neon-lime/20 dark:bg-neon-lime/10 border-2 border-dashed border-ink dark:border-paper p-8 rounded flex flex-col md:flex-row items-center gap-8">
-                    <div class="bg-white dark:bg-ink border-2 border-ink dark:border-paper p-4 -rotate-2 shadow-manga-sm">
-                        <div class="text-center font-mono font-bold text-2xl leading-none">
-                            <span class="text-pop-pink">NOV</span><br>
+                <div class="md:col-span-3 mt-8 bg-neon-lime/10 dark:bg-zinc-900 border border-dashed border-ink dark:border-zinc-700 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                    
+                    <div class="bg-white dark:bg-zinc-800 border-2 border-ink dark:border-zinc-600 p-5 -rotate-3 group-hover:rotate-0 transition-transform shadow-manga-sm dark:shadow-lg rounded-lg z-10">
+                        <div class="text-center font-mono font-bold leading-none">
+                            <span class="text-pop-pink text-sm block mb-1">NOV</span>
                             <span class="text-4xl">29</span>
                         </div>
                     </div>
-                    <div class="flex-1 text-center md:text-left">
-                        <h4 class="font-display font-bold text-2xl uppercase">Upcoming Raid: Tech & Otaku Summit</h4>
-                        <p class="text-gray-600 dark:text-gray-400">Join us for a weekend of hackathons, cosplay contests, and gaming tournaments.</p>
+                    <div class="flex-1 text-center md:text-left z-10">
+                        <div class="inline-block bg-pop-pink text-white text-[10px] font-bold px-2 py-0.5 rounded mb-2">UPCOMING RAID</div>
+                        <h4 class="font-display font-bold text-2xl uppercase mb-1">Tech & Otaku Summit</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm">Join us for a weekend of hackathons, cosplay contests, and gaming tournaments.</p>
                     </div>
-                    <a href="/src/screens/events/summit.html" class="bg-ink dark:bg-paper text-white dark:text-ink px-6 py-3 font-bold uppercase text-sm hover:scale-105 transition-transform shadow-manga-sm dark:shadow-none">
+                    <a href="/src/screens/events/summit.html" class="bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 rounded-lg font-bold uppercase text-xs hover:scale-105 transition-transform shadow-lg z-10">
                         RSVP Now
                     </a>
                 </div>
@@ -333,67 +419,98 @@
     </section>
 
     <!-- Roster (About) -->
-    <section id="roster" class="reveal py-20 bg-cyber-cyan border-y-2 border-ink dark:border-paper relative overflow-hidden group scroll-mt-24">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%);"></div>
-
+    <section id="roster" class="reveal py-20 bg-gray-50 dark:bg-zinc-900/50 border-y border-gray-200 dark:border-zinc-800 relative overflow-hidden scroll-mt-24">
+        
         <div class="container mx-auto px-6 max-w-7xl relative z-10">
-            <div class="bg-white dark:bg-gray-900 border-2 border-ink dark:border-paper p-8 md:p-12 shadow-manga dark:shadow-manga-white flex flex-col md:flex-row items-center gap-10 md:gap-16 transform transition-transform hover:scale-[1.005]">
+            <div class="bg-white dark:bg-black border border-gray-200 dark:border-zinc-700 p-8 md:p-16 shadow-xl dark:shadow-glass rounded-3xl flex flex-col md:flex-row items-center gap-12 md:gap-20">
                 <div class="flex-1 text-center md:text-left">
-                    <div class="inline-flex items-center gap-2 bg-ink dark:bg-paper text-white dark:text-ink px-3 py-1 font-mono text-xs font-bold mb-4 transform -rotate-2">
-                        <span class="animate-pulse text-neon-lime">●</span> PLAYER SELECT
+                    <div class="inline-flex items-center gap-2 text-primary font-mono text-xs font-bold mb-4 tracking-widest">
+                         <i class="fas fa-users"></i> PLAYER SELECT
                     </div>
-                    <h2 class="font-display font-black text-4xl md:text-6xl lg:text-7xl uppercase leading-[0.9] mb-6">
+                    <h2 class="font-display font-black text-4xl md:text-6xl uppercase leading-[0.9] mb-6">
                         Who's Behind <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-primary text-stroke">The Keyboard?</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-primary">The Keyboard?</span>
                     </h2>
-                    <p class="text-lg font-medium text-gray-600 dark:text-gray-300 mb-8 max-w-xl">
+                    <p class="text-lg font-medium text-gray-600 dark:text-gray-400 mb-8 max-w-xl">
                         No NPCs here. Just a chaotic roster of senior devs, concept artists, and competitive gamers building the future.
                     </p>
-                    <a href="/src/screens/main/about.html" class="inline-block relative group">
-                        <div class="absolute top-0 left-0 w-full h-full bg-ink dark:bg-paper translate-x-1 translate-y-1 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
-                        <div class="relative bg-pop-pink text-white border-2 border-ink dark:border-paper px-8 md:px-10 py-3 md:py-4 font-bold font-display text-lg md:text-xl uppercase tracking-widest flex items-center gap-3">
-                            Meet The Crew <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                        </div>
+                    <a href="/src/screens/main/about.html" class="inline-block bg-transparent text-ink dark:text-white border-2 border-ink dark:border-zinc-600 px-8 py-3 rounded-full font-bold font-display text-sm uppercase tracking-widest hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-ink transition-colors">
+                        Meet The Crew
                     </a>
                 </div>
                 <!-- Visuals -->
                 <div class="w-full md:w-1/3 relative h-64 flex items-center justify-center mt-6 md:mt-0">
-                    <div class="absolute w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-ink bg-neon-lime z-10 left-10 md:left-0 top-10 overflow-hidden"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full object-cover"></div>
-                    <div class="absolute w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-ink bg-primary z-20 shadow-manga overflow-hidden"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="w-full h-full object-cover"></div>
-                    <div class="absolute w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-ink bg-cyber-cyan z-10 right-10 md:right-0 bottom-4 overflow-hidden"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bandit" class="w-full h-full object-cover"></div>
+                    <!-- Avatars with stylized borders -->
+                    <div class="absolute w-28 h-28 rounded-full border-4 border-white dark:border-zinc-800 shadow-xl z-10 left-10 md:left-0 top-6 overflow-hidden bg-neon-lime transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full object-cover"></div>
+                    <div class="absolute w-36 h-36 rounded-full border-4 border-white dark:border-zinc-800 shadow-2xl z-20 bg-pop-pink overflow-hidden transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="w-full h-full object-cover"></div>
+                    <div class="absolute w-28 h-28 rounded-full border-4 border-white dark:border-zinc-800 shadow-xl z-10 right-10 md:right-0 bottom-0 overflow-hidden bg-cyber-cyan transform hover:scale-110 transition-transform"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bandit" class="w-full h-full object-cover"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="dms" class="reveal py-24 bg-ink text-paper relative overflow-hidden scroll-mt-24">
-        <div class="container mx-auto px-6 max-w-4xl relative z-10">
-            <div class="bg-gray-900 border-2 border-paper rounded-lg shadow-manga-white overflow-hidden">
-                <!-- Terminal Header -->
-                <div class="bg-gray-800 p-3 border-b-2 border-gray-700 flex items-center justify-between font-mono text-xs">
-                    <div class="flex gap-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+    <section id="dms" class="reveal py-24 bg-ink dark:bg-[#050505] text-paper relative overflow-hidden scroll-mt-24">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 max-w-5xl relative z-10">
+            <div class="bg-gray-900 dark:bg-black border border-gray-700 dark:border-zinc-800 rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px]">
+                
+                <!-- Terminal Sidebar -->
+                <div class="md:w-1/3 bg-[#0d0d0d] p-8 border-b md:border-b-0 md:border-r border-gray-800 flex flex-col relative">
+                    <div class="absolute top-4 left-4 flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
-                    <div class="text-gray-400">user@lha-collective:~</div>
+
+                    <div class="mt-12 flex-1">
+                        <div class="mb-8">
+                            <div class="text-gray-500 font-mono text-[10px] mb-2 uppercase tracking-widest">System Status</div>
+                            <div class="flex items-center gap-3 text-green-400 font-mono text-sm">
+                                <span class="relative flex h-3 w-3">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                                ONLINE
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500 font-mono text-[10px] mb-2 uppercase tracking-widest">Connect</div>
+                            <div class="flex gap-4 text-2xl text-gray-400">
+                                <a href="#" class="hover:text-pop-pink transition-colors"><i class="fab fa-discord"></i></a>
+                                <a href="#" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+                                <a href="#" class="hover:text-cyber-cyan transition-colors"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-gray-700 font-mono text-xs mt-8">v2.0.5 stable</div>
                 </div>
-                <div class="flex flex-col md:flex-row">
-                    <!-- Sidebar -->
-                    <div class="md:w-1/3 bg-gray-900 p-6 border-b-2 md:border-b-0 md:border-r-2 border-gray-800">
-                        <div class="mb-6"><div class="text-primary font-mono text-xs mb-1">STATUS</div><div class="flex items-center gap-2 text-green-400 font-bold text-sm"><span class="animate-pulse">●</span> ONLINE</div></div>
-                        <div><div class="text-primary font-mono text-xs mb-1">LINKS</div><div class="flex gap-4 text-xl mt-2"><a href="#" class="hover:text-pop-pink"><i class="fab fa-discord"></i></a><a href="#" class="hover:text-pop-pink"><i class="fab fa-github"></i></a></div></div>
-                    </div>
-                    <!-- Form -->
-                    <div class="md:w-2/3 p-6 md:p-8 bg-gray-900">
-                        <h3 class="font-mono text-2xl text-primary mb-6">> Send_Message()</h3>
-                        <form action="contact-form" method="POST" class="space-y-6 font-mono text-sm">
-                            <input type="text" name="name" required placeholder='const NAME = "Kirito"' class="w-full bg-gray-800 border border-gray-700 p-3 rounded focus:border-primary focus:outline-none text-white transition-colors">
-                            <input type="email" name="email" required placeholder='const EMAIL = "user@gmail.com"' class="w-full bg-gray-800 border border-gray-700 p-3 rounded focus:border-primary focus:outline-none text-white transition-colors">
-                            <textarea name="message" rows="4" required placeholder='function MSG() { return "Hello world..." }' class="w-full bg-gray-800 border border-gray-700 p-3 rounded focus:border-primary focus:outline-none text-white transition-colors"></textarea>
-                            <button type="submit" class="bg-pop-pink text-white px-8 py-3 font-bold uppercase hover:bg-pink-600 transition-colors w-full md:w-auto shadow-md">Execute <i class="fas fa-arrow-right ml-2"></i></button>
+
+                <!-- Form -->
+                <div class="md:w-2/3 p-8 md:p-12 bg-gray-900/50 relative">
+                    <!-- Scanlines effect for form bg -->
+                    <div class="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-0 pointer-events-none bg-[length:100%_4px,3px_100%]"></div>
+
+                    <div class="relative z-10">
+                        <h3 class="font-mono text-xl text-primary mb-8 border-b border-gray-700 pb-2 inline-block">> Send_Message()</h3>
+                        <form action="contact-form" method="POST" class="space-y-5 font-mono text-sm">
+                            <div class="group">
+                                <label class="block text-gray-500 text-xs mb-1 group-focus-within:text-primary transition-colors">name_string</label>
+                                <input type="text" name="name" required placeholder='"Kirito"' class="w-full bg-[#151515] border border-gray-700 p-3 rounded text-white focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all">
+                            </div>
+                            <div class="group">
+                                <label class="block text-gray-500 text-xs mb-1 group-focus-within:text-primary transition-colors">email_address</label>
+                                <input type="email" name="email" required placeholder='"user@gmail.com"' class="w-full bg-[#151515] border border-gray-700 p-3 rounded text-white focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all">
+                            </div>
+                            <div class="group">
+                                <label class="block text-gray-500 text-xs mb-1 group-focus-within:text-primary transition-colors">message_body</label>
+                                <textarea name="message" rows="4" required placeholder='function MSG() { return "Hello world..." }' class="w-full bg-[#151515] border border-gray-700 p-3 rounded text-white focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="bg-primary text-white px-8 py-3 rounded font-bold uppercase hover:bg-violet-600 hover:shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-all w-full md:w-auto mt-2">
+                                Execute <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -402,24 +519,24 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-paper dark:bg-ink pt-12 pb-8 border-t-2 border-ink dark:border-paper">
+    <footer class="bg-paper dark:bg-black pt-16 pb-8 border-t border-gray-200 dark:border-zinc-800">
         <div class="container mx-auto px-6 max-w-7xl text-center md:text-left">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <h2 class="font-display font-black text-3xl">LHA<span class="text-primary">.</span></h2>
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="mb-8 md:mb-0 text-center md:text-left">
+                    <h2 class="font-display font-black text-4xl text-ink dark:text-white tracking-tight">LHA<span class="text-primary">.</span></h2>
                     <p class="text-sm font-mono text-gray-500 mt-2">Crafted for the culture.</p>
                 </div>
-                <div class="flex flex-wrap justify-center gap-6 font-bold uppercase text-sm tracking-widest">
-                    <a href="/src/screens/guild/devs.html" class="hover:text-primary hover:underline decoration-wavy">Code</a>
-                    <a href="/src/screens/guild/artists.html" class="hover:text-pop-pink hover:underline decoration-wavy">Art</a>
-                    <a href="/src/screens/guild/gamers.html" class="hover:text-cyber-cyan hover:underline decoration-wavy">Game</a>
+                <div class="flex flex-wrap justify-center gap-8 font-bold uppercase text-xs tracking-widest text-gray-600 dark:text-gray-400">
+                    <a href="/src/screens/guild/devs.html" class="hover:text-primary transition-colors">Code</a>
+                    <a href="/src/screens/guild/artists.html" class="hover:text-pop-pink transition-colors">Art</a>
+                    <a href="/src/screens/guild/gamers.html" class="hover:text-cyber-cyan transition-colors">Game</a>
                 </div>
             </div>
-            <div class="mt-12 pt-6 border-t border-gray-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-gray-500">
-                <p>&copy; 2025 LHA Collective.</p>
-                <div class="flex gap-4 mt-2 md:mt-0">
-                    <a href="/src/components/privacy-policy.html">Privacy</a>
-                    <a href="/src/components/terms-of-service.html">Terms</a>
+            <div class="pt-8 border-t border-gray-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-gray-400 uppercase tracking-wider">
+                <p>&copy; 2025 LHA Collective. All systems normal.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="/src/components/privacy-policy.html" class="hover:text-ink dark:hover:text-white">Privacy</a>
+                    <a href="/src/components/terms-of-service.html" class="hover:text-ink dark:hover:text-white">Terms</a>
                 </div>
             </div>
         </div>

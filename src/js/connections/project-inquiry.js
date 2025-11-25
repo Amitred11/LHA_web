@@ -117,13 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!validateCurrentStep()) return;
 
-        // 1. Loading State
+        // 1. CHECK AUTHENTICATION
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            alert("You must be logged in to submit a quest.");
+            window.location.href = '/src/screens/auth/signin.html';
+            return;
+        }
+
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> TRANSMITTING...';
         submitBtn.disabled = true;
         submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
 
-        // 2. Prepare Data
         const formData = new FormData(form);
         const data = {};
         const projectTypes = [];
@@ -136,17 +142,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Add array to data object
         if (projectTypes.length > 0) {
             data.projectTypes = projectTypes;
         }
 
         try {
-            // 3. Send Request
             const response = await fetch(`${API_BASE_URL}/api/project-inquiry`, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json' 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // <--- FIX: ADDED TOKEN
                 },
                 body: JSON.stringify(data)
             });
@@ -154,24 +159,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
-                // 4. Success -> Redirect
-                // Ensure this path exists in your folder structure
                 window.location.href = '/src/screens/projects/quest-accepted.html';
             } else {
+                // Handle Token Expiration specifically
+                if(response.status === 401) {
+                    throw new Error("Session expired. Please log in again.");
+                }
                 throw new Error(result.message || 'Server rejected the quest.');
             }
         } catch (error) {
             console.error('Submission Error:', error);
+            alert(`Error: ${error.message}`);
             
-            // 5. Error Handling UI
-            alert(`Connection Failed: ${error.message}\nMake sure the backend is running.`);
-            
+            if (error.message.includes("Session expired")) {
+                window.location.href = '/src/screens/auth/signin.html';
+            }
+
             submitBtn.innerHTML = originalBtnText;
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
         }
     });
 
-    // Initialize UI
     updateUI();
 });

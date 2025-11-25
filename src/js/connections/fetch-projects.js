@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = 'https://backendkostudy.onrender.com'; // Make sure this matches your Flask port
+    const API_BASE_URL = 'https://backendkostudy.onrender.com'; // Your Backend URL
     const grid = document.getElementById('projects-grid');
     const totalCountEl = document.getElementById('total-count');
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -8,35 +8,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Fetch Data
     async function fetchProjects() {
-        try {
-            grid.innerHTML = '<div class="col-span-full text-center py-12"><i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i><p class="mt-4 font-mono text-sm">Accessing Mainframe...</p></div>';
+        // --- AUTH CHECK ---
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            console.warn("No access token found. Redirecting to login.");
+            window.location.href = '/src/screens/auth/signin.html';
+            return;
+        }
 
-            const response = await fetch(`${API_BASE_URL}/api/projects`);
+        try {
+            // Show Loading Spinner
+            if(grid) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12"><i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i><p class="mt-4 font-mono text-sm">Accessing Mainframe...</p></div>';
+            }
+
+            // --- FETCH WITH HEADERS ---
+            const response = await fetch(`${API_BASE_URL}/api/projects`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // <--- THIS IS THE KEY FIX
+                }
+            });
+
+            // Handle Session Expiry (401 Unauthorized)
+            if (response.status === 401) {
+                alert("Your session has expired. Please log in again.");
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = '/src/screens/auth/signin.html';
+                return;
+            }
+
             if (!response.ok) throw new Error('Failed to connect to backend');
             
             allProjects = await response.json();
             
+            // Update UI Counters
             if(totalCountEl) totalCountEl.textContent = `Total Records: ${allProjects.length}`;
             
-            renderProjects(allProjects);
+            // Render
+            if(grid) renderProjects(allProjects);
 
         } catch (error) {
             console.error('Fetch error:', error);
-            grid.innerHTML = `
-                <div class="col-span-full text-center py-12 border-2 border-red-500 border-dashed rounded bg-red-50 dark:bg-red-900/20">
-                    <i class="fas fa-wifi text-red-500 text-2xl mb-2"></i>
-                    <p class="font-mono text-red-500">Connection Failed. Is Flask running?</p>
-                </div>`;
+            if(grid) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 border-2 border-red-500 border-dashed rounded bg-red-50 dark:bg-red-900/20">
+                        <i class="fas fa-wifi text-red-500 text-2xl mb-2"></i>
+                        <p class="font-mono text-red-500">Connection Failed. Is Flask running?</p>
+                    </div>`;
+            }
         }
     }
 
     // 2. Render Cards
     function renderProjects(projects) {
-        // Remove existing project cards but keep the "Add New" card logic if you want
         grid.innerHTML = '';
 
         if (projects.length === 0) {
-            grid.innerHTML = '<div class="col-span-full text-center py-12 opacity-50"><p class="font-mono">No active quests found.</p></div>';
+            grid.innerHTML = '<div class="col-span-full text-center py-12 opacity-50"><p class="font-mono">No active quests found in your log.</p></div>';
         } else {
             projects.forEach(project => {
                 grid.insertAdjacentHTML('beforeend', createCardHTML(project));
@@ -99,31 +130,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 4. Filtering
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // UI Update
-            filterBtns.forEach(b => {
-                b.classList.remove('bg-ink', 'dark:bg-paper', 'text-white', 'dark:text-ink', 'shadow-manga-sm');
-                b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-500');
-            });
-            btn.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-500');
-            btn.classList.add('bg-ink', 'dark:bg-paper', 'text-white', 'dark:text-ink', 'shadow-manga-sm');
-
-            // Logic
-            const filter = btn.dataset.filter;
-            if (filter === 'all') {
-                renderProjects(allProjects);
-            } else {
-                const filtered = allProjects.filter(p => {
-                    const s = (p.status || '').toLowerCase();
-                    if (filter === 'active') return s.includes('active') || s.includes('pending') || s.includes('review');
-                    if (filter === 'completed') return s.includes('completed');
-                    return true;
+    if(filterBtns) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // UI Update
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-ink', 'dark:bg-paper', 'text-white', 'dark:text-ink', 'shadow-manga-sm');
+                    b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-500');
                 });
-                renderProjects(filtered);
-            }
-        });
-    });
+                btn.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-500');
+                btn.classList.add('bg-ink', 'dark:bg-paper', 'text-white', 'dark:text-ink', 'shadow-manga-sm');
 
-    fetchProjects();
+                // Logic
+                const filter = btn.dataset.filter;
+                if (filter === 'all') {
+                    renderProjects(allProjects);
+                } else {
+                    const filtered = allProjects.filter(p => {
+                        const s = (p.status || '').toLowerCase();
+                        if (filter === 'active') return s.includes('active') || s.includes('pending') || s.includes('review');
+                        if (filter === 'completed') return s.includes('completed');
+                        return true;
+                    });
+                    renderProjects(filtered);
+                }
+            });
+        });
+    }
+
+    // Only run fetch if we are on the page with the grid
+    if(grid) {
+        fetchProjects();
+    }
 });
