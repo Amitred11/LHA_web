@@ -348,59 +348,5 @@
     <!-- Scripts -->
     <script src="/src/js/main/alert.js"></script>
     <script src="/src/js/events/summit.js"></script>
-    <script>
-        // Inline Mobile Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            // Theme Toggle Mobile
-            const btn = document.getElementById('theme-toggle-mobile');
-            if(btn) {
-                btn.addEventListener('click', () => {
-                    if (document.documentElement.classList.contains('dark')) {
-                        document.documentElement.classList.remove('dark');
-                        localStorage.theme = 'light';
-                    } else {
-                        document.documentElement.classList.add('dark');
-                        localStorage.theme = 'dark';
-                    }
-                });
-            }
-
-            // Mobile Menu
-            const menuBtn = document.getElementById('mobile-menu-button');
-            const closeMenuBtn = document.getElementById('close-menu-button');
-            const menu = document.getElementById('mobile-menu');
-            const links = document.querySelectorAll('.mobile-link');
-
-            function toggleMenu() {
-                if(menu.classList.contains('hidden')) {
-                    menu.classList.remove('hidden');
-                    setTimeout(() => menu.classList.add('flex'), 10);
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    menu.classList.remove('flex');
-                    setTimeout(() => menu.classList.add('hidden'), 300);
-                    document.body.style.overflow = 'auto';
-                }
-            }
-
-            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
-            if(closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
-            links.forEach(l => l.addEventListener('click', toggleMenu));
-
-            // FAB Scroll Logic
-            const fab = document.getElementById('mobile-fab');
-            if(fab) {
-                window.addEventListener('scroll', () => {
-                    if(window.scrollY > 300) {
-                        fab.classList.remove('translate-y-24');
-                    } else {
-                        fab.classList.add('translate-y-24');
-                    }
-                });
-                // Initial hide
-                fab.classList.add('translate-y-24', 'transition-transform', 'duration-300');
-            }
-        });
-    </script>
 </body>
 </html>

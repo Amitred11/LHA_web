@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIG ---
-    const API_BASE_URL = 'https://backendkostudy.onrender.com'; // Update with your Flask port
+    const API_BASE_URL = 'https://backendkostudy.onrender.com'; 
     
     // --- 1. Theme Logic ---
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    }
-    document.getElementById('theme-toggle').addEventListener('click', function() {
+    function toggleTheme() {
         if (document.documentElement.classList.contains('dark')) {
             document.documentElement.classList.remove('dark');
             localStorage.theme = 'light';
@@ -14,40 +11,79 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.add('dark');
             localStorage.theme = 'dark';
         }
-    });
+    }
+
+    // Desktop Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+    // Mobile Toggle
+    const mobileThemeToggle = document.getElementById('theme-toggle-mobile');
+    if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+
+    // Initial Load Check
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    }
 
     // --- 2. Mobile Menu Logic ---
-    const btn = document.getElementById('mobile-menu-button');
+    const menuBtn = document.getElementById('mobile-menu-button');
     const closeBtn = document.getElementById('close-menu-button');
     const menu = document.getElementById('mobile-menu');
+    const links = document.querySelectorAll('.mobile-link');
     const body = document.body;
 
     function toggleMenu() {
+        // Check if menu is currently hidden
         const isHidden = menu.classList.contains('hidden');
-        if(isHidden) {
+
+        if (isHidden) {
+            // OPEN MENU
             menu.classList.remove('hidden');
-            setTimeout(() => menu.classList.add('flex'), 10);
-            body.classList.add('overflow-hidden');
+            // Small delay to allow display:flex to apply before opacity transition
+            setTimeout(() => {
+                menu.classList.add('flex');
+                menu.classList.remove('opacity-0', 'scale-110'); // Ensure transition classes are active
+            }, 10);
+            body.style.overflow = 'hidden'; // Stop background scrolling
         } else {
+            // CLOSE MENU
             menu.classList.remove('flex');
-            setTimeout(() => menu.classList.add('hidden'), 300);
-            body.classList.remove('overflow-hidden');
+            menu.classList.add('hidden');
+            body.style.overflow = 'auto'; // Restore background scrolling
         }
     }
 
-    if(btn) btn.addEventListener('click', toggleMenu);
+    if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
     if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
-    document.querySelectorAll('.mobile-link').forEach(link => {
+    
+    // Close menu when clicking a link
+    links.forEach(link => {
         link.addEventListener('click', () => {
             menu.classList.remove('flex');
-            setTimeout(() => menu.classList.add('hidden'), 300);
-            body.classList.remove('overflow-hidden');
+            menu.classList.add('hidden');
+            body.style.overflow = 'auto';
         });
     });
 
-    // --- 3. Countdown Timer ---
+    // --- 3. Mobile FAB (Floating Action Button) Scroll Logic ---
+    const fab = document.getElementById('mobile-fab');
+    if(fab) {
+        // Initial state
+        fab.classList.add('translate-y-24', 'transition-transform', 'duration-300');
+        
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 300) {
+                fab.classList.remove('translate-y-24');
+            } else {
+                fab.classList.add('translate-y-24');
+            }
+        });
+    }
+
+    // --- 4. Countdown Timer ---
     const countDownDate = new Date("Nov 29, 2025 09:00:00").getTime();
-    const x = setInterval(function() {
+    const timerInterval = setInterval(function() {
         const now = new Date().getTime();
         const distance = countDownDate - now;
 
@@ -67,13 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if(s) s.innerHTML = seconds < 10 ? '0'+seconds : seconds;
 
         if (distance < 0) {
-            clearInterval(x);
+            clearInterval(timerInterval);
             if(d) document.getElementById("d").innerHTML = "00";
         }
     }, 1000);
 
-    // --- 4. Alert Helper (Loading Reuse) ---
-    // Note: We rely on alert.js being loaded before this file in HTML
+    // --- 5. Alert Helper (Loading Reuse) ---
     let alertModalElements = {};
     const cacheModalElements = () => {
         alertModalElements = {
@@ -95,13 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/src/components/alert.html');
             if (response.ok) {
                 const html = await response.text();
-                document.getElementById('alert-modal-placeholder').innerHTML = html;
+                const placeholder = document.getElementById('alert-modal-placeholder');
+                if(placeholder) placeholder.innerHTML = html;
                 cacheModalElements();
             }
         } catch (error) { console.error(error); }
     };
 
-    // --- 5. Registration Form Logic ---
+    // --- 6. Registration Form Logic ---
     const form = document.getElementById('registration-form');
     const submitBtn = document.getElementById('submit-btn');
 
@@ -109,16 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Load modal requirements
             await loadAlertModal();
             cacheModalElements();
 
-            // Set Loading State
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing...';
 
-            // Gather Data
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
