@@ -148,20 +148,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateNavbarProfile = async () => {
         const userId = localStorage.getItem('userId');
-        const navbarAvatar = document.getElementById('navbar-avatar');
+        const token = localStorage.getItem('accessToken');
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-        if (isLoggedIn && userId && navbarAvatar) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.profile && data.profile.avatarUrl) {
-                        navbarAvatar.src = `${API_BASE_URL}${data.profile.avatarUrl}`;
-                    }
+        // 1. Safety Check
+        if (!isLoggedIn || !userId || !token) return;
+
+        // 2. DOM Elements
+        const navAvatar = document.getElementById('navbar-avatar');
+        const navName = document.getElementById('navbar-username');
+        const navLevel = document.getElementById('navbar-level');
+        
+        const mobileAvatar = document.getElementById('mobile-menu-avatar');
+        const mobileName = document.getElementById('mobile-menu-username');
+        const mobileLevel = document.getElementById('mobile-menu-level');
+
+        try {
+            // 3. API Call
+            const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-            } catch (error) {
-                console.error("Failed to load navbar avatar", error);
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                
+                // 4. Data Extraction
+                const profile = data.profile || {};
+                const accountUsername = data.username || "User";
+                
+                // Logic: Use Display Name if available, otherwise User ID/Username
+                const displayName = profile.displayName || accountUsername;
+                const level = profile.level || 1;
+                
+                // Logic: Construct Avatar URL
+                let avatarSrc = `https://ui-avatars.com/api/?name=${displayName}&background=random`;
+                if (profile.avatarUrl) {
+                    const cleanPath = profile.avatarUrl.startsWith('/') ? profile.avatarUrl : `/${profile.avatarUrl}`;
+                    // We add a timestamp (?t=...) to force the browser to reload the image if it just changed
+                    avatarSrc = `${API_BASE_URL}${cleanPath}?t=${Date.now()}`;
+                }
+
+                // 5. Update Desktop Navbar
+                if (navAvatar) navAvatar.src = avatarSrc;
+                if (navName) navName.innerText = displayName;
+                if (navLevel) navLevel.innerText = `LVL. ${level}`;
+
+                // 6. Update Mobile Menu
+                if (mobileAvatar) mobileAvatar.src = avatarSrc;
+                if (mobileName) mobileName.innerText = displayName;
+                if (mobileLevel) mobileLevel.innerText = `LVL. ${level}`;
             }
+        } catch (error) {
+            console.error("Failed to load navbar profile stats", error);
         }
     };
 

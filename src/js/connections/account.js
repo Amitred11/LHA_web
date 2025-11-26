@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
-    // Ensure this matches your live backend URL or localhost
     const API_BASE_URL = 'https://backendkostudy.onrender.com';
     const USER_ID = localStorage.getItem('userId');
     const TOKEN = localStorage.getItem('accessToken');
@@ -15,34 +14,38 @@ document.addEventListener('DOMContentLoaded', () => {
             portfolio: document.getElementById('input-portfolio'),
             avatar: document.getElementById('avatar-upload-input')
         },
-        buttons: {
-            save: document.getElementById('save-profile-btn'),
-            avatarTrigger: document.getElementById('avatar-trigger'),
-            logoutDesktop: document.getElementById('logout-btn-desktop'),
-            logoutMobile: document.getElementById('logout-btn-mobile'),
-            themeToggle: document.getElementById('theme-toggle')
+        links: {
+            github: document.getElementById('link-github'),
+            portfolio: document.getElementById('link-portfolio')
         },
         containers: {
             projectsGrid: document.getElementById('projects-grid'),
-            folderLabel: document.getElementById('folder-label')
+            folderLabel: document.getElementById('folder-label'),
+            tabPanes: document.querySelectorAll('.tab-pane'),
+            navBtns: document.querySelectorAll('.nav-btn, .mobile-nav-btn'),
+            bioContent: document.getElementById('bio-content'),
+            bioEmpty: document.getElementById('bio-empty')
+        },
+        buttons: {
+            saveProfile: document.getElementById('save-profile-btn'),
+            avatarTrigger: document.getElementById('avatar-trigger'),
+            logoutTop: document.getElementById('logout-btn-top'),
+            themeToggle: document.getElementById('theme-toggle'),
+            filters: document.querySelectorAll('.filter-btn')
         }
     };
 
-    // --- AUTH CHECK ---
+    // --- INITIALIZATION ---
     if (!USER_ID || !TOKEN) {
-        console.warn("No credentials found, redirecting...");
         window.location.href = '/src/screens/auth/signin.html';
         return;
     }
-
-    // --- INITIALIZATION ---
+    
     initTheme();
     loadProfile();
     setupEventListeners();
 
-    // --- CORE FUNCTIONS ---
-
-    // 1. Theme Management
+    // --- FUNCTIONS: THEME ---
     function initTheme() {
         const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.classList.toggle('dark', isDark);
@@ -55,257 +58,298 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. Profile Loading & Data Binding
+    // --- FUNCTIONS: NAVIGATION ---
+    function switchTab(targetId) {
+        dom.containers.navBtns.forEach(btn => {
+            if (btn.dataset.tab === targetId) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+
+        dom.containers.tabPanes.forEach(pane => {
+            pane.classList.toggle('hidden', pane.id !== `${targetId}-pane`);
+            pane.classList.toggle('block', pane.id === `${targetId}-pane`);
+        });
+        
+        const labels = { 'status': 'STATUS.EXE', 'projects': 'QUEST_LOG.BAT', 'config': 'CONFIG.SYS' };
+        if(dom.containers.folderLabel) {
+            dom.containers.folderLabel.innerText = labels[targetId] || 'SYSTEM';
+        }
+
+        if (targetId === 'projects') loadProjects();
+    }
+
+    // --- FUNCTIONS: PROFILE DATA ---
     async function loadProfile() {
         try {
-            // Note: Updated URL to match Blueprint prefix in __init__.py
             const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}`, {
                 headers: { 'Authorization': `Bearer ${TOKEN}` }
             });
-
-            if (response.status === 401) handleLogout(false); // Token expired
-            if (!response.ok) throw new Error('Failed to fetch profile');
+            
+            if (response.status === 401) return handleLogout();
             
             const data = await response.json();
             const profile = data.profile || {};
             const user = data.username || 'User';
+
+            // 1. Text Data
+            updateText('username', profile.displayName || user);
+            updateText('job', profile.jobClass || 'Novice');
+            updateText('user-id', `#${USER_ID.substring(0, 4)}`.toUpperCase());
+            updateText('level', `LVL. ${profile.level || 1}`);
+
+            // 2. Bio Handling
+            if (profile.bio && profile.bio.trim() !== "") {
+                dom.containers.bioContent.classList.remove('hidden');
+                dom.containers.bioEmpty.classList.add('hidden');
+                updateText('bio', profile.bio);
+            } else {
+                dom.containers.bioContent.classList.add('hidden');
+                dom.containers.bioEmpty.classList.remove('hidden');
+            }
+
+            // 3. Stats
+            const xp = profile.xp || 0;
+            const max = profile.xpMax || 1000;
+            updateText('xp-text', `${xp} / ${max}`);
+            document.querySelectorAll('[data-bind="xp-bar"]').forEach(el => el.style.width = `${Math.min((xp/max)*100, 100)}%`);
+
+            const attrs = profile.attributes || { int: 1, dex: 1, cha: 1 };
+            updateText('attr-int', `LVL ${attrs.int}`);
+            document.querySelectorAll('[data-bind="bar-int"]').forEach(el => el.style.width = `${attrs.int * 10}%`);
             
-            // Populate Inputs
-            if(dom.inputs.displayName) dom.inputs.displayName.value = profile.displayName || '';
+            updateText('attr-dex', `LVL ${attrs.dex}`);
+            document.querySelectorAll('[data-bind="bar-dex"]').forEach(el => el.style.width = `${attrs.dex * 10}%`);
+            
+            updateText('attr-cha', `LVL ${attrs.cha}`);
+            document.querySelectorAll('[data-bind="bar-cha"]').forEach(el => el.style.width = `${attrs.cha * 10}%`);
+
+            // 4. Form Inputs
+            if(dom.inputs.displayName) dom.inputs.displayName.value = profile.displayName || user;
             if(dom.inputs.jobClass) dom.inputs.jobClass.value = profile.jobClass || 'Novice';
             if(dom.inputs.bio) dom.inputs.bio.value = profile.bio || '';
             if(dom.inputs.github) dom.inputs.github.value = profile.githubUrl || '';
             if(dom.inputs.portfolio) dom.inputs.portfolio.value = profile.portfolioUrl || '';
 
-            // Update UI Elements
-            updateBoundElements('username', profile.displayName || user);
-            updateBoundElements('job', profile.jobClass || 'Novice');
-            updateBoundElements('level', `LVL. ${profile.level || 1}`);
-            
-            // Avatar Handling
-            let avatarUrl = `https://ui-avatars.com/api/?name=${user}&background=random&size=128`;
-            if (profile.avatarUrl) {
-                // Remove leading slash if present to avoid double slashes
-                const cleanPath = profile.avatarUrl.startsWith('/') ? profile.avatarUrl : `/${profile.avatarUrl}`;
-                avatarUrl = `${API_BASE_URL}${cleanPath}`;
-            }
-            
-            document.querySelectorAll('[data-bind="avatar"]').forEach(img => {
-                img.src = avatarUrl;
-                // Fallback if image 404s
-                img.onerror = function() { 
-                    this.src = `https://ui-avatars.com/api/?name=${user}&background=random&size=128`; 
-                };
-            });
+            // 5. Links
+            updateLink(dom.links.github, profile.githubUrl);
+            updateLink(dom.links.portfolio, profile.portfolioUrl);
 
-            // XP Logic
-            const xp = profile.xp || 0;
-            const max = profile.xpMax || 1000;
-            const percent = Math.min((xp / max) * 100, 100);
-            
-            updateBoundElements('xp-text', `${xp} / ${max}`);
-            updateBoundElements('xp-bar', null, `${percent}%`);
+            // 6. Avatar
+            updateAvatarImages(profile.avatarUrl, user);
 
-            // Attributes
-            const attrs = profile.attributes || { int: 1, dex: 1, cha: 1 };
-            updateBoundElements('attr-int', `LVL ${attrs.int}`);
-            updateBoundElements('bar-int', null, `${attrs.int * 10}%`);
-            updateBoundElements('attr-dex', `LVL ${attrs.dex}`);
-            updateBoundElements('bar-dex', null, `${attrs.dex * 10}%`);
-            updateBoundElements('attr-cha', `LVL ${attrs.cha}`);
-            updateBoundElements('bar-cha', null, `${attrs.cha * 10}%`);
+        } catch (error) { console.error('Load Error:', error); }
+    }
 
-        } catch (error) {
-            console.error('Profile Load Error:', error);
+    // --- FUNCTIONS: AVATAR UPLOAD ---
+    async function uploadAvatar(file) {
+        const spinner = document.getElementById('avatar-upload-spinner');
+        const loadingOverlay = document.getElementById('avatar-loading');
+        const statusText = document.getElementById('upload-status-text');
+        
+        if(spinner) spinner.classList.remove('hidden');
+        if(loadingOverlay) {
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.classList.add('flex');
         }
-    }
-
-    // Helper: Updates elements via data-bind
-    function updateBoundElements(key, textContent, widthStyle) {
-        document.querySelectorAll(`[data-bind="${key}"]`).forEach(el => {
-            if (textContent) el.innerText = textContent;
-            if (widthStyle) el.style.width = widthStyle;
-        });
-    }
-
-    // 3. Profile Saving
-    async function saveProfile() {
-        const btn = dom.buttons.save;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...';
-        btn.disabled = true;
-
-        const payload = {
-            displayName: dom.inputs.displayName.value,
-            jobClass: dom.inputs.jobClass.value,
-            bio: dom.inputs.bio.value,
-            githubUrl: dom.inputs.github.value,
-            portfolioUrl: dom.inputs.portfolio.value
-        };
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}`, {
-                method: 'PUT',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${TOKEN}`
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) throw new Error('Save failed');
-
-            // Reflect changes immediately
-            updateBoundElements('username', payload.displayName);
-            updateBoundElements('job', payload.jobClass);
-            
-            alert('Profile updated successfully!'); 
-
-        } catch (error) {
-            alert('Error saving profile: ' + error.message);
-        } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-        }
-    }
-
-    // 4. Avatar Upload
-    async function uploadAvatar(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
+        
         const formData = new FormData();
         formData.append('avatar', file);
 
         try {
+            // Note: Content-Type header is omitted so browser sets boundary automatically
             const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}/avatar`, {
-                method: 'POST',
-                headers: { 'Authorization': `Bearer ${TOKEN}` },
+                method: 'POST', 
+                headers: { 
+                    'Authorization': `Bearer ${TOKEN}` 
+                }, 
                 body: formData
             });
 
-            if (response.ok) {
-                const res = await response.json();
-                // Force cache bypass with timestamp
-                const newSrc = `${API_BASE_URL}${res.avatarUrl}?t=${new Date().getTime()}`;
-                document.querySelectorAll('[data-bind="avatar"]').forEach(img => img.src = newSrc);
+            if(response.ok) {
+                const data = await response.json();
+                updateAvatarImages(data.avatarUrl || data.path, null, true);
+                if(statusText) {
+                    statusText.innerText = "Upload Complete";
+                    statusText.className = "text-[10px] font-mono text-green-500 mt-1 block";
+                }
             } else {
-                alert("Upload failed.");
+                throw new Error("Server rejected image");
             }
-        } catch (error) {
-            console.error('Upload error:', error);
+        } catch (err) {
+            console.error("Upload error", err);
+            if(statusText) {
+                statusText.innerText = "Upload Failed";
+                statusText.className = "text-[10px] font-mono text-red-500 mt-1 block";
+            }
+            alert("Failed to upload. Try a smaller image (max 2MB).");
+        } finally {
+            if(spinner) spinner.classList.add('hidden');
+            if(loadingOverlay) {
+                loadingOverlay.classList.add('hidden');
+                loadingOverlay.classList.remove('flex');
+            }
+            if(statusText) setTimeout(() => statusText.classList.add('hidden'), 3000);
         }
     }
 
-    // 5. Project/Quest Log
+    function updateAvatarImages(url, fallbackName, forceRefresh = false) {
+        let src = `https://ui-avatars.com/api/?name=${fallbackName || 'User'}&background=random&size=128`;
+        
+        if (url) {
+            const cleanPath = url.startsWith('/') ? url : `/${url}`;
+            const timestamp = forceRefresh ? `?t=${Date.now()}` : '';
+            src = `${API_BASE_URL}${cleanPath}${timestamp}`;
+        }
+
+        document.querySelectorAll('[data-bind="avatar"]').forEach(img => {
+            img.src = src;
+        });
+    }
+
+    // --- FUNCTIONS: PROJECTS ---
     async function loadProjects() {
         const grid = dom.containers.projectsGrid;
         
         try {
-            // Note: Matches API route
-            const response = await fetch(`${API_BASE_URL}/api/projects`, {
-                headers: { 'Authorization': `Bearer ${TOKEN}` }
+            const response = await fetch(`${API_BASE_URL}/api/projects`, { 
+                headers: { 'Authorization': `Bearer ${TOKEN}` } 
             });
-
-            if (!response.ok) throw new Error('Failed to load quests');
-            
             const projects = await response.json();
             
-            grid.innerHTML = ''; 
+            grid.innerHTML = ''; // Clear loading
+            window.currentProjects = projects;
 
-            if (!Array.isArray(projects) || projects.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-8 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl">
-                        <p class="text-gray-500 mb-2">Quest log empty.</p>
-                        <p class="text-xs text-primary font-bold">Accept a quest to begin.</p>
-                    </div>`;
-                return;
+            if (!projects || projects.length === 0) {
+                const tmpl = document.getElementById('projects-empty-template');
+                if(tmpl) grid.appendChild(tmpl.content.cloneNode(true));
+                const addBtn = document.getElementById('add-quest-container');
+                if(addBtn) addBtn.classList.add('hidden');
+            } else {
+                renderProjects(projects);
+                const addBtn = document.getElementById('add-quest-container');
+                if(addBtn) addBtn.classList.remove('hidden');
             }
 
-            projects.forEach(p => {
-                const statusColors = {
-                    'pending': 'bg-yellow-400 text-black border-yellow-500',
-                    'completed': 'bg-cyber-cyan text-black border-cyan-500',
-                    'active': 'bg-neon-lime text-black border-lime-500'
-                };
-                // Safety check for status
-                const sLower = (p.status || 'active').toLowerCase();
-                const badgeClass = statusColors[sLower] || statusColors['active'];
-
-                const card = `
-                    <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-5 hover:border-primary transition-all shadow-sm group">
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="${badgeClass} text-[10px] font-bold px-2 py-0.5 rounded uppercase font-mono border">
-                                ${p.status || 'Active'}
-                            </span>
-                            <span class="text-[10px] font-mono text-gray-400">${new Date(p.submittedAt || Date.now()).toLocaleDateString()}</span>
-                        </div>
-                        <h3 class="font-display font-bold text-lg leading-tight mb-2 truncate group-hover:text-primary transition-colors">${p.title}</h3>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-3 h-8">${p.description}</p>
-                        <div class="text-xs font-bold text-gray-400 uppercase border-t border-gray-100 dark:border-zinc-800 pt-2 flex items-center gap-2">
-                            <i class="fas fa-tag text-[10px]"></i> ${p.category || 'General'}
-                        </div>
-                    </div>
-                `;
-                grid.insertAdjacentHTML('beforeend', card);
-            });
-
-        } catch (error) {
-            grid.innerHTML = `<div class="col-span-full text-red-500 text-sm text-center font-mono">System Error: Could not retrieve quests.</div>`;
+        } catch (e) { 
+            grid.innerHTML = `<div class="col-span-full text-center text-red-500 font-mono text-xs">Connection Error.</div>`;
         }
     }
 
-    // 6. Navigation / Events
-    function setupEventListeners() {
-        const tabButtons = document.querySelectorAll('[data-tab]');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-
-        // Tabs
-        tabButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.dataset.tab;
-                
-                // Update Buttons
-                tabButtons.forEach(b => {
-                    if (b.dataset.tab === target) b.classList.add('active');
-                    else b.classList.remove('active');
-                });
-
-                // Update Pane
-                tabPanes.forEach(pane => pane.classList.add('hidden'));
-                const activePane = document.getElementById(`${target}-pane`);
-                if(activePane) activePane.classList.remove('hidden');
-
-                // Update Label
-                if(dom.containers.folderLabel) {
-                    dom.containers.folderLabel.innerText = target === 'overview' ? 'overview.sys' : 'quest_log.exe';
-                }
-
-                if (target === 'projects') loadProjects();
-            });
+    function renderProjects(projects) {
+        const grid = dom.containers.projectsGrid;
+        grid.innerHTML = '';
+        
+        projects.forEach(p => {
+            const status = (p.status || 'active').toLowerCase();
+            const colorClass = status === 'completed' ? 'text-cyber-cyan border-cyber-cyan' : 'text-neon-lime border-neon-lime';
+            
+            grid.insertAdjacentHTML('beforeend', `
+                <div class="bg-gray-50 dark:bg-zinc-800/40 border border-gray-200 dark:border-zinc-700 rounded-lg p-4 hover:border-primary transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-2 relative z-10">
+                        <span class="font-display font-bold text-sm truncate pr-4 dark:text-gray-200">${p.title}</span>
+                        <span class="text-[9px] font-mono uppercase border px-1.5 rounded ${colorClass}">${status}</span>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">${p.description}</p>
+                </div>
+            `);
         });
-
-        // Inputs
-        if(dom.buttons.save) dom.buttons.save.addEventListener('click', saveProfile);
-        if(dom.buttons.avatarTrigger) dom.buttons.avatarTrigger.addEventListener('click', () => dom.inputs.avatar.click());
-        if(dom.inputs.avatar) dom.inputs.avatar.addEventListener('change', uploadAvatar);
-
-        // Logout logic
-        const handleLogoutClick = (e) => {
-            e.preventDefault();
-            handleLogout(true);
-        };
-
-        if(dom.buttons.logoutDesktop) dom.buttons.logoutDesktop.addEventListener('click', handleLogoutClick);
-        if(dom.buttons.logoutMobile) dom.buttons.logoutMobile.addEventListener('click', handleLogoutClick);
     }
 
-    function handleLogout(confirmAction = true) {
-        if (!confirmAction || confirm('Disconnect from server?')) {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('username');
+    // --- HELPERS ---
+    function updateText(key, val) {
+        document.querySelectorAll(`[data-bind="${key}"]`).forEach(el => el.innerText = val);
+    }
+    
+    function updateLink(el, url) {
+        if(!el) return;
+        if(url) {
+            el.href = `https://${url.replace(/^https?:\/\//, '')}`;
+            el.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+            el.href = '#';
+            el.classList.add('opacity-50', 'pointer-events-none');
+        }
+    }
+    
+    function handleLogout() {
+        if (confirm('Disconnect from system?')) {
+            localStorage.clear();
             window.location.href = '/src/screens/main/index.html';
         }
+    }
+
+    // --- EVENT LISTENERS ---
+    function setupEventListeners() {
+        // Tab Navigation
+        dom.containers.navBtns.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+        
+        // Avatar Upload
+        if(dom.buttons.avatarTrigger) {
+            dom.buttons.avatarTrigger.addEventListener('click', () => dom.inputs.avatar.click());
+        }
+        if(dom.inputs.avatar) {
+            dom.inputs.avatar.addEventListener('change', (e) => {
+                if(e.target.files[0]) uploadAvatar(e.target.files[0]);
+            });
+        }
+
+        // Logout
+        if(dom.buttons.logoutTop) {
+            dom.buttons.logoutTop.addEventListener('click', handleLogout);
+        }
+
+        // Save Profile
+        if(dom.buttons.saveProfile) {
+            dom.buttons.saveProfile.addEventListener('click', async function() {
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving';
+                
+                const payload = {
+                    displayName: dom.inputs.displayName.value,
+                    jobClass: dom.inputs.jobClass.value,
+                    bio: dom.inputs.bio.value,
+                    githubUrl: dom.inputs.github.value,
+                    portfolioUrl: dom.inputs.portfolio.value
+                };
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if(res.ok) {
+                        loadProfile();
+                        btn.innerHTML = '<i class="fas fa-check"></i> Saved';
+                        setTimeout(() => btn.innerHTML = originalText, 2000);
+                    } else {
+                        throw new Error('Save failed');
+                    }
+                } catch(e) {
+                    btn.innerHTML = '<i class="fas fa-times"></i> Error';
+                    setTimeout(() => btn.innerHTML = originalText, 2000);
+                }
+            });
+        }
+
+        // Project Filters
+        dom.buttons.filters.forEach(btn => {
+            btn.addEventListener('click', () => {
+                dom.buttons.filters.forEach(b => {
+                    b.classList.remove('bg-ink', 'text-white');
+                    b.classList.add('bg-gray-100', 'text-gray-500', 'dark:bg-zinc-800');
+                });
+                btn.classList.remove('bg-gray-100', 'text-gray-500', 'dark:bg-zinc-800');
+                btn.classList.add('bg-ink', 'text-white');
+                
+                const filter = btn.dataset.filter;
+                if(window.currentProjects) {
+                    if(filter === 'all') renderProjects(window.currentProjects);
+                    else renderProjects(window.currentProjects.filter(p => (p.status||'').toLowerCase() === filter));
+                }
+            });
+        });
     }
 });

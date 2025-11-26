@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sign Up | LHA Collective</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -30,38 +30,40 @@
     <style>
         .bg-grid { background-size: 40px 40px; }
         .input-group:focus-within label { color: #ff2a6d; }
+        /* Mobile specific adjustments */
+        .drawer-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .drawer-scroll::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 min-h-screen relative overflow-x-hidden md:flex md:justify-center md:items-center">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 h-screen w-screen overflow-hidden md:min-h-screen md:overflow-x-hidden md:flex md:justify-center md:items-center md:h-auto">
 
     <!-- Background Grid -->
     <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
     
     <!-- Nav (Adaptive) -->
-    <a href="/index.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/80 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
+    <a href="signin.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/80 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
         <i class="fas fa-times group-hover:scale-110 transition-transform text-pop-pink md:text-inherit"></i> Cancel
     </a>
 
     <!-- Container -->
     <div class="w-full h-full md:h-auto md:max-w-md relative group flex flex-col md:block">
         
-        <!-- MOBILE HEADER SECTION -->
-        <div class="md:hidden h-[35vh] bg-gray-100 dark:bg-zinc-900 flex flex-col justify-end p-8 pb-12 rounded-b-[3rem] shadow-inner relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-pop-pink opacity-10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
-            <div class="relative z-10">
-                <div class="w-12 h-12 bg-pop-pink text-white rounded-xl flex items-center justify-center mb-4 shadow-lg transform -rotate-3">
-                    <i class="fas fa-gamepad text-xl"></i>
+        <!-- MOBILE HEADER SECTION (Stuck to top) -->
+        <div class="md:hidden h-[25vh] bg-zinc-900 flex flex-col justify-end p-8 pb-8 shadow-inner relative overflow-hidden shrink-0">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-pop-pink opacity-20 rounded-full blur-[80px] translate-x-1/2 -translate-y-1/2"></div>
+            <div class="relative z-10 flex items-end justify-between">
+                <div>
+                    <h1 class="font-display font-black text-5xl uppercase tracking-tighter text-white leading-[0.85]">New<br><span class="text-pop-pink">Game</span></h1>
                 </div>
-                <h1 class="font-display font-black text-4xl uppercase tracking-tighter text-ink dark:text-white leading-none">New<br><span class="text-pop-pink">Game</span></h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-2 font-mono text-[10px] uppercase tracking-widest pl-1">/// Initialize_Hero</p>
+                <i class="fas fa-gamepad text-5xl text-zinc-800 -rotate-12 transform translate-y-2"></i>
             </div>
         </div>
 
         <!-- DESKTOP DECORATIVE OFFSET (Hidden on Mobile) -->
         <div class="hidden md:block absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-zinc-700 rounded-xl translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 bg-pop-pink/10 dark:bg-pop-pink/5"></div>
         
-        <!-- MAIN CARD / FORM SECTION -->
-        <div class="flex-1 bg-paper dark:bg-black md:bg-white md:dark:bg-zinc-900 md:border-2 md:border-ink md:dark:border-zinc-700 rounded-none md:rounded-xl p-6 sm:p-10 relative z-10 shadow-none md:shadow-manga md:dark:shadow-neon-pink -mt-8 md:mt-0">
+        <!-- MAIN CARD / FORM DRAWER -->
+        <div class="flex-1 bg-white dark:bg-black md:bg-white md:dark:bg-zinc-900 md:border-2 md:border-ink md:dark:border-zinc-700 rounded-t-[2rem] md:rounded-xl p-0 md:p-10 relative z-10 shadow-none md:shadow-manga md:dark:shadow-neon-pink -mt-6 md:mt-0 overflow-hidden flex flex-col">
             
             <!-- Desktop Header (Hidden on Mobile) -->
             <div class="hidden md:block text-center mb-8">
@@ -72,48 +74,51 @@
                 <p class="text-gray-500 dark:text-gray-400 mt-2 font-mono text-xs uppercase tracking-widest">Initialize character creation.</p>
             </div>
 
-            <form id="signup-form" class="space-y-5 bg-white dark:bg-zinc-900 md:bg-transparent p-6 md:p-0 rounded-2xl shadow-lg md:shadow-none border border-gray-100 dark:border-zinc-800 md:border-none">
-                <!-- Username -->
-                <div class="input-group">
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Username</label>
-                    <input type="text" name="username" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="Hero_Name">
-                </div>
-                
-                <!-- Email -->
-                <div class="input-group">
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Email</label>
-                    <input type="email" name="email" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="hero@guild.com">
-                </div>
-                
-                <!-- Password -->
-                <div class="input-group">
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Password</label>
-                    <div class="relative">
-                        <input type="password" id="signup-pass" name="password" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
-                        <button type="button" id="toggleSignupPass" class="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 hover:text-pop-pink transition-colors">
-                            <i class="fas fa-eye"></i>
-                        </button>
+            <!-- Scrollable Area for Mobile -->
+            <div class="flex-1 overflow-y-auto drawer-scroll p-6 md:p-0 pb-20 md:pb-0">
+                <form id="signup-form" class="space-y-4 md:space-y-5 bg-transparent rounded-2xl md:shadow-none md:border-none pt-2">
+                    <!-- Username -->
+                    <div class="input-group">
+                        <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Username</label>
+                        <input type="text" name="username" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="Hero_Name">
                     </div>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="input-group">
-                    <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Confirm</label>
-                    <div class="relative">
-                        <input type="password" id="signup-confirm" name="confirm_password" required class="w-full bg-gray-50 dark:bg-black border-2 border-gray-200 dark:border-zinc-700 rounded-lg p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
-                        <button type="button" id="toggleSignupConfirm" class="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 hover:text-pop-pink transition-colors">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                    
+                    <!-- Email -->
+                    <div class="input-group">
+                        <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Email</label>
+                        <input type="email" name="email" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="hero@guild.com">
                     </div>
-                </div>
-                
-                <button type="submit" class="w-full bg-pop-pink text-white border-2 border-transparent rounded-lg py-3.5 font-bold font-display uppercase tracking-widest hover:bg-pink-600 hover:shadow-lg transition-all active:scale-[0.98] mt-4 shadow-md shadow-pop-pink/20">
-                    Start Adventure <i class="fas fa-chevron-right ml-1 text-sm"></i>
-                </button>
-            </form>
+                    
+                    <!-- Password -->
+                    <div class="input-group">
+                        <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Password</label>
+                        <div class="relative">
+                            <input type="password" id="signup-pass" name="password" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
+                            <button type="button" id="toggleSignupPass" class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-pop-pink transition-colors p-2">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-             <div class="mt-8 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center pb-8 md:pb-0">
-                <p class="text-xs font-mono text-gray-500">Existing Player? <a href="signin.html" class="font-bold text-pop-pink hover:underline decoration-wavy ml-1">Load Save</a></p>
+                    <!-- Confirm Password -->
+                    <div class="input-group">
+                        <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Confirm</label>
+                        <div class="relative">
+                            <input type="password" id="signup-confirm" name="confirm_password" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
+                            <button type="button" id="toggleSignupConfirm" class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-pop-pink transition-colors p-2">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-pop-pink text-white border-2 border-transparent rounded-xl md:rounded-lg py-4 md:py-3.5 font-bold font-display uppercase tracking-widest hover:bg-pink-600 hover:shadow-lg transition-all active:scale-[0.98] mt-6 shadow-[0_4px_20px_rgba(255,42,109,0.3)]">
+                        Start Adventure <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                    </button>
+
+                    <div class="mt-8 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center pb-8 md:pb-0">
+                        <p class="text-xs font-mono text-gray-500">Existing Player? <a href="signin.html" class="font-bold text-pop-pink hover:underline decoration-wavy ml-1">Load Save</a></p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
