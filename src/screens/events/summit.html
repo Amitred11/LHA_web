@@ -259,34 +259,6 @@
     </div>
     <!-- END WRAPPER -->
 
-    <!-- ========================================= -->
-    <!-- EMPTY STATE (No Events Found) -->
-    <!-- ========================================= -->
-    <section id="empty-state-message" class="hidden min-h-screen flex items-center justify-center relative pt-20">
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <div class="w-24 h-24 bg-gray-200 dark:bg-zinc-800 rounded-full mx-auto flex items-center justify-center mb-8 animate-pulse">
-                <i class="fas fa-server text-4xl text-gray-400 dark:text-zinc-600"></i>
-            </div>
-            
-            <h1 class="font-display font-black text-5xl md:text-7xl uppercase mb-4 text-gray-300 dark:text-zinc-700">
-                SYSTEM <br><span class="text-gray-400 dark:text-zinc-600">IDLE</span>
-            </h1>
-            
-            <p class="font-mono text-gray-500 mb-8 max-w-md mx-auto leading-relaxed">
-                <span class="text-neon-lime">/// ALERT:</span> No active mission protocols detected. The database is currently offline or awaiting administrative input.
-            </p>
-
-            <div class="inline-block bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 px-6 py-4 rounded-lg font-mono text-xs text-gray-400">
-                STATUS_CODE: 404_EVENT_NOT_FOUND <br>
-                RETRY_INTERVAL: MANUAL
-            </div>
-
-            <button onclick="window.location.reload()" class="mt-8 block mx-auto text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-ink dark:hover:text-white transition-colors">
-                <i class="fas fa-sync-alt mr-2"></i> Refresh Signal
-            </button>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="bg-paper dark:bg-black pt-16 pb-8 border-t border-gray-200 dark:border-zinc-800">
         <div class="container mx-auto px-6 max-w-7xl text-center md:text-left">

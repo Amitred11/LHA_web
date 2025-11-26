@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const elements = {
         // Containers
         mainContent: document.getElementById('main-event-content'),
-        emptyState: document.getElementById('empty-state-message'),
         regContainer: document.getElementById('registration-container'),
 
         // UI Components
@@ -15,9 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeMenuBtn: document.getElementById('close-menu-button'),
         mobileMenu: document.getElementById('mobile-menu'),
         mobileLinks: document.querySelectorAll('.mobile-link'),
-        desktopLinks: document.querySelectorAll('.nav-link'),
         themeToggles: document.querySelectorAll('#theme-toggle, #theme-toggle-mobile'),
-        fab: document.getElementById('mobile-fab'),
         copyBtn: document.getElementById('copy-id-btn'),
         
         // Event Data Fields
@@ -29,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText: document.getElementById('status-text'),
         ticketDate: document.getElementById('ticket-date-display'),
         
-        // Registration
-        form: document.getElementById('registration-form'), // Might be null if replaced
+        // Form
+        form: document.getElementById('registration-form'),
     };
 
     // --- 1. DATA FETCHING & STATE MANAGEMENT ---
@@ -41,11 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (response.ok) {
                 const event = await response.json();
-                
-                // Show Main Content, Hide Empty State
-                if (elements.mainContent) elements.mainContent.classList.remove('hidden');
-                if (elements.emptyState) elements.emptyState.classList.add('hidden');
-                
                 renderActiveEvent(event);
             } else {
                 throw new Error("No active event found");
@@ -57,90 +49,152 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderActiveEvent = (event) => {
+        // 1. Ensure Content is Visible
+        if (elements.mainContent) elements.mainContent.classList.remove('hidden');
+
         const eventDate = new Date(event.date);
         const now = new Date();
         const isPast = eventDate < now;
 
-        // 1. Update Hero Text (Splitting title for style if possible)
+        // 2. Update Hero Text
         const titleWords = event.title ? event.title.split(' ') : ['EVENT', 'NAME'];
         if (elements.heroTitleMain) elements.heroTitleMain.innerText = titleWords.slice(0, -1).join(' ');
         if (elements.heroTitleSub) {
-            elements.heroTitleSub.innerText = titleWords[titleWords.length - 1];
-            elements.heroTitleSub.setAttribute('data-text', titleWords[titleWords.length - 1]);
+            const subText = titleWords[titleWords.length - 1];
+            elements.heroTitleSub.innerText = subText;
+            elements.heroTitleSub.setAttribute('data-text', subText);
         }
         if (elements.heroDesc) elements.heroDesc.innerText = event.description;
 
-        // 2. Update Date on Ticket
-        if (elements.ticketDate) {
-            elements.ticketDate.innerText = eventDate.getDate();
-        }
-
-        // 3. Update ID in Navbar
+        // 3. Update Ticket & ID
+        if (elements.ticketDate) elements.ticketDate.innerText = eventDate.getDate();
         if (elements.copyBtn) {
             const span = elements.copyBtn.querySelector('span');
             if(span) span.innerText = `ID: ${event._id.substring(0, 8).toUpperCase()}`;
         }
 
-        // 4. Handle STATUS (Past vs Future)
+        // 4. Inject Active Registration Form
+        if (!isPast && elements.form) {
+            // Inject the actual form fields for a live event
+            elements.form.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Operative Name</label>
+                        <input type="text" name="name" required class="w-full bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg focus:outline-none focus:border-primary font-mono text-sm transition-colors" placeholder="ENTER NAME">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Contact Frequency</label>
+                        <input type="email" name="email" required class="w-full bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg focus:outline-none focus:border-primary font-mono text-sm transition-colors" placeholder="ENTER EMAIL">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Affiliation</label>
+                    <select name="type" class="w-full bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg focus:outline-none focus:border-primary font-mono text-sm transition-colors">
+                        <option value="student">Student</option>
+                        <option value="professional">Professional</option>
+                        <option value="guest">Guest</option>
+                    </select>
+                </div>
+                <button type="submit" id="submit-btn" class="w-full bg-ink dark:bg-white text-white dark:text-ink py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all shadow-lg hover:shadow-neon mt-4">
+                    Confirm Registration
+                </button>
+            `;
+        }
+
+        // 5. Handle Status (Active vs Past)
         if (isPast) {
-            // --- SCENARIO: PREVIOUS EVENT (Visible but Closed) ---
-            
-            // Update Status Badge
+            // Update Badge
             if(elements.statusBadge) {
-                elements.statusBadge.classList.replace('text-neon-lime', 'text-gray-400');
-                elements.statusBadge.classList.replace('border-neon-lime', 'border-gray-500');
-                elements.statusBadge.innerHTML = `<i class="fas fa-check-circle mr-2"></i> MISSION COMPLETE`;
+                elements.statusBadge.className = "inline-flex items-center gap-2 bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600 text-gray-500 px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-widest mb-6";
+                elements.statusBadge.innerHTML = `<i class="fas fa-check-circle"></i> COMPLETED`;
             }
-
-            // Zero out countdown
             updateCountdownUI(0);
-
-            // Hide Hero CTA
-            if(elements.heroCta) elements.heroCta.style.display = 'none';
-
-            // Replace Registration Form with "Event Ended" Message
+            
+            // Show "Closed" message instead of form
             if (elements.regContainer) {
                 elements.regContainer.innerHTML = `
-                    <div class="text-center py-12">
-                        <i class="fas fa-lock text-6xl text-gray-300 dark:text-zinc-700 mb-6"></i>
-                        <h2 class="font-display font-black text-3xl md:text-4xl uppercase mb-4 text-ink dark:text-white">Protocol Closed</h2>
-                        <p class="font-mono text-gray-500 mb-8 max-w-md mx-auto">
-                            This mission has been successfully completed. 
-                            <br>Await further instructions for the next operation.
-                        </p>
-                        <div class="inline-block bg-gray-100 dark:bg-zinc-800 px-4 py-2 rounded text-xs font-mono text-gray-500">
-                            ARCHIVE_ID: ${event._id.substring(0,6)}
-                        </div>
+                    <div class="text-center py-12 opacity-75">
+                        <i class="fas fa-lock text-5xl text-gray-300 dark:text-zinc-600 mb-4"></i>
+                        <h3 class="font-display font-bold text-2xl uppercase">Protocol Closed</h3>
+                        <p class="font-mono text-sm text-gray-500 mt-2">Mission completed on ${eventDate.toLocaleDateString()}</p>
                     </div>
                 `;
             }
-            // Hide FAB
-            if (elements.fab) elements.fab.style.display = 'none';
-
         } else {
-            // --- SCENARIO: ACTIVE EVENT ---
-            
-            // Start Countdown
-            initCountdown(event.date);
-
-            // Ensure Registration Form Exists (In case logic needs to restore it, usually reload handles this)
-            if (!document.getElementById('registration-form') && elements.regContainer) {
-                 // If we needed to restore form dynamically we would do it here, 
-                 // but since we start fresh on load, existing HTML is fine.
+            // Active Badge
+            if(elements.statusBadge) {
+                elements.statusBadge.className = "inline-flex items-center gap-2 bg-neon-lime/10 border border-neon-lime text-neon-lime px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-widest mb-6";
+                elements.statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-neon-lime animate-ping"></span> LIVE EVENT`;
             }
+            initCountdown(event.date);
         }
     };
 
     const renderSystemIdle = () => {
-        // --- SCENARIO: NO DATA AT ALL ---
-        // Hide Main Content
-        if (elements.mainContent) elements.mainContent.classList.add('hidden');
+        // --- THIS IS THE KEY CHANGE ---
+        // Instead of hiding the content, we populate it with "Empty/Offline" visuals
         
-        // Show Empty State Section
-        if (elements.emptyState) elements.emptyState.classList.remove('hidden');
+        // 1. Keep Main Content Visible
+        if (elements.mainContent) elements.mainContent.classList.remove('hidden');
+
+        // 2. Set Hero Text to "Offline"
+        if (elements.heroTitleMain) elements.heroTitleMain.innerText = "SYSTEM";
+        if (elements.heroTitleSub) {
+            elements.heroTitleSub.innerText = "OFFLINE";
+            elements.heroTitleSub.setAttribute('data-text', "OFFLINE");
+            // Remove gradient, make it gray to look offline
+            elements.heroTitleSub.classList.remove('from-primary', 'via-pop-pink', 'to-cyber-cyan');
+            elements.heroTitleSub.classList.add('text-gray-300', 'dark:text-zinc-700');
+        }
+        if (elements.heroDesc) {
+            elements.heroDesc.innerText = "No active event protocols detected. Systems are standing by for future transmission.";
+        }
         
-        // Hide FAB
-        if (elements.fab) elements.fab.style.display = 'none';
+        // 3. Badge: System Idle
+        if (elements.statusBadge) {
+            elements.statusBadge.className = "inline-flex items-center gap-2 bg-red-500/10 border border-red-500 text-red-500 px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-widest mb-6";
+            elements.statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> DISCONNECTED`;
+        }
+
+        // 4. Ticket: Null Data
+        if (elements.ticketDate) elements.ticketDate.innerText = "--";
+        if (elements.copyBtn) {
+            const span = elements.copyBtn.querySelector('span');
+            if (span) span.innerText = "ID: NULL_REF";
+        }
+
+        // 5. Countdown: Zero
+        updateCountdownUI(0);
+
+        // 6. Registration: Show the structure, but visually disabled
+        if (elements.form) {
+            elements.form.innerHTML = `
+                <div class="relative opacity-50 select-none grayscale pointer-events-none">
+                    <div class="absolute inset-0 z-20 flex items-center justify-center">
+                        <div class="bg-paper dark:bg-black border border-ink dark:border-zinc-700 px-4 py-2 font-mono font-bold uppercase text-xs tracking-widest shadow-lg transform -rotate-12">
+                            No Active Events
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Operative Name</label>
+                            <input type="text" disabled class="w-full bg-gray-100 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg" placeholder="SYSTEM LOCKED">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Contact Frequency</label>
+                            <input type="email" disabled class="w-full bg-gray-100 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg" placeholder="SYSTEM LOCKED">
+                        </div>
+                    </div>
+                    <div class="space-y-2 mt-6">
+                        <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Affiliation</label>
+                        <div class="w-full bg-gray-100 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg h-12"></div>
+                    </div>
+                    <div class="w-full bg-gray-300 dark:bg-zinc-800 text-gray-500 py-4 rounded-xl font-bold uppercase tracking-widest mt-6 text-center">
+                        Awaiting Server Response
+                    </div>
+                </div>
+            `;
+        }
     };
 
     // --- 2. COUNTDOWN LOGIC ---
@@ -161,14 +215,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const initCountdown = (targetDateString) => {
         const countDownDate = new Date(targetDateString).getTime();
         
-        const timer = setInterval(() => {
+        // Clear any existing intervals if function is called multiple times
+        if (window.eventTimer) clearInterval(window.eventTimer);
+
+        window.eventTimer = setInterval(() => {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
             if (distance < 0) {
-                clearInterval(timer);
+                clearInterval(window.eventTimer);
                 updateCountdownUI(0);
-                // Optional: Reload page or switch state when timer hits 0 in real-time
                 return;
             }
             updateCountdownUI(distance);
@@ -194,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- 4. MENU & UI INTERACTIONS ---
+    // --- 4. UI INTERACTIONS ---
     const toggleMenu = (show) => {
         if (!elements.mobileMenu) return;
         if (show) {
@@ -211,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (elements.closeMenuBtn) elements.closeMenuBtn.addEventListener('click', () => toggleMenu(false));
     elements.mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
 
-    // Ticket Tilt
+    // Ticket Tilt Effect
     const initTicketTilt = () => {
         const container = document.getElementById('ticket-container');
         if (!container) return;
@@ -226,22 +282,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Copy ID
+    // Copy ID Feature
     const initCopyFeature = () => {
         if(!elements.copyBtn) return;
         elements.copyBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const text = elements.copyBtn.innerText.replace('ID: ', '');
+            if(text.includes('LOADING') || text.includes('NULL')) return;
+            
             navigator.clipboard.writeText(text).then(() => {
                 const originalHtml = elements.copyBtn.innerHTML;
-                elements.copyBtn.innerHTML = '<span class="text-primary">COPIED!</span> <i class="fas fa-check text-primary"></i>';
+                elements.copyBtn.innerHTML = '<span class="text-neon-lime">COPIED!</span> <i class="fas fa-check text-neon-lime"></i>';
                 setTimeout(() => elements.copyBtn.innerHTML = originalHtml, 2000);
             });
         });
     };
 
     // --- 5. FORM SUBMISSION ---
-    // (Only attaches listener if form exists, i.e., event is active)
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submit-btn');
@@ -263,13 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
-                alert('Registration Successful!');
-                window.location.reload();
+                alert('Registration Successful!'); // You can replace this with your modal logic
+                e.target.reset();
             } else {
                 throw new Error(result.message || 'Handshake rejected.');
             }
         } catch (error) {
-            alert(error.message);
+            alert(error.message); // You can replace this with your modal logic
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = `<span class="relative z-10">${originalText}</span>`;
@@ -283,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initTicketTilt();
         initCopyFeature();
         
-        // Attach form listener dynamically since form might be removed for past events
+        // Global listener for dynamic form
         document.body.addEventListener('submit', (e) => {
             if(e.target.id === 'registration-form') handleFormSubmit(e);
         });
