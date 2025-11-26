@@ -17,11 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. CHECK TOKEN VALIDITY ON LOAD
     const token = localStorage.getItem('accessToken');
     if (token && isTokenExpired(token)) {
-        // If expired, clear storage immediately
         console.log("Session expired. Logging out.");
         localStorage.removeItem('accessToken');
         localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userId');   // <--- Add this
+        localStorage.removeItem('userId');
         localStorage.removeItem('username');
     }
 
@@ -38,8 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenuButton: document.getElementById('mobile-menu-button'),
         mobileMenu: document.getElementById('mobile-menu'),
         navbar: document.getElementById('navbar'),
-        sections: document.querySelectorAll('main section[id], header[id], section[id]'),
-        navLinks: document.querySelectorAll('.nav-link'),
+        // Select all sections that are navigation targets
+        sections: document.querySelectorAll('header[id], section[id]'),
+        // Select desktop nav links
+        navLinks: document.querySelectorAll('.nav-link'), 
         mobileNavLinks: document.querySelectorAll('#mobile-menu a'),
         body: document.body,
         heroCtaButton: document.getElementById('hero-cta-button'),
@@ -47,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         backToTopBtn: document.getElementById('back-to-top'),
         contactForm: document.querySelector('form[action="contact-form"]')
     };
-
-    let alertModalElements = {};
 
     // --- 1. Theme Logic ---
     const initTheme = () => {
@@ -85,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     document.body.insertAdjacentHTML('beforeend', html);
                 }
-                // No need to cache elements here anymore, alert.js handles it
             }
         } catch (error) {
             console.error("Could not load the alert modal component:", error);
@@ -93,12 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const showAlertModal = (options) => {
-        // Check if the external script function exists
         if (typeof openAlertModal === 'function') {
-            // PASS THE OPTIONS OBJECT CORRECTLY HERE
             openAlertModal(options); 
         } else {
-            // Fallback if alert.js didn't load
             if (confirm(`${options.title}\n${options.message}`)) {
                 if(options.onConfirm) options.onConfirm();
             }
@@ -155,14 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const userId = localStorage.getItem('userId');
         const navbarAvatar = document.getElementById('navbar-avatar');
 
-        // Only run if user is logged in and the avatar element exists
         if (isLoggedIn && userId && navbarAvatar) {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.profile && data.profile.avatarUrl) {
-                        // Update the src. Ensure API_BASE_URL is prepended if the URL is relative
                         navbarAvatar.src = `${API_BASE_URL}${data.profile.avatarUrl}`;
                     }
                 }
@@ -172,37 +165,62 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- 4. Scroll Logic (ScrollSpy & Navbar) ---
+    // --- 4. Scroll Logic ---
+    
+    // A. Visual Logic (Back to top / Navbar bg)
     const handleScroll = () => {
         if (elements.backToTopBtn) {
             if (window.scrollY > 300) elements.backToTopBtn.classList.remove('hidden');
             else elements.backToTopBtn.classList.add('hidden');
         }
 
-        // Navbar bg
         if (elements.navbar) {
             if (window.scrollY > 50) elements.navbar.classList.add('py-2');
             else elements.navbar.classList.remove('py-2');
         }
+    };
 
-        // ScrollSpy
-        let current = '';
+    // B. ScrollSpy / Indicator Logic (Intersection Observer)
+    const initScrollSpy = () => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // Trigger when 50% of section is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const activeId = entry.target.getAttribute('id');
+
+                    elements.navLinks.forEach(link => {
+                        // The underline is the last span inside the anchor tag based on your HTML
+                        const underline = link.querySelector('span:last-child');
+                        if (!underline) return; 
+
+                        if (link.getAttribute('href') === `#${activeId}`) {
+                            // Active: Show underline
+                            underline.classList.remove('w-0');
+                            underline.classList.add('w-full');
+                            link.classList.add('text-primary'); // Optional: keep text color active
+                        } else {
+                            // Inactive: Hide underline
+                            underline.classList.add('w-0');
+                            underline.classList.remove('w-full');
+                            link.classList.remove('text-primary');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
         elements.sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (scrollY >= (sectionTop - 200)) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        elements.navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').includes(current) && current !== '') {
-                link.classList.add('active');
-            }
+            observer.observe(section);
         });
     };
 
-    const setupIntersectionObserver = () => {
+    // C. Reveal on Scroll Animation
+    const setupRevealObserver = () => {
         const revealElements = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -231,7 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData.entries());
 
             try {
-                // Try relative path first, fallback to hardcoded local if needed
                 const apiUrl = 'https://backendkostudy.onrender.com/api/contact'; 
                 
                 const response = await fetch(apiUrl, {
@@ -270,6 +287,105 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // --- 6. Dynamic Event Widget Logic ---
+    const loadUpcomingEvent = async () => {
+        const widgetContainer = document.getElementById('upcoming-event-widget');
+        if (!widgetContainer) return;
+
+        try {
+            // 1. Attempt to fetch from your backend
+            // Replace '/api/events/latest' with your actual endpoint
+            const response = await fetch(`${API_BASE_URL}/api/events/latest`);
+            
+            let eventData = null;
+            if (response.ok) {
+                const data = await response.json();
+                // Assume backend returns { event: { ... } } or just { ... }
+                eventData = data.event || data; 
+            }
+
+            // 2. Define HTML Templates
+            
+            // A. HTML for when an event EXISTS
+            if (eventData && eventData.title) {
+                const dateObj = new Date(eventData.date); // Ensure backend sends a date string
+                const month = dateObj.toLocaleString('default', { month: 'short' }).toUpperCase();
+                const day = dateObj.getDate();
+
+                widgetContainer.innerHTML = `
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                    
+                    <div class="bg-white dark:bg-zinc-800 border-2 border-ink dark:border-zinc-600 p-5 -rotate-3 group-hover:rotate-0 transition-transform shadow-manga-sm dark:shadow-lg rounded-lg z-10">
+                        <div class="text-center font-mono font-bold leading-none">
+                            <span class="text-pop-pink text-sm block mb-1">${month}</span>
+                            <span class="text-4xl">${day}</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left z-10">
+                        <div class="inline-block bg-pop-pink text-white text-[10px] font-bold px-2 py-0.5 rounded mb-2">UPCOMING RAID</div>
+                        <h4 class="font-display font-bold text-2xl uppercase mb-1">${eventData.title}</h4>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">${eventData.description || 'Join the party.'}</p>
+                    </div>
+                    <a href="/src/screens/events/summit.html?id=${eventData._id}" class="protected-route bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 rounded-lg font-bold uppercase text-xs hover:scale-105 transition-transform shadow-lg z-10 w-full md:w-auto text-center">
+                        RSVP Now
+                    </a>
+                `;
+            } else {
+                // B. HTML for NO EVENTS (Fallback)
+                throw new Error("No active events found");
+            }
+
+        } catch (error) {
+            // Fallback Design: "No Events Yet" -> Link to History/Summit
+            console.log("Rendering default event state:", error);
+
+            widgetContainer.innerHTML = `
+                <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                
+                <div class="bg-gray-200 dark:bg-zinc-800 border-2 border-gray-400 dark:border-zinc-600 p-5 rotate-3 group-hover:rotate-0 transition-transform rounded-lg z-10 grayscale opacity-70">
+                    <div class="text-center font-mono font-bold leading-none">
+                        <span class="text-gray-500 dark:text-gray-400 text-sm block mb-1">ERR</span>
+                        <span class="text-4xl text-gray-400">404</span>
+                    </div>
+                </div>
+                <div class="flex-1 text-center md:text-left z-10">
+                    <div class="inline-block bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded mb-2 uppercase">System Idle</div>
+                    <h4 class="font-display font-bold text-2xl uppercase mb-1 text-gray-500 dark:text-gray-400">No Active Raids</h4>
+                    <p class="text-gray-500 dark:text-gray-500 text-sm">The servers are quiet. Check the archives for past mission reports.</p>
+                </div>
+                <a href="/src/screens/events/summit.html" class="protected-route bg-transparent border-2 border-ink dark:border-white text-ink dark:text-white px-8 py-3 rounded-lg font-bold uppercase text-xs hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-ink transition-colors z-10 w-full md:w-auto text-center">
+                    View History
+                </a>
+            `;
+        }
+    };
+
+    // --- 7. Protected Route Logic (New) ---
+    const handleProtectedRoutes = () => {
+        document.body.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            
+            if (!link || !link.classList.contains('protected-route')) return;
+
+            const currentlyLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+            if (!currentlyLoggedIn) {
+                e.preventDefault();
+                
+                showAlertModal({
+                    title: 'Access Denied',
+                    message: 'This area is for Guild Members only. Please sign in to proceed.',
+                    iconHTML: '<i class="fas fa-lock text-3xl text-pop-pink"></i>',
+                    confirmText: 'Sign In',
+                    onConfirm: () => {
+                        window.location.href = '/src/screens/auth/signin.html';
+                    }
+                });
+            }
+        });
+    };
+
+
     // --- Initialization ---
     const init = async () => {
         initTheme();
@@ -302,7 +418,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Click outside dropdowns
         document.addEventListener('click', (event) => {
             if (elements.profileMenuDropdown && 
                 !elements.profileMenuDropdown.classList.contains('hidden') && 
@@ -313,11 +428,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         window.addEventListener('scroll', handleScroll);
-        
+        handleProtectedRoutes();
         updateUIForLoginState();
-        handleScroll(); // Initial check
-        setupIntersectionObserver();
+        handleScroll(); 
+        setupRevealObserver();
+        initScrollSpy();
         initContactForm();
+        loadUpcomingEvent(); 
         updateNavbarProfile(); 
     };
 

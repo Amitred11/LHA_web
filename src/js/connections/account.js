@@ -1,349 +1,311 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- CONFIG & AUTH ---
+    // --- CONFIGURATION ---
+    // Ensure this matches your live backend URL or localhost
     const API_BASE_URL = 'https://backendkostudy.onrender.com';
-    
-    const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('accessToken'); 
+    const USER_ID = localStorage.getItem('userId');
+    const TOKEN = localStorage.getItem('accessToken');
 
-    // Auth Check
-    if (!userId || !token) {
-        console.error("Auth missing. Redirecting to login.");
+    // --- DOM REFERENCES ---
+    const dom = {
+        inputs: {
+            displayName: document.getElementById('input-displayName'),
+            jobClass: document.getElementById('input-jobClass'),
+            bio: document.getElementById('input-bio'),
+            github: document.getElementById('input-github'),
+            portfolio: document.getElementById('input-portfolio'),
+            avatar: document.getElementById('avatar-upload-input')
+        },
+        buttons: {
+            save: document.getElementById('save-profile-btn'),
+            avatarTrigger: document.getElementById('avatar-trigger'),
+            logoutDesktop: document.getElementById('logout-btn-desktop'),
+            logoutMobile: document.getElementById('logout-btn-mobile'),
+            themeToggle: document.getElementById('theme-toggle')
+        },
+        containers: {
+            projectsGrid: document.getElementById('projects-grid'),
+            folderLabel: document.getElementById('folder-label')
+        }
+    };
+
+    // --- AUTH CHECK ---
+    if (!USER_ID || !TOKEN) {
+        console.warn("No credentials found, redirecting...");
         window.location.href = '/src/screens/auth/signin.html';
         return;
     }
 
-    // --- DOM ELEMENT REFERENCES ---
-    const elements = {
-        // Player Card
-        avatar: document.getElementById('player-avatar'),
-        level: document.getElementById('player-level'),
-        username: document.getElementById('player-username'),
-        jobClass: document.getElementById('player-job-class'),
-        xpBar: document.getElementById('player-xp-bar'),
-        xpText: document.getElementById('player-xp-text'),
-        // Inputs
-        avatarUploadInput: document.getElementById('avatar-upload-input'),
-        displayNameInput: document.getElementById('displayName-input'),
-        jobClassSelect: document.getElementById('jobClass-select'),
-        bioTextarea: document.getElementById('bio-textarea'),
-        githubInput: document.getElementById('github-input'),
-        portfolioInput: document.getElementById('portfolio-input'),
-        saveProfileBtn: document.getElementById('save-profile-btn'),
-        // Attributes
-        attrIntText: document.getElementById('attr-int-text'),
-        attrIntBar: document.getElementById('attr-int-bar'),
-        attrDexText: document.getElementById('attr-dex-text'),
-        attrDexBar: document.getElementById('attr-dex-bar'),
-        attrChaText: document.getElementById('attr-cha-text'),
-        attrChaBar: document.getElementById('attr-cha-bar'),
-        // Tabs & Navigation
-        navLinks: document.querySelectorAll('.account-nav-link'),
-        tabPanes: document.querySelectorAll('.tab-pane'),
-        folderLabel: document.getElementById('folder-label'),
-        logoutBtn: document.getElementById('logout-btn'), // Added Logout Button
-        // Quest Log Grid 
-        projectGrid: document.getElementById('account-projects-grid') 
-    };
+    // --- INITIALIZATION ---
+    initTheme();
+    loadProfile();
+    setupEventListeners();
 
-    const tabLabels = { 'overview': 'overview.sys', 'projects': 'quest_log.exe' };
+    // --- CORE FUNCTIONS ---
 
-    // ==========================================
-    // 1. PROFILE LOGIC
-    // ==========================================
-    async function fetchAndPopulateProfile() {
-        const defaultProfile = {
-            avatarUrl: null,
-            level: 1,
-            jobClass: 'Novice',
-            xp: 0,
-            xpMax: 1000,
-            attributes: { int: 1, dex: 1, cha: 1 },
-            displayName: 'New User',
-            bio: 'Ready to start the adventure.',
-            githubUrl: '',
-            portfolioUrl: ''
-        };
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}`);
-            
-            let profile = defaultProfile;
-            let username = 'User';
-
-            if (response.ok) {
-                const data = await response.json();
-                username = data.username || 'User';
-                if (data.profile) {
-                    profile = { 
-                        ...defaultProfile, 
-                        ...data.profile,
-                        attributes: { ...defaultProfile.attributes, ...(data.profile.attributes || {}) }
-                    };
-                }
-            }
-
-            // Populate UI
-            if (profile.avatarUrl) {
-                elements.avatar.src = `${API_BASE_URL}${profile.avatarUrl}`;
-            } else {
-                elements.avatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=random&color=fff&size=128`;
-            }
-
-            elements.level.innerText = `LVL. ${profile.level}`;
-            elements.username.innerText = username;
-            elements.jobClass.innerText = profile.jobClass;
-            
-            const safeXp = profile.xp || 0;
-            const safeMax = profile.xpMax || 1000;
-            const xpPercentage = (safeXp / safeMax) * 100;
-            
-            elements.xpBar.style.width = `${xpPercentage}%`;
-            elements.xpText.innerText = `${safeXp} / ${safeMax}`;
-
-            elements.attrIntText.innerText = `LVL ${profile.attributes.int}`;
-            elements.attrIntBar.style.width = `${profile.attributes.int * 10}%`;
-            elements.attrDexText.innerText = `LVL ${profile.attributes.dex}`;
-            elements.attrDexBar.style.width = `${profile.attributes.dex * 10}%`;
-            elements.attrChaText.innerText = `LVL ${profile.attributes.cha}`;
-            elements.attrChaBar.style.width = `${profile.attributes.cha * 10}%`;
-
-            elements.displayNameInput.value = profile.displayName;
-            elements.jobClassSelect.value = profile.jobClass; 
-            elements.bioTextarea.value = profile.bio;
-            elements.githubInput.value = profile.githubUrl;
-            elements.portfolioInput.value = profile.portfolioUrl;
-
-        } catch (error) {
-            console.error('Error fetching profile:', error);
+    // 1. Theme Management
+    function initTheme() {
+        const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', isDark);
+        
+        if(dom.buttons.themeToggle) {
+            dom.buttons.themeToggle.addEventListener('click', () => {
+                const isNowDark = document.documentElement.classList.toggle('dark');
+                localStorage.theme = isNowDark ? 'dark' : 'light';
+            });
         }
     }
-    
-    async function handleProfileSave() {
-        const originalBtnText = elements.saveProfileBtn.innerHTML;
-        elements.saveProfileBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Saving...';
-        elements.saveProfileBtn.disabled = true;
 
-        const profileData = {
-            displayName: elements.displayNameInput.value,
-            jobClass: elements.jobClassSelect.value,
-            bio: elements.bioTextarea.value,
-            githubUrl: elements.githubInput.value,
-            portfolioUrl: elements.portfolioInput.value,
-        };
-
+    // 2. Profile Loading & Data Binding
+    async function loadProfile() {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(profileData)
+            // Note: Updated URL to match Blueprint prefix in __init__.py
+            const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}`, {
+                headers: { 'Authorization': `Bearer ${TOKEN}` }
             });
 
-            if (!response.ok) throw new Error('Failed to save.');
+            if (response.status === 401) handleLogout(false); // Token expired
+            if (!response.ok) throw new Error('Failed to fetch profile');
+            
+            const data = await response.json();
+            const profile = data.profile || {};
+            const user = data.username || 'User';
+            
+            // Populate Inputs
+            if(dom.inputs.displayName) dom.inputs.displayName.value = profile.displayName || '';
+            if(dom.inputs.jobClass) dom.inputs.jobClass.value = profile.jobClass || 'Novice';
+            if(dom.inputs.bio) dom.inputs.bio.value = profile.bio || '';
+            if(dom.inputs.github) dom.inputs.github.value = profile.githubUrl || '';
+            if(dom.inputs.portfolio) dom.inputs.portfolio.value = profile.portfolioUrl || '';
 
-            elements.jobClass.innerText = profileData.jobClass;
-            alert('Profile saved successfully!');
+            // Update UI Elements
+            updateBoundElements('username', profile.displayName || user);
+            updateBoundElements('job', profile.jobClass || 'Novice');
+            updateBoundElements('level', `LVL. ${profile.level || 1}`);
+            
+            // Avatar Handling
+            let avatarUrl = `https://ui-avatars.com/api/?name=${user}&background=random&size=128`;
+            if (profile.avatarUrl) {
+                // Remove leading slash if present to avoid double slashes
+                const cleanPath = profile.avatarUrl.startsWith('/') ? profile.avatarUrl : `/${profile.avatarUrl}`;
+                avatarUrl = `${API_BASE_URL}${cleanPath}`;
+            }
+            
+            document.querySelectorAll('[data-bind="avatar"]').forEach(img => {
+                img.src = avatarUrl;
+                // Fallback if image 404s
+                img.onerror = function() { 
+                    this.src = `https://ui-avatars.com/api/?name=${user}&background=random&size=128`; 
+                };
+            });
+
+            // XP Logic
+            const xp = profile.xp || 0;
+            const max = profile.xpMax || 1000;
+            const percent = Math.min((xp / max) * 100, 100);
+            
+            updateBoundElements('xp-text', `${xp} / ${max}`);
+            updateBoundElements('xp-bar', null, `${percent}%`);
+
+            // Attributes
+            const attrs = profile.attributes || { int: 1, dex: 1, cha: 1 };
+            updateBoundElements('attr-int', `LVL ${attrs.int}`);
+            updateBoundElements('bar-int', null, `${attrs.int * 10}%`);
+            updateBoundElements('attr-dex', `LVL ${attrs.dex}`);
+            updateBoundElements('bar-dex', null, `${attrs.dex * 10}%`);
+            updateBoundElements('attr-cha', `LVL ${attrs.cha}`);
+            updateBoundElements('bar-cha', null, `${attrs.cha * 10}%`);
+
         } catch (error) {
-            alert(`Error: ${error.message}`);
-        } finally {
-            elements.saveProfileBtn.innerHTML = originalBtnText;
-            elements.saveProfileBtn.disabled = false;
+            console.error('Profile Load Error:', error);
         }
     }
 
-    async function handleAvatarUpload(event) {
-        const file = event.target.files[0];
+    // Helper: Updates elements via data-bind
+    function updateBoundElements(key, textContent, widthStyle) {
+        document.querySelectorAll(`[data-bind="${key}"]`).forEach(el => {
+            if (textContent) el.innerText = textContent;
+            if (widthStyle) el.style.width = widthStyle;
+        });
+    }
+
+    // 3. Profile Saving
+    async function saveProfile() {
+        const btn = dom.buttons.save;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Saving...';
+        btn.disabled = true;
+
+        const payload = {
+            displayName: dom.inputs.displayName.value,
+            jobClass: dom.inputs.jobClass.value,
+            bio: dom.inputs.bio.value,
+            githubUrl: dom.inputs.github.value,
+            portfolioUrl: dom.inputs.portfolio.value
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}`, {
+                method: 'PUT',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${TOKEN}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error('Save failed');
+
+            // Reflect changes immediately
+            updateBoundElements('username', payload.displayName);
+            updateBoundElements('job', payload.jobClass);
+            
+            alert('Profile updated successfully!'); 
+
+        } catch (error) {
+            alert('Error saving profile: ' + error.message);
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    // 4. Avatar Upload
+    async function uploadAvatar(e) {
+        const file = e.target.files[0];
         if (!file) return;
 
         const formData = new FormData();
         formData.append('avatar', file);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/account/profile/${userId}/avatar`, {
+            const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}/avatar`, {
                 method: 'POST',
+                headers: { 'Authorization': `Bearer ${TOKEN}` },
                 body: formData
             });
 
-            const result = await response.json();
-            if (!response.ok) throw new Error(result.message);
-            
-            elements.avatar.src = `${API_BASE_URL}${result.avatarUrl}`;
-            alert(result.message);
+            if (response.ok) {
+                const res = await response.json();
+                // Force cache bypass with timestamp
+                const newSrc = `${API_BASE_URL}${res.avatarUrl}?t=${new Date().getTime()}`;
+                document.querySelectorAll('[data-bind="avatar"]').forEach(img => img.src = newSrc);
+            } else {
+                alert("Upload failed.");
+            }
         } catch (error) {
-            alert(`Error: ${error.message}`);
+            console.error('Upload error:', error);
         }
     }
 
-    // ==========================================
-    // 2. QUEST LOG LOGIC (Projects)
-    // ==========================================
-    async function fetchPlayerQuests() {
-        if (!elements.projectGrid) return; 
-
+    // 5. Project/Quest Log
+    async function loadProjects() {
+        const grid = dom.containers.projectsGrid;
+        
         try {
-            elements.projectGrid.innerHTML = '<div class="col-span-full text-center py-8"><i class="fas fa-circle-notch fa-spin text-primary"></i> Loading Quests...</div>';
-
+            // Note: Matches API route
             const response = await fetch(`${API_BASE_URL}/api/projects`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
-                }
+                headers: { 'Authorization': `Bearer ${TOKEN}` }
             });
 
-            // Handle Auth Errors (401)
-            if (response.status === 401) {
-                console.warn("Session expired. Clearing storage.");
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('userId');
-                window.location.href = '/src/screens/auth/signin.html';
+            if (!response.ok) throw new Error('Failed to load quests');
+            
+            const projects = await response.json();
+            
+            grid.innerHTML = ''; 
+
+            if (!Array.isArray(projects) || projects.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-8 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl">
+                        <p class="text-gray-500 mb-2">Quest log empty.</p>
+                        <p class="text-xs text-primary font-bold">Accept a quest to begin.</p>
+                    </div>`;
                 return;
             }
 
-            if (!response.ok) {
-                throw new Error(`Server returned status: ${response.status}`);
-            }
+            projects.forEach(p => {
+                const statusColors = {
+                    'pending': 'bg-yellow-400 text-black border-yellow-500',
+                    'completed': 'bg-cyber-cyan text-black border-cyan-500',
+                    'active': 'bg-neon-lime text-black border-lime-500'
+                };
+                // Safety check for status
+                const sLower = (p.status || 'active').toLowerCase();
+                const badgeClass = statusColors[sLower] || statusColors['active'];
 
-            const projects = await response.json();
-
-            if (!Array.isArray(projects)) {
-                console.error("Data received:", projects);
-                throw new Error("Invalid data format: Expected a list of projects.");
-            }
-
-            renderQuestLog(projects);
+                const card = `
+                    <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-5 hover:border-primary transition-all shadow-sm group">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="${badgeClass} text-[10px] font-bold px-2 py-0.5 rounded uppercase font-mono border">
+                                ${p.status || 'Active'}
+                            </span>
+                            <span class="text-[10px] font-mono text-gray-400">${new Date(p.submittedAt || Date.now()).toLocaleDateString()}</span>
+                        </div>
+                        <h3 class="font-display font-bold text-lg leading-tight mb-2 truncate group-hover:text-primary transition-colors">${p.title}</h3>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3 h-8">${p.description}</p>
+                        <div class="text-xs font-bold text-gray-400 uppercase border-t border-gray-100 dark:border-zinc-800 pt-2 flex items-center gap-2">
+                            <i class="fas fa-tag text-[10px]"></i> ${p.category || 'General'}
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', card);
+            });
 
         } catch (error) {
-            console.error('Quest Log Error:', error);
-            elements.projectGrid.innerHTML = `
-                <div class="col-span-full text-center text-red-500 border border-red-200 bg-red-50 p-4 rounded-xl">
-                    <p class="font-bold">Failed to load quest log.</p>
-                    <p class="text-xs mt-1">${error.message}</p>
-                </div>`;
+            grid.innerHTML = `<div class="col-span-full text-red-500 text-sm text-center font-mono">System Error: Could not retrieve quests.</div>`;
         }
     }
-    
-    function renderQuestLog(projects) {
-        elements.projectGrid.innerHTML = '';
 
-        if (projects.length === 0) {
-            elements.projectGrid.innerHTML = `
-                <div class="col-span-full text-center py-8 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl">
-                    <p class="text-gray-500 font-mono mb-4">No active quests in log.</p>
-                    <a href="/src/screens/projects/start-project.html" class="text-primary font-bold hover:underline">Start a New Quest</a>
-                </div>`;
-            return;
-        }
+    // 6. Navigation / Events
+    function setupEventListeners() {
+        const tabButtons = document.querySelectorAll('[data-tab]');
+        const tabPanes = document.querySelectorAll('.tab-pane');
 
-        projects.forEach(project => {
-            elements.projectGrid.insertAdjacentHTML('beforeend', createQuestCard(project));
-        });
-    }
+        // Tabs
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+                
+                // Update Buttons
+                tabButtons.forEach(b => {
+                    if (b.dataset.tab === target) b.classList.add('active');
+                    else b.classList.remove('active');
+                });
 
-    function createQuestCard(data) {
-        const statusLower = (data.status || 'active').toLowerCase();
-        let config = { color: 'bg-neon-lime text-ink', icon: 'fa-bolt', border: 'border-ink' };
+                // Update Pane
+                tabPanes.forEach(pane => pane.classList.add('hidden'));
+                const activePane = document.getElementById(`${target}-pane`);
+                if(activePane) activePane.classList.remove('hidden');
 
-        if (statusLower.includes('review') || statusLower.includes('pending')) {
-            config = { color: 'bg-yellow-400 text-ink', icon: 'fa-hourglass-half', border: 'border-yellow-600' };
-        } 
-        else if (statusLower.includes('completed')) {
-            config = { color: 'bg-cyber-cyan text-ink', icon: 'fa-check-circle', border: 'border-cyan-600' };
-        }
-
-        const dateStr = data.submittedAt ? new Date(data.submittedAt).toLocaleDateString() : 'Active';
-
-        return `
-            <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-5 shadow-sm hover:border-primary transition-all">
-                <div class="flex justify-between items-start mb-3">
-                    <div class="${config.color} text-[10px] font-bold px-2 py-0.5 rounded font-mono uppercase">
-                        <i class="fas ${config.icon} mr-1"></i> ${data.status}
-                    </div>
-                    <span class="text-[10px] font-mono text-gray-400">${dateStr}</span>
-                </div>
-                <h3 class="font-display font-bold text-lg leading-tight mb-2">${data.title}</h3>
-                <p class="text-xs text-gray-500 line-clamp-2 mb-3">${data.description}</p>
-                <div class="text-xs font-bold text-primary uppercase border-t border-gray-100 dark:border-zinc-800 pt-2">
-                    ${data.category || 'Project'}
-                </div>
-            </div>
-        `;
-    }
-
-    // ==========================================
-    // 3. LOGOUT LOGIC
-    // ==========================================
-    const handleLogout = (e) => {
-        e.preventDefault();
-        
-        // Ensure showAlertModal is available (imported via script tag in HTML)
-        if (typeof showAlertModal === 'function') {
-            showAlertModal({
-                title: 'Logging Out?',
-                message: 'Are you sure you want to disconnect from the mainframe?',
-                iconHTML: '<i class="fas fa-sign-out-alt text-3xl text-pop-pink"></i>', // Changed to pop-pink to match theme
-                confirmText: 'Log Out',
-                onConfirm: () => {
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('userId'); 
-                    localStorage.removeItem('username');
-                    window.location.assign('/src/screens/main/index.html'); // Adjusted path based on your folder structure
+                // Update Label
+                if(dom.containers.folderLabel) {
+                    dom.containers.folderLabel.innerText = target === 'overview' ? 'overview.sys' : 'quest_log.exe';
                 }
+
+                if (target === 'projects') loadProjects();
             });
-        } else {
-            // Fallback if modal script isn't loaded
-            if(confirm('Disconnect from server?')) {
-                localStorage.clear();
-                window.location.href = '/src/screens/main/index.html';
-            }
-        }
-    };
-
-    // ==========================================
-    // 4. UI INTERACTIONS & LISTENERS
-    // ==========================================
-    const switchTab = (tabId) => {
-        elements.navLinks.forEach(link => link.classList.remove('active'));
-        elements.tabPanes.forEach(pane => pane.classList.add('hidden'));
-        const activeLink = document.querySelector(`.account-nav-link[data-tab="${tabId}"]`);
-        const activePane = document.getElementById(`${tabId}-pane`);
-        
-        if (activeLink) activeLink.classList.add('active');
-        if (activePane) activePane.classList.remove('hidden');
-        if (elements.folderLabel && tabLabels[tabId]) {
-            elements.folderLabel.innerText = tabLabels[tabId];
-        }
-
-        // Lazy load projects when tab is clicked
-        if (tabId === 'projects') {
-            fetchPlayerQuests();
-        }
-    };
-    
-    // Tab Listeners
-    elements.navLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const tabId = link.dataset.tab;
-            history.pushState(null, null, `#${tabId}`);
-            switchTab(tabId);
         });
-    });
 
-    // Button Listeners
-    if (elements.saveProfileBtn) elements.saveProfileBtn.addEventListener('click', handleProfileSave);
-    if (elements.avatar) elements.avatar.addEventListener('click', () => elements.avatarUploadInput.click());
-    if (elements.avatarUploadInput) elements.avatarUploadInput.addEventListener('change', handleAvatarUpload);
-    
-    // Logout Listener
-    if (elements.logoutBtn) {
-        elements.logoutBtn.addEventListener('click', handleLogout);
+        // Inputs
+        if(dom.buttons.save) dom.buttons.save.addEventListener('click', saveProfile);
+        if(dom.buttons.avatarTrigger) dom.buttons.avatarTrigger.addEventListener('click', () => dom.inputs.avatar.click());
+        if(dom.inputs.avatar) dom.inputs.avatar.addEventListener('change', uploadAvatar);
+
+        // Logout logic
+        const handleLogoutClick = (e) => {
+            e.preventDefault();
+            handleLogout(true);
+        };
+
+        if(dom.buttons.logoutDesktop) dom.buttons.logoutDesktop.addEventListener('click', handleLogoutClick);
+        if(dom.buttons.logoutMobile) dom.buttons.logoutMobile.addEventListener('click', handleLogoutClick);
     }
 
-    // Initialization
-    const currentHash = window.location.hash.substring(1);
-    const initialTab = (currentHash && ['overview', 'projects'].includes(currentHash)) ? currentHash : 'overview';
-    
-    fetchAndPopulateProfile();
-    switchTab(initialTab);
+    function handleLogout(confirmAction = true) {
+        if (!confirmAction || confirm('Disconnect from server?')) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('username');
+            window.location.href = '/src/screens/main/index.html';
+        }
+    }
 });
