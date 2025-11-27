@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isPast && elements.form) {
             // Inject the actual form fields for a live event
             elements.form.innerHTML = `
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid md:grid-cols-2 gap-4 md:gap-6">
                     <div class="space-y-2">
                         <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Operative Name</label>
                         <input type="text" name="name" required class="w-full bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg focus:outline-none focus:border-primary font-mono text-sm transition-colors" placeholder="ENTER NAME">
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="email" name="email" required class="w-full bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg focus:outline-none focus:border-primary font-mono text-sm transition-colors" placeholder="ENTER EMAIL">
                     </div>
                 </div>
-                <div class="space-y-2">
+                <div class="space-y-2 mt-4 md:mt-6">
                     <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Affiliation</label>
                     <select name="type" class="w-full bg-gray-50 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg focus:outline-none focus:border-primary font-mono text-sm transition-colors">
                         <option value="student">Student</option>
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <option value="guest">Guest</option>
                     </select>
                 </div>
-                <button type="submit" id="submit-btn" class="w-full bg-ink dark:bg-white text-white dark:text-ink py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all shadow-lg hover:shadow-neon mt-4">
+                <button type="submit" id="submit-btn" class="w-full bg-ink dark:bg-white text-white dark:text-ink py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all shadow-lg hover:shadow-neon mt-6">
                     Confirm Registration
                 </button>
             `;
@@ -131,9 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderSystemIdle = () => {
-        // --- THIS IS THE KEY CHANGE ---
-        // Instead of hiding the content, we populate it with "Empty/Offline" visuals
-        
         // 1. Keep Main Content Visible
         if (elements.mainContent) elements.mainContent.classList.remove('hidden');
 
@@ -142,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (elements.heroTitleSub) {
             elements.heroTitleSub.innerText = "OFFLINE";
             elements.heroTitleSub.setAttribute('data-text', "OFFLINE");
-            // Remove gradient, make it gray to look offline
             elements.heroTitleSub.classList.remove('from-primary', 'via-pop-pink', 'to-cyber-cyan');
             elements.heroTitleSub.classList.add('text-gray-300', 'dark:text-zinc-700');
         }
@@ -175,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             No Active Events
                         </div>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-2 gap-4 md:gap-6">
                         <div class="space-y-2">
                             <label class="text-xs font-mono uppercase font-bold tracking-wider text-gray-500">Operative Name</label>
                             <input type="text" disabled class="w-full bg-gray-100 dark:bg-zinc-800 border-2 border-gray-200 dark:border-zinc-700 p-3 rounded-lg" placeholder="SYSTEM LOCKED">
@@ -255,11 +251,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!elements.mobileMenu) return;
         if (show) {
             elements.mobileMenu.classList.remove('hidden');
-            setTimeout(() => elements.mobileMenu.classList.add('flex', 'opacity-100', 'scale-100'), 10);
+            setTimeout(() => {
+                elements.mobileMenu.classList.add('opacity-100', 'scale-100');
+                elements.mobileMenu.classList.remove('opacity-0', 'scale-110');
+            }, 10);
             document.body.style.overflow = 'hidden';
         } else {
-            elements.mobileMenu.classList.remove('flex', 'opacity-100', 'scale-100');
-            elements.mobileMenu.classList.add('hidden');
+            elements.mobileMenu.classList.remove('opacity-100', 'scale-100');
+            elements.mobileMenu.classList.add('opacity-0', 'scale-110');
+            setTimeout(() => {
+                elements.mobileMenu.classList.add('hidden');
+            }, 300);
             document.body.style.overflow = 'auto';
         }
     };
@@ -271,15 +273,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const initTicketTilt = () => {
         const container = document.getElementById('ticket-container');
         if (!container) return;
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            container.style.transform = `perspective(1000px) rotateX(${y * -0.05}deg) rotateY(${x * 0.05}deg) scale(1.02)`;
-        });
-        container.addEventListener('mouseleave', () => {
-            container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        });
+        
+        // Only add tilt effect if not on a touch device
+        if (window.matchMedia("(hover: hover)").matches) {
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                container.style.transform = `perspective(1000px) rotateX(${y * -0.05}deg) rotateY(${x * 0.05}deg) scale(1.02)`;
+            });
+            container.addEventListener('mouseleave', () => {
+                container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        }
     };
 
     // Copy ID Feature
@@ -320,13 +326,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
-                alert('Registration Successful!'); // You can replace this with your modal logic
+                alert('Registration Successful! Check your email for details.');
                 e.target.reset();
             } else {
                 throw new Error(result.message || 'Handshake rejected.');
             }
         } catch (error) {
-            alert(error.message); // You can replace this with your modal logic
+            alert(error.message);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = `<span class="relative z-10">${originalText}</span>`;

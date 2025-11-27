@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const socialBtns = document.querySelectorAll('.social-auth-btn');
     socialBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent form submission if inside form
+            e.preventDefault();
             const provider = btn.getAttribute('data-provider');
             handleSocialLogin(provider);
         });

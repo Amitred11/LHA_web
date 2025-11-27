@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- CONFIG & DOM ---
-    const API_BASE_URL = 'https://backendkostudy.onrender.com'; // Update if needed
+    // --- CONFIGURATION ---
+    const API_BASE_URL = 'https://backendkostudy.onrender.com';
     
+    // --- DOM Elements ---
     const feedContainer = document.getElementById('clips-feed');
     const loadingClips = document.getElementById('loading-clips');
     const emptyClips = document.getElementById('empty-clips');
@@ -10,27 +11,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const rosterContainer = document.getElementById('roster-list');
     const loadingStreamers = document.getElementById('loading-streamers');
     
+    // Theme Elements
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+
     // Modal Elements
     const playerModal = document.getElementById('video-player-modal');
     const closePlayerBtn = document.getElementById('close-player-btn');
+    const closePlayerBtnMobile = document.getElementById('close-player-btn-mobile');
     const modalThumb = document.getElementById('modal-video-thumb');
     const modalTitle = document.getElementById('modal-video-title');
     const modalAuthor = document.getElementById('modal-video-author');
     const modalLikeBtn = document.getElementById('modal-like-btn');
     const modalPlayBtn = document.getElementById('modal-play-btn');
 
-    // Alert Helper
+    // Alert Helper State
     let alertModalElements = {};
 
-    // --- DATA FUNCTIONS ---
+    // --- 1. THEME LOGIC ---
+    const initTheme = () => {
+        // Check local storage or system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    };
 
+    const toggleTheme = () => {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.theme = 'light';
+        } else {
+            html.classList.add('dark');
+            localStorage.theme = 'dark';
+        }
+    };
+
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+
+    // --- 2. DATA FUNCTIONS ---
     const fetchData = async () => {
         // Reset States
-        feedContainer.innerHTML = '';
-        rosterContainer.innerHTML = '';
-        loadingClips.classList.remove('hidden');
-        loadingStreamers.classList.remove('hidden');
-        emptyClips.classList.add('hidden');
+        if(feedContainer) feedContainer.innerHTML = '';
+        if(rosterContainer) rosterContainer.innerHTML = '';
+        if(loadingClips) loadingClips.classList.remove('hidden');
+        if(loadingStreamers) loadingStreamers.classList.remove('hidden');
+        if(emptyClips) emptyClips.classList.add('hidden');
 
         try {
             // Fetch in Parallel
@@ -47,21 +76,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Data Fetch Error:", error);
-            feedContainer.innerHTML = `
-                <div class="text-center p-8 border-2 border-red-500 bg-red-50 dark:bg-red-900/20 rounded">
-                    <p class="font-bold text-red-500">Signal Lost. Check Connection.</p>
-                </div>
-            `;
-            rosterContainer.innerHTML = `<div class="p-4 text-center text-gray-500 text-xs font-mono">Offline</div>`;
+            if(feedContainer) {
+                feedContainer.innerHTML = `
+                    <div class="text-center p-8 border-2 border-red-500 bg-red-50 dark:bg-red-900/20 rounded">
+                        <p class="font-bold text-red-500">Signal Lost. Check Connection.</p>
+                    </div>
+                `;
+            }
+            if(rosterContainer) {
+                rosterContainer.innerHTML = `<div class="p-4 text-center text-gray-500 text-xs font-mono">Offline</div>`;
+            }
         } finally {
-            loadingClips.classList.add('hidden');
-            loadingStreamers.classList.add('hidden');
+            if(loadingClips) loadingClips.classList.add('hidden');
+            if(loadingStreamers) loadingStreamers.classList.add('hidden');
         }
     };
 
-    // --- RENDER FUNCTIONS ---
-
+    // --- 3. RENDER FUNCTIONS ---
     const renderFeed = (clips) => {
+        if (!feedContainer) return;
+        
         if (!clips || clips.length === 0) {
             emptyClips.classList.remove('hidden');
             return;
@@ -124,6 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderSidebar = (streamers) => {
+        if (!rosterContainer) return;
+
         if (!streamers || streamers.length === 0) {
             rosterContainer.innerHTML = '<div class="p-4 text-center text-sm font-mono text-gray-500">No active streamers</div>';
             return;
@@ -157,49 +193,58 @@ document.addEventListener('DOMContentLoaded', () => {
         rosterContainer.querySelectorAll('.group').forEach(row => row.onclick = window.triggerAppPromo);
     };
 
-    // --- VIDEO PLAYER LOGIC ---
-
+    // --- 4. VIDEO PLAYER LOGIC ---
     const openPlayer = (clip) => {
-        modalThumb.src = clip.thumbnail || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop';
-        modalTitle.textContent = clip.title;
-        modalAuthor.textContent = clip.author;
+        if(modalThumb) modalThumb.src = clip.thumbnail || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop';
+        if(modalTitle) modalTitle.textContent = clip.title;
+        if(modalAuthor) modalAuthor.textContent = clip.author;
         
         // Reset Like button state
-        modalLikeBtn.className = "bg-pop-pink hover:bg-pink-600 text-white px-6 py-2 rounded font-bold uppercase text-xs shadow-lg transition-transform active:scale-95";
-        modalLikeBtn.innerHTML = '<i class="fas fa-thumbs-up mr-1"></i> Like';
+        if(modalLikeBtn) {
+            modalLikeBtn.className = "bg-pop-pink hover:bg-pink-600 text-white px-6 py-2 rounded font-bold uppercase text-xs shadow-lg transition-transform active:scale-95";
+            modalLikeBtn.innerHTML = '<i class="fas fa-thumbs-up mr-1"></i> Like';
+        }
         
         // Hide Play button initially
-        modalPlayBtn.style.display = 'flex';
+        if(modalPlayBtn) modalPlayBtn.style.display = 'flex';
         
-        playerModal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    };
-
-    const closePlayer = () => {
-        playerModal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    };
-
-    closePlayerBtn.onclick = closePlayer;
-    playerModal.onclick = (e) => { if(e.target === playerModal) closePlayer(); };
-
-    // Simulate Playing
-    modalPlayBtn.onclick = function() {
-        this.style.display = 'none'; // Hide play button to simulate playing
-    };
-
-    // Modal Like
-    modalLikeBtn.onclick = function() {
-        if (this.classList.contains('bg-pop-pink')) {
-            this.classList.replace('bg-pop-pink', 'bg-green-500');
-            this.classList.replace('hover:bg-pink-600', 'hover:bg-green-600');
-            this.innerHTML = '<i class="fas fa-check mr-1"></i> Liked';
+        if(playerModal) {
+            playerModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
         }
     };
 
+    const closePlayer = () => {
+        if(playerModal) {
+            playerModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    };
 
-    // --- APP PROMO MODAL LOGIC (Reused) ---
-    
+    // Listeners for Close
+    if(closePlayerBtn) closePlayerBtn.onclick = closePlayer;
+    if(closePlayerBtnMobile) closePlayerBtnMobile.onclick = closePlayer;
+    if(playerModal) playerModal.onclick = (e) => { if(e.target === playerModal) closePlayer(); };
+
+    // Simulate Playing
+    if(modalPlayBtn) {
+        modalPlayBtn.onclick = function() {
+            this.style.display = 'none'; // Hide play button to simulate playing
+        };
+    }
+
+    // Modal Like
+    if(modalLikeBtn) {
+        modalLikeBtn.onclick = function() {
+            if (this.classList.contains('bg-pop-pink')) {
+                this.classList.replace('bg-pop-pink', 'bg-green-500');
+                this.classList.replace('hover:bg-pink-600', 'hover:bg-green-600');
+                this.innerHTML = '<i class="fas fa-check mr-1"></i> Liked';
+            }
+        };
+    }
+
+    // --- 5. APP PROMO MODAL LOGIC ---
     const cacheModalElements = () => {
         alertModalElements = {
             modal: document.getElementById('alert-modal'),
@@ -220,8 +265,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/src/components/alert.html');
             if (response.ok) {
                 const html = await response.text();
-                document.getElementById('alert-modal-placeholder').innerHTML = html;
-                cacheModalElements();
+                const placeholder = document.getElementById('alert-modal-placeholder');
+                if(placeholder) {
+                    placeholder.innerHTML = html;
+                    cacheModalElements();
+                }
             }
         } catch (error) { console.error(error); }
     };
@@ -237,45 +285,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 iconHTML: '<i class="fas fa-mobile-alt text-4xl text-pop-pink mb-2 animate-bounce"></i>',
                 confirmText: 'Get App',
                 cancelText: 'Later',
-                onConfirm: () => { fetch('/src/screens/main/qr.html')
-  .then(r => console.log("FOUND:", r.ok));  }
-            });
-        }
-    };
-
-    // --- UI HELPERS ---
-    const initTheme = () => {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        }
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark'); localStorage.theme = 'light';
-                } else {
-                    document.documentElement.classList.add('dark'); localStorage.theme = 'dark';
+                onConfirm: () => { 
+                    console.log("Redirect to App Store");
+                    // window.location.href = '...'; 
                 }
             });
         }
     };
 
-    const initMobileMenu = () => {
-        const menuBtn = document.getElementById('mobile-menu-button');
-        const closeBtn = document.getElementById('close-menu-button');
-        const menu = document.getElementById('mobile-menu');
-        const toggleMenu = () => {
-            const isHidden = menu.classList.contains('hidden');
-            if(isHidden) { menu.classList.remove('hidden'); setTimeout(() => menu.classList.add('flex'), 10); document.body.classList.add('overflow-hidden'); }
-            else { menu.classList.remove('flex'); setTimeout(() => menu.classList.add('hidden'), 300); document.body.classList.remove('overflow-hidden'); }
-        };
-        if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
-        if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
-        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', toggleMenu));
-    };
-
-    // --- START ---
+    // --- INITIALIZATION ---
     initTheme();
-    initMobileMenu();
     loadAlertModal().then(fetchData);
 });

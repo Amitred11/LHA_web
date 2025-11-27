@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth text-[16px]">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Summit | LHA Collective</title>
     
     <!-- Fonts & Icons -->
@@ -94,9 +94,8 @@
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-marquee { display: inline-block; white-space: nowrap; animation: marquee 20s linear infinite; }
         
+        /* Mobile Menu Transitions */
         #mobile-menu { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
-        #mobile-menu.hidden { opacity: 0; pointer-events: none; transform: scale(1.1); }
-        #mobile-menu.flex { opacity: 1; pointer-events: auto; transform: scale(1); }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-[#0a0a0a] dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen selection:bg-neon-lime selection:text-ink">
@@ -109,12 +108,23 @@
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300">
         <div class="container mx-auto max-w-7xl">
             <!-- Mobile Header -->
-            <div class="md:hidden flex justify-between items-center bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-800 shadow-lg">
+            <div class="md:hidden flex justify-between items-center bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-4 py-3 rounded-full border border-gray-200 dark:border-zinc-800 shadow-lg relative z-50">
                 <a href="/index.html" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-neon-lime text-ink rounded-full flex items-center justify-center font-bold shadow-sm hover:rotate-12 transition-transform"><i class="fas fa-arrow-left text-sm"></i></div>
+                    <div class="w-8 h-8 bg-neon-lime text-ink rounded-full flex items-center justify-center font-bold shadow-sm hover:rotate-12 transition-transform">
+                        <i class="fas fa-arrow-left text-sm"></i>
+                    </div>
                     <span class="font-display font-black text-lg uppercase tracking-tight">SUMMIT<span class="text-neon-lime">.25</span></span>
                 </a>
-                <button id="mobile-menu-button" class="w-8 h-8 flex items-center justify-center text-ink dark:text-white"><i class="fas fa-bars text-lg"></i></button>
+                <!-- RIGHT: Actions -->
+                 <div class="flex items-center gap-3">
+                    <button id="theme-toggle-mobile" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-yellow-400 transition-colors active:scale-95">
+                        <i class="fas fa-moon block dark:hidden text-xs"></i>
+                        <i class="fas fa-sun hidden dark:block text-xs"></i>
+                    </button>
+                    <button id="mobile-menu-button" class="w-8 h-8 flex items-center justify-center text-ink dark:text-white active:scale-95 transition-transform">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Desktop Header -->
@@ -143,22 +153,24 @@
     </nav>
 
     <!-- Mobile Full Screen Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-white dark:bg-black z-[60] hidden flex-col p-6 overflow-hidden">
-        <!-- (Same menu content as before) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[60] hidden flex-col p-6 overflow-hidden">
         <div class="absolute top-0 right-0 w-64 h-64 bg-neon-lime opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
         <div class="flex justify-between items-center mb-12">
             <span class="font-mono text-xs font-bold text-gray-400 tracking-widest border border-gray-200 dark:border-zinc-800 px-2 py-1 rounded">SYSTEM.NAV</span>
-            <button id="close-menu-button" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center hover:rotate-90 transition-transform"><i class="fas fa-times"></i></button>
+            <button id="close-menu-button" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center hover:rotate-90 transition-transform"><i class="fas fa-times text-ink dark:text-white"></i></button>
         </div>
-        <div class="flex flex-col space-y-4 flex-grow justify-center">
+        <div class="flex flex-col space-y-6 flex-grow justify-center">
             <a href="#intel" class="mobile-link group flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-4">
-                <span class="text-5xl font-display font-black uppercase text-ink dark:text-white pl-4 border-l-4 border-transparent group-hover:border-neon-lime transition-all">Intel</span>
+                <span class="text-4xl md:text-5xl font-display font-black uppercase text-ink dark:text-white pl-4 border-l-4 border-transparent group-hover:border-neon-lime transition-all">Intel</span>
+                <i class="fas fa-arrow-right text-gray-300 -rotate-45 group-hover:rotate-0 transition-transform"></i>
             </a>
             <a href="#schedule" class="mobile-link group flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-4">
-                <span class="text-5xl font-display font-black uppercase text-ink dark:text-white pl-4 border-l-4 border-transparent group-hover:border-pop-pink transition-all">Timeline</span>
+                <span class="text-4xl md:text-5xl font-display font-black uppercase text-ink dark:text-white pl-4 border-l-4 border-transparent group-hover:border-pop-pink transition-all">Timeline</span>
+                <i class="fas fa-arrow-right text-gray-300 -rotate-45 group-hover:rotate-0 transition-transform"></i>
             </a>
             <a href="#register" class="mobile-link group flex items-center justify-between border-b border-gray-100 dark:border-zinc-800 pb-4">
-                <span class="text-5xl font-display font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-primary">Status</span>
+                <span class="text-4xl md:text-5xl font-display font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-primary">Status</span>
+                <i class="fas fa-arrow-right text-gray-300 -rotate-45 group-hover:rotate-0 transition-transform"></i>
             </a>
         </div>
     </div>
@@ -169,8 +181,8 @@
     <div id="main-event-content" class="transition-opacity duration-500">
         
         <!-- Hero Section -->
-        <header class="pt-32 md:pt-48 pb-12 md:pb-32 container mx-auto px-4 md:px-6 max-w-7xl relative">
-            <div class="flex flex-col lg:flex-row gap-12 md:gap-16 items-center">
+        <header class="pt-24 md:pt-48 pb-12 md:pb-32 container mx-auto px-4 md:px-6 max-w-7xl relative overflow-hidden md:overflow-visible">
+            <div class="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
                 
                 <!-- Text Content -->
                 <div class="lg:w-1/2 z-10 text-center lg:text-left w-full">
@@ -179,31 +191,32 @@
                         <span class="w-2 h-2 rounded-full bg-neon-lime animate-ping"></span> <span id="status-text">Live Event</span>
                     </div>
                     
-                    <h1 class="font-display font-black text-6xl sm:text-7xl md:text-8xl xl:text-9xl leading-[0.85] mb-6 md:mb-8 uppercase tracking-tighter text-ink dark:text-white">
+                    <!-- Responsive Title: text-5xl on mobile, text-9xl on desktop -->
+                    <h1 class="font-display font-black text-5xl sm:text-7xl md:text-8xl xl:text-9xl leading-[0.9] mb-6 md:mb-8 uppercase tracking-tighter text-ink dark:text-white">
                         <span id="hero-title-main">LOADING</span> <br>
                         <span id="hero-title-sub" class="glitch text-transparent bg-clip-text bg-gradient-to-r from-primary via-pop-pink to-cyber-cyan" data-text="...">...</span>
                     </h1>
                     
-                    <p id="hero-desc" class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed">
+                    <p id="hero-desc" class="text-base md:text-xl text-gray-600 dark:text-gray-400 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed px-2 md:px-0">
                         Initializing connection to event servers...
                     </p>
                     
-                    <!-- Countdown -->
-                    <div class="grid grid-cols-4 gap-3 max-w-sm mx-auto lg:mx-0 mb-10 font-mono text-center">
+                    <!-- Countdown: 2 cols on mobile, 4 cols on larger screens -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-sm md:max-w-md mx-auto lg:mx-0 mb-10 font-mono text-center">
                         <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="d" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">DAYS</span></div>
                         <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="h" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">HRS</span></div>
                         <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="m" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">MIN</span></div>
                         <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="s" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">SEC</span></div>
                     </div>
 
-                    <a href="#register" id="hero-cta" class="hidden md:inline-flex items-center gap-3 bg-ink dark:bg-white text-white dark:text-ink px-10 py-4 rounded-xl font-bold text-lg shadow-manga dark:shadow-neon-pink hover:translate-y-1 hover:shadow-none transition-all group uppercase tracking-wide">
+                    <a href="#register" id="hero-cta" class="inline-flex items-center gap-3 bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 md:px-10 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-manga dark:shadow-neon-pink hover:translate-y-1 hover:shadow-none transition-all group uppercase tracking-wide">
                         Get Your Pass <i class="fas fa-ticket-alt group-hover:-rotate-12 transition-transform"></i>
                     </a>
                 </div>
                 
                 <!-- Ticket Visual -->
-                <div class="lg:w-1/2 w-full relative perspective-1000 mt-8 lg:mt-0 flex justify-center lg:justify-end">
-                    <div id="ticket-container" class="ticket-visual w-full max-w-md relative transition-transform duration-100 ease-out transform-style-3d cursor-pointer group">
+                <div class="lg:w-1/2 w-full relative perspective-1000 mt-12 lg:mt-0 flex justify-center lg:justify-end px-4">
+                    <div id="ticket-container" class="ticket-visual w-full max-w-sm md:max-w-md relative transition-transform duration-100 ease-out transform-style-3d cursor-pointer group">
                         <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-6 md:p-8 shadow-manga dark:shadow-[0_0_30px_rgba(5,217,232,0.2)] rounded-2xl overflow-hidden group-hover:shadow-2xl transition-shadow">
                             <!-- Header -->
                             <div class="flex justify-between items-start border-b-2 border-dashed border-gray-200 dark:border-zinc-700 pb-6 mb-6 relative z-20">
@@ -211,11 +224,11 @@
                                     <h3 class="font-display font-black text-3xl md:text-4xl uppercase leading-none mb-2">EVENT PASS</h3>
                                     <span class="font-mono text-neon-lime bg-ink/5 dark:bg-white/5 px-2 py-1 rounded text-xs tracking-widest font-bold">OFFICIAL</span>
                                 </div>
-                                <div id="ticket-date-display" class="w-14 h-14 bg-ink dark:bg-white text-white dark:text-ink rounded-lg flex items-center justify-center font-bold text-2xl shrink-0 ml-4 font-display">--</div>
+                                <div id="ticket-date-display" class="w-12 h-12 md:w-14 md:h-14 bg-ink dark:bg-white text-white dark:text-ink rounded-lg flex items-center justify-center font-bold text-xl md:text-2xl shrink-0 ml-4 font-display">--</div>
                             </div>
                             <!-- Barcode -->
                             <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 dark:border-zinc-700 relative z-20">
-                                <div class="h-10 w-full bg-gray-200 dark:bg-zinc-800 opacity-70" style="mask-image: repeating-linear-gradient(90deg, black, black 2px, transparent 2px, transparent 4px);"></div>
+                                <div class="h-8 md:h-10 w-full bg-gray-200 dark:bg-zinc-800 opacity-70" style="mask-image: repeating-linear-gradient(90deg, black, black 2px, transparent 2px, transparent 4px);"></div>
                             </div>
                         </div>
                     </div>
@@ -223,32 +236,33 @@
             </div>
         </header>
 
-        <!-- Marquee -->
-        <div class="bg-neon-lime text-ink py-4 border-y-2 border-ink dark:border-none overflow-hidden whitespace-nowrap select-none relative z-20 rotate-1 shadow-lg scale-105">
-            <div class="animate-marquee font-mono font-bold text-xl uppercase tracking-wider">
-                WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED /// WARNING: HIGH LEVELS OF CREATIVITY DETECTED ///
+        <!-- Marquee - Added overflow-hidden parent to fix scrollbar -->
+        <div class="w-full overflow-hidden py-4 border-y-2 border-ink dark:border-none relative z-20">
+            <div class="bg-neon-lime text-ink py-2 rotate-1 scale-105 shadow-lg">
+                <div class="animate-marquee font-mono font-bold text-lg md:text-xl uppercase tracking-wider">
+                    WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED /// WARNING: HIGH LEVELS OF CREATIVITY DETECTED ///
+                </div>
             </div>
         </div>
 
-        <!-- Intel / Activities (Static for now, could be dynamic) -->
-        <section id="intel" class="py-24 bg-paper dark:bg-black scroll-mt-20 relative">
+        <!-- Intel / Activities -->
+        <section id="intel" class="py-16 md:py-24 bg-paper dark:bg-black scroll-mt-20 relative">
             <div class="absolute top-0 left-0 w-full h-full bg-grid-cyber opacity-30 pointer-events-none"></div>
             <div class="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <span class="font-mono text-primary font-bold tracking-widest text-xs uppercase mb-2 block">Event Intel</span>
                     <h2 class="font-display font-black text-4xl md:text-6xl uppercase tracking-tight text-ink dark:text-white">Activity <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-primary">Report</span></h2>
                 </div>
-                <!-- Simple placeholder for activity cards to save space in this snippet -->
-                <div class="flex justify-center text-gray-500 font-mono text-sm">Activities loaded based on event configuration.</div>
+                <div class="flex justify-center text-gray-500 font-mono text-sm text-center px-4">Activities loaded based on event configuration.</div>
             </div>
         </section>
 
         <!-- Registration / Status Section -->
-        <section id="register" class="py-24 bg-ink dark:bg-black relative scroll-mt-20">
+        <section id="register" class="py-16 md:py-24 bg-ink dark:bg-black relative scroll-mt-20">
             <div class="absolute inset-0 bg-neon-lime/5 pointer-events-none"></div>
             <div class="container mx-auto px-4 md:px-6 max-w-3xl relative z-10">
-                <!-- Content injected via JS: Either Form OR "Closed" Message -->
-                <div id="registration-container" class="bg-paper dark:bg-[#0f0f0f] border-2 border-ink dark:border-zinc-700 p-6 md:p-12 shadow-[12px_12px_0px_0px_#d1f25e] dark:shadow-none rounded-2xl relative">
+                <!-- Content injected via JS -->
+                <div id="registration-container" class="bg-paper dark:bg-[#0f0f0f] border-2 border-ink dark:border-zinc-700 p-6 md:p-12 shadow-[8px_8px_0px_0px_#d1f25e] md:shadow-[12px_12px_0px_0px_#d1f25e] dark:shadow-none rounded-2xl relative">
                     <!-- Default Form -->
                     <form id="registration-form" class="space-y-6">
                         <!-- Form content... -->
@@ -264,13 +278,13 @@
         <div class="container mx-auto px-6 max-w-7xl text-center md:text-left">
             <div class="flex flex-col md:flex-row justify-between items-center mb-12">
                 <div class="mb-8 md:mb-0 text-center md:text-left">
-                    <h2 class="font-display font-black text-4xl text-ink dark:text-white tracking-tight">Lost Haven Association<span class="text-primary">.</span></h2>
+                    <h2 class="font-display font-black text-3xl md:text-4xl text-ink dark:text-white tracking-tight">Lost Haven Association<span class="text-primary">.</span></h2>
                     <p class="text-sm font-mono text-gray-500 mt-2">Crafted for the culture.</p>
                 </div>
             </div>
             <div class="pt-8 border-t border-gray-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-gray-400 uppercase tracking-wider">
-                <p>&copy; 2025 Lost Haven Association. All systems normal.</p>
-                <div class="flex gap-6 mt-4 md:mt-0">
+                <p class="mb-4 md:mb-0">&copy; 2025 Lost Haven Association. All systems normal.</p>
+                <div class="flex gap-6">
                     <a href="/src/components/privacy-policy.html" class="hover:text-ink dark:hover:text-white">Privacy</a>
                     <a href="/src/components/terms-of-service.html" class="hover:text-ink dark:hover:text-white">Terms</a>
                 </div>

@@ -26,11 +26,16 @@
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6', 
-                        'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8', 'neon-lime': '#d1f25e', 
+                        'ink': '#111827', 
+                        'paper': '#fff1f2', /* Light Pink Tint */
+                        'primary': '#8b5cf6', 
+                        'pop-pink': '#ff2a6d', 
+                        'cyber-cyan': '#05d9e8', 
+                        'neon-lime': '#d1f25e', 
                     },
                     backgroundImage: {
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)",
+                        /* Colored Halftone for Light Mode */
+                        'halftone': "radial-gradient(rgba(255, 42, 109, 0.1) 2px, transparent 2px)",
                         'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
                     },
                     boxShadow: {
@@ -63,10 +68,10 @@
 </head>
 <body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen pb-20 md:pb-0">
     
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-100 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-[60] px-4 py-3 md:py-4 transition-all bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md md:bg-transparent md:backdrop-filter-none border-b border-gray-200 dark:border-zinc-800 md:border-none shadow-sm md:shadow-none">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-[60] px-4 py-3 md:py-4 transition-all bg-white/80 dark:bg-zinc-900/95 backdrop-blur-md md:bg-transparent md:backdrop-filter-none border-b border-gray-200 dark:border-zinc-800 md:border-none shadow-sm md:shadow-none">
         <div class="container mx-auto max-w-7xl">
             
             <!-- Mobile Header: Simple & Compact -->
@@ -128,7 +133,7 @@
         </div>
 
         <h1 class="font-display font-black text-5xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-4 md:mb-6">
-            Visual <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-primary text-stroke">Storytellers</span>
+            Visual <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-rose-600 text-stroke">Storytellers</span>
         </h1>
         <p class="text-sm md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium px-4">
             From rough sketches on napkins to fully rendered masterpieces. Browse the roster of LHA's finest creators.
@@ -218,67 +223,5 @@
 
     <!-- JavaScript -->
     <script src="/src/js/guild/fetch-artists.js"></script>
-    <script>
-        // Inline script to handle Mobile Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            // Theme Toggle for Mobile
-            const tBtn = document.getElementById('theme-toggle-mobile');
-            const dBtn = document.getElementById('theme-toggle');
-
-            const toggleTheme = () => {
-                const html = document.documentElement;
-                if(html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    localStorage.theme = 'light';
-                } else {
-                    html.classList.add('dark');
-                    localStorage.theme = 'dark';
-                }
-            };
-
-            if(tBtn) tBtn.addEventListener('click', toggleTheme);
-            if(dBtn) dBtn.addEventListener('click', toggleTheme);
-
-            // Sync Mobile Search with Desktop Search
-            const mobileSearch = document.getElementById('mobile-search-input');
-            const desktopSearch = document.getElementById('search-input');
-            const searchBtn = document.getElementById('search-btn');
-
-            if(mobileSearch && desktopSearch) {
-                mobileSearch.addEventListener('input', (e) => {
-                    desktopSearch.value = e.target.value;
-                    // Trigger search automatically on mobile after delay
-                    clearTimeout(window.searchTimeout);
-                    window.searchTimeout = setTimeout(() => {
-                        searchBtn.click();
-                    }, 500);
-                });
-            }
-
-            // Mobile Filter Pills Logic
-            const pills = document.querySelectorAll('.filter-pill');
-            const desktopSelect = document.getElementById('filter-select');
-
-            pills.forEach(pill => {
-                pill.addEventListener('click', () => {
-                    // Update UI
-                    pills.forEach(p => {
-                        p.classList.remove('bg-ink', 'text-white', 'border-ink');
-                        p.classList.add('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
-                    });
-                    pill.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
-                    pill.classList.add('bg-ink', 'text-white', 'border-ink');
-
-                    // Update Data
-                    const val = pill.dataset.value;
-                    if(desktopSelect) {
-                        desktopSelect.value = val;
-                        // Trigger the Fetch Logic
-                        searchBtn.click();
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>

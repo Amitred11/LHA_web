@@ -25,9 +25,17 @@
                         'body': ['"Outfit"', 'sans-serif'],
                         'mono': ['"JetBrains Mono"', 'monospace'],
                     },
-                    colors: { 'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6', 'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8', 'neon-lime': '#d1f25e' },
+                    colors: { 
+                        'ink': '#111827', 
+                        'paper': '#f5f3ff', /* Light Purple Tint */
+                        'primary': '#8b5cf6', 
+                        'pop-pink': '#ff2a6d', 
+                        'cyber-cyan': '#05d9e8', 
+                        'neon-lime': '#d1f25e' 
+                    },
                     backgroundImage: {
-                        'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+                        /* Colored Grid for Light Mode */
+                        'grid': "linear-gradient(to right, rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px)",
                         'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
                     },
                     boxShadow: {
@@ -58,10 +66,10 @@
 <body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen pb-20 md:pb-0">
 
     <!-- Background -->
-    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-100 dark:opacity-10 pointer-events-none"></div>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-[60] px-4 py-3 md:py-4 transition-all bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md md:bg-transparent md:backdrop-filter-none border-b border-gray-200 dark:border-zinc-800 md:border-none shadow-sm md:shadow-none">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-[60] px-4 py-3 md:py-4 transition-all bg-white/80 dark:bg-zinc-900/95 backdrop-blur-md md:bg-transparent md:backdrop-filter-none border-b border-gray-200 dark:border-zinc-800 md:border-none shadow-sm md:shadow-none">
         <div class="container mx-auto max-w-7xl">
             
             <!-- Mobile Header: Simple & Compact -->
@@ -125,7 +133,7 @@
         </div>
 
         <h1 class="font-display font-black text-5xl md:text-7xl lg:text-9xl uppercase leading-[0.9] mb-4 md:mb-6">
-            Dev <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyber-cyan text-stroke">Archives</span>
+            Dev <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600 text-stroke">Archives</span>
         </h1>
         <p class="text-sm md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium px-4">
             Seminars, speed-coding tutorials, and deep dives. Level up your stack without the corporate fluff.
@@ -241,61 +249,5 @@
 
     <!-- SCRIPTS -->
     <script src="/src/js/guild/fetch-devs.js"></script>
-    <script>
-        // Inline Mobile-Specific Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Theme Toggle Mobile
-            const tBtn = document.getElementById('theme-toggle-mobile');
-            const dBtn = document.getElementById('theme-toggle');
-
-            const toggleTheme = () => {
-                const html = document.documentElement;
-                if(html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    localStorage.theme = 'light';
-                } else {
-                    html.classList.add('dark');
-                    localStorage.theme = 'dark';
-                }
-            };
-            if(tBtn) tBtn.addEventListener('click', toggleTheme);
-            if(dBtn) dBtn.addEventListener('click', toggleTheme);
-
-            // 2. Sync Mobile Search with Desktop
-            const mobileSearch = document.getElementById('mobile-search-input');
-            const desktopSearch = document.getElementById('search-input');
-            
-            if(mobileSearch && desktopSearch) {
-                mobileSearch.addEventListener('input', (e) => {
-                    desktopSearch.value = e.target.value;
-                    // Dispatch event so the main fetch script hears it
-                    desktopSearch.dispatchEvent(new Event('input')); 
-                });
-            }
-
-            // 3. Mobile Filter Pills Logic
-            const pills = document.querySelectorAll('.mobile-filter-pill');
-            const desktopButtons = document.querySelectorAll('.filter-btn');
-
-            pills.forEach(pill => {
-                pill.addEventListener('click', () => {
-                    // Visual Update Mobile
-                    pills.forEach(p => {
-                        p.classList.remove('bg-ink', 'text-white', 'border-ink');
-                        p.classList.add('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
-                    });
-                    pill.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
-                    pill.classList.add('bg-ink', 'text-white', 'border-ink');
-
-                    // Trigger Desktop Logic
-                    const category = pill.dataset.category;
-                    const correspondingDesktopBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
-                    if(correspondingDesktopBtn) {
-                        correspondingDesktopBtn.click();
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>

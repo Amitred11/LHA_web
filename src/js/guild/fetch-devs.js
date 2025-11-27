@@ -1,14 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
-    const API_BASE_URL = 'https://backendkostudy.onrender.com'; // Flask Backend
+    const API_BASE_URL = 'https://backendkostudy.onrender.com';
 
     // --- DOM Elements ---
     const grid = document.getElementById('video-grid');
     const loadingState = document.getElementById('loading-state');
     const emptyState = document.getElementById('empty-state');
+    
+    // Search & Filter Elements
     const searchInput = document.getElementById('search-input');
+    const mobileSearchInput = document.getElementById('mobile-search-input');
     const filterTabs = document.querySelectorAll('.filter-btn');
+    const mobileFilterPills = document.querySelectorAll('.mobile-filter-pill');
+
+    // Theme Elements
     const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
 
     // Modal Elements
     const modal = document.getElementById('video-modal');
@@ -20,9 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allArchives = [];
     let currentCategory = 'all';
 
-    // --- 1. UI FUNCTIONS ---
-
-    // Theme Logic
+    // --- 1. THEME LOGIC ---
     function initTheme() {
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -31,41 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    themeToggle.addEventListener('click', () => {
-        if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
+    function toggleTheme() {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
             localStorage.theme = 'light';
         } else {
-            document.documentElement.classList.add('dark');
+            html.classList.add('dark');
             localStorage.theme = 'dark';
-        }
-    });
-
-    // Mobile Menu
-    const menuBtn = document.getElementById('mobile-menu-button');
-    const closeMenuBtn = document.getElementById('close-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    function toggleMenu() {
-        const isHidden = mobileMenu.classList.contains('hidden');
-        if (isHidden) {
-            mobileMenu.classList.remove('hidden');
-            setTimeout(() => mobileMenu.classList.add('flex'), 10);
-            document.body.classList.add('overflow-hidden');
-        } else {
-            mobileMenu.classList.remove('flex');
-            setTimeout(() => mobileMenu.classList.add('hidden'), 300);
-            document.body.classList.remove('overflow-hidden');
         }
     }
 
-    if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
-    if(closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
-    document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', toggleMenu));
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
 
-    // --- 2. DATA FUNCTIONS ---
-
-    // Fetch Data
+    // --- 2. DATA FETCHING ---
     const fetchArchives = async () => {
         grid.innerHTML = '';
         loadingState.classList.remove('hidden');
@@ -90,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Render Videos
+    // --- 3. RENDER LOGIC ---
     const renderVideos = (videos) => {
         grid.innerHTML = '';
 
@@ -156,9 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Filter Logic
+    // --- 4. FILTER LOGIC ---
     const handleFilter = () => {
-        const query = searchInput.value.toLowerCase();
+        const query = searchInput ? searchInput.value.toLowerCase() : '';
         
         const filtered = allArchives.filter(video => {
             const videoCategory = (video.category || '').toLowerCase();
@@ -173,9 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderVideos(filtered);
     };
 
+    // Desktop Tab Click Listeners
     filterTabs.forEach(btn => {
         btn.addEventListener('click', () => {
-            // UI Update
+            // UI Update Desktop
             filterTabs.forEach(b => {
                 b.classList.remove('bg-ink', 'text-white', 'dark:bg-paper', 'dark:text-ink', 'active');
                 b.classList.add('hover:bg-ink', 'hover:text-white', 'dark:hover:bg-paper', 'dark:hover:text-ink');
@@ -183,14 +169,49 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('bg-ink', 'text-white', 'dark:bg-paper', 'dark:text-ink', 'active');
             btn.classList.remove('hover:bg-ink', 'hover:text-white');
 
+            // Logic Update
             currentCategory = btn.dataset.category;
             handleFilter();
         });
     });
 
-    searchInput.addEventListener('keyup', handleFilter);
+    if (searchInput) {
+        searchInput.addEventListener('keyup', handleFilter);
+    }
 
-    // Modal Logic
+    // --- 5. MOBILE SYNCHRONIZATION ---
+
+    // Sync Mobile Search Input with Desktop Input
+    if (mobileSearchInput && searchInput) {
+        mobileSearchInput.addEventListener('input', (e) => {
+            searchInput.value = e.target.value;
+            handleFilter(); // Trigger filter immediately
+        });
+    }
+
+    // Sync Mobile Filter Pills with Desktop Tabs
+    if (mobileFilterPills.length > 0) {
+        mobileFilterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                // 1. Visual Update Mobile Pills
+                mobileFilterPills.forEach(p => {
+                    p.classList.remove('bg-ink', 'text-white', 'border-ink');
+                    p.classList.add('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
+                });
+                pill.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-gray-500', 'border-gray-300');
+                pill.classList.add('bg-ink', 'text-white', 'border-ink');
+
+                // 2. Trigger Desktop Logic
+                const category = pill.dataset.category;
+                const correspondingDesktopBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
+                if(correspondingDesktopBtn) {
+                    correspondingDesktopBtn.click();
+                }
+            });
+        });
+    }
+
+    // --- 6. MODAL LOGIC ---
     function openVideoModal(video) {
         if(modalTitle) modalTitle.innerText = video.title;
         if(modalDesc) modalDesc.innerText = video.description || 'No description available.';
@@ -214,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Init
+    // --- INITIALIZATION ---
     initTheme();
     fetchArchives();
 });

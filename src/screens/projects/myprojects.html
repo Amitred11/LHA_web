@@ -43,9 +43,15 @@
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
         <div class="container mx-auto max-w-7xl">
             <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none transition-all">
+                
+                <!-- Updated: Back Button -->
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl group-hover:rotate-12 transition-transform shadow-sm">L</div>
+                    <div class="bg-white dark:bg-zinc-800 text-ink dark:text-white border-2 border-gray-200 dark:border-zinc-600 w-10 h-10 flex items-center justify-center rounded-lg font-bold text-lg group-hover:-translate-x-1 group-hover:border-ink dark:group-hover:border-white transition-all shadow-sm">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <span class="font-mono font-bold text-xs uppercase tracking-widest hidden sm:block text-gray-500 dark:text-gray-400 group-hover:text-ink dark:group-hover:text-white transition-colors">Return</span>
                 </a>
+
                 <div class="flex items-center gap-4">
                     <a href="/src/screens/projects/start-project.html" class="hidden md:flex items-center gap-2 bg-ink dark:bg-neon-lime text-white dark:text-ink border-2 border-transparent px-5 py-2 rounded-lg font-bold font-mono text-xs uppercase hover:shadow-lg hover:-translate-y-0.5 transition-all">
                         <i class="fas fa-plus"></i> New Quest
@@ -86,23 +92,7 @@
 
             <!-- Grid -->
             <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <!-- Javascript will inject cards here. Example card style:
-                <div class="group bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-xl p-6 shadow-manga dark:shadow-none hover:-translate-y-1 hover:shadow-xl transition-all cursor-pointer">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-primary/10 text-primary border border-primary px-2 py-1 rounded text-[10px] font-bold uppercase">Website</span>
-                        <i class="fas fa-ellipsis-h text-gray-400"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-2xl mb-2 group-hover:text-primary transition-colors">Project Name</h3>
-                    <p class="text-sm text-gray-500 mb-6 line-clamp-2">Description goes here...</p>
-                    <div class="w-full bg-gray-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden mb-2">
-                        <div class="bg-neon-lime h-full w-3/4"></div>
-                    </div>
-                    <div class="flex justify-between text-[10px] font-mono text-gray-400">
-                        <span>PROGRESS</span>
-                        <span>75%</span>
-                    </div>
-                </div>
-                -->
+                <!-- Javascript will inject cards here -->
             </div>
         </div>
     </main>

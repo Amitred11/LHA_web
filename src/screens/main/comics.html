@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LHA Scans | Read Manga Online</title>
+    
+    <!-- IMMEDIATE SECURITY CHECK -->
+    <script>
+        if (localStorage.getItem('lha_auth') !== 'true') {
+            window.location.href = 'security.html';
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { body: ['"Outfit"', 'sans-serif'] },
+                    colors: { 
+                        dark: '#121212', 
+                        darker: '#0a0a0a', 
+                        card: '#1e1e1e',
+                        accent: '#ff6b00', // MangaPark Orange style
+                        primary: '#8b5cf6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff6b00; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
+</head>
+<body class="bg-dark text-gray-200 font-body">
+
+    <!-- Top Navigation -->
+    <nav class="sticky top-0 z-40 bg-darker border-b border-gray-800 shadow-lg">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-6">
+                <a href="#" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded flex items-center justify-center font-black text-white italic">L</div>
+                    <span class="font-bold text-xl tracking-tight text-white">LHA<span class="text-accent">Scans</span></span>
+                </a>
+                
+                <!-- Desktop Links -->
+                <div class="hidden md:flex items-center gap-6 text-sm font-bold text-gray-400">
+                    <a href="#" class="hover:text-white transition-colors">Home</a>
+                    <a href="#" class="hover:text-white transition-colors">Latest</a>
+                    <a href="#" class="hover:text-white transition-colors">Popular</a>
+                    <a href="#" class="hover:text-white transition-colors">Bookmarks</a>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-xl hidden md:block">
+                <div class="relative group">
+                    <input type="text" placeholder="Search manga, manhwa..." class="w-full bg-card border border-gray-700 text-sm px-4 py-2 rounded-full focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
+                    <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- User / Controls -->
+            <div class="flex items-center gap-4">
+                <button onclick="logout()" class="text-xs font-bold text-red-500 hover:text-red-400 border border-red-500/20 px-3 py-1.5 rounded-full hover:bg-red-500/10 transition-all">
+                    <i class="fas fa-lock"></i> LOCK
+                </button>
+                <div class="w-8 h-8 rounded-full bg-gray-700 overflow-hidden border border-gray-600">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Layout -->
+    <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Left Column: Main Content -->
+        <div class="w-full lg:w-3/4">
+            
+            <!-- Hero / Featured -->
+            <div class="mb-10">
+                <h2 class="flex items-center gap-2 text-xl font-bold text-white mb-4">
+                    <i class="fas fa-fire text-accent"></i> Popular Today
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Featured Item -->
+                    <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=2574&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6 flex flex-col justify-end">
+                            <span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded w-fit mb-2">MANHWA</span>
+                            <h3 class="text-2xl font-bold text-white leading-tight mb-1">Solo Leveling: Arise</h3>
+                            <p class="text-sm text-gray-300 line-clamp-2">The weakest hunter of all mankind discovers a system that allows him to level up infinitely.</p>
+                        </div>
+                    </div>
+                     <!-- Featured Item 2 -->
+                     <div class="relative h-64 rounded-xl overflow-hidden group cursor-pointer hidden md:block">
+                        <img src="https://images.unsplash.com/photo-1620336655052-b57972f3a2a4?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-6 flex flex-col justify-end">
+                            <span class="bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded w-fit mb-2">MANGA</span>
+                            <h3 class="text-2xl font-bold text-white leading-tight mb-1">Cyberpunk: Edgerunners</h3>
+                            <p class="text-sm text-gray-300 line-clamp-2">In a dystopia riddled with corruption and cybernetic implants, a street kid tries to survive.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest Updates Grid -->
+            <div class="flex items-center justify-between mb-4 border-b border-gray-800 pb-2">
+                <h2 class="text-lg font-bold text-white">Latest Updates</h2>
+                <a href="#" class="text-xs text-gray-500 hover:text-white">View All <i class="fas fa-chevron-right ml-1"></i></a>
+            </div>
+
+            <!-- Manga Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                
+                <!-- Manga Card Component (Repeated) -->
+                <div class="manga-card group relative">
+                    <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800 mb-2">
+                        <!-- Rank Badge -->
+                        <span class="absolute top-0 left-0 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-br z-10">HOT</span>
+                        <!-- Cover -->
+                        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=2574&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <!-- Hover Overlay -->
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="bg-white text-black w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent hover:text-white transition-colors"><i class="fas fa-play text-xs"></i></button>
+                             <button class="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors"><i class="fas fa-heart text-xs"></i></button>
+                        </div>
+                    </div>
+                    <!-- Info -->
+                    <h3 class="font-bold text-sm text-gray-200 group-hover:text-accent transition-colors truncate">Jujutsu Kaisen</h3>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">Ch. 252</span>
+                        <span class="text-[10px] text-gray-600">2h ago</span>
+                    </div>
+                    <!-- ADMIN ONLY EDIT BUTTON -->
+                    <button class="admin-only hidden w-full mt-2 bg-blue-600/20 text-blue-400 text-[10px] py-1 rounded border border-blue-600/30 hover:bg-blue-600 hover:text-white">EDIT DATA</button>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="manga-card group relative">
+                    <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800 mb-2">
+                         <span class="absolute top-0 left-0 bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-br z-10">NEW</span>
+                        <img src="https://images.unsplash.com/photo-1560972550-aba3456b5564?q=80&w=2670&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="bg-white text-black w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent hover:text-white transition-colors"><i class="fas fa-play text-xs"></i></button>
+                             <button class="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors"><i class="fas fa-heart text-xs"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-200 group-hover:text-accent transition-colors truncate">Chainsaw Man</h3>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">Ch. 156</span>
+                        <span class="text-[10px] text-gray-600">5h ago</span>
+                    </div>
+                    <button class="admin-only hidden w-full mt-2 bg-blue-600/20 text-blue-400 text-[10px] py-1 rounded border border-blue-600/30 hover:bg-blue-600 hover:text-white">EDIT DATA</button>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="manga-card group relative">
+                    <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800 mb-2">
+                        <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=2520&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="bg-white text-black w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent hover:text-white transition-colors"><i class="fas fa-play text-xs"></i></button>
+                             <button class="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors"><i class="fas fa-heart text-xs"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-200 group-hover:text-accent transition-colors truncate">One Piece</h3>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">Ch. 1109</span>
+                        <span class="text-[10px] text-gray-600">1d ago</span>
+                    </div>
+                    <button class="admin-only hidden w-full mt-2 bg-blue-600/20 text-blue-400 text-[10px] py-1 rounded border border-blue-600/30 hover:bg-blue-600 hover:text-white">EDIT DATA</button>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="manga-card group relative">
+                    <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800 mb-2">
+                        <img src="https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?q=80&w=2669&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="bg-white text-black w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent hover:text-white transition-colors"><i class="fas fa-play text-xs"></i></button>
+                             <button class="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors"><i class="fas fa-heart text-xs"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-200 group-hover:text-accent transition-colors truncate">Spy x Family</h3>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">Ch. 95</span>
+                        <span class="text-[10px] text-gray-600">2d ago</span>
+                    </div>
+                    <button class="admin-only hidden w-full mt-2 bg-blue-600/20 text-blue-400 text-[10px] py-1 rounded border border-blue-600/30 hover:bg-blue-600 hover:text-white">EDIT DATA</button>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="manga-card group relative">
+                    <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-800 mb-2">
+                         <span class="absolute top-0 left-0 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-br z-10">UP</span>
+                        <img src="https://images.unsplash.com/photo-1621416894569-0f39e845d882?q=80&w=2574&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="bg-white text-black w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent hover:text-white transition-colors"><i class="fas fa-play text-xs"></i></button>
+                             <button class="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors"><i class="fas fa-heart text-xs"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-200 group-hover:text-accent transition-colors truncate">Vagabond</h3>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">Vol. 37</span>
+                        <span class="text-[10px] text-gray-600">Complete</span>
+                    </div>
+                    <button class="admin-only hidden w-full mt-2 bg-blue-600/20 text-blue-400 text-[10px] py-1 rounded border border-blue-600/30 hover:bg-blue-600 hover:text-white">EDIT DATA</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Column: Sidebar -->
+        <div class="w-full lg:w-1/4">
+            
+            <!-- Genres -->
+            <div class="bg-card rounded-xl p-6 border border-gray-800 mb-6">
+                <h3 class="font-bold text-white mb-4 border-l-4 border-accent pl-2">Genres</h3>
+                <div class="flex flex-wrap gap-2">
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Action</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Adventure</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Comedy</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Drama</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Fantasy</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Horror</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Isekai</a>
+                    <a href="#" class="text-xs bg-dark text-gray-400 px-3 py-1.5 rounded hover:bg-accent hover:text-white transition-colors">Romance</a>
+                </div>
+            </div>
+
+            <!-- Top Ranking -->
+            <div class="bg-card rounded-xl p-6 border border-gray-800">
+                <h3 class="font-bold text-white mb-4 border-l-4 border-primary pl-2">Top Ranked</h3>
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-3">
+                        <span class="text-2xl font-black text-gray-700 w-6">1</span>
+                        <img src="https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=2574&auto=format&fit=crop" class="w-12 h-16 object-cover rounded">
+                        <div>
+                            <h4 class="text-sm font-bold text-white line-clamp-1">Solo Leveling</h4>
+                            <span class="text-xs text-gray-500">1.2M Views</span>
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-2xl font-black text-gray-700 w-6">2</span>
+                        <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=2574&auto=format&fit=crop" class="w-12 h-16 object-cover rounded">
+                        <div>
+                            <h4 class="text-sm font-bold text-white line-clamp-1">Jujutsu Kaisen</h4>
+                            <span class="text-xs text-gray-500">980K Views</span>
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-2xl font-black text-gray-700 w-6">3</span>
+                        <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=2520&auto=format&fit=crop" class="w-12 h-16 object-cover rounded">
+                        <div>
+                            <h4 class="text-sm font-bold text-white line-clamp-1">One Piece</h4>
+                            <span class="text-xs text-gray-500">850K Views</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- ADMIN CHECK ---
+        const role = localStorage.getItem('lha_role');
+        if (role === 'admin') {
+            document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+        }
+
+        // --- LOGOUT FUNCTION ---
+        function logout() {
+            localStorage.removeItem('lha_auth');
+            localStorage.removeItem('lha_role');
+            window.location.href = 'security.html';
+        }
+    </script>
+</body>
+</html>
