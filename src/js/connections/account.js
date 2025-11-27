@@ -137,7 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // 6. Avatar
             updateAvatarImages(profile.avatarUrl, user);
 
-        } catch (error) { console.error('Load Error:', error); }
+        } catch (error) { 
+            console.error('Load Error:', error);
+            if(typeof showAlert === 'function') {
+                showAlert({ type: 'error', title: 'Connection Error', message: 'Failed to load profile data.' });
+            }
+        }
     }
 
     // --- FUNCTIONS: AVATAR UPLOAD ---
@@ -156,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('avatar', file);
 
         try {
-            // Note: Content-Type header is omitted so browser sets boundary automatically
             const response = await fetch(`${API_BASE_URL}/api/account/profile/${USER_ID}/avatar`, {
                 method: 'POST', 
                 headers: { 
@@ -168,10 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if(response.ok) {
                 const data = await response.json();
                 updateAvatarImages(data.avatarUrl || data.path, null, true);
+                
                 if(statusText) {
                     statusText.innerText = "Upload Complete";
                     statusText.className = "text-[10px] font-mono text-green-500 mt-1 block";
                 }
+                
+                // Use custom toast
+                if(typeof showAlert === 'function') {
+                    showAlert({ type: 'success', title: 'Avatar Updated', message: 'Your profile image has been refreshed.' });
+                }
+
             } else {
                 throw new Error("Server rejected image");
             }
@@ -181,7 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusText.innerText = "Upload Failed";
                 statusText.className = "text-[10px] font-mono text-red-500 mt-1 block";
             }
-            alert("Failed to upload. Try a smaller image (max 2MB).");
+            // Use custom toast
+            if(typeof showAlert === 'function') {
+                showAlert({ type: 'error', title: 'Upload Failed', message: 'Try a smaller image (max 2MB).' });
+            } else {
+                alert("Failed to upload.");
+            }
         } finally {
             if(spinner) spinner.classList.add('hidden');
             if(loadingOverlay) {
@@ -271,11 +287,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function handleLogout() {
-        if (confirm('Disconnect from system?')) {
-            localStorage.clear();
-            window.location.href = '/src/screens/main/index.html';
+    // --- UPDATED LOGOUT FUNCTION ---
+    function handleLogout(e) {
+        if (e) e.preventDefault();
+
+        // Using openAlertModal from alert.js
+        if (typeof openAlertModal === 'function') {
+            openAlertModal({
+                title: 'Logging Out?',
+                message: 'Are you sure you want to disconnect from the mainframe?',
+                iconHTML: '<i class="fas fa-power-off text-3xl text-pop-pink"></i>', 
+                confirmText: 'Log Out',
+                cancelText: 'Stay Connected',
+                onConfirm: () => {
+                    performLogout();
+                }
+            });
+        } else {
+            if (confirm('Disconnect from system?')) {
+                performLogout();
+            }
         }
+    }
+
+    function performLogout() {
+        // Clear Credentials (keeping theme preference)
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userId'); 
+        localStorage.removeItem('username');
+        
+        // Redirect to Signin
+        window.location.href = '/src/screens/auth/signin.html';
     }
 
     // --- EVENT LISTENERS ---
@@ -323,12 +366,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(res.ok) {
                         loadProfile();
                         btn.innerHTML = '<i class="fas fa-check"></i> Saved';
+                        if(typeof showAlert === 'function') {
+                            showAlert({ type: 'success', title: 'System Updated', message: 'Profile configuration saved.' });
+                        }
                         setTimeout(() => btn.innerHTML = originalText, 2000);
                     } else {
                         throw new Error('Save failed');
                     }
                 } catch(e) {
                     btn.innerHTML = '<i class="fas fa-times"></i> Error';
+                    if(typeof showAlert === 'function') {
+                        showAlert({ type: 'error', title: 'Save Failed', message: 'Could not update profile configuration.' });
+                    }
                     setTimeout(() => btn.innerHTML = originalText, 2000);
                 }
             });

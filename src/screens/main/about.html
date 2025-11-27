@@ -34,19 +34,29 @@
                     backgroundImage: {
                         'grid-pattern': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
                         'grid-pattern-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+                        'halftone': "radial-gradient(#cbd5e1 2px, transparent 2px)",
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
                     },
                     boxShadow: {
                         'hard': '4px 4px 0px 0px #09090b',
                         'hard-hover': '8px 8px 0px 0px #09090b',
+                        'hard-white': '4px 4px 0px 0px #ffffff',
                         'glow': '0 0 20px rgba(139, 92, 246, 0.3)',
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         }
                     }
                 }
@@ -55,6 +65,7 @@
     </script>
     <style>
         .bg-grid { background-size: 40px 40px; }
+        .bg-halftone { background-size: 20px 20px; }
         .text-stroke { -webkit-text-stroke: 1px #09090b; color: transparent; }
         .dark .text-stroke { -webkit-text-stroke: 1px #ffffff; }
         
@@ -67,17 +78,24 @@
         .dot.active { width: 24px; background-color: #8b5cf6; border-radius: 99px; }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden selection:bg-neon-lime selection:text-ink pb-24 md:pb-0">
+<!-- UPDATED BODY CLASS: Removed md:overflow-hidden and pb-24 -->
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden selection:bg-neon-lime selection:text-ink relative">
 
-    <!-- Background Grid -->
-    <div class="fixed inset-0 z-[-1] bg-grid-pattern dark:bg-grid-pattern-dark bg-grid opacity-[0.4] dark:opacity-[0.1] pointer-events-none"></div>
+    <!-- Global Effects -->
+    <div class="fixed inset-0 z-[-1] bg-noise opacity-40 pointer-events-none dark:opacity-0"></div>
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-grid-pattern-dark opacity-30 dark:opacity-10 pointer-events-none"></div>
+
+    <!-- Ambient Blobs (Light Mode Only) -->
+    <div class="fixed top-0 left-[-10%] w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] animate-blob dark:hidden z-[-2]"></div>
+    <div class="fixed bottom-0 right-[-10%] w-[400px] h-[400px] bg-pop-pink/20 rounded-full blur-[100px] animate-blob animation-delay-2000 dark:hidden z-[-2]"></div>
+
 
     <!-- DESKTOP NAVBAR -->
     <nav class="hidden md:block fixed top-6 left-0 right-0 z-50 px-4">
         <div class="container mx-auto max-w-6xl">
             <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-2 border-ink dark:border-zinc-700 rounded-2xl px-6 py-3 flex justify-between items-center shadow-hard dark:shadow-none transition-all hover:translate-y-[-2px]">
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform shadow-sm">
+                    <div class="bg-primary dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-header font-bold text-xl group-hover:-rotate-12 transition-transform shadow-sm border border-ink dark:border-none">
                         <i class="fas fa-arrow-left"></i>
                     </div>
                     <span class="font-mono font-bold text-xs uppercase tracking-widest group-hover:text-primary transition-colors">Return to Base</span>
@@ -85,7 +103,7 @@
                 
                 <div class="font-header font-black text-xl uppercase tracking-tighter">The <span class="text-primary">Lore</span></div>
                 
-                <button id="theme-toggle-desktop" class="w-10 h-10 rounded-full border border-gray-200 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600 dark:text-yellow-400">
+                <button id="theme-toggle-desktop" class="w-10 h-10 rounded-full border-2 border-ink/20 dark:border-zinc-700 flex items-center justify-center hover:bg-neon-lime hover:border-ink hover:text-ink dark:hover:bg-zinc-800 transition-all text-gray-600 dark:text-yellow-400">
                     <i class="fas fa-moon block dark:hidden"></i>
                     <i class="fas fa-sun hidden dark:block"></i>
                 </button>
@@ -93,18 +111,18 @@
         </div>
     </nav>
 
-    <!-- MOBILE HEADER (UPDATED WITH BACK BUTTON) -->
-    <nav class="md:hidden fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b border-gray-200 dark:border-zinc-800 px-6 py-4 flex justify-between items-center">
+    <!-- MOBILE HEADER -->
+    <nav class="md:hidden fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b-2 border-ink/10 dark:border-zinc-800 px-6 py-4 flex justify-between items-center">
         <!-- Left Group: Back Button + Title -->
         <div class="flex items-center gap-4">
-            <a href="/index.html" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-ink dark:text-white transition-colors active:scale-95 active:bg-gray-200 dark:active:bg-zinc-700">
+            <a href="/index.html" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-ink dark:text-white transition-colors active:scale-95 active:bg-gray-200 dark:active:bg-zinc-700 border border-gray-200 dark:border-zinc-700">
                 <i class="fas fa-arrow-left text-xs"></i>
             </a>
             <div class="font-header font-black text-xl uppercase tracking-tighter">The <span class="text-primary">Lore</span></div>
         </div>
         
         <!-- Right Group: Theme Toggle -->
-        <button id="theme-toggle-mobile" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-ink dark:text-yellow-400 transition-colors active:scale-95">
+        <button id="theme-toggle-mobile" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-ink dark:text-yellow-400 transition-colors active:scale-95 border border-gray-200 dark:border-zinc-700">
             <i class="fas fa-moon block dark:hidden text-xs"></i>
             <i class="fas fa-sun hidden dark:block text-xs"></i>
         </button>
@@ -112,39 +130,44 @@
 
     <!-- Hero Section -->
     <header class="pt-32 md:pt-48 pb-16 md:pb-24 text-center relative overflow-hidden">
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-primary/20 rounded-full blur-[80px] md:blur-[100px] pointer-events-none animate-float"></div>
         
         <div class="container mx-auto px-6 relative z-10">
-            <div class="inline-block bg-neon-lime text-ink font-mono text-[9px] md:text-[10px] font-bold px-2 py-1 mb-6 border border-ink transform -rotate-2">
+            <div class="inline-block bg-neon-lime text-ink font-mono text-[9px] md:text-[10px] font-bold px-2 py-1 mb-6 border-2 border-ink transform -rotate-2 shadow-[2px_2px_0px_#000]">
                 FILE_ID: ORIGIN_STORY
             </div>
             
-            <h1 class="font-header font-black text-5xl md:text-8xl mb-6 relative inline-block leading-[0.9]">
-                <span class="text-stroke block md:inline">Origin</span> Story
+            <h1 class="font-header font-black text-5xl md:text-8xl mb-6 relative inline-block leading-[0.9] text-ink dark:text-white">
+                <span class="relative inline-block">
+                    <!-- Marker for light mode -->
+                    <span class="absolute inset-x-0 bottom-2 md:bottom-6 h-4 md:h-8 bg-pop-pink/50 -skew-x-12 dark:hidden"></span>
+                    <span class="block md:inline">Origin</span>
+                </span> Story
                 <div class="static md:absolute mt-4 md:mt-0 md:-top-6 md:-right-12 inline-block md:block bg-pop-pink text-white text-[10px] md:text-xs px-3 py-1 md:rotate-12 border-2 border-ink dark:border-white shadow-hard font-bold font-mono align-middle">
                     NO_SPOILERS
                 </div>
             </h1>
             
-            <p class="text-lg md:text-2xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 font-medium leading-relaxed px-2 md:px-0">
-                LHA wasn't built in a boardroom. It was built in <span class="text-ink dark:text-white font-bold bg-gray-200 dark:bg-zinc-800 px-1 decoration-clone">classrooms</span>, fueled by caffeine and the desire to ship.
+            <p class="text-lg md:text-2xl max-w-2xl mx-auto text-ink/70 dark:text-gray-400 font-medium leading-relaxed px-2 md:px-0">
+                LHA wasn't built in a boardroom. It was built in <span class="text-ink dark:text-white font-bold bg-white dark:bg-zinc-800 px-1 decoration-clone border border-ink dark:border-none shadow-[2px_2px_0px_#000] dark:shadow-none">classrooms</span>, fueled by caffeine and the desire to ship.
             </p>
         </div>
     </header>
 
     <!-- Timeline Section -->
-    <section class="py-12 md:py-24 border-y border-gray-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50">
+    <section class="py-12 md:py-24 border-y-2 border-ink/10 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50">
         <div class="container mx-auto px-6 max-w-4xl">
             <div class="relative border-l-2 border-dashed border-ink dark:border-zinc-600 ml-4 md:ml-1/2 md:-translate-x-0.5 space-y-12 md:space-y-20">
                 
                 <!-- Phase 1 -->
                 <div class="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center group">
-                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-white dark:bg-black border-4 border-ink dark:border-white rounded-full z-10 md:group-hover:scale-125 transition-transform duration-300"></div>
+                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-primary dark:bg-black border-4 border-ink dark:border-white rounded-full z-10 md:group-hover:scale-125 transition-transform duration-300"></div>
                     <div class="md:col-start-2 md:text-left">
                         <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-6 md:p-8 rounded-xl shadow-hard dark:shadow-none md:group-hover:translate-x-1 md:group-hover:translate-y-1 md:group-hover:shadow-none transition-all relative">
-                            <i class="fas fa-bolt absolute -top-4 -left-4 w-8 h-8 md:w-10 md:h-10 text-sm md:text-base bg-primary text-white flex items-center justify-center rounded-lg border-2 border-ink dark:border-white shadow-sm z-20"></i>
+                            <div class="absolute -top-4 -left-4 w-8 h-8 md:w-10 md:h-10 text-sm md:text-base bg-primary text-white flex items-center justify-center rounded-lg border-2 border-ink dark:border-white shadow-sm z-20">
+                                <i class="fas fa-bolt"></i>
+                            </div>
                             <span class="font-mono text-[10px] md:text-xs text-gray-400 block mb-2">PHASE 1.0</span>
-                            <h3 class="font-header font-bold text-xl md:text-2xl mb-2">It Started in Class</h3>
+                            <h3 class="font-header font-bold text-xl md:text-2xl mb-2 text-ink dark:text-white">It Started in Class</h3>
                             <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Just a group chat of BSIT students who realized school projects were boring. We wanted to build apps that people actually used.</p>
                         </div>
                     </div>
@@ -152,10 +175,10 @@
 
                 <!-- Phase 2 -->
                 <div class="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center group">
-                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-white dark:bg-black border-4 border-ink dark:border-pop-pink rounded-full z-10 md:group-hover:scale-125 transition-transform duration-300"></div>
+                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-pop-pink dark:bg-black border-4 border-ink dark:border-pop-pink rounded-full z-10 md:group-hover:scale-125 transition-transform duration-300"></div>
                     <div class="md:col-start-1 md:text-right">
-                        <div class="bg-ink dark:bg-pop-pink text-white border-2 border-ink dark:border-pop-pink p-6 md:p-8 rounded-xl shadow-hard dark:shadow-glow md:group-hover:translate-x-1 md:group-hover:translate-y-1 md:group-hover:shadow-none transition-all">
-                             <span class="font-mono text-[10px] md:text-xs text-gray-400 dark:text-white/80 block mb-2">PHASE 2.0</span>
+                        <div class="bg-ink dark:bg-pop-pink text-white border-2 border-ink dark:border-pop-pink p-6 md:p-8 rounded-xl shadow-hard dark:shadow-glow md:group-hover:translate-x-1 md:group-hover:translate-y-1 md:group-hover:shadow-none transition-all relative">
+                            <span class="font-mono text-[10px] md:text-xs text-gray-400 dark:text-white/80 block mb-2">PHASE 2.0</span>
                             <h3 class="font-header font-bold text-xl md:text-2xl mb-2">Breaking The Loop</h3>
                             <p class="text-gray-400 dark:text-white/90 text-sm leading-relaxed">Freelancing is lonely. We decided to pool our resources, share clients, and critique each other's code. A collective was born.</p>
                         </div>
@@ -164,12 +187,14 @@
 
                 <!-- Phase 3 -->
                 <div class="relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center group">
-                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-white dark:bg-black border-4 border-ink dark:border-neon-lime rounded-full z-10 md:group-hover:scale-125 transition-transform duration-300"></div>
+                    <div class="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-5 h-5 bg-neon-lime dark:bg-black border-4 border-ink dark:border-neon-lime rounded-full z-10 md:group-hover:scale-125 transition-transform duration-300"></div>
                     <div class="md:col-start-2 md:text-left">
                         <div class="bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-6 md:p-8 rounded-xl shadow-hard dark:shadow-none md:group-hover:translate-x-1 md:group-hover:translate-y-1 md:group-hover:shadow-none transition-all relative">
-                            <i class="fas fa-globe absolute -top-4 -right-4 w-8 h-8 md:w-10 md:h-10 text-sm md:text-base bg-neon-lime text-ink flex items-center justify-center rounded-lg border-2 border-ink dark:border-white shadow-sm z-20"></i>
+                            <div class="absolute -top-4 -right-4 w-8 h-8 md:w-10 md:h-10 text-sm md:text-base bg-neon-lime text-ink flex items-center justify-center rounded-lg border-2 border-ink dark:border-white shadow-sm z-20">
+                                <i class="fas fa-globe"></i>
+                            </div>
                              <span class="font-mono text-[10px] md:text-xs text-gray-400 block mb-2">CURRENT_STATE</span>
-                            <h3 class="font-header font-bold text-xl md:text-2xl mb-2">The Ecosystem</h3>
+                            <h3 class="font-header font-bold text-xl md:text-2xl mb-2 text-ink dark:text-white">The Ecosystem</h3>
                             <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Now, LHA is a hub for developers, designers, and gamers. We build, we play, and we help each other level up.</p>
                         </div>
                     </div>
@@ -194,7 +219,7 @@
                     </p>
                 </div>
                 <!-- Vision -->
-                <div class="bg-white text-ink border-2 border-white p-8 md:p-12 rounded-2xl relative group shadow-hard-white md:group-hover:translate-y-1 md:group-hover:shadow-none transition-all duration-300">
+                <div class="bg-white text-ink border-2 border-white p-8 md:p-12 rounded-2xl relative group shadow-[8px_8px_0px_0px_#8b5cf6] md:shadow-hard-white md:group-hover:translate-y-1 md:group-hover:shadow-none transition-all duration-300">
                      <div class="absolute top-0 right-0 p-6 opacity-100 md:opacity-20 md:group-hover:opacity-100 transition-opacity">
                         <i class="fas fa-eye text-4xl md:text-6xl text-ink transform -rotate-12"></i>
                     </div>
@@ -215,15 +240,12 @@
                 <div class="inline-flex items-center gap-2 text-primary font-mono text-xs font-bold mb-2 tracking-widest">
                      <i class="fas fa-users"></i> ROSTER
                 </div>
-                <h2 class="font-header font-black text-4xl md:text-6xl uppercase">The Usual Suspects</h2>
-                <p class="text-gray-600 dark:text-gray-400 mt-2 md:mt-4 font-medium text-sm md:text-base">Blame these people when the server goes down.</p>
+                <h2 class="font-header font-black text-4xl md:text-6xl uppercase text-ink dark:text-white">The Usual Suspects</h2>
+                <p class="text-ink/60 dark:text-gray-400 mt-2 md:mt-4 font-medium text-sm md:text-base">Blame these people when the server goes down.</p>
             </div>
 
             <!-- 
                 RESPONSIVE GRID SYSTEM 
-                - Uses flex/overflow for mobile swipe
-                - Uses grid for tablet/desktop
-                - Easily expandable: just add a new <div> block inside
             -->
             <div id="crew-scroll-container" class="
                 flex overflow-x-auto snap-x snap-mandatory gap-6 px-6 pb-12 no-scrollbar 
@@ -233,11 +255,14 @@
                 
                 <!-- MEMBER 1 -->
                 <div class="crew-card snap-center shrink-0 w-[85vw] md:w-auto h-full">
-                    <div class="group h-full bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-2xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col">
-                        <div class="relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden aspect-[4/3] md:aspect-[4/4]">
+                    <div class="group h-full bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-2xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col relative">
+                        <!-- Offset background for light mode pop -->
+                        <div class="absolute inset-0 bg-primary translate-x-2 translate-y-2 rounded-2xl -z-10 dark:hidden"></div>
+
+                        <div class="relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden aspect-[4/3] md:aspect-[4/4] bg-gray-100 dark:bg-zinc-800">
                             <img src="/src/assets/us/amadore.jpg" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Leo'" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
                             <!-- Badge -->
-                            <div class="absolute top-4 right-4 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-3 py-1 border-2 border-ink dark:border-white rounded shadow-sm z-10">
+                            <div class="absolute top-4 right-4 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-3 py-1 border-2 border-ink dark:border-white rounded shadow-[2px_2px_0px_#000] dark:shadow-sm z-10">
                                 LVL 99 DEV
                             </div>
                             <!-- Role Overlay (Mobile/Hover) -->
@@ -245,8 +270,8 @@
                                 <p class="text-primary font-mono text-xs font-bold uppercase tracking-wider">Lead Developer</p>
                             </div>
                         </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-header font-bold text-2xl mb-2 group-hover:text-primary transition-colors">Leoncio Amadore III</h3>
+                        <div class="p-6 flex flex-col flex-grow bg-white dark:bg-zinc-900">
+                            <h3 class="font-header font-bold text-2xl mb-2 group-hover:text-primary transition-colors text-ink dark:text-white">Leoncio Amadore III</h3>
                             <div class="md:hidden text-primary font-mono text-xs font-bold uppercase mb-4">Lead Developer</div>
                             <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">Full-stack wizard. Dreams in JavaScript. Probably needs more coffee.</p>
                             <div class="flex gap-4 text-xl mt-auto pt-4 border-t border-gray-100 dark:border-zinc-800">
@@ -259,18 +284,21 @@
 
                 <!-- MEMBER 2 -->
                 <div class="crew-card snap-center shrink-0 w-[85vw] md:w-auto h-full">
-                    <div class="group h-full bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-2xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col">
-                        <div class="relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden aspect-[4/3] md:aspect-[4/4]">
+                    <div class="group h-full bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-2xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col relative">
+                        <!-- Offset background for light mode pop -->
+                        <div class="absolute inset-0 bg-pop-pink translate-x-2 translate-y-2 rounded-2xl -z-10 dark:hidden"></div>
+
+                        <div class="relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden aspect-[4/3] md:aspect-[4/4] bg-gray-100 dark:bg-zinc-800">
                             <img src="/src/assets/bad.jpg" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Bad'" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
-                            <div class="absolute top-4 right-4 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-3 py-1 border-2 border-ink dark:border-white rounded shadow-sm z-10">
+                            <div class="absolute top-4 right-4 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-3 py-1 border-2 border-ink dark:border-white rounded shadow-[2px_2px_0px_#000] dark:shadow-sm z-10">
                                 LVL 80 TANK
                             </div>
                              <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                                 <p class="text-pop-pink font-mono text-xs font-bold uppercase tracking-wider">Lead Developer</p>
                             </div>
                         </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-header font-bold text-2xl mb-2 group-hover:text-pop-pink transition-colors">Jameel Tutungan</h3>
+                        <div class="p-6 flex flex-col flex-grow bg-white dark:bg-zinc-900">
+                            <h3 class="font-header font-bold text-2xl mb-2 group-hover:text-pop-pink transition-colors text-ink dark:text-white">Jameel Tutungan</h3>
                              <div class="md:hidden text-pop-pink font-mono text-xs font-bold uppercase mb-4">Lead Developer</div>
                             <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">Writes clean code and breaks production on Fridays. RAWR.</p>
                             <div class="flex gap-4 text-xl mt-auto pt-4 border-t border-gray-100 dark:border-zinc-800">
@@ -282,18 +310,21 @@
 
                 <!-- MEMBER 3 -->
                 <div class="crew-card snap-center shrink-0 w-[85vw] md:w-auto h-full">
-                    <div class="group h-full bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-2xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col">
-                        <div class="relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden aspect-[4/3] md:aspect-[4/4]">
+                    <div class="group h-full bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 rounded-2xl overflow-hidden hover:shadow-hard dark:hover:shadow-glow hover:-translate-y-2 transition-all duration-300 flex flex-col relative">
+                        <!-- Offset background for light mode pop -->
+                        <div class="absolute inset-0 bg-neon-lime translate-x-2 translate-y-2 rounded-2xl -z-10 dark:hidden"></div>
+
+                        <div class="relative border-b-2 border-ink dark:border-zinc-700 overflow-hidden aspect-[4/3] md:aspect-[4/4] bg-gray-100 dark:bg-zinc-800">
                             <img src="/src/assets/art.jpg" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=Art'" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110">
-                            <div class="absolute top-4 right-4 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-3 py-1 border-2 border-ink dark:border-white rounded shadow-sm z-10">
+                            <div class="absolute top-4 right-4 bg-white dark:bg-black text-ink dark:text-white text-[10px] font-mono font-bold px-3 py-1 border-2 border-ink dark:border-white rounded shadow-[2px_2px_0px_#000] dark:shadow-sm z-10">
                                 LVL 50 MAGE
                             </div>
                              <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                                 <p class="text-neon-lime font-mono text-xs font-bold uppercase tracking-wider">Project Manager</p>
                             </div>
                         </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="font-header font-bold text-2xl mb-2 group-hover:text-neon-lime transition-colors">Adrian Vine Cruz</h3>
+                        <div class="p-6 flex flex-col flex-grow bg-white dark:bg-zinc-900">
+                            <h3 class="font-header font-bold text-2xl mb-2 group-hover:text-neon-lime transition-colors text-ink dark:text-white">Adrian Vine Cruz</h3>
                              <div class="md:hidden text-neon-lime font-mono text-xs font-bold uppercase mb-4">Project Manager</div>
                             <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">Keeps the chaos organized. Professional cat herder.</p>
                             <div class="flex gap-4 text-xl mt-auto pt-4 border-t border-gray-100 dark:border-zinc-800">
@@ -302,8 +333,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- ADD MORE MEMBERS HERE BY COPYING THE BLOCK ABOVE -->
 
             </div>
 
@@ -316,9 +345,10 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-paper dark:bg-black border-t-2 border-gray-200 dark:border-zinc-800 py-10 mb-16 md:mb-0">
+    <!-- UPDATED: Removed mb-16 -->
+    <footer class="bg-paper dark:bg-black border-t-2 border-ink dark:border-zinc-800 py-10">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="font-header font-black text-2xl mb-2">LHA.</h2>
+            <h2 class="font-header font-black text-2xl mb-2 text-ink dark:text-white">LHA.</h2>
              <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">&copy; 2025 LHA Collective. Stay Creative.</p>
         </div>
     </footer>

@@ -18,10 +18,24 @@
                     backgroundImage: {
                         'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
                         'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+                        'halftone': "radial-gradient(#cbd5e1 2px, transparent 2px)",
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
                     },
                     boxShadow: {
                         'manga': '4px 4px 0px 0px #09090b',
+                        'manga-lg': '8px 8px 0px 0px #09090b',
                         'neon-pink': '0 0 15px rgba(255, 42, 109, 0.3)',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
                     }
                 } 
             } 
@@ -29,19 +43,28 @@
     </script>
     <style>
         .bg-grid { background-size: 40px 40px; }
+        .bg-halftone { background-size: 20px 20px; }
         .input-group:focus-within label { color: #ff2a6d; }
         /* Mobile specific adjustments */
         .drawer-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         .drawer-scroll::-webkit-scrollbar { display: none; }
+        
+        /* Custom Checkbox for Light Mode Pop */
+        .peer:checked + .custom-check-icon { opacity: 1; transform: scale(1); }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 h-screen w-screen overflow-hidden md:min-h-screen md:overflow-x-hidden md:flex md:justify-center md:items-center md:h-auto">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 h-screen w-screen overflow-hidden md:min-h-screen md:overflow-x-hidden md:flex md:justify-center md:items-center md:h-auto relative">
 
-    <!-- Background Grid -->
-    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
-    
+    <!-- Global Effects -->
+    <div class="fixed inset-0 z-[-1] bg-noise opacity-40 pointer-events-none dark:opacity-0"></div>
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-grid-dark opacity-30 dark:opacity-10 pointer-events-none"></div>
+
+    <!-- Ambient Blobs (Light Mode Only) -->
+    <div class="fixed top-0 left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] animate-blob dark:hidden z-[-2]"></div>
+    <div class="fixed bottom-0 right-[-10%] w-[500px] h-[500px] bg-pop-pink/20 rounded-full blur-[100px] animate-blob animation-delay-2000 dark:hidden z-[-2]"></div>
+
     <!-- Nav (Adaptive) -->
-    <a href="signin.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/80 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
+    <a href="signin.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/90 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga dark:hover:shadow-manga transition-all group shadow-sm dark:shadow-none">
         <i class="fas fa-times group-hover:scale-110 transition-transform text-pop-pink md:text-inherit"></i> Cancel
     </a>
 
@@ -49,29 +72,32 @@
     <div class="w-full h-full md:h-auto md:max-w-md relative group flex flex-col md:block">
         
         <!-- MOBILE HEADER SECTION (Stuck to top) -->
-        <div class="md:hidden h-[25vh] bg-zinc-900 flex flex-col justify-end p-8 pb-8 shadow-inner relative overflow-hidden shrink-0">
+        <div class="md:hidden h-[25vh] bg-ink dark:bg-zinc-900 flex flex-col justify-end p-8 pb-8 shadow-inner relative overflow-hidden shrink-0 border-b-4 border-pop-pink">
+            <!-- Light mode pattern vs Dark mode glow -->
+            <div class="absolute inset-0 bg-halftone opacity-10 dark:opacity-0"></div>
             <div class="absolute top-0 right-0 w-64 h-64 bg-pop-pink opacity-20 rounded-full blur-[80px] translate-x-1/2 -translate-y-1/2"></div>
             <div class="relative z-10 flex items-end justify-between">
                 <div>
                     <h1 class="font-display font-black text-5xl uppercase tracking-tighter text-white leading-[0.85]">New<br><span class="text-pop-pink">Game</span></h1>
                 </div>
-                <i class="fas fa-gamepad text-5xl text-zinc-800 -rotate-12 transform translate-y-2"></i>
+                <i class="fas fa-gamepad text-5xl text-zinc-800 dark:text-zinc-800 -rotate-12 transform translate-y-2"></i>
             </div>
         </div>
 
         <!-- DESKTOP DECORATIVE OFFSET (Hidden on Mobile) -->
-        <div class="hidden md:block absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-zinc-700 rounded-xl translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 bg-pop-pink/10 dark:bg-pop-pink/5"></div>
+        <!-- Light Mode: Black Border + Pink Offset | Dark Mode: Zinc Border + Pink Glow -->
+        <div class="hidden md:block absolute top-0 left-0 w-full h-full border-2 border-ink dark:border-zinc-700 rounded-xl translate-x-2 translate-y-2 z-0 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 bg-pop-pink dark:bg-pop-pink/5"></div>
         
         <!-- MAIN CARD / FORM DRAWER -->
         <div class="flex-1 bg-white dark:bg-black md:bg-white md:dark:bg-zinc-900 md:border-2 md:border-ink md:dark:border-zinc-700 rounded-t-[2rem] md:rounded-xl p-0 md:p-10 relative z-10 shadow-none md:shadow-manga md:dark:shadow-neon-pink -mt-6 md:mt-0 overflow-hidden flex flex-col">
             
             <!-- Desktop Header (Hidden on Mobile) -->
             <div class="hidden md:block text-center mb-8">
-                <div class="w-16 h-16 bg-pop-pink/10 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-pop-pink dark:border-zinc-700">
-                    <i class="fas fa-gamepad text-2xl text-pop-pink"></i>
+                <div class="w-16 h-16 bg-pop-pink text-white dark:bg-zinc-800 dark:text-pop-pink rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-ink dark:border-zinc-700 shadow-manga-sm dark:shadow-none">
+                    <i class="fas fa-gamepad text-2xl"></i>
                 </div>
                 <h1 class="font-display font-black text-3xl sm:text-4xl uppercase tracking-tight text-ink dark:text-white">New Game</h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-2 font-mono text-xs uppercase tracking-widest">Initialize character creation.</p>
+                <p class="text-ink/60 dark:text-gray-400 mt-2 font-mono text-xs uppercase tracking-widest bg-gray-100 dark:bg-transparent inline-block px-2 py-1 rounded">Initialize character creation.</p>
             </div>
 
             <!-- Scrollable Area for Mobile -->
@@ -80,20 +106,20 @@
                     <!-- Username -->
                     <div class="input-group">
                         <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Username</label>
-                        <input type="text" name="username" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="Hero_Name">
+                        <input type="text" name="username" required class="w-full bg-white dark:bg-zinc-900 border-2 border-ink/20 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400 shadow-[4px_4px_0px_#e5e7eb] focus:shadow-[4px_4px_0px_#ff2a6d] dark:shadow-none dark:focus:shadow-none" placeholder="Hero_Name">
                     </div>
                     
                     <!-- Email -->
                     <div class="input-group">
                         <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Email</label>
-                        <input type="email" name="email" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="hero@guild.com">
+                        <input type="email" name="email" required class="w-full bg-white dark:bg-zinc-900 border-2 border-ink/20 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400 shadow-[4px_4px_0px_#e5e7eb] focus:shadow-[4px_4px_0px_#ff2a6d] dark:shadow-none dark:focus:shadow-none" placeholder="hero@guild.com">
                     </div>
                     
                     <!-- Password -->
                     <div class="input-group">
                         <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Password</label>
                         <div class="relative">
-                            <input type="password" id="signup-pass" name="password" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
+                            <input type="password" id="signup-pass" name="password" required class="w-full bg-white dark:bg-zinc-900 border-2 border-ink/20 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400 shadow-[4px_4px_0px_#e5e7eb] focus:shadow-[4px_4px_0px_#ff2a6d] dark:shadow-none dark:focus:shadow-none" placeholder="••••••••">
                             <button type="button" id="toggleSignupPass" class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-pop-pink transition-colors p-2">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -104,7 +130,7 @@
                     <div class="input-group">
                         <label class="block font-bold mb-2 text-xs font-mono uppercase text-gray-500 dark:text-gray-400 transition-colors">Confirm</label>
                         <div class="relative">
-                            <input type="password" id="signup-confirm" name="confirm_password" required class="w-full bg-gray-50 dark:bg-zinc-900 border-2 border-gray-200 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
+                            <input type="password" id="signup-confirm" name="confirm_password" required class="w-full bg-white dark:bg-zinc-900 border-2 border-ink/20 dark:border-zinc-800 rounded-xl md:rounded-lg p-4 md:p-3 pr-10 font-mono text-sm focus:border-pop-pink dark:focus:border-pop-pink focus:outline-none transition-all placeholder-gray-400 shadow-[4px_4px_0px_#e5e7eb] focus:shadow-[4px_4px_0px_#ff2a6d] dark:shadow-none dark:focus:shadow-none" placeholder="••••••••">
                             <button type="button" id="toggleSignupConfirm" class="absolute top-1/2 -translate-y-1/2 right-4 text-gray-400 hover:text-pop-pink transition-colors p-2">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -115,9 +141,9 @@
                     <div class="flex items-start gap-3 mt-4 group/terms">
                         <div class="relative flex items-center pt-0.5">
                             <input type="checkbox" id="terms" name="terms" required 
-                                class="peer h-5 w-5 cursor-pointer appearance-none rounded border-2 border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900 transition-all checked:border-pop-pink checked:bg-pop-pink hover:border-pop-pink focus:outline-none focus:ring-2 focus:ring-pop-pink/20">
+                                class="peer h-5 w-5 cursor-pointer appearance-none rounded border-2 border-ink/20 dark:border-zinc-700 bg-white dark:bg-zinc-900 transition-all checked:border-pop-pink checked:bg-pop-pink hover:border-pop-pink focus:outline-none focus:ring-2 focus:ring-pop-pink/20 shadow-[2px_2px_0px_#e5e7eb] checked:shadow-none dark:shadow-none">
                             <!-- Custom Checkmark Icon -->
-                            <i class="fas fa-check absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity"></i>
+                            <i class="fas fa-check absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity custom-check-icon"></i>
                         </div>
                         <label for="terms" class="text-xs font-mono text-gray-500 dark:text-gray-400 leading-tight cursor-pointer select-none group-hover/terms:text-gray-700 dark:group-hover/terms:text-gray-300 transition-colors">
                             I accept the <a href="/src/components/terms-of-service.html" class="font-bold text-pop-pink hover:underline decoration-wavy" target="_blank">Terms of Service</a> & <a href="/src/components/privacy-policy.html" class="font-bold text-pop-pink hover:underline decoration-wavy" target="_blank">Privacy Policy</a>
@@ -125,11 +151,11 @@
                     </div>
                     <!-- TERMS AND CONDITIONS END -->
                     
-                    <button type="submit" class="w-full bg-pop-pink text-white border-2 border-transparent rounded-xl md:rounded-lg py-4 md:py-3.5 font-bold font-display uppercase tracking-widest hover:bg-pink-600 hover:shadow-lg transition-all active:scale-[0.98] mt-6 shadow-[0_4px_20px_rgba(255,42,109,0.3)]">
+                    <button type="submit" class="w-full bg-pop-pink text-white border-2 border-ink dark:border-transparent rounded-xl md:rounded-lg py-4 md:py-3.5 font-bold font-display uppercase tracking-widest hover:bg-pink-600 hover:shadow-none transition-all active:scale-[0.98] mt-6 shadow-manga dark:shadow-[0_4px_20px_rgba(255,42,109,0.3)] hover:translate-y-1">
                         Start Adventure <i class="fas fa-chevron-right ml-1 text-sm"></i>
                     </button>
 
-                    <div class="mt-8 pt-6 border-t border-dashed border-gray-200 dark:border-zinc-800 text-center pb-8 md:pb-0">
+                    <div class="mt-8 pt-6 border-t-2 border-dashed border-ink/10 dark:border-zinc-800 text-center pb-8 md:pb-0">
                         <p class="text-xs font-mono text-gray-500">Existing Player? <a href="signin.html" class="font-bold text-pop-pink hover:underline decoration-wavy ml-1">Load Save</a></p>
                     </div>
                 </form>

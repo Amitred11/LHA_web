@@ -27,7 +27,8 @@
         }
     </script>
 </head>
-<body class="bg-paper dark:bg-black text-ink dark:text-paper h-screen flex flex-col items-center justify-center overflow-hidden relative p-4 transition-colors duration-500">
+<!-- Changed h-screen to min-h-screen and removed overflow-hidden for better mobile scrolling -->
+<body class="bg-paper dark:bg-black text-ink dark:text-paper min-h-screen flex flex-col items-center justify-center overflow-x-hidden relative p-4 transition-colors duration-500">
 
     <!-- Background Grid -->
     <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
@@ -37,7 +38,8 @@
         <div class="w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-neon-lime rounded-full blur-[100px] md:blur-[150px]"></div>
     </div>
 
-    <div class="relative z-10 text-center max-w-lg w-full flex flex-col h-full md:h-auto justify-center">
+    <!-- Added py-8 for vertical breathing room on mobile -->
+    <div class="relative z-10 text-center max-w-lg w-full flex flex-col justify-center py-8 md:py-0">
         
         <div class="flex-1 flex flex-col justify-center items-center md:block">
             <!-- Icon -->
@@ -60,7 +62,8 @@
         </div>
 
         <!-- Buttons -->
-        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full mt-auto md:mt-0 pb-6 md:pb-0">
+        <!-- Increased padding-bottom (pb-10) to create space below 'Return Base' on mobile -->
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full mt-auto md:mt-0 pb-10 md:pb-0">
             <a href="/src/screens/projects/myprojects.html" class="w-full sm:w-auto bg-ink dark:bg-white text-white dark:text-ink px-8 py-4 md:py-3.5 rounded-lg border-2 border-transparent font-bold font-display uppercase hover:-translate-y-1 hover:shadow-lg transition-all text-sm tracking-wide shadow-lg md:shadow-none">
                 View Status
             </a>

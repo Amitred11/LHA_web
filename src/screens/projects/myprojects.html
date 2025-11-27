@@ -17,11 +17,25 @@
                     backgroundImage: {
                         'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
                         'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+                        'halftone': "radial-gradient(#cbd5e1 2px, transparent 2px)",
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
                     },
                     boxShadow: { 
                         'manga': '4px 4px 0px 0px #09090b', 
+                        'manga-sm': '2px 2px 0px 0px #09090b', 
                         'manga-white': '4px 4px 0px 0px #ffffff',
                         'neon': '0 0 15px rgba(209, 242, 94, 0.4)'
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
                     }
                 }
             }
@@ -29,36 +43,57 @@
     </script>
     <style>
         .bg-grid { background-size: 40px 40px; }
-        .filter-btn.active { background-color: #09090b; color: #d1f25e; border-color: #09090b; }
-        .dark .filter-btn.active { background-color: #d1f25e; color: #09090b; border-color: #d1f25e; }
+        .bg-halftone { background-size: 20px 20px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Filter Button Active State Logic */
+        .filter-btn.active { 
+            background-color: #09090b; 
+            color: #d1f25e; 
+            border-color: #09090b; 
+            box-shadow: 4px 4px 0px 0px #d1f25e;
+            transform: translate(-2px, -2px);
+        }
+        .dark .filter-btn.active { 
+            background-color: #d1f25e; 
+            color: #09090b; 
+            border-color: #d1f25e; 
+            box-shadow: none;
+            transform: none;
+        }
     </style>
 </head>
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 min-h-screen flex flex-col relative">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 min-h-screen flex flex-col relative overflow-x-hidden selection:bg-neon-lime selection:text-ink">
 
-    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
+    <!-- Global Effects -->
+    <div class="fixed inset-0 z-[-1] bg-noise opacity-40 pointer-events-none dark:opacity-0"></div>
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-grid-dark opacity-30 dark:opacity-10 pointer-events-none"></div>
+
+    <!-- Ambient Blobs (Light Mode Only) -->
+    <div class="fixed top-0 left-[-10%] w-[500px] h-[500px] bg-cyber-cyan/20 rounded-full blur-[100px] animate-blob dark:hidden z-[-2]"></div>
+    <div class="fixed bottom-0 right-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] animate-blob animation-delay-2000 dark:hidden z-[-2]"></div>
 
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
         <div class="container mx-auto max-w-7xl">
-            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga dark:shadow-none transition-all">
+            <div class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 flex justify-between items-center shadow-manga-sm dark:shadow-none transition-all">
                 
                 <!-- Updated: Back Button -->
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-white dark:bg-zinc-800 text-ink dark:text-white border-2 border-gray-200 dark:border-zinc-600 w-10 h-10 flex items-center justify-center rounded-lg font-bold text-lg group-hover:-translate-x-1 group-hover:border-ink dark:group-hover:border-white transition-all shadow-sm">
+                    <div class="bg-white dark:bg-zinc-800 text-ink dark:text-white border-2 border-ink dark:border-zinc-600 w-10 h-10 flex items-center justify-center rounded-lg font-bold text-lg group-hover:-translate-x-1 shadow-[2px_2px_0px_#000] dark:shadow-sm transition-all">
                         <i class="fas fa-arrow-left"></i>
                     </div>
                     <span class="font-mono font-bold text-xs uppercase tracking-widest hidden sm:block text-gray-500 dark:text-gray-400 group-hover:text-ink dark:group-hover:text-white transition-colors">Return</span>
                 </a>
 
                 <div class="flex items-center gap-4">
-                    <a href="/src/screens/projects/start-project.html" class="hidden md:flex items-center gap-2 bg-ink dark:bg-neon-lime text-white dark:text-ink border-2 border-transparent px-5 py-2 rounded-lg font-bold font-mono text-xs uppercase hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                    <a href="/src/screens/projects/start-project.html" class="hidden md:flex items-center gap-2 bg-primary dark:bg-neon-lime text-white dark:text-ink border-2 border-ink dark:border-transparent px-5 py-2 rounded-lg font-bold font-mono text-xs uppercase shadow-manga dark:shadow-none hover:shadow-none hover:translate-y-0.5 transition-all">
                         <i class="fas fa-plus"></i> New Quest
                     </a>
-                    <button id="theme-toggle" class="w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors">
+                    <button id="theme-toggle" class="w-10 h-10 rounded-lg border-2 border-ink/20 dark:border-zinc-700 flex items-center justify-center hover:bg-neon-lime hover:border-ink hover:text-ink dark:hover:bg-zinc-800 transition-all text-gray-600 dark:text-yellow-400">
                         <i class="fas fa-moon block dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
                     </button>
                 </div>
             </div>
@@ -69,30 +104,42 @@
     <main class="flex-grow pt-32 pb-20 px-4">
         <div class="container mx-auto max-w-6xl">
             
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-2 border-gray-200 dark:border-zinc-800 pb-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b-2 border-ink/10 dark:border-zinc-800 pb-6">
                 <div>
-                    <div class="inline-flex items-center gap-2 bg-cyber-cyan text-ink border-2 border-ink dark:border-white px-3 py-1 font-mono text-xs font-bold mb-4 transform -rotate-2 shadow-sm rounded">
+                    <div class="inline-flex items-center gap-2 bg-cyber-cyan text-ink border-2 border-ink dark:border-white px-3 py-1 font-mono text-xs font-bold mb-4 transform -rotate-2 shadow-[4px_4px_0px_#000] dark:shadow-sm rounded">
                         <span class="animate-pulse bg-white rounded-full w-2 h-2"></span> ACTIVE LOGS
                     </div>
-                    <h1 class="font-display font-black text-5xl md:text-7xl uppercase leading-none tracking-tight">
-                        Project <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pop-pink">Directory</span>
+                    <h1 class="font-display font-black text-5xl md:text-7xl uppercase leading-none tracking-tight text-ink dark:text-white">
+                        Project <br class="md:hidden">
+                        <span class="relative inline-block">
+                            <!-- Marker highlight -->
+                            <span class="absolute inset-x-0 bottom-2 h-4 md:h-6 bg-pop-pink/60 -skew-x-6 z-[-1] dark:hidden"></span>
+                            <span class="text-ink dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-primary dark:to-pop-pink">Directory</span>
+                        </span>
                     </h1>
                 </div>
-                <div class="mt-4 md:mt-0 text-right font-mono text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-zinc-900 px-3 py-1 rounded border border-gray-200 dark:border-zinc-700">
-                    STATUS: <span id="total-count" class="text-ink dark:text-white font-bold">Loading...</span>
+                <div class="mt-4 md:mt-0 text-right font-mono text-sm text-gray-500 dark:text-gray-400 bg-white dark:bg-zinc-900 px-4 py-2 rounded border-2 border-ink/10 dark:border-zinc-700 shadow-sm">
+                    STATUS: <span id="total-count" class="text-primary dark:text-white font-bold">Loading...</span>
                 </div>
             </div>
 
             <!-- Filters -->
-            <div class="flex gap-3 mb-10 overflow-x-auto pb-2 no-scrollbar">
-                <button data-filter="all" class="filter-btn active px-6 py-2.5 rounded-lg border-2 border-ink dark:border-zinc-600 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:-translate-y-0.5 shadow-sm">All Quests</button>
-                <button data-filter="active" class="filter-btn bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-400 px-6 py-2.5 rounded-lg border-2 border-gray-200 dark:border-zinc-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:bg-gray-50 dark:hover:bg-zinc-800">In Progress</button>
-                <button data-filter="completed" class="filter-btn bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-400 px-6 py-2.5 rounded-lg border-2 border-gray-200 dark:border-zinc-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:bg-gray-50 dark:hover:bg-zinc-800">Completed</button>
+            <div class="flex gap-3 mb-10 overflow-x-auto pb-4 no-scrollbar">
+                <!-- Buttons start with default styles, JS toggles 'active' class which triggers CSS -->
+                <button data-filter="all" class="filter-btn active px-6 py-2.5 rounded-lg border-2 border-ink dark:border-zinc-600 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:-translate-y-0.5">All Quests</button>
+                
+                <button data-filter="active" class="filter-btn bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-400 px-6 py-2.5 rounded-lg border-2 border-ink/20 dark:border-zinc-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:border-ink dark:hover:border-zinc-500">In Progress</button>
+                
+                <button data-filter="completed" class="filter-btn bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-400 px-6 py-2.5 rounded-lg border-2 border-ink/20 dark:border-zinc-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:border-ink dark:hover:border-zinc-500">Completed</button>
             </div>
 
             <!-- Grid -->
             <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <!-- Javascript will inject cards here -->
+                <!-- The JS should generate cards that match the theme. 
+                     If using default card styles, consider updating the JS to use classes like:
+                     bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 shadow-manga dark:shadow-none
+                -->
             </div>
         </div>
     </main>
@@ -115,15 +162,17 @@
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
+                // Reset all buttons to inactive state
                 buttons.forEach(b => {
                     b.classList.remove('active');
-                    b.classList.add('bg-white', 'dark:bg-zinc-900', 'text-gray-500', 'dark:text-gray-400', 'border-gray-200', 'dark:border-zinc-700');
-                    b.classList.remove('bg-ink', 'dark:bg-neon-lime', 'text-white', 'dark:text-ink', 'border-ink', 'dark:border-neon-lime');
+                    // Reset to default base styles
+                    b.className = 'filter-btn bg-white dark:bg-zinc-900 text-gray-500 dark:text-gray-400 px-6 py-2.5 rounded-lg border-2 border-ink/20 dark:border-zinc-700 font-bold font-mono text-xs uppercase whitespace-nowrap transition-all hover:border-ink dark:hover:border-zinc-500';
                 });
                 
+                // Set clicked button to active state (CSS handles the visual pop)
                 btn.classList.add('active');
-                // Re-apply active styles manually if needed by JS, or rely on CSS class
-                btn.classList.remove('bg-white', 'dark:bg-zinc-900', 'text-gray-500', 'dark:text-gray-400', 'border-gray-200', 'dark:border-zinc-700');
+                // Remove the default styling classes that might conflict with .active CSS
+                btn.classList.remove('bg-white', 'dark:bg-zinc-900', 'text-gray-500', 'border-ink/20');
             });
         });
     </script>

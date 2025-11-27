@@ -124,11 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
             iconHTML: '<i class="fas fa-sign-out-alt text-3xl text-hot-pink"></i>',
             confirmText: 'Log Out',
             onConfirm: () => {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userId'); 
-                localStorage.removeItem('username');
-                window.location.assign('/index.html');
+                Loader.shutdown(() => {
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userId'); 
+                    localStorage.removeItem('username');
+                    window.location.assign('/index.html');
+                });
             }
         });
     };

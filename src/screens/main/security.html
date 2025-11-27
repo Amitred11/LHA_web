@@ -2,29 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SECURITY CHECK | GATEKEEPER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GATEKEEPER | AUTH v5.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
-                        mono: ['"Share Tech Mono"', 'monospace'], 
-                        display: ['"Rajdhani"', 'sans-serif'] 
+                        sans: ['"Space Grotesk"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'], 
                     },
                     colors: { 
-                        cyber: '#05d9e8', 
-                        pop: '#ff2a6d',
-                        dark: '#0a0a0a',
-                        terminal: '#10b981'
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        neonBlue: '#3b82f6', 
+                        neonPurple: '#8b5cf6',
+                        alert: '#ef4444',
+                        success: '#10b981',
+                        warning: '#f59e0b'
                     },
                     animation: {
                         'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both'
+                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both'
                     },
                     keyframes: {
                         shake: {
@@ -33,217 +35,220 @@
                             '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
                             '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
                         }
+                    },
+                    backgroundImage: {
+                        'stripes': 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.2) 10px, rgba(0,0,0,0.2) 20px)'
                     }
                 }
             }
         }
     </script>
     <style>
-        body { 
-            background-color: #020202; 
-            background-image: 
-                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-        }
+        body { background-color: #0f172a; color: white; }
         
-        /* Scanline Mesh Background */
-        .bg-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        /* Glass Card */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
 
-        .corner-border {
+        .ambient-light {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            border-color: #05d9e8;
-            border-style: solid;
-            transition: all 0.3s ease;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
         }
-        .blinking-cursor::after {
-            content: '|';
-            animation: blink 1s step-end infinite;
+
+        /* Construction Stripes for disabled elements */
+        .hazard-stripes {
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.03),
+                rgba(255, 255, 255, 0.03) 10px,
+                transparent 10px,
+                transparent 20px
+            );
         }
-        @keyframes blink { 50% { opacity: 0; } }
-        
-        /* CRT Flicker */
-        .crt-flicker { animation: flicker 0.15s infinite; pointer-events: none; position: absolute; inset: 0; background: rgba(18, 16, 16, 0.1); z-index: 50; opacity: 0.1;}
-        @keyframes flicker { 0% { opacity: 0.05; } 50% { opacity: 0.1; } 100% { opacity: 0.05; } }
     </style>
 </head>
-<body class="h-screen w-screen flex items-center justify-center text-white font-mono overflow-hidden relative">
+<body class="h-screen w-screen overflow-hidden flex items-center justify-center relative bg-[#020617]">
 
-    <div class="absolute inset-0 bg-grid z-0"></div>
-    <div class="crt-flicker"></div>
+    <div class="ambient-light top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="ambient-light bottom-0 right-0 translate-x-1/2 translate-y-1/2 bg-[radial-gradient(circle,rgba(245,158,11,0.08)_0%,rgba(0,0,0,0)_70%)]"></div>
 
-    <!-- Main Card -->
-    <div class="relative z-10 w-[90%] max-w-[450px] bg-zinc-900/95 backdrop-blur-md border border-zinc-800 p-6 md:p-8 shadow-[0_0_60px_rgba(5,217,232,0.1)] group">
+    <main class="relative z-10 w-full max-w-[420px] px-5">
         
-        <!-- Tech Corners -->
-        <div class="corner-border border-t-2 border-l-2 -top-[1px] -left-[1px]"></div>
-        <div class="corner-border border-t-2 border-r-2 -top-[1px] -right-[1px]"></div>
-        <div class="corner-border border-b-2 border-l-2 -bottom-[1px] -left-[1px]"></div>
-        <div class="corner-border border-b-2 border-r-2 -bottom-[1px] -right-[1px]"></div>
-
-        <!-- Header -->
-        <div class="text-center mb-8 border-b border-zinc-800 pb-4 relative">
-            <div class="absolute top-0 right-0 text-[8px] text-zinc-600">SYS.VER.4.0.2</div>
-            <i class="fas fa-shield-halved text-5xl text-cyber mb-3 drop-shadow-[0_0_10px_rgba(5,217,232,0.5)]"></i>
-            <h1 class="text-3xl font-display font-bold tracking-widest text-white uppercase">Gatekeeper</h1>
-            <div class="flex items-center justify-center gap-2 mt-2">
-                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                <p class="text-[10px] text-zinc-400 uppercase tracking-[0.3em]">Identity Verification Required</p>
-            </div>
-        </div>
-
-        <!-- Method Selection -->
-        <div id="step-1" class="space-y-4">
+        <!-- Main Card -->
+        <div class="glass-panel rounded-3xl p-6 md:p-8 relative overflow-hidden flex flex-col gap-6">
             
-            <!-- DISABLED BIOMETRICS -->
-            <button id="btn-bio" onclick="deniedAnim()" class="relative w-full h-20 border border-zinc-800 bg-zinc-950/50 rounded flex items-center px-4 opacity-50 cursor-not-allowed grayscale transition-all overflow-hidden group/bio">
-                <!-- Diagonal stripes overlay -->
-                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTBMMTAgMFoiIHN0cm9rZT0icmdiYSg1MCw1MCw1MCwwLjUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')] opacity-20"></div>
-                
-                <div class="w-12 h-12 flex items-center justify-center border border-red-900/50 bg-red-900/10 rounded mr-4">
-                    <i class="fas fa-fingerprint text-2xl text-red-700"></i>
-                </div>
-                <div class="text-left flex-1">
-                    <div class="flex justify-between items-center">
-                        <div class="text-sm font-bold text-zinc-500 line-through decoration-red-500">BIOMETRIC SCAN</div>
-                        <span class="text-[9px] bg-red-900/20 text-red-500 border border-red-900/50 px-2 py-0.5 rounded">OFFLINE</span>
+            <!-- Header -->
+            <div class="flex items-start justify-between">
+                <div>
+                    <h1 class="font-sans text-xl font-bold text-white tracking-wide">Gatekeeper</h1>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <p class="font-mono text-[10px] text-slate-400 uppercase tracking-widest">Sys.Ver.5.0 (Beta)</p>
                     </div>
-                    <div class="text-[10px] text-red-800/80 font-bold mt-1 tracking-wider">HARDWARE ERROR // ERR_NO_CONN</div>
                 </div>
-            </button>
+                <i class="fas fa-shield-cat text-2xl text-slate-600"></i>
+            </div>
 
-            <!-- ACTIVE PASSWORD -->
-            <button onclick="startPass()" class="w-full h-20 border border-cyber/30 hover:border-cyber bg-cyan-950/10 hover:bg-cyan-950/30 rounded flex items-center px-4 transition-all group/pass relative overflow-hidden shadow-[0_0_15px_rgba(5,217,232,0.05)] hover:shadow-[0_0_20px_rgba(5,217,232,0.2)]">
-                <div class="absolute inset-0 bg-cyber/5 translate-x-[-100%] group-hover/pass:translate-x-[100%] transition-transform duration-1000"></div>
+            <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
+
+            <!-- UNAVAILABLE METHODS -->
+            <div class="space-y-3">
+                <p class="text-[10px] font-mono text-slate-500 uppercase tracking-wider mb-2">Primary Authentication</p>
                 
-                <div class="w-12 h-12 flex items-center justify-center border border-cyber/50 bg-cyber/10 rounded mr-4 shadow-[0_0_10px_rgba(5,217,232,0.2)]">
-                    <i class="fas fa-keyboard text-2xl text-cyber group-hover/pass:animate-pulse"></i>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Face Scan (Disabled) -->
+                    <button onclick="triggerError(this, 'SENSOR_OFFLINE')" class="group relative h-28 rounded-xl border border-slate-800 bg-slate-900/40 hover:bg-slate-900/60 transition-all overflow-hidden flex flex-col items-center justify-center gap-3 hazard-stripes">
+                        <div class="absolute top-2 right-2 px-1.5 py-0.5 bg-yellow-500/10 border border-yellow-500/20 rounded text-[8px] text-yellow-500 font-bold tracking-wider">DEV_BUILD</div>
+                        
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center group-active:scale-95 transition-transform">
+                            <i class="fas fa-expand text-slate-500 text-lg"></i>
+                        </div>
+                        <span class="text-xs font-mono text-slate-500 group-hover:text-slate-400">FACE_ID</span>
+                        
+                        <!-- Diagonal Strike -->
+                        <div class="absolute inset-0 bg-black/20 hidden group-active:block"></div>
+                    </button>
+
+                    <!-- Fingerprint (Disabled) -->
+                    <button onclick="triggerError(this, 'HARDWARE_MISSING')" class="group relative h-28 rounded-xl border border-slate-800 bg-slate-900/40 hover:bg-slate-900/60 transition-all overflow-hidden flex flex-col items-center justify-center gap-3 hazard-stripes">
+                        <div class="absolute top-2 right-2 px-1.5 py-0.5 bg-red-500/10 border border-red-500/20 rounded text-[8px] text-red-500 font-bold tracking-wider">OFFLINE</div>
+                        
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center group-active:scale-95 transition-transform">
+                            <i class="fas fa-fingerprint text-slate-500 text-lg"></i>
+                        </div>
+                        <span class="text-xs font-mono text-slate-500 group-hover:text-slate-400">TOUCH_ID</span>
+                    </button>
                 </div>
-                <div class="text-left">
-                    <div class="text-sm font-bold text-cyber tracking-wider">MANUAL OVERRIDE</div>
-                    <div class="text-[10px] text-zinc-400 group-hover/pass:text-white transition-colors">Enter Security Passcode</div>
+            </div>
+
+            <!-- MANUAL OVERRIDE (Active) -->
+            <div class="space-y-3 pt-2">
+                <div class="flex items-center justify-between">
+                    <p class="text-[10px] font-mono text-neonBlue uppercase tracking-wider">Manual Override</p>
+                    <span id="lock-status" class="text-[10px] text-slate-600"><i class="fas fa-lock"></i> LOCKED</span>
                 </div>
-                <i class="fas fa-chevron-right ml-auto text-zinc-600 group-hover/pass:text-cyber"></i>
-            </button>
-            
-            <a href="/index.html" class="block text-center text-[10px] text-zinc-600 hover:text-red-500 mt-6 pt-4 border-t border-zinc-900 transition-colors uppercase tracking-widest">
-                <i class="fas fa-power-off mr-1"></i> Terminate Session
-            </a>
+
+                <div class="relative group/input">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl opacity-0 group-focus-within/input:opacity-30 transition duration-500 blur"></div>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-4 text-slate-500 font-mono text-xs">></span>
+                        <input type="password" 
+                            id="pass-input"
+                            autocomplete="off"
+                            placeholder="ENTER PASSCODE"
+                            class="w-full bg-[#0B1121] border border-slate-700/50 text-white font-mono text-sm rounded-xl py-4 pl-8 pr-12 focus:outline-none focus:border-neonBlue transition-colors tracking-widest placeholder-slate-700 uppercase shadow-inner">
+                        
+                        <button onclick="verify()" class="absolute right-2 p-2 bg-slate-800 hover:bg-neonBlue rounded-lg text-slate-400 hover:text-white transition-all group/btn">
+                            <i class="fas fa-arrow-right text-xs group-hover/btn:translate-x-0.5 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Toast Area -->
+            <div id="status-bar" class="h-8 flex items-center justify-center border-t border-white/5 mt-2">
+                <span id="msg" class="text-[10px] font-mono text-slate-500 tracking-tight">WAITING FOR INPUT...</span>
+            </div>
+
         </div>
-
-        <!-- Passcode View -->
-        <div id="step-pass" class="hidden">
-            <div class="flex items-center justify-between mb-6">
-                <span class="text-xs text-cyber font-bold tracking-widest border-b border-cyber/50 pb-1">SECURE_LOGIN_SHELL</span>
-                <span id="timer" class="text-[10px] text-red-500 font-mono">NO_TIMEOUT</span>
-            </div>
-
-            <div class="relative mb-6 group">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-cyber to-pop rounded blur opacity-20 group-focus-within:opacity-50 transition duration-500"></div>
-                <input type="password" id="pass-input" 
-                    class="relative w-full bg-black border border-zinc-700 text-center text-2xl tracking-[0.5em] text-white p-4 rounded focus:outline-none focus:border-cyber transition-colors uppercase placeholder-zinc-800 font-bold shadow-inner" 
-                    placeholder="****" maxlength="10">
-                <div class="absolute right-3 top-1/2 -translate-y-1/2">
-                    <i class="fas fa-lock text-zinc-700"></i>
-                </div>
-            </div>
-            
-            <div id="status-display" class="h-6 text-center mb-4">
-                <span class="blinking-cursor text-xs text-zinc-500">AWAITING INPUT...</span>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="reset()" class="bg-transparent border border-zinc-700 text-zinc-500 text-xs py-3 rounded hover:bg-zinc-800 hover:text-white transition-colors uppercase font-bold">
-                    <i class="fas fa-arrow-left mr-1"></i> Back
-                </button>
-                <button onclick="verify()" class="bg-cyber/10 border border-cyber text-cyber text-xs py-3 rounded hover:bg-cyber hover:text-black transition-all uppercase font-bold shadow-[0_0_15px_rgba(5,217,232,0.2)]">
-                    Execute <i class="fas fa-terminal ml-1"></i>
-                </button>
-            </div>
-        </div>
-
-    </div>
+    </main>
 
     <script>
-        // Clear any existing session
+        // Session Cleanup
         localStorage.removeItem('lha_auth');
         localStorage.removeItem('lha_role');
 
-        function reset() {
-            document.getElementById('step-1').classList.remove('hidden');
-            document.getElementById('step-pass').classList.add('hidden');
-            document.getElementById('pass-input').value = '';
-            document.querySelector('#status-display span').innerText = "AWAITING INPUT...";
-            document.querySelector('#status-display span').className = "blinking-cursor text-xs text-zinc-500";
-        }
+        const msg = document.getElementById('msg');
+        const input = document.getElementById('pass-input');
 
-        // Animation for the disabled button
-        function deniedAnim() {
-            const btn = document.getElementById('btn-bio');
+        // Handle the "Unavailable" buttons
+        function triggerError(element, errorCode) {
+            // Shake animation
+            element.classList.remove('animate-shake');
+            void element.offsetWidth; // trigger reflow
+            element.classList.add('animate-shake', 'border-red-500/50');
             
-            // Add shake animation
-            btn.classList.add('animate-shake', 'border-red-500');
+            // Visual feedback
+            const icon = element.querySelector('i');
+            const originalClass = icon.className;
             
-            // Reset after animation
+            // Switch to error icon temporarily
+            icon.className = "fas fa-triangle-exclamation text-red-500 text-lg";
+            
+            msg.innerText = `ERR: ${errorCode} // MODULE_NOT_READY`;
+            msg.className = "text-[10px] font-mono text-red-500 font-bold tracking-tight animate-pulse";
+
+            // Reset after delay
             setTimeout(() => {
-                btn.classList.remove('animate-shake', 'border-red-500');
+                element.classList.remove('border-red-500/50');
+                icon.className = originalClass;
             }, 500);
+
+            setTimeout(() => {
+                msg.innerText = "PLEASE USE MANUAL OVERRIDE";
+                msg.className = "text-[10px] font-mono text-slate-500 tracking-tight";
+            }, 2000);
         }
 
-        function startPass() {
-            document.getElementById('step-1').classList.add('hidden');
-            document.getElementById('step-pass').classList.remove('hidden');
-            setTimeout(() => document.getElementById('pass-input').focus(), 100);
-        }
-
-        document.getElementById('pass-input').addEventListener('keypress', function (e) {
+        // Handle Password Input
+        input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') verify();
         });
 
+        input.addEventListener('input', () => {
+            input.classList.remove('border-red-500', 'text-red-500');
+            msg.innerText = "DECRYPTING...";
+            msg.className = "text-[10px] font-mono text-neonBlue tracking-tight";
+        });
+
         function verify() {
-            const code = document.getElementById('pass-input').value.toUpperCase();
-            const statusText = document.querySelector('#status-display span');
+            const code = input.value.toUpperCase().trim();
             
-            statusText.innerText = "VERIFYING HASH...";
-            statusText.className = "text-xs text-yellow-500 blink";
+            msg.innerText = "CHECKING DATABASE...";
+            msg.className = "text-[10px] font-mono text-yellow-500 tracking-tight blink";
 
             setTimeout(() => {
                 if (code === 'OTAKU') success('user');
                 else if (code === 'ADMIN_01') success('admin');
                 else {
-                    // Failure State
-                    const input = document.getElementById('pass-input');
+                    // Fail State
                     input.value = '';
                     input.classList.add('border-red-500', 'text-red-500');
+                    msg.innerText = "ACCESS DENIED // INVALID KEY";
+                    msg.className = "text-[10px] font-mono text-red-500 font-bold tracking-tight";
                     
-                    statusText.innerText = "ACCESS DENIED // INVALID KEY";
-                    statusText.className = "text-xs text-red-500 font-bold animate-pulse";
-                    
-                    setTimeout(() => {
-                        input.classList.remove('border-red-500', 'text-red-500');
-                        statusText.innerText = "AWAITING INPUT...";
-                        statusText.className = "blinking-cursor text-xs text-zinc-500";
-                    }, 1500);
+                    // Simple input shake
+                    input.animate([
+                        { transform: 'translateX(0)' }, 
+                        { transform: 'translateX(-5px)' }, 
+                        { transform: 'translateX(5px)' }, 
+                        { transform: 'translateX(0)' }
+                    ], { duration: 300 });
                 }
-            }, 600); // Artificial delay for realism
+            }, 600);
         }
 
         function success(role) {
             localStorage.setItem('lha_auth', 'true');
             localStorage.setItem('lha_role', role);
+
+            msg.innerText = "IDENTITY VERIFIED. WELCOME.";
+            msg.className = "text-[10px] font-mono text-emerald-400 font-bold tracking-tight";
             
-            const statusText = document.querySelector('#status-display span');
-            statusText.innerText = "ACCESS GRANTED. LOADING SHELL...";
-            statusText.className = "text-xs text-terminal font-bold";
+            document.getElementById('lock-status').innerHTML = '<i class="fas fa-lock-open"></i> UNLOCKED';
+            document.getElementById('lock-status').className = "text-[10px] text-emerald-500";
             
-            document.getElementById('pass-input').classList.add('border-terminal', 'text-terminal');
+            input.classList.add('border-emerald-500', 'text-emerald-500');
 
             setTimeout(() => {
                 window.location.href = 'comics.html';

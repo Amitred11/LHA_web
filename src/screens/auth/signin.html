@@ -25,6 +25,8 @@
                     backgroundImage: {
                         'grid': "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
                         'grid-dark': "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+                        'halftone': "radial-gradient(#cbd5e1 2px, transparent 2px)",
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
                     },
                     boxShadow: {
                         'manga': '4px 4px 0px 0px #09090b',
@@ -34,6 +36,7 @@
                     animation: {
                         'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
                         'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
                     },
                     keyframes: {
                         slideUp: {
@@ -43,6 +46,12 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         }
                     }
                 }
@@ -51,6 +60,7 @@
     </script>
     <style>
         .bg-grid { background-size: 40px 40px; }
+        .bg-halftone { background-size: 20px 20px; }
         .input-group:focus-within label { color: #8b5cf6; }
         .dark .input-group:focus-within label { color: #8b5cf6; }
         /* Mobile specific scroll hide */
@@ -58,14 +68,18 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<!-- UPDATED: Changed h-screen to h-[100dvh] for better mobile browser support -->
-<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 h-[100dvh] w-screen overflow-hidden md:min-h-screen md:overflow-hidden md:flex md:justify-center md:items-center md:h-auto">
+<body class="text-ink bg-paper dark:bg-black dark:text-gray-200 font-body transition-colors duration-500 h-[100dvh] w-screen overflow-hidden md:min-h-screen md:overflow-hidden md:flex md:justify-center md:items-center md:h-auto relative">
 
-    <!-- Background Grid -->
-    <div class="fixed inset-0 z-[-1] bg-grid dark:bg-grid-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
+    <!-- Global Effects -->
+    <div class="fixed inset-0 z-[-1] bg-noise opacity-40 pointer-events-none dark:opacity-0"></div>
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-grid-dark opacity-30 dark:opacity-10 pointer-events-none"></div>
+
+    <!-- Ambient Blobs (Light Mode Only) -->
+    <div class="fixed top-0 left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] animate-blob dark:hidden z-[-2]"></div>
+    <div class="fixed bottom-0 right-[-10%] w-[500px] h-[500px] bg-cyber-cyan/20 rounded-full blur-[100px] animate-blob animation-delay-2000 dark:hidden z-[-2]"></div>
 
     <!-- Nav -->
-    <a href="/index.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/80 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga transition-all group">
+    <a href="/index.html" class="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center gap-2 font-mono font-bold text-xs uppercase bg-white/90 dark:bg-zinc-900/80 backdrop-blur md:bg-white md:dark:bg-zinc-900 border-2 border-ink dark:border-zinc-700 px-4 py-2 rounded-lg hover:shadow-manga dark:hover:shadow-manga transition-all group shadow-sm dark:shadow-none">
         <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> <span class="hidden sm:inline">Return to Base</span>
     </a>
 
@@ -73,11 +87,14 @@
     <div class="w-full h-full md:h-auto md:max-w-md relative group flex flex-col">
         
         <!-- MOBILE VISUAL TOP -->
-        <div class="md:hidden h-[40%] shrink-0 flex flex-col justify-center items-center relative overflow-hidden bg-zinc-900 text-white">
-            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+        <div class="md:hidden h-[40%] shrink-0 flex flex-col justify-center items-center relative overflow-hidden bg-ink dark:bg-zinc-900 text-white border-b-4 border-primary">
+             <!-- Light mode texture vs Dark mode texture -->
+            <div class="absolute inset-0 bg-halftone opacity-10 dark:opacity-0"></div>
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 dark:opacity-40"></div>
+            
             <div class="w-48 h-48 bg-primary/30 rounded-full blur-[60px] absolute animate-pulse"></div>
             <div class="relative z-10 flex flex-col items-center animate-float">
-                <i class="fas fa-fingerprint text-6xl text-primary mb-4 drop-shadow-[0_0_15px_rgba(139,92,246,0.8)]"></i>
+                <i class="fas fa-fingerprint text-6xl text-primary mb-4 drop-shadow-[4px_4px_0px_rgba(255,255,255,0.2)] dark:drop-shadow-[0_0_15px_rgba(139,92,246,0.8)]"></i>
                 <h1 class="font-display font-black text-4xl uppercase tracking-tighter">Identity</h1>
                 <div class="mt-2 px-3 py-1 border border-primary/30 rounded-full bg-black/50 backdrop-blur font-mono text-[10px] text-primary tracking-widest uppercase">
                     Secure Connection
@@ -85,16 +102,15 @@
             </div>
         </div>
         
-        <!-- Main Card / Mobile Drawer with internal scroll -->
+        <!-- Main Card / Mobile Drawer -->
         <div class="flex-1 md:flex-none bg-white dark:bg-zinc-900 md:border-2 md:border-ink md:dark:border-zinc-700 rounded-t-[2.5rem] md:rounded-xl relative z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-manga md:dark:shadow-neon -mt-8 md:mt-0 animate-slide-up md:animate-none overflow-hidden no-scrollbar">
             
-            <!-- UPDATED: Changed pb-12 to pb-32 to allow scrolling past bottom bars on mobile -->
             <div class="px-8 pt-8 pb-32 md:p-10">
 
                 <!-- Desktop Header (Hidden on Mobile) -->
                 <div class="hidden md:block text-center mb-8">
                     <h1 class="font-display font-black text-4xl uppercase tracking-tight text-ink dark:text-white">Identify</h1>
-                    <p class="text-xs font-mono text-gray-500 mt-2 uppercase tracking-widest">Enter Credentials to proceed.</p>
+                    <p class="text-xs font-mono text-ink/60 dark:text-gray-500 mt-2 uppercase tracking-widest bg-gray-100 dark:bg-transparent inline-block px-2 py-1 rounded">Enter Credentials to proceed.</p>
                 </div>
 
                 <form id="signin-form" class="space-y-4">
@@ -102,7 +118,7 @@
                         <label class="block font-bold mb-1 text-xs font-mono uppercase text-gray-500 transition-colors">Username / Email</label>
                         <div class="relative">
                             <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" name="username" required class="w-full bg-gray-100 dark:bg-black border-2 border-transparent dark:border-zinc-700 rounded-xl py-3 pl-10 pr-4 font-mono text-sm focus:border-ink dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400" placeholder="user@lha.gg">
+                            <input type="text" name="username" required class="w-full bg-white dark:bg-black border-2 border-ink/20 dark:border-zinc-700 rounded-xl py-3 pl-10 pr-4 font-mono text-sm focus:border-primary dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400 shadow-[4px_4px_0px_#e5e7eb] focus:shadow-[4px_4px_0px_#8b5cf6] dark:shadow-none dark:focus:shadow-none" placeholder="user@lha.gg">
                         </div>
                     </div>
 
@@ -110,7 +126,7 @@
                         <label class="block font-bold mb-1 text-xs font-mono uppercase text-gray-500 transition-colors">Password</label>
                         <div class="relative">
                             <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" id="password" name="password" required class="w-full bg-gray-100 dark:bg-black border-2 border-transparent dark:border-zinc-700 rounded-xl py-3 pl-10 pr-10 font-mono text-sm focus:border-ink dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400" placeholder="••••••••">
+                            <input type="password" id="password" name="password" required class="w-full bg-white dark:bg-black border-2 border-ink/20 dark:border-zinc-700 rounded-xl py-3 pl-10 pr-10 font-mono text-sm focus:border-primary dark:focus:border-primary focus:outline-none transition-all placeholder-gray-400 shadow-[4px_4px_0px_#e5e7eb] focus:shadow-[4px_4px_0px_#8b5cf6] dark:shadow-none dark:focus:shadow-none" placeholder="••••••••">
                             <button type="button" id="togglePassword" class="absolute top-1/2 -translate-y-1/2 right-3 text-gray-400 hover:text-primary transition-colors">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -118,27 +134,27 @@
                         <a href="forgot-password.html" class="block text-right text-[10px] font-bold font-mono text-gray-400 hover:text-pop-pink transition-colors uppercase tracking-wider mt-2">Forgot Password?</a>
                     </div>
 
-                    <button type="submit" class="w-full bg-ink dark:bg-white text-white dark:text-ink rounded-xl py-3.5 font-bold font-display uppercase tracking-widest hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all shadow-lg hover:-translate-y-1 active:scale-[0.98] !mt-5">
+                    <button type="submit" class="w-full bg-ink dark:bg-white text-white dark:text-ink rounded-xl py-3.5 font-bold font-display uppercase tracking-widest hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-all shadow-manga hover:shadow-none dark:shadow-lg hover:-translate-y-1 active:scale-[0.98] !mt-5 border-2 border-transparent hover:border-ink dark:hover:border-transparent">
                         Connect <i class="fas fa-arrow-right ml-2"></i>
                     </button>
                 </form>
 
                 <!-- Social Login Divider -->
                 <div class="relative flex items-center gap-4 py-4">
-                    <div class="flex-grow border-t border-gray-200 dark:border-zinc-800"></div>
+                    <div class="flex-grow border-t-2 border-dashed border-gray-200 dark:border-zinc-800"></div>
                     <span class="flex-shrink-0 text-[10px] font-mono font-bold text-gray-400 uppercase tracking-widest">Sync With</span>
-                    <div class="flex-grow border-t border-gray-200 dark:border-zinc-800"></div>
+                    <div class="flex-grow border-t-2 border-dashed border-gray-200 dark:border-zinc-800"></div>
                 </div>
 
                 <!-- Social Buttons -->
                 <div class="grid grid-cols-3 gap-3">
-                    <button class="h-12 flex items-center justify-center rounded-xl border-2 border-gray-200 dark:border-zinc-700 bg-gray-100 dark:bg-black text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white transition-all"><i class="fab fa-google text-lg"></i></button>
-                    <button class="h-12 flex items-center justify-center rounded-xl border-2 border-gray-200 dark:border-zinc-700 bg-gray-100 dark:bg-black text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white transition-all"><i class="fab fa-github text-lg"></i></button>
-                    <button class="h-12 flex items-center justify-center rounded-xl border-2 border-gray-200 dark:border-zinc-700 bg-gray-100 dark:bg-black text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white transition-all"><i class="fab fa-facebook-f text-lg"></i></button>
+                    <button class="h-12 flex items-center justify-center rounded-xl border-2 border-ink/20 dark:border-zinc-700 bg-white dark:bg-black text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white transition-all shadow-sm hover:shadow-manga-sm dark:hover:shadow-none"><i class="fab fa-google text-lg"></i></button>
+                    <button class="h-12 flex items-center justify-center rounded-xl border-2 border-ink/20 dark:border-zinc-700 bg-white dark:bg-black text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white transition-all shadow-sm hover:shadow-manga-sm dark:hover:shadow-none"><i class="fab fa-github text-lg"></i></button>
+                    <button class="h-12 flex items-center justify-center rounded-xl border-2 border-ink/20 dark:border-zinc-700 bg-white dark:bg-black text-gray-600 dark:text-gray-400 hover:border-ink dark:hover:border-white transition-all shadow-sm hover:shadow-manga-sm dark:hover:shadow-none"><i class="fab fa-facebook-f text-lg"></i></button>
                 </div>
                 
                 <!-- Create Character Link -->
-                <div class="text-center pt-6 mt-2 border-t border-dashed border-gray-200 dark:border-zinc-800">
+                <div class="text-center pt-6 mt-2 border-t-2 border-dashed border-gray-200 dark:border-zinc-800">
                     <p class="text-xs font-mono text-gray-500">
                         New Player? <a href="signup.html" class="font-bold text-primary hover:text-pop-pink hover:underline decoration-wavy ml-1 transition-colors">Create Character</a>
                     </p>

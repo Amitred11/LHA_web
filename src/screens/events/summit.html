@@ -19,24 +19,34 @@
                     fontFamily: { 'display': ['"Space Grotesk"', 'sans-serif'], 'body': ['"Outfit"', 'sans-serif'], 'mono': ['"JetBrains Mono"', 'monospace'] },
                     colors: { 'ink': '#09090b', 'paper': '#fdfbf7', 'primary': '#8b5cf6', 'pop-pink': '#ff2a6d', 'cyber-cyan': '#05d9e8', 'neon-lime': '#d1f25e', 'hot-pink': '#ff0055' },
                     backgroundImage: { 
-                        'halftone': "radial-gradient(#e5e7eb 2px, transparent 2px)", 
+                        'halftone': "radial-gradient(#cbd5e1 2px, transparent 2px)", 
                         'halftone-dark': "radial-gradient(#27272a 2px, transparent 2px)",
-                        'grid-cyber': "linear-gradient(to right, rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px)"
+                        'grid-cyber': "linear-gradient(to right, rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 1px, transparent 1px)",
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
                     },
                     boxShadow: { 
                         'manga': '6px 6px 0px 0px #09090b', 
                         'manga-sm': '3px 3px 0px 0px #09090b', 
+                        'pop-pink': '6px 6px 0px 0px #ff2a6d',
+                        'pop-cyan': '6px 6px 0px 0px #05d9e8',
                         'neon': '0 0 20px rgba(209, 242, 94, 0.5)',
                         'neon-pink': '0 0 20px rgba(255, 42, 109, 0.5)'
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'blob': 'blob 7s infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         }
                     }
                 }
@@ -80,14 +90,6 @@
             100% { clip: rect(50px, 9999px, 10px, 0); }
         }
 
-        /* Holographic Sheen */
-        .holographic {
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.1) 55%, transparent 100%);
-            background-size: 200% 200%;
-            animation: holo 3s infinite linear;
-        }
-        @keyframes holo { 0% { background-position: 200% 200%; } 100% { background-position: -200% -200%; } }
-
         /* Utility */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -96,28 +98,39 @@
         
         /* Mobile Menu Transitions */
         #mobile-menu { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        
+        /* Background Sizes */
+        .bg-halftone { background-size: 20px 20px; }
     </style>
 </head>
 <body class="text-ink bg-paper dark:bg-[#0a0a0a] dark:text-gray-200 font-body transition-colors duration-500 overflow-x-hidden relative flex flex-col min-h-screen selection:bg-neon-lime selection:text-ink">
 
     <!-- Global Effects -->
+    <!-- Noise texture for light mode grit -->
+    <div class="fixed inset-0 z-[100] bg-noise opacity-40 pointer-events-none dark:opacity-0"></div>
     <div class="fixed inset-0 z-[100] scanlines opacity-20 pointer-events-none"></div>
-    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-40 dark:opacity-10 pointer-events-none"></div>
     
+    <!-- Background Patterns -->
+    <div class="fixed inset-0 z-[-1] bg-halftone dark:bg-halftone-dark opacity-30 dark:opacity-10 pointer-events-none"></div>
+    
+    <!-- Ambient Light Blobs (Light Mode Only) -->
+    <div class="fixed top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] animate-blob dark:hidden z-[-2]"></div>
+    <div class="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyber-cyan/20 rounded-full blur-[100px] animate-blob animation-delay-2000 dark:hidden z-[-2]"></div>
+
     <!-- Navbar (Always Visible) -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300">
         <div class="container mx-auto max-w-7xl">
             <!-- Mobile Header -->
-            <div class="md:hidden flex justify-between items-center bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-4 py-3 rounded-full border border-gray-200 dark:border-zinc-800 shadow-lg relative z-50">
+            <div class="md:hidden flex justify-between items-center bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-4 py-3 rounded-full border-2 border-ink dark:border-zinc-800 shadow-manga-sm dark:shadow-lg relative z-50">
                 <a href="/index.html" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-neon-lime text-ink rounded-full flex items-center justify-center font-bold shadow-sm hover:rotate-12 transition-transform">
+                    <div class="w-8 h-8 bg-neon-lime text-ink rounded-full flex items-center justify-center font-bold shadow-sm hover:rotate-12 transition-transform border border-ink">
                         <i class="fas fa-arrow-left text-sm"></i>
                     </div>
-                    <span class="font-display font-black text-lg uppercase tracking-tight">SUMMIT<span class="text-neon-lime">.25</span></span>
+                    <span class="font-display font-black text-lg uppercase tracking-tight">SUMMIT<span class="text-neon-lime dark:text-neon-lime text-stroke">.25</span></span>
                 </a>
                 <!-- RIGHT: Actions -->
                  <div class="flex items-center gap-3">
-                    <button id="theme-toggle-mobile" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-yellow-400 transition-colors active:scale-95">
+                    <button id="theme-toggle-mobile" class="w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-zinc-800 border-2 border-ink dark:border-zinc-700 text-gray-600 dark:text-yellow-400 transition-colors active:scale-95 shadow-sm">
                         <i class="fas fa-moon block dark:hidden text-xs"></i>
                         <i class="fas fa-sun hidden dark:block text-xs"></i>
                     </button>
@@ -128,12 +141,13 @@
             </div>
 
             <!-- Desktop Header -->
-            <div class="hidden md:flex bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-2 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 justify-between items-center shadow-manga dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all">
+            <!-- Light Mode: Thicker border, shadow -->
+            <div class="hidden md:flex bg-white/90 dark:bg-zinc-900/80 backdrop-blur-md border-2 border-b-4 border-ink dark:border-zinc-700 rounded-xl px-5 py-3 justify-between items-center shadow-manga-sm dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all">
                 <a href="/index.html" class="flex items-center gap-3 group">
-                    <div class="bg-ink dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl group-hover:-translate-x-1 transition-transform shadow-sm"><i class="fas fa-arrow-left"></i></div>
+                    <div class="bg-primary dark:bg-white text-white dark:text-ink w-10 h-10 flex items-center justify-center rounded-lg font-display font-bold text-xl group-hover:-translate-x-1 transition-transform shadow-sm border border-ink dark:border-none"><i class="fas fa-arrow-left"></i></div>
                     <div class="flex flex-col">
                         <span class="font-bold leading-none text-sm uppercase">BACK TO BASE</span>
-                        <button id="copy-id-btn" class="text-[10px] font-mono uppercase text-neon-lime font-bold tracking-wider hover:text-primary transition-colors text-left flex items-center gap-1 group/copy">
+                        <button id="copy-id-btn" class="text-[10px] font-mono uppercase text-primary dark:text-neon-lime font-bold tracking-wider hover:text-ink transition-colors text-left flex items-center gap-1 group/copy">
                             <span>ID: LOADING...</span> <i class="fas fa-copy opacity-0 group-hover/copy:opacity-100 transition-opacity"></i>
                         </button>
                     </div>
@@ -144,7 +158,7 @@
                     <a href="#register" class="nav-link hover:text-neon-lime transition-colors relative py-1">03. Status<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-neon-lime transition-all duration-300"></span></a>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button id="theme-toggle" class="w-10 h-10 rounded-lg border border-gray-300 dark:border-zinc-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600 dark:text-yellow-400">
+                    <button id="theme-toggle" class="w-10 h-10 rounded-lg border-2 border-ink/20 dark:border-zinc-700 flex items-center justify-center hover:bg-neon-lime hover:border-ink hover:text-ink dark:hover:bg-zinc-800 transition-all text-gray-600 dark:text-yellow-400">
                         <i class="fas fa-moon block dark:hidden"></i><i class="fas fa-sun hidden dark:block"></i>
                     </button>
                 </div>
@@ -187,29 +201,35 @@
                 <!-- Text Content -->
                 <div class="lg:w-1/2 z-10 text-center lg:text-left w-full">
                     <!-- Dynamic Status Badge -->
-                    <div id="event-status-badge" class="inline-flex items-center gap-2 bg-neon-lime/10 border border-neon-lime text-neon-lime px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-widest mb-6">
+                    <div id="event-status-badge" class="inline-flex items-center gap-2 bg-white dark:bg-neon-lime/10 border-2 border-ink dark:border-neon-lime text-ink dark:text-neon-lime px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-widest mb-6 shadow-manga-sm dark:shadow-none">
                         <span class="w-2 h-2 rounded-full bg-neon-lime animate-ping"></span> <span id="status-text">Live Event</span>
                     </div>
                     
                     <!-- Responsive Title: text-5xl on mobile, text-9xl on desktop -->
-                    <h1 class="font-display font-black text-5xl sm:text-7xl md:text-8xl xl:text-9xl leading-[0.9] mb-6 md:mb-8 uppercase tracking-tighter text-ink dark:text-white">
-                        <span id="hero-title-main">LOADING</span> <br>
+                    <h1 class="font-display font-black text-5xl sm:text-7xl md:text-8xl xl:text-9xl leading-[0.9] mb-6 md:mb-8 uppercase tracking-tighter text-ink dark:text-white drop-shadow-sm">
+                        <!-- Marker highlight for light mode -->
+                        <span class="relative inline-block">
+                            <span class="absolute inset-x-0 bottom-2 h-4 md:h-8 bg-neon-lime/60 -skew-x-6 z-[-1] dark:hidden"></span>
+                            <span id="hero-title-main">LOADING</span>
+                        </span> <br>
                         <span id="hero-title-sub" class="glitch text-transparent bg-clip-text bg-gradient-to-r from-primary via-pop-pink to-cyber-cyan" data-text="...">...</span>
                     </h1>
                     
-                    <p id="hero-desc" class="text-base md:text-xl text-gray-600 dark:text-gray-400 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed px-2 md:px-0">
+                    <p id="hero-desc" class="text-base md:text-xl text-ink/70 dark:text-gray-400 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed px-2 md:px-0">
                         Initializing connection to event servers...
                     </p>
                     
                     <!-- Countdown: 2 cols on mobile, 4 cols on larger screens -->
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-sm md:max-w-md mx-auto lg:mx-0 mb-10 font-mono text-center">
-                        <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="d" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">DAYS</span></div>
-                        <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="h" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">HRS</span></div>
-                        <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="m" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">MIN</span></div>
-                        <div class="bg-white/50 dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg"><span id="s" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">SEC</span></div>
+                        <!-- Added hard shadows for light mode -->
+                        <div class="bg-white dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg shadow-[4px_4px_0px_#000] dark:shadow-none"><span id="d" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">DAYS</span></div>
+                        <div class="bg-white dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg shadow-[4px_4px_0px_#000] dark:shadow-none"><span id="h" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">HRS</span></div>
+                        <div class="bg-white dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg shadow-[4px_4px_0px_#000] dark:shadow-none"><span id="m" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">MIN</span></div>
+                        <div class="bg-white dark:bg-zinc-900/50 backdrop-blur border-2 border-ink dark:border-zinc-700 p-3 rounded-lg shadow-[4px_4px_0px_#000] dark:shadow-none"><span id="s" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-[10px] uppercase text-gray-500">SEC</span></div>
                     </div>
 
-                    <a href="#register" id="hero-cta" class="inline-flex items-center gap-3 bg-ink dark:bg-white text-white dark:text-ink px-8 py-3 md:px-10 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-manga dark:shadow-neon-pink hover:translate-y-1 hover:shadow-none transition-all group uppercase tracking-wide">
+                    <!-- CTA: Changed from black to Purple in light mode for pop -->
+                    <a href="#register" id="hero-cta" class="inline-flex items-center gap-3 bg-primary dark:bg-white text-white dark:text-ink border-2 border-ink dark:border-none px-8 py-3 md:px-10 md:py-4 rounded-xl font-bold text-base md:text-lg shadow-manga dark:shadow-neon-pink hover:translate-y-1 hover:shadow-none transition-all group uppercase tracking-wide">
                         Get Your Pass <i class="fas fa-ticket-alt group-hover:-rotate-12 transition-transform"></i>
                     </a>
                 </div>
@@ -217,17 +237,20 @@
                 <!-- Ticket Visual -->
                 <div class="lg:w-1/2 w-full relative perspective-1000 mt-12 lg:mt-0 flex justify-center lg:justify-end px-4">
                     <div id="ticket-container" class="ticket-visual w-full max-w-sm md:max-w-md relative transition-transform duration-100 ease-out transform-style-3d cursor-pointer group">
-                        <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-6 md:p-8 shadow-manga dark:shadow-[0_0_30px_rgba(5,217,232,0.2)] rounded-2xl overflow-hidden group-hover:shadow-2xl transition-shadow">
+                        <!-- Colored offset card for Light Mode (pop effect) -->
+                        <div class="absolute inset-0 bg-cyber-cyan translate-x-3 translate-y-3 rounded-2xl border-2 border-ink dark:hidden z-0"></div>
+                        
+                        <div class="relative bg-white dark:bg-zinc-900 border-2 border-ink dark:border-zinc-600 p-6 md:p-8 shadow-manga dark:shadow-[0_0_30px_rgba(5,217,232,0.2)] rounded-2xl overflow-hidden group-hover:shadow-2xl transition-shadow z-10 group-hover:-translate-y-1">
                             <!-- Header -->
-                            <div class="flex justify-between items-start border-b-2 border-dashed border-gray-200 dark:border-zinc-700 pb-6 mb-6 relative z-20">
+                            <div class="flex justify-between items-start border-b-2 border-dashed border-gray-300 dark:border-zinc-700 pb-6 mb-6 relative z-20">
                                 <div>
                                     <h3 class="font-display font-black text-3xl md:text-4xl uppercase leading-none mb-2">EVENT PASS</h3>
-                                    <span class="font-mono text-neon-lime bg-ink/5 dark:bg-white/5 px-2 py-1 rounded text-xs tracking-widest font-bold">OFFICIAL</span>
+                                    <span class="font-mono text-ink bg-neon-lime border border-ink dark:border-none dark:text-neon-lime dark:bg-ink/5 px-2 py-1 rounded text-xs tracking-widest font-bold">OFFICIAL</span>
                                 </div>
                                 <div id="ticket-date-display" class="w-12 h-12 md:w-14 md:h-14 bg-ink dark:bg-white text-white dark:text-ink rounded-lg flex items-center justify-center font-bold text-xl md:text-2xl shrink-0 ml-4 font-display">--</div>
                             </div>
                             <!-- Barcode -->
-                            <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 dark:border-zinc-700 relative z-20">
+                            <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-300 dark:border-zinc-700 relative z-20">
                                 <div class="h-8 md:h-10 w-full bg-gray-200 dark:bg-zinc-800 opacity-70" style="mask-image: repeating-linear-gradient(90deg, black, black 2px, transparent 2px, transparent 4px);"></div>
                             </div>
                         </div>
@@ -237,8 +260,8 @@
         </header>
 
         <!-- Marquee - Added overflow-hidden parent to fix scrollbar -->
-        <div class="w-full overflow-hidden py-4 border-y-2 border-ink dark:border-none relative z-20">
-            <div class="bg-neon-lime text-ink py-2 rotate-1 scale-105 shadow-lg">
+        <div class="w-full overflow-hidden py-4 border-y-2 border-ink dark:border-none relative z-20 bg-neon-lime dark:bg-transparent">
+            <div class="bg-white dark:bg-neon-lime text-ink py-2 rotate-1 scale-105 shadow-lg border-y-2 border-ink dark:border-none">
                 <div class="animate-marquee font-mono font-bold text-lg md:text-xl uppercase tracking-wider">
                     WARNING: HIGH LEVELS OF CREATIVITY DETECTED /// BRING YOUR OWN KEYBOARD /// NO TOXIC BEHAVIOR /// COSPLAY ENCOURAGED /// WARNING: HIGH LEVELS OF CREATIVITY DETECTED ///
                 </div>
@@ -253,16 +276,22 @@
                     <span class="font-mono text-primary font-bold tracking-widest text-xs uppercase mb-2 block">Event Intel</span>
                     <h2 class="font-display font-black text-4xl md:text-6xl uppercase tracking-tight text-ink dark:text-white">Activity <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-lime to-primary">Report</span></h2>
                 </div>
-                <div class="flex justify-center text-gray-500 font-mono text-sm text-center px-4">Activities loaded based on event configuration.</div>
+                <!-- Added a light mode specific container style for the placeholder -->
+                <div class="flex justify-center items-center h-48 bg-white dark:bg-transparent border-2 border-dashed border-ink/20 dark:border-zinc-800 rounded-xl mx-4">
+                     <div class="text-gray-500 font-mono text-sm text-center px-4">Activities loaded based on event configuration.</div>
+                </div>
             </div>
         </section>
 
         <!-- Registration / Status Section -->
         <section id="register" class="py-16 md:py-24 bg-ink dark:bg-black relative scroll-mt-20">
-            <div class="absolute inset-0 bg-neon-lime/5 pointer-events-none"></div>
+            <!-- Light mode pattern vs Dark mode glow -->
+            <div class="absolute inset-0 bg-halftone opacity-10 dark:bg-neon-lime/5 dark:opacity-100 pointer-events-none"></div>
+            
             <div class="container mx-auto px-4 md:px-6 max-w-3xl relative z-10">
                 <!-- Content injected via JS -->
-                <div id="registration-container" class="bg-paper dark:bg-[#0f0f0f] border-2 border-ink dark:border-zinc-700 p-6 md:p-12 shadow-[8px_8px_0px_0px_#d1f25e] md:shadow-[12px_12px_0px_0px_#d1f25e] dark:shadow-none rounded-2xl relative">
+                <!-- Enhanced shadow and border for light mode -->
+                <div id="registration-container" class="bg-white dark:bg-[#0f0f0f] border-2 border-ink dark:border-zinc-700 p-6 md:p-12 shadow-[8px_8px_0px_0px_#d1f25e] md:shadow-[12px_12px_0px_0px_#d1f25e] dark:shadow-none rounded-2xl relative">
                     <!-- Default Form -->
                     <form id="registration-form" class="space-y-6">
                         <!-- Form content... -->
@@ -274,7 +303,7 @@
     <!-- END WRAPPER -->
 
     <!-- Footer -->
-    <footer class="bg-paper dark:bg-black pt-16 pb-8 border-t border-gray-200 dark:border-zinc-800">
+    <footer class="bg-paper dark:bg-black pt-16 pb-8 border-t-4 border-ink dark:border-t dark:border-zinc-800">
         <div class="container mx-auto px-6 max-w-7xl text-center md:text-left">
             <div class="flex flex-col md:flex-row justify-between items-center mb-12">
                 <div class="mb-8 md:mb-0 text-center md:text-left">
