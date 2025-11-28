@@ -55,10 +55,6 @@ The project is currently a **High-Fidelity Prototype** connected to a live backe
     *   **Immediate:** Remove hardcoded passwords from `security.html`. Connect the manual override input to a backend endpoint.
     *   **Session:** The `loader.js` handles session boot-up animations. Ensure it doesn't run on every single page refresh (logic is currently in `sessionStorage`).
 
-### 4. Missing Pages
-*   **Artists Page:** The code for `src/screens/guild/artists.html` is missing from the current codebase.
-    *   *Task:* Duplicate `gamers.html` or `devs.html` and adapt it for the Artists guild (change colors to `#ff2a6d` / Pink).
-
 ---
 
 ## 📂 Logic Guide (How the JS works)
