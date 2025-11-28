@@ -6,19 +6,19 @@
  *  - Synchronous injection.
  *  - Mobile/Desktop Responsive.
  *  - LOGIC: Only shows on first session load or logout. Skips on refresh.
+ *  - UPDATE: Rectangular "Theater" Border (16:9 Aspect Ratio).
  */
 
 const Loader = {
-    // Storage key to track if we have already shown the boot animation
     STORAGE_KEY: 'lha_booted',
 
     template: `
     <div id="global-loader">
         <style>
-            /* --- CRITICAL LOADER CSS --- */
+            /* --- CORE LAYOUT --- */
             #global-loader {
                 position: fixed;
-                top: 0; left: 0; right: 0; bottom: 0;
+                inset: 0;
                 background-color: #050505;
                 z-index: 99999;
                 display: flex;
@@ -29,90 +29,143 @@ const Loader = {
                 font-family: 'Courier New', Courier, monospace;
             }
 
-            /* Background Decor */
+            /* --- BACKGROUND FX --- */
             .loader-bg-grid {
                 position: absolute;
                 inset: 0;
-                background-image: linear-gradient(rgba(20, 20, 20, 0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 20, 20, 0.5) 1px, transparent 1px);
-                background-size: 30px 30px;
-                opacity: 0.5;
+                background-image: 
+                    linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+                background-size: 50px 50px;
+                opacity: 0.4;
                 pointer-events: none;
+            }
+            
+            /* Vignette for Theater Feel */
+            .loader-vignette {
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle, transparent 50%, #050505 130%);
+                pointer-events: none;
+                z-index: 1;
             }
             
             .loader-scanline {
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(to bottom, transparent, rgba(0, 255, 0, 0.02), transparent);
+                background: linear-gradient(to bottom, transparent, rgba(209, 242, 94, 0.03), transparent);
                 animation: loader-scan 4s linear infinite;
                 pointer-events: none;
-                z-index: 0;
+                z-index: 2;
             }
 
-            /* Logo Container */
+            /* --- WIDESCREEN LOGO SECTION --- */
             .loader-logo-wrapper {
                 position: relative;
-                margin-bottom: 2rem;
-                z-index: 10;
-            }
-
-            .loader-logo-box {
-                width: 70px;
-                height: 70px;
-                background-color: #8b5cf6;
-                color: white;
+                /* RECTANGULAR SIZING (16:9) */
+                width: min(85vw, 800px); /* Massive width */
+                aspect-ratio: 16 / 9;      /* Cinema Rectangle */
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 2.5rem;
-                font-weight: 900;
-                border-radius: 4px;
-                box-shadow: 4px 4px 0px #ffffff;
-                animation: loader-glitch 2s infinite alternate-reverse;
+                margin-bottom: 2.5rem;
+                z-index: 10;
             }
 
-            .loader-ping-ring {
+            /* Rectangular Dashed Frame (Replaces circular ring) */
+            .loader-frame-dashed {
                 position: absolute;
-                inset: -5px;
-                border: 2px solid #d1f25e;
-                border-radius: 6px;
-                opacity: 0;
-                animation: loader-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+                inset: -15px;
+                border: 2px dashed #3f3f46;
+                border-radius: 4px;
+                opacity: 0.5;
+                animation: loader-breath 4s ease-in-out infinite;
             }
 
-            /* Progress Bar */
+            /* The Main "Cinema Screen" Box */
+            .loader-logo-box {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                background-color: #000;
+                border: 4px solid #8b5cf6;
+                /* Cyberpunk Cut Corners (Adjusted for Rectangle) */
+                clip-path: polygon(
+                    5% 0, 100% 0, 
+                    100% 85%, 95% 100%, 
+                    0 100%, 0 15%
+                );
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                /* Cinematic Glow */
+                box-shadow: 0 0 50px rgba(139, 92, 246, 0.2), inset 0 0 30px rgba(139, 92, 246, 0.1);
+                transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 5;
+            }
+
+            /* Image Styling */
+            .loader-logo-box img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Crops image to fill the rectangle */
+                display: block;
+                opacity: 0.85;
+                filter: grayscale(100%) contrast(1.1);
+                transition: filter 0.6s ease, opacity 0.6s ease;
+            }
+
+            /* Success State */
+            .loader-logo-box.logo-success {
+                border-color: #d1f25e;
+                /* Intense Screen Glow */
+                box-shadow: 0 0 80px rgba(209, 242, 94, 0.4), 0 0 30px rgba(209, 242, 94, 0.6); 
+                transform: scale(1.02);
+            }
+            .loader-logo-box.logo-success img {
+                filter: grayscale(0%) contrast(1);
+                opacity: 1;
+            }
+
+            /* Ping Rect (Pulse) */
+            .loader-ping-rect {
+                position: absolute;
+                inset: 0;
+                border: 1px solid #8b5cf6;
+                border-radius: 2px;
+                opacity: 0;
+                animation: loader-ping-rect 2.5s ease-out infinite;
+                z-index: 2;
+            }
+
+            /* --- PROGRESS & TEXT --- */
             .loader-bar-container {
-                width: 80vw;
-                max-width: 350px;
+                /* Match width of logo wrapper */
+                width: min(85vw, 800px);
                 height: 4px;
                 background-color: #27272a;
-                border-radius: 2px;
                 position: relative;
                 overflow: hidden;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
                 z-index: 10;
             }
 
             .loader-bar-fill {
                 position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-                width: 0%;
+                left: 0; top: 0;
+                height: 100%; width: 0%;
                 background-color: #d1f25e;
-                box-shadow: 0 0 10px #d1f25e;
-                transition: width 0.1s linear;
+                box-shadow: 0 0 20px #d1f25e;
             }
 
-            /* Text */
             .loader-text {
-                color: #d1f25e;
-                font-size: 12px;
-                letter-spacing: 0.2em;
-                font-weight: bold;
+                color: #52525b;
+                font-size: 14px;
+                letter-spacing: 0.4em;
+                font-weight: 800;
                 text-transform: uppercase;
-                animation: loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                 z-index: 10;
+                transition: color 0.3s ease;
             }
 
             /* --- ANIMATIONS --- */
@@ -120,46 +173,39 @@ const Loader = {
                 0% { transform: translateY(-100%); }
                 100% { transform: translateY(100%); }
             }
-            @keyframes loader-glitch {
-                0% { transform: translate(0); clip-path: inset(0 0 0 0); }
-                20% { transform: translate(-2px, 2px); clip-path: inset(10% 0 80% 0); }
-                40% { transform: translate(-2px, -2px); clip-path: inset(80% 0 10% 0); }
-                60% { transform: translate(2px, 2px); clip-path: inset(40% 0 40% 0); }
-                80% { transform: translate(2px, -2px); clip-path: inset(20% 0 60% 0); }
-                100% { transform: translate(0); clip-path: inset(0 0 0 0); }
+            @keyframes loader-breath {
+                0%, 100% { opacity: 0.3; transform: scale(1); }
+                50% { opacity: 0.7; transform: scale(1.01); }
             }
-            @keyframes loader-ping {
-                75%, 100% { transform: scale(1.5); opacity: 0; }
-                0% { transform: scale(1); opacity: 0.5; }
-            }
-            @keyframes loader-pulse {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.5; }
+            @keyframes loader-ping-rect {
+                0% { transform: scale(0.95); opacity: 0.6; border-color: #8b5cf6; }
+                100% { transform: scale(1.1); opacity: 0; border-color: #d1f25e; }
             }
 
-            /* --- SHUTDOWN EFFECT --- */
-            body.crt-shutdown-active {
-                overflow: hidden !important;
-                height: 100vh !important;
-            }
-            
-            @keyframes crt-off-anim {
+            /* --- SHUTDOWN CRT EFFECT --- */
+            body.crt-shutdown-active { overflow: hidden !important; height: 100vh !important; }
+            @keyframes crt-off {
                 0% { opacity: 1; transform: scale(1); filter: brightness(1); }
-                40% { opacity: 1; transform: scale(1, 0.005); filter: brightness(3); }
+                40% { opacity: 1; transform: scale(1, 0.005); filter: brightness(5); }
                 100% { opacity: 0; transform: scale(0, 0); filter: brightness(0); }
             }
             .crt-effect-on {
-                animation: crt-off-anim 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+                animation: crt-off 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
                 pointer-events: none;
             }
         </style>
 
         <div class="loader-bg-grid"></div>
+        <div class="loader-vignette"></div>
         <div class="loader-scanline"></div>
 
         <div class="loader-logo-wrapper">
-            <div class="loader-logo-box">L</div>
-            <div class="loader-ping-ring"></div>
+            <div class="loader-frame-dashed"></div>
+            <div class="loader-ping-rect"></div>
+            
+            <div id="loader-logo-box" class="loader-logo-box">
+                <img src="/src/assets/logodaw.jpg" onerror="this.style.display='none';this.parentNode.innerText='LHA'">
+            </div>
         </div>
 
         <div class="loader-bar-container">
@@ -167,7 +213,7 @@ const Loader = {
         </div>
 
         <div id="loader-text" class="loader-text">
-            INITIALIZING_SYSTEM...
+            SYSTEM_BOOT...
         </div>
     </div>
     `,
@@ -176,10 +222,15 @@ const Loader = {
      * INJECT: Puts HTML into page immediately.
      */
     inject: function() {
-        if (document && document.body) {
+        if (document.body) {
             document.body.insertAdjacentHTML('afterbegin', this.template);
-        } else if (document) {
-            document.write(this.template);
+        } else {
+            window.addEventListener('DOMContentLoaded', () => {
+                if (!document.getElementById('global-loader')) {
+                    document.body.insertAdjacentHTML('afterbegin', this.template);
+                    this.boot();
+                }
+            });
         }
     },
 
@@ -188,35 +239,41 @@ const Loader = {
      */
     boot: function() {
         const container = document.getElementById('global-loader');
+        const logoBox = document.getElementById('loader-logo-box');
         const bar = document.getElementById('loader-bar-fill');
         const text = document.getElementById('loader-text');
 
         if (!container || !bar) return;
 
-        // 1. Start Animation
+        // 1. Start Bar Animation
         setTimeout(() => {
-            bar.style.transition = "width 1.8s cubic-bezier(0.22, 1, 0.36, 1)";
+            bar.style.transition = "width 1.5s cubic-bezier(0.22, 1, 0.36, 1)";
             bar.style.width = "100%";
-        }, 50);
+        }, 100);
 
-        // 2. Change Text
+        // 2. Success State (Highlight Logo)
         setTimeout(() => {
-            if(text) text.innerText = "ACCESS_GRANTED";
-            if(text) text.style.color = "#8b5cf6";
-        }, 1200);
+            if(text) {
+                text.innerText = "ACCESS_GRANTED";
+                text.style.color = "#d1f25e"; 
+                text.style.textShadow = "0 0 15px #d1f25e";
+            }
+            if(logoBox) {
+                logoBox.classList.add('logo-success');
+            }
+        }, 1100);
 
         // 3. Finish & Cleanup
         setTimeout(() => {
-            container.style.transition = "opacity 0.5s ease";
+            container.style.transition = "opacity 0.7s ease";
             container.style.opacity = "0";
             container.style.pointerEvents = "none";
             
-            // Mark session as booted so it doesn't run on refresh
             sessionStorage.setItem(this.STORAGE_KEY, 'true');
 
             setTimeout(() => {
                 container.style.display = 'none';
-            }, 500);
+            }, 700);
         }, 2000);
     },
 
@@ -224,18 +281,22 @@ const Loader = {
      * SHUTDOWN: Reactivates loader for logout.
      */
     shutdown: function(callback) {
-        // Reset the session flag so loader appears on next login/visit
         sessionStorage.removeItem(this.STORAGE_KEY);
 
-        // If user refreshed previously, the loader might not be in DOM. Inject it now.
         let container = document.getElementById('global-loader');
         if (!container) {
             this.inject();
             container = document.getElementById('global-loader');
         }
 
+        if (!container) {
+            if (callback) callback();
+            return;
+        }
+
         const bar = document.getElementById('loader-bar-fill');
         const text = document.getElementById('loader-text');
+        const logoBox = document.getElementById('loader-logo-box');
 
         // Reset visibility
         container.style.display = 'flex';
@@ -243,9 +304,12 @@ const Loader = {
         container.style.opacity = '1';
         container.style.pointerEvents = 'auto';
 
+        if (logoBox) logoBox.classList.remove('logo-success');
+
         if (text) {
-            text.innerText = "TERMINATING_SESSION...";
+            text.innerText = "TERMINATING...";
             text.style.color = "#ff2a6d"; 
+            text.style.textShadow = "none";
         }
         if (bar) {
             bar.style.transition = 'none';
@@ -265,7 +329,7 @@ const Loader = {
             document.body.classList.add('crt-effect-on');
         }, 900);
 
-        // Callback (Redirect)
+        // Callback
         setTimeout(() => {
             if (callback) callback();
         }, 1600);
@@ -274,11 +338,13 @@ const Loader = {
 
 // --- LOGIC: Only run inject/boot if this is the start of a session ---
 if (!sessionStorage.getItem(Loader.STORAGE_KEY)) {
-    // 1. Inject immediately
     Loader.inject();
 
-    // 2. Animate when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            Loader.boot();
+        });
+    } else {
         Loader.boot();
-    });
+    }
 }
