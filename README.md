@@ -87,8 +87,6 @@ The project is currently a **High-Fidelity Prototype** connected to a live backe
 ## 🤝 Collaborator Tasks
 
 1.  **Frontend (UI/UX):**
-    *   Create `src/screens/guild/artists.html`.
-    *   Fix mobile responsiveness on the "My Projects" table (it gets squished on small screens).
     *   Ensure the `loader.js` animation z-index is higher than everything else.
 
 2.  **Backend Integration:**
