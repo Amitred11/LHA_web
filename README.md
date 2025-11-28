@@ -7,7 +7,7 @@ This is the frontend client for the **Lost Haven Association (LHA)**. It is a ga
 ## 🚀 Quick Start
 
 1.  **Clone the Repository.**
-2.  **Verify Structure:** Ensure your file tree matches the `src/` paths defined in the HTML files (see `DEVELOPER_GUIDE.md`).
+2.  **Verify Structure:** Ensure your file tree matches the `src/` paths defined in the HTML files
 3.  **Run Locally:**
     *   This project uses absolute paths (e.g., `/src/...`).
     *   **You cannot simply double-click the HTML files.**
