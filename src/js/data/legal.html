@@ -201,8 +201,8 @@
     </header>
 
     <div class="terminal-tabs">
-        <div id="tab-tos" class="tab active-tos" onclick="switchTab('tos')">01_GUILD_PROTOCOL</div>
-        <div id="tab-nda" class="tab" onclick="switchTab('nda')">02_SHADOW_PACT</div>
+        <div id="tab-tos" class="tab active-tos" >01_GUILD_PROTOCOL</div>
+        <div id="tab-nda" class="tab" >02_SHADOW_PACT</div>
     </div>
 
     <div class="viewport">
@@ -239,16 +239,17 @@
 </div>
 
 <script type="module">
-    import { TOS_DATA } from './ToS.js';
-    import { NDA_DATA } from './NDA.js';
+    // 1. FIX: Use absolute paths to prevent 404s
+    import { TOS_DATA } from '/src/js/data/ToS.js';
+    import { NDA_DATA } from '/src/js/data/NDA.js';
 
-    // Switch Tabs Logic
-    window.switchTab = (target) => {
-        const tabTos = document.getElementById('tab-tos');
-        const tabNda = document.getElementById('tab-nda');
-        const contentTos = document.getElementById('content-tos');
-        const contentNda = document.getElementById('content-nda');
+    // 2. FIX: Tab Logic (Moved out of HTML onclick to fix "ReferenceError")
+    const tabTos = document.getElementById('tab-tos');
+    const tabNda = document.getElementById('tab-nda');
+    const contentTos = document.getElementById('content-tos');
+    const contentNda = document.getElementById('content-nda');
 
+    const switchTab = (target) => {
         if (target === 'tos') {
             tabTos.classList.add('active-tos');
             tabNda.classList.remove('active-nda');
@@ -260,10 +261,19 @@
             contentNda.classList.add('active');
             contentTos.classList.remove('active');
         }
-    }
+    };
 
-    // Render Logic
+    // Attach listeners to the tabs manually
+    tabTos.addEventListener('click', () => switchTab('tos'));
+    tabNda.addEventListener('click', () => switchTab('nda'));
+
+    // 3. Render Logic
     const render = () => {
+        if (!TOS_DATA || !NDA_DATA) {
+            console.error("Data files not found or exported incorrectly.");
+            return;
+        }
+
         document.getElementById('tos-inject').innerHTML = TOS_DATA.sections.map(s => `
             <div class="clause">
                 <h3>${s.header}</h3>
@@ -279,7 +289,7 @@
         `).join('');
     };
 
-    // Validation Logic
+    // 4. Validation Logic
     const cTos = document.getElementById('check-tos');
     const cNda = document.getElementById('check-nda');
     const sig = document.getElementById('sig-input');
