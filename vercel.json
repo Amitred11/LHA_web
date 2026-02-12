@@ -1,9 +1,13 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     { 
       "source": "/", 
-      "destination": "/src/screens/main/index.html" 
+      "destination": "/index.html" 
+    },
+    {
+      "source": "/legal",
+      "destination": "/src/js/data/legal.html"
     }
-  ],
-  "cleanUrls": true
+  ]
 }
