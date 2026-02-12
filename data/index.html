@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LHA Collective | Legal Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050507;
+            --card-bg: rgba(20, 20, 23, 0.9);
+            --tos-glow: #00ffc3;
+            --nda-glow: #00aaff;
+            --text-main: #e0e0e0;
+            --text-dim: #94a3b8;
+            --border-color: #2d2d35;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            overflow: hidden; /* Prevent body scroll, use container scroll */
+            background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, #050507 100%);
+        }
+
+        /* Scanline Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1000px;
+            height: 100vh;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .glitch-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            letter-spacing: 10px;
+            color: var(--tos-glow);
+            text-shadow: 0 0 15px rgba(0, 255, 195, 0.4);
+            margin: 0;
+        }
+
+        /* Tab System */
+        .terminal-tabs {
+            display: flex;
+            gap: 5px;
+            margin-top: 30px;
+            flex-shrink: 0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            color: var(--text-dim);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+        }
+
+        .tab.active-tos {
+            background: var(--card-bg);
+            color: var(--tos-glow);
+            border-top: 2px solid var(--tos-glow);
+            box-shadow: 0 -10px 15px rgba(0, 255, 195, 0.1);
+        }
+
+        .tab.active-nda {
+            background: var(--card-bg);
+            color: var(--nda-glow);
+            border-top: 2px solid var(--nda-glow);
+            box-shadow: 0 -10px 15px rgba(0, 170, 255, 0.1);
+        }
+
+        /* Content Area */
+        .viewport {
+            flex-grow: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+        }
+
+        .doc-content { display: none; animation: fadeIn 0.4s ease-out; }
+        .doc-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { font-family: 'Orbitron', sans-serif; margin-bottom: 30px; letter-spacing: 2px; }
+        .tos-header { color: var(--tos-glow); }
+        .nda-header { color: var(--nda-glow); }
+
+        .clause { margin-bottom: 30px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px; }
+        .clause h3 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-main); margin-bottom: 8px; opacity: 0.7; }
+        .clause p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
+
+        /* Signature & Authorization Area */
+        .auth-footer {
+            background: #0a0a0c;
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 200px;
+            gap: 20px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .check-group { display: flex; flex-direction: column; gap: 8px; }
+        .check-item { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-dim); cursor: pointer; }
+        .check-item input { accent-color: var(--tos-glow); }
+
+        .sig-group { display: flex; flex-direction: column; gap: 5px; }
+        .sig-group label { font-size: 0.6rem; color: var(--nda-glow); text-transform: uppercase; letter-spacing: 1px; }
+        .sig-input { 
+            background: rgba(0,0,0,0.4); 
+            border: 1px solid var(--border-color); 
+            padding: 10px; 
+            color: white; 
+            font-family: 'JetBrains Mono';
+            outline: none;
+        }
+        .sig-input:focus { border-color: var(--nda-glow); }
+
+        .btn-init {
+            height: 100%;
+            background: transparent;
+            border: 1px solid var(--text-dim);
+            color: var(--text-dim);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: not-allowed;
+            transition: 0.3s;
+        }
+
+        .btn-ready {
+            background: var(--tos-glow);
+            color: var(--bg-color);
+            border-color: var(--tos-glow);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 195, 0.4);
+        }
+
+        /* Success Screen */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 100;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+        }
+
+        @media (max-width: 850px) {
+            .auth-footer { grid-template-columns: 1fr; }
+            .btn-init { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="overlay">
+    <h1 style="color: var(--tos-glow); font-family: 'Orbitron'; letter-spacing: 10px;">AUTHORIZED</h1>
+    <p style="color: var(--text-dim);">Digital Identity Linked to Collective Mainframe.</p>
+</div>
+
+<div class="container">
+    <header>
+        <h1 class="glitch-title">LHA_LEGAL_TERMINAL</h1>
+    </header>
+
+    <div class="terminal-tabs">
+        <div id="tab-tos" class="tab active-tos" onclick="switchTab('tos')">01_GUILD_PROTOCOL</div>
+        <div id="tab-nda" class="tab" onclick="switchTab('nda')">02_SHADOW_PACT</div>
+    </div>
+
+    <div class="viewport">
+        <!-- ToS Section -->
+        <div id="content-tos" class="doc-content active">
+            <h2 class="tos-header">> TERMS OF SERVICE</h2>
+            <div id="tos-inject"></div>
+        </div>
+
+        <!-- NDA Section -->
+        <div id="content-nda" class="doc-content">
+            <h2 class="nda-header">> NON-DISCLOSURE AGREEMENT</h2>
+            <div id="nda-inject"></div>
+        </div>
+    </div>
+
+    <div class="auth-footer">
+        <div class="check-group">
+            <label class="check-item">
+                <input type="checkbox" id="check-tos"> Accept Guild Protocol (01)
+            </label>
+            <label class="check-item">
+                <input type="checkbox" id="check-nda"> Accept Shadow Pact (02)
+            </label>
+        </div>
+
+        <div class="sig-group">
+            <label>Neural Signature (Full Name/UID)</label>
+            <input type="text" id="sig-input" class="sig-input" placeholder="Enter identification...">
+        </div>
+
+        <button id="btn-submit" class="btn-init" disabled>Awaiting Data...</button>
+    </div>
+</div>
+
+<script type="module">
+    import { TOS_DATA } from './ToS.js';
+    import { NDA_DATA } from './NDA.js';
+
+    // Switch Tabs Logic
+    window.switchTab = (target) => {
+        const tabTos = document.getElementById('tab-tos');
+        const tabNda = document.getElementById('tab-nda');
+        const contentTos = document.getElementById('content-tos');
+        const contentNda = document.getElementById('content-nda');
+
+        if (target === 'tos') {
+            tabTos.classList.add('active-tos');
+            tabNda.classList.remove('active-nda');
+            contentTos.classList.add('active');
+            contentNda.classList.remove('active');
+        } else {
+            tabNda.classList.add('active-nda');
+            tabTos.classList.remove('active-tos');
+            contentNda.classList.add('active');
+            contentTos.classList.remove('active');
+        }
+    }
+
+    // Render Logic
+    const render = () => {
+        document.getElementById('tos-inject').innerHTML = TOS_DATA.sections.map(s => `
+            <div class="clause">
+                <h3>${s.header}</h3>
+                <p>${s.content}</p>
+            </div>
+        `).join('');
+
+        document.getElementById('nda-inject').innerHTML = NDA_DATA.sections.map(s => `
+            <div class="clause">
+                <h3>${s.header}</h3>
+                <p>${s.content}</p>
+            </div>
+        `).join('');
+    };
+
+    // Validation Logic
+    const cTos = document.getElementById('check-tos');
+    const cNda = document.getElementById('check-nda');
+    const sig = document.getElementById('sig-input');
+    const btn = document.getElementById('btn-submit');
+
+    const validate = () => {
+        const agreed = cTos.checked && cNda.checked;
+        const signed = sig.value.trim().length >= 3;
+
+        if (agreed && signed) {
+            btn.disabled = false;
+            btn.classList.add('btn-ready');
+            btn.innerText = "Initialize Connection";
+        } else {
+            btn.disabled = true;
+            btn.classList.remove('btn-ready');
+            btn.innerText = !agreed ? "Accept Both Protocols" : "Awaiting Signature";
+        }
+    };
+
+    [cTos, cNda, sig].forEach(el => el.addEventListener('input', validate));
+
+    btn.addEventListener('click', () => {
+        document.getElementById('overlay').style.display = 'flex';
+    });
+
+    render();
+</script>
+
+</body>
+</html>
